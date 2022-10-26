@@ -346,3 +346,10 @@ void SetColor(int i)
 		}
 	}
 }
+
+
+
+XMFLOAT4 GetColor(void)
+{
+	return g_Color;
+}

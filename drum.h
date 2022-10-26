@@ -83,3 +83,5 @@ HRESULT InitDrum(void);
 void UninitDrum(void);
 void UpdateDrum(void);
 void DrawDrum(void);
+
+XMFLOAT4 GetColor(void);
