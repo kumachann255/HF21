@@ -116,7 +116,7 @@ HRESULT InitGame(void)
 	pPrefabRoller = new Prefab();
 
 	// ローラーの回転セット(※引数付きコンストラクタ作ります。m(_ _)m )
-	pPrefabRoller->SetModel("roller2.obj");
+	pPrefabRoller->SetModel("model_roller_spring_01.obj");
 	XMFLOAT3 rot = { XMConvertToRadians(90.0f),0.0f,0.0f };
 	pRoller->SetRot(rot);
 
