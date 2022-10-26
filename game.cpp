@@ -25,6 +25,9 @@
 #include "particle.h"
 #include "collision.h"
 #include "debugproc.h"
+#include "prefab.h"
+#include "object.h"
+#include "roller.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -46,6 +49,11 @@ static int	g_ViewPortType_Game = TYPE_FULL_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
+Roller *pRoller;
+Prefab *pPrefabRoller;
+
+Object *pSky;
+Prefab *pPrefabSky;
 
 //=============================================================================
 // 初期化処理
@@ -101,6 +109,34 @@ HRESULT InitGame(void)
 	// パズルのBGの初期化
 	InitPuzzleBG();
 
+
+	//==================================
+	// ローラーの初期化
+	pRoller = new Roller();
+	pPrefabRoller = new Prefab();
+
+	// ローラーの回転セット(※引数付きコンストラクタ作ります。m(_ _)m )
+	pPrefabRoller->SetModel("roller2.obj");
+	XMFLOAT3 rot = { XMConvertToRadians(90.0f),0.0f,0.0f };
+	pRoller->SetRot(rot);
+
+	// ローラーの大きさセット(※引数付きコンストラクタ作ります。m(_ _)m )
+	pRoller->SetPrefab(pPrefabRoller);
+	XMFLOAT3 scl = { 1.2f,1.2f,1.2f };
+	pRoller->SetScl(scl);
+
+	// スカイドーム初期化
+	pSky = new Object();
+	pPrefabSky = new Prefab();
+	pPrefabSky->SetModel("model_sky_spring_01.obj");
+
+	// スカイドーム大きさセット
+	pSky->SetPrefab(pPrefabSky);
+	XMFLOAT3 scl2 = { 10.0f,10.0f,10.0f };
+	pSky->SetScl(scl2);
+	//==================================
+
+
 	// BGM再生
 	//PlaySound(SOUND_LABEL_BGM_sample001);
 
@@ -141,6 +177,13 @@ void UninitGame(void)
 
 	// 影の終了処理
 	UninitShadow();
+
+	// オブジェクト関係の終了処理
+	delete pRoller;
+	delete pPrefabRoller;
+	delete pSky;
+	delete pPrefabSky;
+
 
 }
 
@@ -199,6 +242,15 @@ void UpdateGame(void)
 
 	// パズルのBGの更新処理
 	UpdatePuzzleBG();
+
+	// ローラーの更新
+	pRoller->Update();
+
+	// スカイドームの更新
+	static XMFLOAT3 rot = { 0.0f,0.0f,0.0f };
+	rot.y -= 0.003f;
+	pSky->SetRot(rot);
+
 }
 
 //=============================================================================
@@ -208,29 +260,34 @@ void DrawGame0(void)
 {
 	// 3Dの物を描画する処理
 	// 地面の描画処理
-	DrawMeshField();
+	//DrawMeshField();
 
 	// 影の描画処理
-	DrawShadow();
+	//DrawShadow();
 
 	// エネミーの描画処理
-	DrawEnemy();
+	//DrawEnemy();
 
 	// プレイヤーの描画処理
-	DrawPlayer();
+	//DrawPlayer();
 
 	// 弾の描画処理
-	DrawBullet();
+	//DrawBullet();
 
 	// 壁の描画処理
-	DrawMeshWall();
+	//DrawMeshWall();
 
 	// 木の描画処理
-	DrawTree();
+	//DrawTree();
 
 	// パーティクルの描画処理
-	DrawParticle();
+	//DrawParticle();
 
+	// ローラーの描画処理
+	pRoller->Draw();
+
+	// スカイドームの描画処理
+	pSky->Draw();
 
 	// 2Dの物を描画する処理
 	// Z比較なし
