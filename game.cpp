@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ƒQ[ƒ€‰æ–Êˆ— [game.cpp]
+// ã‚²ãƒ¼ãƒ ç”»é¢å‡¦ç† [game.cpp]
 // Author : 
 //
 //=============================================================================
@@ -22,6 +22,7 @@
 #include "bullet.h"
 #include "score.h"
 #include "puzzleBG.h"
+#include "drum.h"
 #include "particle.h"
 #include "collision.h"
 #include "debugproc.h"
@@ -30,24 +31,24 @@
 #include "roller.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒžã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
 
 
 
 //*****************************************************************************
-// ƒvƒƒgƒ^ƒCƒvéŒ¾
+// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //*****************************************************************************
 void CheckHit(void);
 
 
 
 //*****************************************************************************
-// ƒOƒ[ƒoƒ‹•Ï”
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //*****************************************************************************
 static int	g_ViewPortType_Game = TYPE_FULL_SCREEN;
 
-static BOOL	g_bPause = TRUE;	// ƒ|[ƒYON/OFF
+static BOOL	g_bPause = TRUE;	// ãƒãƒ¼ã‚ºON/OFF
 
 Roller *pRoller;
 Prefab *pPrefabRoller;
@@ -56,25 +57,25 @@ Object *pSky;
 Prefab *pPrefabSky;
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT InitGame(void)
 {
 	g_ViewPortType_Game = TYPE_FULL_SCREEN;
 
-	// ƒtƒB[ƒ‹ƒh‚Ì‰Šú‰»
+	// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®åˆæœŸåŒ–
 	InitMeshField(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), 100, 100, 13.0f, 13.0f);
 
-	// ƒ‰ƒCƒg‚ð—LŒø‰»	// ‰e‚Ì‰Šú‰»ˆ—
+	// ãƒ©ã‚¤ãƒˆã‚’æœ‰åŠ¹åŒ–	// å½±ã®åˆæœŸåŒ–å‡¦ç†
 	InitShadow();
 
-	// ƒvƒŒƒCƒ„[‚Ì‰Šú‰»
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸåŒ–
 	InitPlayer();
 
-	// ƒGƒlƒ~[‚Ì‰Šú‰»
+	// ã‚¨ãƒãƒŸãƒ¼ã®åˆæœŸåŒ–
 	InitEnemy();
 
-	// •Ç‚Ì‰Šú‰»
+	// å£ã®åˆæœŸåŒ–
 	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f, 0.0f, 0.0f),
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
 	InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f, -XM_PI * 0.50f, 0.0f),
@@ -84,7 +85,7 @@ HRESULT InitGame(void)
 	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f,  XM_PI, 0.0f),
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
 
-	// •Ç(— ‘¤—p‚Ì”¼“§–¾)
+	// å£(è£å´ç”¨ã®åŠé€æ˜Ž)
 	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f,    XM_PI, 0.0f),
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
 	InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f,   XM_PI * 0.50f, 0.0f),
@@ -94,91 +95,94 @@ HRESULT InitGame(void)
 	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f, 0.0f, 0.0f),
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
 
-	// –Ø‚ð¶‚â‚·
+	// æœ¨ã‚’ç”Ÿã‚„ã™
 	InitTree();
 
-	// ’e‚Ì‰Šú‰»
+	// å¼¾ã®åˆæœŸåŒ–
 	InitBullet();
 
-	// ƒXƒRƒA‚Ì‰Šú‰»
+	// ã‚¹ã‚³ã‚¢ã®åˆæœŸåŒ–
 	InitScore();
 
-	// ƒp[ƒeƒBƒNƒ‹‚Ì‰Šú‰»
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®åˆæœŸåŒ–
 	InitParticle();
 
-	// ƒpƒYƒ‹‚ÌBG‚Ì‰Šú‰»
+	// ãƒ‘ã‚ºãƒ«ã®BGã®åˆæœŸåŒ–
 	InitPuzzleBG();
 
-
 	//==================================
-	// ƒ[ƒ‰[‚Ì‰Šú‰»
+	// ãƒ­ãƒ¼ãƒ©ãƒ¼ã®åˆæœŸåŒ–
 	pRoller = new Roller();
 	pPrefabRoller = new Prefab();
 
-	// ƒ[ƒ‰[‚Ì‰ñ“]ƒZƒbƒg(¦ˆø”•t‚«ƒRƒ“ƒXƒgƒ‰ƒNƒ^ì‚è‚Ü‚·Bm(_ _)m )
+	// ãƒ­ãƒ¼ãƒ©ãƒ¼ã®å›žè»¢ã‚»ãƒƒãƒˆ(â€»å¼•æ•°ä»˜ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ä½œã‚Šã¾ã™ã€‚m(_ _)m )
 	pPrefabRoller->SetModel("model_roller_spring_01.obj");
 	XMFLOAT3 rot = { XMConvertToRadians(90.0f),0.0f,0.0f };
 	pRoller->SetRot(rot);
 
-	// ƒ[ƒ‰[‚Ì‘å‚«‚³ƒZƒbƒg(¦ˆø”•t‚«ƒRƒ“ƒXƒgƒ‰ƒNƒ^ì‚è‚Ü‚·Bm(_ _)m )
+	// ãƒ­ãƒ¼ãƒ©ãƒ¼ã®å¤§ãã•ã‚»ãƒƒãƒˆ(â€»å¼•æ•°ä»˜ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ä½œã‚Šã¾ã™ã€‚m(_ _)m )
 	pRoller->SetPrefab(pPrefabRoller);
 	XMFLOAT3 scl = { 1.2f,1.2f,1.2f };
 	pRoller->SetScl(scl);
 
-	// ƒXƒJƒCƒh[ƒ€‰Šú‰»
+	// ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ åˆæœŸåŒ–
 	pSky = new Object();
 	pPrefabSky = new Prefab();
 	pPrefabSky->SetModel("model_sky_spring_01.obj");
 
-	// ƒXƒJƒCƒh[ƒ€‘å‚«‚³ƒZƒbƒg
+	// ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ å¤§ãã•ã‚»ãƒƒãƒˆ
 	pSky->SetPrefab(pPrefabSky);
 	XMFLOAT3 scl2 = { 10.0f,10.0f,10.0f };
 	pSky->SetScl(scl2);
-	//==================================
 
+	// ãƒ‰ãƒ©ãƒ ã®åˆæœŸåŒ–
+	InitDrum();
 
-	// BGMÄ¶
+	// BGMå†ç”Ÿ
 	//PlaySound(SOUND_LABEL_BGM_sample001);
 
 	return S_OK;
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void UninitGame(void)
 {
-	// ƒpƒYƒ‹‚ÌBG‚ÌI—¹ˆ—
+	// ãƒ‰ãƒ©ãƒ ã®çµ‚äº†ã‚Šã‚‡ã‚Š
+	UninitDrum();
+
+	// ãƒ‘ã‚ºãƒ«ã®BGã®çµ‚äº†å‡¦ç†
 	UninitPuzzleBG();
 
-	// ƒp[ƒeƒBƒNƒ‹‚ÌI—¹ˆ—
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®çµ‚äº†å‡¦ç†
 	UninitParticle();
 
-	// ƒXƒRƒA‚ÌI—¹ˆ—
+	// ã‚¹ã‚³ã‚¢ã®çµ‚äº†å‡¦ç†
 	UninitScore();
 
-	// ’e‚ÌI—¹ˆ—
+	// å¼¾ã®çµ‚äº†å‡¦ç†
 	UninitBullet();
 
-	// –Ø‚ÌI—¹ˆ—
+	// æœ¨ã®çµ‚äº†å‡¦ç†
 	UninitTree();
 
-	// •Ç‚ÌI—¹ˆ—
+	// å£ã®çµ‚äº†å‡¦ç†
 	UninitMeshWall();
 
-	// ’n–Ê‚ÌI—¹ˆ—
+	// åœ°é¢ã®çµ‚äº†å‡¦ç†
 	UninitMeshField();
 
-	// ƒGƒlƒ~[‚ÌI—¹ˆ—
+	// ã‚¨ãƒãƒŸãƒ¼ã®çµ‚äº†å‡¦ç†
 	UninitEnemy();
 
-	// ƒvƒŒƒCƒ„[‚ÌI—¹ˆ—
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çµ‚äº†å‡¦ç†
 	UninitPlayer();
 
-	// ‰e‚ÌI—¹ˆ—
+	// å½±ã®çµ‚äº†å‡¦ç†
 	UninitShadow();
 
-	// ƒIƒuƒWƒFƒNƒgŠÖŒW‚ÌI—¹ˆ—
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–¢ä¿‚ã®çµ‚äº†å‡¦ç†
 	delete pRoller;
 	delete pPrefabRoller;
 	delete pSky;
@@ -188,7 +192,7 @@ void UninitGame(void)
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void UpdateGame(void)
 {
@@ -210,112 +214,116 @@ void UpdateGame(void)
 	if(g_bPause == FALSE)
 		return;
 
-	// ’n–Êˆ—‚ÌXV
+	// åœ°é¢å‡¦ç†ã®æ›´æ–°
 	UpdateMeshField();
 
-	// ƒvƒŒƒCƒ„[‚ÌXVˆ—
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ›´æ–°å‡¦ç†
 	UpdatePlayer();
 
-	// ƒGƒlƒ~[‚ÌXVˆ—
+	// ã‚¨ãƒãƒŸãƒ¼ã®æ›´æ–°å‡¦ç†
 	UpdateEnemy();
 
-	// •Çˆ—‚ÌXV
+	// å£å‡¦ç†ã®æ›´æ–°
 	UpdateMeshWall();
 
-	// –Ø‚ÌXVˆ—
+	// æœ¨ã®æ›´æ–°å‡¦ç†
 	UpdateTree();
 
-	// ’e‚ÌXVˆ—
+	// å¼¾ã®æ›´æ–°å‡¦ç†
 	UpdateBullet();
 
-	// ƒp[ƒeƒBƒNƒ‹‚ÌXVˆ—
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ›´æ–°å‡¦ç†
 	UpdateParticle();
 
-	// ‰e‚ÌXVˆ—
+	// å½±ã®æ›´æ–°å‡¦ç†
 	UpdateShadow();
 
-	// “–‚½‚è”»’èˆ—
+	// å½“ãŸã‚Šåˆ¤å®šå‡¦ç†
 	CheckHit();
 
-	// ƒXƒRƒA‚ÌXVˆ—
+	// ã‚¹ã‚³ã‚¢ã®æ›´æ–°å‡¦ç†
 	UpdateScore();
 
-	// ƒpƒYƒ‹‚ÌBG‚ÌXVˆ—
+	// ãƒ‘ã‚ºãƒ«ã®BGã®æ›´æ–°å‡¦ç†
 	UpdatePuzzleBG();
 
-	// ƒ[ƒ‰[‚ÌXV
+	// ãƒ­ãƒ¼ãƒ©ãƒ¼ã®æ›´æ–°
 	pRoller->Update();
 
-	// ƒXƒJƒCƒh[ƒ€‚ÌXV
+	// ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ ã®æ›´æ–°
 	static XMFLOAT3 rot = { 0.0f,0.0f,0.0f };
 	rot.y -= 0.003f;
 	pSky->SetRot(rot);
 
+// ãƒ‰ãƒ©ãƒ ã®æ›´æ–°å‡¦ç†
+	UpdateDrum();
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void DrawGame0(void)
 {
-	// 3D‚Ì•¨‚ð•`‰æ‚·‚éˆ—
-	// ’n–Ê‚Ì•`‰æˆ—
+	// 3Dã®ç‰©ã‚’æç”»ã™ã‚‹å‡¦ç†
+	// åœ°é¢ã®æç”»å‡¦ç†
 	//DrawMeshField();
 
-	// ‰e‚Ì•`‰æˆ—
+	// å½±ã®æç”»å‡¦ç†
 	//DrawShadow();
 
-	// ƒGƒlƒ~[‚Ì•`‰æˆ—
+	// ã‚¨ãƒãƒŸãƒ¼ã®æç”»å‡¦ç†
 	//DrawEnemy();
 
-	// ƒvƒŒƒCƒ„[‚Ì•`‰æˆ—
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æç”»å‡¦ç†
 	//DrawPlayer();
 
-	// ’e‚Ì•`‰æˆ—
+	// å¼¾ã®æç”»å‡¦ç†
 	//DrawBullet();
 
-	// •Ç‚Ì•`‰æˆ—
+	// å£ã®æç”»å‡¦ç†
 	//DrawMeshWall();
 
-	// –Ø‚Ì•`‰æˆ—
+	// æœ¨ã®æç”»å‡¦ç†
 	//DrawTree();
 
-	// ƒp[ƒeƒBƒNƒ‹‚Ì•`‰æˆ—
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æç”»å‡¦ç†
 	//DrawParticle();
 
-	// ƒ[ƒ‰[‚Ì•`‰æˆ—
+	// ãƒ­ãƒ¼ãƒ©ãƒ¼ã®æç”»å‡¦ç†
 	pRoller->Draw();
 
-	// ƒXƒJƒCƒh[ƒ€‚Ì•`‰æˆ—
+	// ã‚¹ã‚«ã‚¤ãƒ‰ãƒ¼ãƒ ã®æç”»å‡¦ç†
 	pSky->Draw();
 
-	// 2D‚Ì•¨‚ð•`‰æ‚·‚éˆ—
-	// Z”äŠr‚È‚µ
+	// 2Dã®ç‰©ã‚’æç”»ã™ã‚‹å‡¦ç†
+	// Zæ¯”è¼ƒãªã—
 	SetDepthEnable(FALSE);
 
-	// ƒ‰ƒCƒeƒBƒ“ƒO‚ð–³Œø
+	// ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã‚’ç„¡åŠ¹
 	SetLightEnable(FALSE);
 
-	// ƒXƒRƒA‚Ì•`‰æˆ—
+	// ã‚¹ã‚³ã‚¢ã®æç”»å‡¦ç†
 	DrawScore();
 
-	// ƒpƒYƒ‹‰æ–Ê‚Ì•`‰æ
+	// ãƒ‘ã‚ºãƒ«ç”»é¢ã®æç”»
 	DrawPizzle();
 
 
-	// ƒ‰ƒCƒeƒBƒ“ƒO‚ð—LŒø‚É
+	// ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 	SetLightEnable(TRUE);
 
-	// Z”äŠr‚ ‚è
+	// Zæ¯”è¼ƒã‚ã‚Š
 	SetDepthEnable(TRUE);
 }
 
 void DrawPizzle(void)
 {
-	// ƒrƒ…[ƒ|[ƒg‚ÌØ‚èŠ·‚¦
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã®åˆ‡ã‚Šæ›ãˆ
 	SetViewPort(TYPE_FULL_SCREEN);
 
 	DrawPuzzleBG();
+
+	DrawDrum();
 }
 
 void DrawGame(void)
@@ -324,14 +332,14 @@ void DrawGame(void)
 
 
 #ifdef _DEBUG
-	// ƒfƒoƒbƒO•\Ž¦
+	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤º
 	PrintDebugProc("ViewPortType:%d\n", g_ViewPortType_Game);
 
 #endif
 
-	// ƒvƒŒƒCƒ„[Ž‹“_
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¦–ç‚¹
 	pos = GetPlayer()->pos;
-	pos.y = 0.0f;			// ƒJƒƒ‰Œ‚¢‚ð–h‚®‚½‚ß‚ÉƒNƒŠƒA‚µ‚Ä‚¢‚é
+	pos.y = 0.0f;			// ã‚«ãƒ¡ãƒ©é…”ã„ã‚’é˜²ããŸã‚ã«ã‚¯ãƒªã‚¢ã—ã¦ã„ã‚‹
 	SetCameraAT(pos);
 	SetCamera();
 
@@ -347,7 +355,7 @@ void DrawGame(void)
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
 		DrawGame0();
 
-		// ƒGƒlƒ~[Ž‹“_
+		// ã‚¨ãƒãƒŸãƒ¼è¦–ç‚¹
 		pos = GetEnemy()->pos;
 		pos.y = 0.0f;
 		SetCameraAT(pos);
@@ -361,7 +369,7 @@ void DrawGame(void)
 		SetViewPort(TYPE_UP_HALF_SCREEN);
 		DrawGame0();
 
-		// ƒGƒlƒ~[Ž‹“_
+		// ã‚¨ãƒãƒŸãƒ¼è¦–ç‚¹
 		pos = GetEnemy()->pos;
 		pos.y = 0.0f;
 		SetCameraAT(pos);
@@ -375,60 +383,60 @@ void DrawGame(void)
 
 
 //=============================================================================
-// “–‚½‚è”»’èˆ—
+// å½“ãŸã‚Šåˆ¤å®šå‡¦ç†
 //=============================================================================
 void CheckHit(void)
 {
-	ENEMY *enemy = GetEnemy();		// ƒGƒlƒ~[‚Ìƒ|ƒCƒ“ƒ^[‚ð‰Šú‰»
-	PLAYER *player = GetPlayer();	// ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^[‚ð‰Šú‰»
-	BULLET *bullet = GetBullet();	// ’e‚Ìƒ|ƒCƒ“ƒ^[‚ð‰Šú‰»
+	ENEMY *enemy = GetEnemy();		// ã‚¨ãƒãƒŸãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’åˆæœŸåŒ–
+	PLAYER *player = GetPlayer();	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’åˆæœŸåŒ–
+	BULLET *bullet = GetBullet();	// å¼¾ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’åˆæœŸåŒ–
 
-	// “G‚ÆƒvƒŒƒCƒ„[ƒLƒƒƒ‰
+	// æ•µã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚­ãƒ£ãƒ©
 	for (int i = 0; i < MAX_ENEMY; i++)
 	{
-		//“G‚Ì—LŒøƒtƒ‰ƒO‚ðƒ`ƒFƒbƒN‚·‚é
+		//æ•µã®æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 		if (enemy[i].use == FALSE)
 			continue;
 
-		//BC‚Ì“–‚½‚è”»’è
+		//BCã®å½“ãŸã‚Šåˆ¤å®š
 		if (CollisionBC(player->pos, enemy[i].pos, player->size, enemy[i].size))
 		{
-			// “GƒLƒƒƒ‰ƒNƒ^[‚Í“|‚³‚ê‚é
+			// æ•µã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã¯å€’ã•ã‚Œã‚‹
 			enemy[i].use = FALSE;
 			ReleaseShadow(enemy[i].shadowIdx);
 
-			// ƒXƒRƒA‚ð‘«‚·
+			// ã‚¹ã‚³ã‚¢ã‚’è¶³ã™
 			AddScore(100);
 		}
 	}
 
 
-	// ƒvƒŒƒCƒ„[‚Ì’e‚Æ“G
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ã¨æ•µ
 	for (int i = 0; i < MAX_BULLET; i++)
 	{
-		//’e‚Ì—LŒøƒtƒ‰ƒO‚ðƒ`ƒFƒbƒN‚·‚é
+		//å¼¾ã®æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 		if (bullet[i].use == FALSE)
 			continue;
 
-		// “G‚Æ“–‚½‚Á‚Ä‚é‚©’²‚×‚é
+		// æ•µã¨å½“ãŸã£ã¦ã‚‹ã‹èª¿ã¹ã‚‹
 		for (int j = 0; j < MAX_ENEMY; j++)
 		{
-			//“G‚Ì—LŒøƒtƒ‰ƒO‚ðƒ`ƒFƒbƒN‚·‚é
+			//æ•µã®æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 			if (enemy[j].use == FALSE)
 				continue;
 
-			//BC‚Ì“–‚½‚è”»’è
+			//BCã®å½“ãŸã‚Šåˆ¤å®š
 			if (CollisionBC(bullet[i].pos, enemy[j].pos, bullet[i].fWidth, enemy[j].size))
 			{
-				// “–‚½‚Á‚½‚©‚ç–¢Žg—p‚É–ß‚·
+				// å½“ãŸã£ãŸã‹ã‚‰æœªä½¿ç”¨ã«æˆ»ã™
 				bullet[i].use = FALSE;
 				ReleaseShadow(bullet[i].shadowIdx);
 
-				// “GƒLƒƒƒ‰ƒNƒ^[‚Í“|‚³‚ê‚é
+				// æ•µã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã¯å€’ã•ã‚Œã‚‹
 				enemy[j].use = FALSE;
 				ReleaseShadow(enemy[j].shadowIdx);
 
-				// ƒXƒRƒA‚ð‘«‚·
+				// ã‚¹ã‚³ã‚¢ã‚’è¶³ã™
 				AddScore(10);
 			}
 		}
@@ -436,7 +444,7 @@ void CheckHit(void)
 	}
 
 
-	// ƒGƒlƒ~[‚ª‘S•”Ž€–S‚µ‚½‚çó‘Ô‘JˆÚ
+	// ã‚¨ãƒãƒŸãƒ¼ãŒå…¨éƒ¨æ­»äº¡ã—ãŸã‚‰çŠ¶æ…‹é·ç§»
 	int enemy_count = 0;
 	for (int i = 0; i < MAX_ENEMY; i++)
 	{
@@ -444,7 +452,7 @@ void CheckHit(void)
 		enemy_count++;
 	}
 
-	// ƒGƒlƒ~[‚ª‚O•CH
+	// ã‚¨ãƒãƒŸãƒ¼ãŒï¼åŒ¹ï¼Ÿ
 	if (enemy_count == 0)
 	{
 		SetFade(FADE_OUT, MODE_RESULT);
