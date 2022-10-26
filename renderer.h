@@ -119,3 +119,7 @@ void DebugTextOut(char* text, int x, int y);
 void SetFuchi(int flag);
 void SetShaderCamera(XMFLOAT3 pos);
 
+//=============================================================================
+// ワールドマトリクスを生成し取得する
+//=============================================================================
+XMMATRIX GetWorldMatrix(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl);

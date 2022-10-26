@@ -804,3 +804,26 @@ void DebugTextOut(char* text, int x, int y)
 	}
 #endif
 }
+
+
+//=============================================================================
+// ワールドマトリクスを生成し取得する
+//=============================================================================
+XMMATRIX GetWorldMatrix(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl)
+{
+	XMMATRIX mtxWorld = XMMatrixIdentity();
+
+	// スケールを反映
+	XMMATRIX mtxScl = XMMatrixScaling(scl.x, scl.y, scl.z);
+	mtxWorld = XMMatrixMultiply(mtxWorld, mtxScl);
+
+	// 回転を反映
+	XMMATRIX mtxRot = XMMatrixRotationRollPitchYaw(rot.x, rot.y, rot.z);
+	mtxWorld = XMMatrixMultiply(mtxWorld, mtxRot);
+
+	// 移動を反映
+	XMMATRIX mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
+	mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
+
+	return mtxWorld;
+}
