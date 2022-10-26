@@ -22,6 +22,7 @@
 #include "bullet.h"
 #include "score.h"
 #include "puzzleBG.h"
+#include "drum.h"
 #include "particle.h"
 #include "collision.h"
 #include "debugproc.h"
@@ -101,6 +102,9 @@ HRESULT InitGame(void)
 	// パズルのBGの初期化
 	InitPuzzleBG();
 
+	// ドラムの初期化
+	InitDrum();
+
 	// BGM再生
 	//PlaySound(SOUND_LABEL_BGM_sample001);
 
@@ -112,6 +116,9 @@ HRESULT InitGame(void)
 //=============================================================================
 void UninitGame(void)
 {
+	// ドラムの終了りょり
+	UninitDrum();
+
 	// パズルのBGの終了処理
 	UninitPuzzleBG();
 
@@ -199,6 +206,9 @@ void UpdateGame(void)
 
 	// パズルのBGの更新処理
 	UpdatePuzzleBG();
+
+	// ドラムの更新処理
+	UpdateDrum();
 }
 
 //=============================================================================
@@ -259,6 +269,8 @@ void DrawPizzle(void)
 	SetViewPort(TYPE_FULL_SCREEN);
 
 	DrawPuzzleBG();
+
+	DrawDrum();
 }
 
 void DrawGame(void)
