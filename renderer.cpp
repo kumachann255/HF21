@@ -83,12 +83,13 @@ static ID3D11DeviceContext*    g_ImmediateContext = NULL;
 static IDXGISwapChain*         g_SwapChain = NULL;
 static ID3D11RenderTargetView* g_RenderTargetView = NULL;
 static ID3D11DepthStencilView* g_DepthStencilView = NULL;
-
+static D3D11_VIEWPORT		   g_viewPort;
+static ID3D11SamplerState*	   g_samplerState = NULL;
 
 
 static ID3D11VertexShader*		g_VertexShader = NULL;
 static ID3D11PixelShader*		g_PixelShader = NULL;
-static ID3D11InputLayout*		g_VertexLayout = NULL;
+static ID3D11InputLayout*		g_vertexLayoutDefault = NULL;
 static ID3D11Buffer*			g_WorldBuffer = NULL;
 static ID3D11Buffer*			g_ViewBuffer = NULL;
 static ID3D11Buffer*			g_ProjectionBuffer = NULL;
@@ -505,14 +506,15 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 
 	// ビューポート設定
-	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)SCREEN_WIDTH;
-	vp.Height = (FLOAT)SCREEN_HEIGHT;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	g_ImmediateContext->RSSetViewports( 1, &vp );
+	ZeroMemory(&g_viewPort, sizeof(D3D11_VIEWPORT));
+	g_viewPort.Width = (FLOAT)SCREEN_WIDTH;
+	g_viewPort.Height = (FLOAT)SCREEN_HEIGHT;
+	g_viewPort.MinDepth = 0.0f;
+	g_viewPort.MaxDepth = 1.0f;
+	g_viewPort.TopLeftX = 0;
+	g_viewPort.TopLeftY = 0;
+	g_ImmediateContext->RSSetViewports(1, &g_viewPort);
+
 
 
 
@@ -616,10 +618,9 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	samplerDesc.MinLOD = 0;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-	ID3D11SamplerState* samplerState = NULL;
-	g_D3DDevice->CreateSamplerState( &samplerDesc, &samplerState );
+	g_D3DDevice->CreateSamplerState( &samplerDesc, &g_samplerState);
 
-	g_ImmediateContext->PSSetSamplers( 0, 1, &samplerState );
+	g_ImmediateContext->PSSetSamplers( 0, 1, &g_samplerState);
 
 
 
@@ -650,7 +651,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		numElements,
 		pVSBlob->GetBufferPointer(),
 		pVSBlob->GetBufferSize(),
-		&g_VertexLayout);
+		&g_vertexLayoutDefault);
 
 	pVSBlob->Release();
 
@@ -721,7 +722,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 
 	// 入力レイアウト設定
-	g_ImmediateContext->IASetInputLayout( g_VertexLayout );
+	g_ImmediateContext->IASetInputLayout(g_vertexLayoutDefault);
 
 	// シェーダ設定
 	g_ImmediateContext->VSSetShader( g_VertexShader, NULL, 0 );
@@ -770,7 +771,7 @@ void UninitRenderer(void)
 	if (g_LightBuffer)			g_LightBuffer->Release();
 	if (g_FogBuffer)			g_FogBuffer->Release();
 
-	if (g_VertexLayout)			g_VertexLayout->Release();
+	if (g_vertexLayoutDefault)	g_vertexLayoutDefault->Release();
 	if (g_VertexShader)			g_VertexShader->Release();
 	if (g_PixelShader)			g_PixelShader->Release();
 
@@ -779,6 +780,8 @@ void UninitRenderer(void)
 	if (g_SwapChain)			g_SwapChain->Release();
 	if (g_ImmediateContext)		g_ImmediateContext->Release();
 	if (g_D3DDevice)			g_D3DDevice->Release();
+	if (g_samplerState)			g_samplerState->Release();
+	
 }
 
 
@@ -871,4 +874,138 @@ XMMATRIX GetWorldMatrix(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl)
 	mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
 
 	return mtxWorld;
+}
+
+//=============================================================================
+// シェーダー切り替え
+//=============================================================================
+void SetShader(SHADER_MODE mode)
+{
+
+	//=============================================================================
+	// デフォルトシェーダー
+	//=============================================================================
+	switch (mode)
+	{
+	case SHADER_MODE_DEFAULT:
+
+		// レンダリングターゲットを設定
+		g_ImmediateContext->OMSetRenderTargets(1, &g_RenderTargetView, g_DepthStencilView);
+
+		// ビューポート設定
+		g_ImmediateContext->RSSetViewports(1, &g_viewPort);
+
+		// 入力レイアウト設定
+		g_ImmediateContext->IASetInputLayout(g_vertexLayoutDefault);
+
+		// 頂点シェーダー設定
+		g_ImmediateContext->VSSetShader(g_VertexShader, nullptr, 0);
+
+		// ピクセルシェーダー設定
+		g_ImmediateContext->PSSetShader(g_PixelShader, nullptr, 0);
+
+		// 定数バッファ設定
+		g_ImmediateContext->VSSetConstantBuffers(0, 1, &g_WorldBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(1, 1, &g_ViewBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(3, 1, &g_MaterialBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(4, 1, &g_LightBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(5, 1, &g_FogBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(6, 1, &g_FuchiBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(7, 1, &g_CameraBuffer);
+
+		g_ImmediateContext->PSSetConstantBuffers(0, 1, &g_WorldBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(1, 1, &g_ViewBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(3, 1, &g_MaterialBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(4, 1, &g_LightBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(5, 1, &g_FogBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_FuchiBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(7, 1, &g_CameraBuffer);
+
+
+		// サンプラーステート設定
+		g_ImmediateContext->PSSetSamplers(0, 1, &g_samplerState);
+	
+	break;
+
+
+
+	//=============================================================================
+	// トゥーンシェーディング(ウコウ君と相談)
+	//=============================================================================
+	case SHADER_MODE_TOON:
+		// レンダリングターゲットを設定
+		//g_ImmediateContext->OMSetRenderTargets(1, /*レンダーターゲット*/, /*ステンシル*/);
+
+		// ビューポート設定
+		g_ImmediateContext->RSSetViewports(1, &g_viewPort);
+
+		// 入力レイアウト設定
+		g_ImmediateContext->IASetInputLayout(g_vertexLayoutDefault);
+
+		// 頂点シェーダー設定
+		//g_ImmediateContext->VSSetShader(/*頂点シェーダー*/, nullptr, 0);
+
+		// 定数バッファ設定
+		//g_ImmediateContext->VSSetConstantBuffers(0, 1, &g_WorldBuffer);
+		//g_ImmediateContext->VSSetConstantBuffers(1, 1, &g_ViewBuffer);
+		//g_ImmediateContext->VSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+
+		// ピクセルシェーダー設定
+		//g_ImmediateContext->PSSetShader(/*ピクセルシェーダー*/, nullptr, 0);
+
+		// 定数バッファ設定
+		g_ImmediateContext->PSSetConstantBuffers(0, 1, &g_MaterialBuffer);
+		//g_ImmediateContext->PSSetConstantBuffers(1, 1, &/*ディゾルブバッファー*/);
+		//g_ImmediateContext->PSSetConstantBuffers(2, 1, &/*モノトーンバッファー*/);
+
+		// サンプラーステート設定
+		g_ImmediateContext->PSSetSamplers(0, 1, &g_samplerState);
+		//g_ImmediateContext->PSSetSamplers(1, 1, &/*サンプラーステート*/);
+
+		// シェーダーリソースビュー設定(0 = texture)
+		//g_ImmediateContext->PSSetShaderResources(1, 1, &/*リソースビュー*/);
+		//g_ImmediateContext->PSSetShaderResources(2, 1, &/*リソースビュー*/);
+
+		break;
+
+
+	//=============================================================================
+	// ディゾルブ(あとで追加)
+	//=============================================================================
+	case SHADER_MODE_DISSOLVE:
+
+		// レンダリングターゲットを設定
+		g_ImmediateContext->OMSetRenderTargets(1, &g_RenderTargetView, g_DepthStencilView);
+
+		// ビューポート設定
+		g_ImmediateContext->RSSetViewports(1, &g_viewPort);
+
+		// 入力レイアウト設定
+		g_ImmediateContext->IASetInputLayout(g_vertexLayoutDefault);
+
+		// 頂点シェーダー設定
+		g_ImmediateContext->VSSetShader(g_VertexShader, nullptr, 0);
+
+		// 定数バッファ設定
+		g_ImmediateContext->VSSetConstantBuffers(0, 1, &g_WorldBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(1, 1, &g_ViewBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+
+		// ピクセルシェーダー設定
+		//g_ImmediateContext->PSSetShader(/*ピクセルシェーダー*/, nullptr, 0);
+
+		// 定数バッファ設定
+		g_ImmediateContext->PSSetConstantBuffers(0, 1, &g_MaterialBuffer);
+		//g_ImmediateContext->PSSetConstantBuffers(1, 1, &/*ディゾルブバッファー*/);
+
+		// サンプラーステート設定
+		g_ImmediateContext->PSSetSamplers(0, 1, &g_samplerState);
+
+		break;
+
+	}
+
+
 }

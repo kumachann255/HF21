@@ -40,6 +40,14 @@ enum CULL_MODE
 	CULL_MODE_NUM
 };
 
+enum SHADER_MODE
+{
+	SHADER_MODE_DEFAULT,		// デフォルト
+	SHADER_MODE_DISSOLVE,		// ディゾルブ
+	SHADER_MODE_TOON,			// トゥーンシェーディング
+
+	SHADER_MODE_MAX,
+};
 
 //*********************************************************
 // 構造体
@@ -130,3 +138,9 @@ XMMATRIX GetWorldMatrix(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl);
 // hr = MakeShader(g_D3DDevice, "shader.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexShader, &pVSBlob);
 //=============================================================================
 HRESULT MakeShader(ID3D11Device* pDevice, LPSTR szFileName, LPSTR szFuncName, LPSTR szProfileName, void** ppShader, ID3DBlob** ppBlob);
+
+//=============================================================================
+// シェーダー切り替え
+//=============================================================================
+void SetShader(SHADER_MODE mode);
+
