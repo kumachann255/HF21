@@ -362,6 +362,58 @@ void SetShaderCamera(XMFLOAT3 pos)
 	GetDeviceContext()->UpdateSubresource(g_CameraBuffer, 0, NULL, &tmp, 0, 0);
 }
 
+//=============================================================================================================================
+// hlslファイルを読み込みシェーダーを作成する関数
+//【関数を使用するとき(バーテックスシェーダーの場合)】
+// hr = MakeShader(g_D3DDevice, "shader.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexShader, &pVSBlob);
+//=============================================================================================================================
+HRESULT MakeShader(ID3D11Device* pDevice, LPSTR szFileName, LPSTR szFuncName, LPSTR szProfileName, void** ppShader, ID3DBlob** ppBlob)
+{
+	HRESULT hr = S_OK;
+	ID3DBlob *pErrors = NULL;
+
+	DWORD shFlag = D3DCOMPILE_ENABLE_STRICTNESS;
+#if defined(_DEBUG) && defined(DEBUG_SHADER)
+	shFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+	hr = D3DX11CompileFromFile(szFileName, NULL, NULL, szFuncName, szProfileName, shFlag, 0, NULL, ppBlob, &pErrors, NULL);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, (char*)pErrors->GetBufferPointer(), szFuncName, MB_OK | MB_ICONERROR);
+	}
+
+	char szProfile[3] = { 0 };
+	memcpy(szProfile, szProfileName, 2);	// 前半2文字をコピー
+
+	// ２つの文字列を比較する
+	if (strcmp(szProfile, "vs") == 0)//Vertex Shader
+	{
+		if (FAILED(pDevice->CreateVertexShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11VertexShader**)ppShader))) return E_FAIL;
+	}
+	if (strcmp(szProfile, "ps") == 0)//Pixel Shader
+	{
+		if (FAILED(pDevice->CreatePixelShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11PixelShader**)ppShader))) return E_FAIL;
+	}
+	if (strcmp(szProfile, "gs") == 0)//Geometry Shader
+	{
+		if (FAILED(pDevice->CreateGeometryShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11GeometryShader**)ppShader))) return E_FAIL;
+	}
+	if (strcmp(szProfile, "hs") == 0)//Hull Shader
+	{
+		if (FAILED(pDevice->CreateHullShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11HullShader**)ppShader))) return E_FAIL;
+	}
+	if (strcmp(szProfile, "ds") == 0)//Domain Shader
+	{
+		if (FAILED(pDevice->CreateDomainShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11DomainShader**)ppShader))) return E_FAIL;
+	}
+	if (strcmp(szProfile, "cs") == 0)//Compute Shader
+	{
+		if (FAILED(pDevice->CreateComputeShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11ComputeShader**)ppShader))) return E_FAIL;
+	}
+
+	return S_OK;
+}
 
 
 //=============================================================================
@@ -571,22 +623,18 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 
 
-	// 頂点シェーダコンパイル・生成
-	ID3DBlob* pErrorBlob;
-	ID3DBlob* pVSBlob = NULL;
 	DWORD shFlag = D3DCOMPILE_ENABLE_STRICTNESS;
 
 #if defined(_DEBUG) && defined(DEBUG_SHADER)
 	shFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-	hr = D3DX11CompileFromFile( "shader.hlsl", NULL, NULL, "VertexShaderPolygon", "vs_4_0", shFlag, 0, NULL, &pVSBlob, &pErrorBlob, NULL );
-	if( FAILED(hr) )
-	{
-		MessageBox( NULL , (char*)pErrorBlob->GetBufferPointer(), "VS", MB_OK | MB_ICONERROR );
-	}
-
-	g_D3DDevice->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_VertexShader );
+	//=============================================================================
+	// 頂点シェーダコンパイル・生成
+	//=============================================================================
+	ID3DBlob* pVSBlob = NULL;
+	hr = MakeShader(g_D3DDevice, "shader.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexShader, &pVSBlob);
+	if (FAILED(hr))	return hr;
 
 	// 入力レイアウト生成
 	D3D11_INPUT_ELEMENT_DESC layout[] =
@@ -596,28 +644,25 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,			0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
-	UINT numElements = ARRAYSIZE( layout );
+	UINT numElements = ARRAYSIZE(layout);
 
-	g_D3DDevice->CreateInputLayout( layout,
+	g_D3DDevice->CreateInputLayout(layout,
 		numElements,
 		pVSBlob->GetBufferPointer(),
 		pVSBlob->GetBufferSize(),
-		&g_VertexLayout );
+		&g_VertexLayout);
 
 	pVSBlob->Release();
 
-
+	//=============================================================================
 	// ピクセルシェーダコンパイル・生成
+	//=============================================================================
 	ID3DBlob* pPSBlob = NULL;
-	hr = D3DX11CompileFromFile( "shader.hlsl", NULL, NULL, "PixelShaderPolygon", "ps_4_0", shFlag, 0, NULL, &pPSBlob, &pErrorBlob, NULL );
-	if( FAILED(hr) )
-	{
-		MessageBox( NULL , (char*)pErrorBlob->GetBufferPointer(), "PS", MB_OK | MB_ICONERROR );
-	}
-
-	g_D3DDevice->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_PixelShader );
-	
+	hr = MakeShader(g_D3DDevice, "shader.hlsl", "PixelShaderPolygon", "ps_4_0", (void**)&g_PixelShader, &pPSBlob);
+	if (FAILED(hr))	return hr;
 	pPSBlob->Release();
+	//=============================================================================
+	//=============================================================================
 
 
 	// 定数バッファ生成

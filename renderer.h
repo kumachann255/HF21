@@ -123,3 +123,10 @@ void SetShaderCamera(XMFLOAT3 pos);
 // ワールドマトリクスを生成し取得する
 //=============================================================================
 XMMATRIX GetWorldMatrix(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl);
+
+//=============================================================================
+// hlslファイルを読み込みシェーダーを作成する関数
+//【関数を使用するとき(バーテックスシェーダーの場合)】
+// hr = MakeShader(g_D3DDevice, "shader.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexShader, &pVSBlob);
+//=============================================================================
+HRESULT MakeShader(ID3D11Device* pDevice, LPSTR szFileName, LPSTR szFuncName, LPSTR szProfileName, void** ppShader, ID3DBlob** ppBlob);
