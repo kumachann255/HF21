@@ -62,7 +62,7 @@ void Object::Update(void)
 //=============================================================================
 void Object::Draw(void)
 {
-	if (m_inUse == FALSE || m_prefab == NULL) return;
+	if (!m_inUse || !m_prefab) return;
 
 	SetDepthEnable(TRUE);
 
