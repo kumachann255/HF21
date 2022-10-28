@@ -4,7 +4,7 @@
 
 void FlyingCrow::Update(void)
 {
-	this->m_time += FLYINGSPEED;
+	this->m_time += this->GetSpeed();
 
 	XMFLOAT3 pos;
 
