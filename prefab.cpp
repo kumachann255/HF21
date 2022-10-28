@@ -69,7 +69,7 @@ void Prefab::SetModel(std::string modelName)
 
 void Prefab::SetColor(XMFLOAT4 color)
 {
-	m_model.SubsetArray->Material.Material.Diffuse = color;
+	m_model.SubsetArray[0].Material.Material.Diffuse = color;
 }
 
 

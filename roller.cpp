@@ -5,7 +5,7 @@ void Roller::Update(void)
 {
 	// ワールド座標回転
 	static XMFLOAT3 rot = { 0.0f,0.0f, 0.0f };
-	rot.x += XMConvertToRadians(1.0f);
+	rot.x -= XMConvertToRadians(0.3f);
 	this->SetRot(rot);
 
 	// ローカル回転

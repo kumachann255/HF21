@@ -47,7 +47,7 @@ void CheckHit(void);
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-static int	g_ViewPortType_Game = TYPE_FULL_SCREEN;
+static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
@@ -72,7 +72,7 @@ Prefab *pPrefabFlyingCrow = nullptr;
 //=============================================================================
 HRESULT InitGame(void)
 {
-	g_ViewPortType_Game = TYPE_FULL_SCREEN;
+	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 	// フィールドの初期化
 	InitMeshField(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), 100, 100, 13.0f, 13.0f);
@@ -133,7 +133,7 @@ HRESULT InitGame(void)
 
 	// ローラーの大きさセット
 	pRoller->SetPrefab(pPrefabRoller);
-	XMFLOAT3 scl = { 3.0f,3.0f,3.0f };
+	XMFLOAT3 scl = { 10.0f,10.0f,10.0f };
 	pRoller->SetScl(scl);
 
 	// スカイドーム初期化
@@ -143,7 +143,7 @@ HRESULT InitGame(void)
 
 	// スカイドーム大きさセット
 	pSky->SetPrefab(pPrefabSky);
-	XMFLOAT3 scl2 = { 10.0f,10.0f,10.0f };
+	XMFLOAT3 scl2 = { 15.0f,15.0f,15.0f };
 	pSky->SetScl(scl2);
 
 	// イベントの建物の初期化
@@ -283,7 +283,7 @@ void UpdateGame(void)
 
 	// スカイドームの更新
 	static XMFLOAT3 rot = { 0.0f,0.0f,0.0f };
-	rot.y -= 0.003f;
+	rot.y -= 0.001f;
 	pSky->SetRot(rot);
 
 	// 空飛ぶカラスの更新
@@ -307,7 +307,6 @@ void UpdateGame(void)
 void DrawGame0(void)
 {
 
-	SetShader(SHADER_MODE_PHONG);
 
 	// 3Dの物を描画する処理
 	// 地面の描画処理
@@ -395,6 +394,8 @@ void DrawGame(void)
 	SetCameraAT(pos);
 	SetCamera();
 
+	SetShader(SHADER_MODE_PHONG);
+	
 	switch(g_ViewPortType_Game)
 	{
 	case TYPE_FULL_SCREEN:
@@ -405,6 +406,7 @@ void DrawGame(void)
 	case TYPE_LEFT_HALF_SCREEN:
 	case TYPE_RIGHT_HALF_SCREEN:
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
+
 		DrawGame0();
 
 		// エネミー視点
@@ -419,6 +421,7 @@ void DrawGame(void)
 		SetCameraAT(pos);
 		SetCamera();
 
+		//SetShader(SHADER_MODE_DEFAULT);
 		DrawGame0();
 		break;
 
@@ -521,7 +524,7 @@ void CheckHit(void)
 
 void SetShotCrows(XMFLOAT4 color)
 {
-	XMFLOAT3 targetPos = { 0.0f,0.0f,50.0f };
+	XMFLOAT3 targetPos = { 0.0f, 0.0f, 200.0f };
 	// 飛んでいくカラスの初期化
 	pFlyingCrow = new FlyingCrow(color, targetPos);
 
