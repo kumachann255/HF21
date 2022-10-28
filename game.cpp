@@ -264,6 +264,9 @@ void UpdateGame(void)
 //=============================================================================
 void DrawGame0(void)
 {
+
+	SetShader(SHADER_MODE_DEFAULT);
+
 	// 3Dの物を描画する処理
 	// 地面の描画処理
 	//DrawMeshField();
