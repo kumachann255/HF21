@@ -8,13 +8,14 @@
 #include "input.h"
 #include "camera.h"
 #include "debugproc.h"
+#include "game.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define	POS_X_CAM			(0.0f)			// カメラの初期位置(X座標)
-#define	POS_Y_CAM			(50.0f)			// カメラの初期位置(Y座標)
-#define	POS_Z_CAM			(-140.0f)		// カメラの初期位置(Z座標)
+#define	POS_Y_CAM			(60.0f)			// カメラの初期位置(Y座標)
+#define	POS_Z_CAM			(-200.0f)		// カメラの初期位置(Z座標)
 
 //#define	POS_X_CAM		(0.0f)			// カメラの初期位置(X座標)
 //#define	POS_Y_CAM		(200.0f)		// カメラの初期位置(Y座標)
@@ -34,7 +35,7 @@
 //*****************************************************************************
 static CAMERA			g_Camera;		// カメラデータ
 
-static int				g_ViewPortType = TYPE_FULL_SCREEN;
+static int				g_ViewPortType = TYPE_LEFT_HALF_SCREEN;
 
 //=============================================================================
 // 初期化処理
@@ -286,9 +287,22 @@ void SetCameraAT(XMFLOAT3 pos)
 	// カメラの注視点をプレイヤーの座標にしてみる
 	g_Camera.at = pos;
 
+
+	if (g_ViewPortType == TYPE_RIGHT_HALF_SCREEN) g_Camera.len = 50.0f;
+	else {
+		float vx, vz;
+		g_Camera.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
+		vx = g_Camera.pos.x - g_Camera.at.x;
+		vz = g_Camera.pos.z - g_Camera.at.z;
+		g_Camera.len = sqrtf(vx * vx + vz * vz);
+
+	}
+
+
 	// カメラの視点をカメラのY軸回転に対応させている
 	g_Camera.pos.x = g_Camera.at.x - sinf(g_Camera.rot.y) * g_Camera.len;
 	g_Camera.pos.z = g_Camera.at.z - cosf(g_Camera.rot.y) * g_Camera.len;
 
 }
+
 

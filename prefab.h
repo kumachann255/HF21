@@ -49,6 +49,8 @@ public:
 	void SetScl(XMFLOAT3 scl) { m_scl = scl; }
 	XMFLOAT3 GetScl(void) { return m_scl; }
 
+	void SetColor(XMFLOAT4 color);
+
 	DX11_MODEL * GetModel(void) { return &m_model; };
 	XMMATRIX GetMtxWorld(void) { return GetWorldMatrix(m_pos, m_rot, m_scl); };
 };
