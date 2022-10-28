@@ -152,9 +152,11 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="prefab.h" />
     <ClInclude Include="puzzleBG.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="roller.h" />
     <ClInclude Include="rotator.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="shadow.h" />
@@ -171,6 +173,7 @@
     <ClCompile Include="drum.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="FlyingCrow.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
@@ -182,8 +185,10 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="pizzleBG.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="prefab.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="roller.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
