@@ -86,9 +86,14 @@ static ID3D11DepthStencilView* g_DepthStencilView = NULL;
 static D3D11_VIEWPORT		   g_viewPort;
 static ID3D11SamplerState*	   g_samplerState = NULL;
 
-
+//デフォルトシェーダー
 static ID3D11VertexShader*		g_VertexShader = NULL;
 static ID3D11PixelShader*		g_PixelShader = NULL;
+
+//フォンシェーダー
+static ID3D11VertexShader*		g_VertexPhongShader = NULL;
+static ID3D11PixelShader*		g_PixelPhongShader = NULL;
+
 static ID3D11InputLayout*		g_vertexLayoutDefault = NULL;
 static ID3D11Buffer*			g_WorldBuffer = NULL;
 static ID3D11Buffer*			g_ViewBuffer = NULL;
@@ -634,7 +639,13 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// 頂点シェーダコンパイル・生成
 	//=============================================================================
 	ID3DBlob* pVSBlob = NULL;
-	hr = MakeShader(g_D3DDevice, "shader.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexShader, &pVSBlob);
+
+	// デフォルトシェーダー
+	hr = MakeShader(g_D3DDevice, "Shader/Default.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexShader, &pVSBlob);
+	if (FAILED(hr))	return hr;
+
+	// フォンシェーダー
+	hr = MakeShader(g_D3DDevice, "Shader/Phong.hlsl", "VertexShaderPolygon", "vs_4_0", (void**)&g_VertexPhongShader, &pVSBlob);
 	if (FAILED(hr))	return hr;
 
 	// 入力レイアウト生成
@@ -659,8 +670,15 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// ピクセルシェーダコンパイル・生成
 	//=============================================================================
 	ID3DBlob* pPSBlob = NULL;
-	hr = MakeShader(g_D3DDevice, "shader.hlsl", "PixelShaderPolygon", "ps_4_0", (void**)&g_PixelShader, &pPSBlob);
+
+	// デフォルトシェーダー
+	hr = MakeShader(g_D3DDevice, "Shader/Default.hlsl", "PixelShaderPolygon", "ps_4_0", (void**)&g_PixelShader, &pPSBlob);
 	if (FAILED(hr))	return hr;
+
+	// フォンシェーダー
+	hr = MakeShader(g_D3DDevice, "Shader/Phong.hlsl", "PixelShaderPolygon", "ps_4_0", (void**)&g_PixelPhongShader, &pPSBlob);
+	if (FAILED(hr))	return hr;
+
 	pPSBlob->Release();
 	//=============================================================================
 	//=============================================================================
@@ -922,6 +940,44 @@ void SetShader(SHADER_MODE mode)
 		g_ImmediateContext->PSSetConstantBuffers(5, 1, &g_FogBuffer);
 		g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_FuchiBuffer);
 		g_ImmediateContext->PSSetConstantBuffers(7, 1, &g_CameraBuffer);
+
+
+		// サンプラーステート設定
+		g_ImmediateContext->PSSetSamplers(0, 1, &g_samplerState);
+	
+	break;
+
+	case SHADER_MODE_PHONG:
+
+		// レンダリングターゲットを設定
+		g_ImmediateContext->OMSetRenderTargets(1, &g_RenderTargetView, g_DepthStencilView);
+
+		// ビューポート設定
+		g_ImmediateContext->RSSetViewports(1, &g_viewPort);
+
+		// 入力レイアウト設定
+		g_ImmediateContext->IASetInputLayout(g_vertexLayoutDefault);
+
+		// 頂点シェーダー設定
+		g_ImmediateContext->VSSetShader(g_VertexPhongShader, nullptr, 0);
+
+		// ピクセルシェーダー設定
+		g_ImmediateContext->PSSetShader(g_PixelPhongShader, nullptr, 0);
+
+		// 定数バッファ設定
+		g_ImmediateContext->VSSetConstantBuffers(0, 1, &g_WorldBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(1, 1, &g_ViewBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(3, 1, &g_MaterialBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(4, 1, &g_LightBuffer);
+		g_ImmediateContext->VSSetConstantBuffers(5, 1, &g_CameraBuffer);
+
+		g_ImmediateContext->PSSetConstantBuffers(0, 1, &g_WorldBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(1, 1, &g_ViewBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(3, 1, &g_MaterialBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(4, 1, &g_LightBuffer);
+		g_ImmediateContext->PSSetConstantBuffers(5, 1, &g_CameraBuffer);
 
 
 		// サンプラーステート設定

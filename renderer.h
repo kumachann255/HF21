@@ -43,6 +43,7 @@ enum CULL_MODE
 enum SHADER_MODE
 {
 	SHADER_MODE_DEFAULT,		// デフォルト
+	SHADER_MODE_PHONG,			// フォンシェーディング
 	SHADER_MODE_DISSOLVE,		// ディゾルブ
 	SHADER_MODE_TOON,			// トゥーンシェーディング
 
