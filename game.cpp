@@ -34,7 +34,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
+#define CROWS_MAX (100)
 
 
 //*****************************************************************************
@@ -63,8 +63,8 @@ Prefab *pPrefabRoller;
 Object *pBuilding;
 Prefab *pPrefabBuilding;
 
-FlyingCrow *pFlyingCrow = nullptr;
-Prefab *pPrefabFlyingCrow = nullptr;
+FlyingCrow *pFlyingCrow[CROWS_MAX] = {nullptr,nullptr,nullptr,nullptr,nullptr};
+Prefab *pPrefabFlyingCrow[CROWS_MAX];
 
 
 //=============================================================================
@@ -158,9 +158,16 @@ HRESULT InitGame(void)
 	XMFLOAT3 pos = { 0.0f,30.0f,0.0f };
 	pBuilding->SetPos(pos);
 
-	// カラスのモデル読み込み
-	pPrefabFlyingCrow = new Prefab();
-	pPrefabFlyingCrow->SetModel("model_crow.obj");
+	for (int i = 0; i < CROWS_MAX; i++)
+	{
+		//pFlyingCrow[i] = nullptr;
+		pPrefabFlyingCrow[i] = nullptr;
+
+		// カラスのモデル読み込み
+		pPrefabFlyingCrow[i] = new Prefab();
+	}
+
+	pPrefabFlyingCrow[0]->SetModel("model_crow.obj");
 
 	// ドラムの初期化
 	InitDrum();
@@ -216,8 +223,13 @@ void UninitGame(void)
 	delete pPrefabSky;
 	delete pBuilding;
 	delete pPrefabBuilding;
-	if (pFlyingCrow) delete pFlyingCrow;
-	delete pPrefabFlyingCrow;
+	for (int i = 0; i < CROWS_MAX; i++)
+	{
+		if (pFlyingCrow[i]) delete pFlyingCrow[i];
+		delete pPrefabFlyingCrow[i];
+
+	}
+
 
 
 }
@@ -287,13 +299,16 @@ void UpdateGame(void)
 	pSky->SetRot(rot);
 
 	// 空飛ぶカラスの更新
-	if (pFlyingCrow)
+	for (int i = 0; i < CROWS_MAX; i++)
 	{
-		pFlyingCrow->Update();
-		if (pFlyingCrow->GetTime() >= 1.0f)
+		if (pFlyingCrow[i])
 		{
-			delete pFlyingCrow;
-			pFlyingCrow = nullptr;
+			pFlyingCrow[i]->Update();
+			if (pFlyingCrow[i]->GetTime() >= 1.0f)
+			{
+				delete pFlyingCrow[i];
+				pFlyingCrow[i] = nullptr;
+			}
 		}
 	}
 
@@ -344,7 +359,10 @@ void DrawGame0(void)
 
 
 	// 空飛ぶカラスの描画処理
-	if (pFlyingCrow) pFlyingCrow->Draw();
+	for (int i = 0; i < CROWS_MAX; i++)
+	{
+		if (pFlyingCrow[i]) pFlyingCrow[i]->Draw();
+	}
 
 	// 2Dの物を描画する処理
 	// Z比較なし
@@ -406,6 +424,7 @@ void DrawGame(void)
 	case TYPE_LEFT_HALF_SCREEN:
 	case TYPE_RIGHT_HALF_SCREEN:
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
+		SetCamera();
 
 		DrawGame0();
 
@@ -417,7 +436,11 @@ void DrawGame(void)
 		//SetCamera();
 		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
 
-		if (pFlyingCrow) pos = pFlyingCrow->GetPos();
+		for (int i = 0; i < CROWS_MAX; i++)
+		{
+			if (pFlyingCrow[i]) pos = pFlyingCrow[i]->GetPos();
+		}
+
 		SetCameraAT(pos);
 		SetCamera();
 
@@ -524,13 +547,18 @@ void CheckHit(void)
 
 void SetShotCrows(XMFLOAT4 color)
 {
-	XMFLOAT3 targetPos = { 0.0f, 0.0f, 200.0f };
-	// 飛んでいくカラスの初期化
-	pFlyingCrow = new FlyingCrow(color, targetPos);
+	int a = rand() % (CROWS_MAX - 2) + 2;
 
-	// 飛んでいくカラスの大きさセット
-	pFlyingCrow->SetPrefab(pPrefabFlyingCrow);
-	XMFLOAT3 scl3 = { 0.3f,0.3f,0.3f };
-	pFlyingCrow->SetScl(scl3);
-	pPrefabFlyingCrow->SetColor(color);
+	for (int i = 0; i < a; i++)
+	{
+		XMFLOAT3 targetPos = { -50.0f, 20.0f, -100.0f };
+		// 飛んでいくカラスの初期化
+		pFlyingCrow[i] = new FlyingCrow(color, targetPos);
+
+		// 飛んでいくカラスの大きさセット
+		pFlyingCrow[i]->SetPrefab(pPrefabFlyingCrow[0]);
+		XMFLOAT3 scl3 = { 0.3f,0.3f,0.3f };
+		pFlyingCrow[i]->SetScl(scl3);
+		pPrefabFlyingCrow[0]->SetColor(color);
+	}
 }

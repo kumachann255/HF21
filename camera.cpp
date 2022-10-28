@@ -24,6 +24,7 @@
 
 #define	VIEW_ANGLE		(XMConvertToRadians(45.0f))						// ビュー平面の視野角
 #define	VIEW_ASPECT		((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比	
+#define	VIEW_ASPECT_HARF ((float)L_SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比	
 #define	VIEW_NEAR_Z		(10.0f)											// ビュー平面のNearZ値
 #define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値
 
@@ -193,6 +194,9 @@ void SetCamera(void)
 	// プロジェクションマトリックス設定
 	XMMATRIX mtxProjection;
 	mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT, VIEW_NEAR_Z, VIEW_FAR_Z);
+
+
+	if(g_ViewPortType == TYPE_LEFT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
 
 	SetProjectionMatrix(&mtxProjection);
 	XMStoreFloat4x4(&g_Camera.mtxProjection, mtxProjection);
