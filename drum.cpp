@@ -18,9 +18,10 @@
 //*****************************************************************************
 #define TEXTURE_WIDTH				(R_SCREEN_WIDTH)	// 背景サイズ
 #define TEXTURE_HEIGHT				(R_SCREEN_HEIGHT)	// 
-#define FLAM_TEXTURE_WIDTH			(210.0f)	// 背景サイズ
-#define FLAM_TEXTURE_HEIGHT			(140.0f)	// 
-#define FLAM_OFFSET_Y				(30.0f)
+#define FLAM_TEXTURE_WIDTH			(430.0f)	// 背景サイズ
+#define FLAM_TEXTURE_HEIGHT			(470.0f)	// 
+#define FLAM_OFFSET_Y				(80.0f)
+#define FLAM_OFFSET_X				(-4.0f)
 
 #define TEST_POS_X					(800.0f)
 #define TEST_POS_Y					(250.0f)
@@ -278,7 +279,7 @@ void DrawDrum(void)
 		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[6]);
 
 		// １枚のポリゴンの頂点とテクスチャ座標を設定
-		SetSprite(g_VertexBuffer, TEXTURE_POS_X_BASE - TEXTURE_WIDTH_COLOR, START_POS_Y + TEXTURE_HEIGHT_COLOR * 2.0f - FLAM_OFFSET_Y, FLAM_TEXTURE_WIDTH, FLAM_TEXTURE_HEIGHT, 0.0f, 0.0f, 1.0f, 1.0f);
+		SetSprite(g_VertexBuffer, TEXTURE_POS_X_BASE - TEXTURE_WIDTH_COLOR + FLAM_OFFSET_X, START_POS_Y + TEXTURE_HEIGHT_COLOR * 2.0f - FLAM_OFFSET_Y, FLAM_TEXTURE_WIDTH, FLAM_TEXTURE_HEIGHT, 0.0f, 0.0f, 1.0f, 1.0f);
 		//SetSpriteColor(g_VertexBuffer, g_Pos.x, g_Pos.y, TEXTURE_WIDTH_LOGO, TEXTURE_HEIGHT_LOGO, 0.0f, 0.0f, 1.0f, 1.0f,
 		//	XMFLOAT4(1.0f, 1.0f, 1.0f, alpha));
 

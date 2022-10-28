@@ -47,15 +47,21 @@ void CheckHit(void);
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-static int	g_ViewPortType_Game = TYPE_FULL_SCREEN;
+static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
+// スカイドーム
+Object *pSky;
+Prefab *pPrefabSky;
+
+// ローラー
 Roller *pRoller;
 Prefab *pPrefabRoller;
 
-Object *pSky;
-Prefab *pPrefabSky;
+// イベントの建物
+Object *pBuilding;
+Prefab *pPrefabBuilding;
 
 FlyingCrow *pFlyingCrow = nullptr;
 Prefab *pPrefabFlyingCrow = nullptr;
@@ -66,7 +72,7 @@ Prefab *pPrefabFlyingCrow = nullptr;
 //=============================================================================
 HRESULT InitGame(void)
 {
-	g_ViewPortType_Game = TYPE_FULL_SCREEN;
+	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 	// フィールドの初期化
 	InitMeshField(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), 100, 100, 13.0f, 13.0f);
@@ -121,13 +127,13 @@ HRESULT InitGame(void)
 	pPrefabRoller = new Prefab();
 
 	// ローラーの回転セット(※引数付きコンストラクタ作ります。m(_ _)m )
-	pPrefabRoller->SetModel("model_roller_spring_01.obj");
+	pPrefabRoller->SetModel("model_map.obj");
 	XMFLOAT3 rot = { XMConvertToRadians(90.0f),0.0f,0.0f };
 	pRoller->SetRot(rot);
 
-	// ローラーの大きさセット(※引数付きコンストラクタ作ります。m(_ _)m )
+	// ローラーの大きさセット
 	pRoller->SetPrefab(pPrefabRoller);
-	XMFLOAT3 scl = { 1.2f,1.2f,1.2f };
+	XMFLOAT3 scl = { 10.0f,10.0f,10.0f };
 	pRoller->SetScl(scl);
 
 	// スカイドーム初期化
@@ -137,13 +143,24 @@ HRESULT InitGame(void)
 
 	// スカイドーム大きさセット
 	pSky->SetPrefab(pPrefabSky);
-	XMFLOAT3 scl2 = { 10.0f,10.0f,10.0f };
+	XMFLOAT3 scl2 = { 15.0f,15.0f,15.0f };
 	pSky->SetScl(scl2);
+
+	// イベントの建物の初期化
+	pBuilding = new Object();
+	pPrefabBuilding = new Prefab();
+	pPrefabBuilding->SetModel("model_mapobj_biru.obj");
+	pBuilding->SetPrefab(pPrefabBuilding);
+	XMFLOAT3 rot3 = { 0.0f,XMConvertToRadians(45.0f),0.0f };
+	pBuilding->SetRot(rot3);
+	XMFLOAT3 scl3 = { 3.0f,3.0f,3.0f };
+	pBuilding->SetScl(scl3);
+	XMFLOAT3 pos = { 0.0f,30.0f,0.0f };
+	pBuilding->SetPos(pos);
 
 	// カラスのモデル読み込み
 	pPrefabFlyingCrow = new Prefab();
 	pPrefabFlyingCrow->SetModel("model_crow.obj");
-
 
 	// ドラムの初期化
 	InitDrum();
@@ -197,6 +214,8 @@ void UninitGame(void)
 	delete pPrefabRoller;
 	delete pSky;
 	delete pPrefabSky;
+	delete pBuilding;
+	delete pPrefabBuilding;
 	if (pFlyingCrow) delete pFlyingCrow;
 	delete pPrefabFlyingCrow;
 
@@ -226,32 +245,32 @@ void UpdateGame(void)
 	if(g_bPause == FALSE)
 		return;
 
-	// 地面処理の更新
-	UpdateMeshField();
+	//// 地面処理の更新
+	//UpdateMeshField();
 
 	// プレイヤーの更新処理
 	UpdatePlayer();
 
 	// エネミーの更新処理
-	UpdateEnemy();
+	//UpdateEnemy();
 
 	// 壁処理の更新
-	UpdateMeshWall();
+	//UpdateMeshWall();
 
 	// 木の更新処理
-	UpdateTree();
+	//UpdateTree();
 
 	// 弾の更新処理
-	UpdateBullet();
+	//UpdateBullet();
 
 	// パーティクルの更新処理
-	UpdateParticle();
+	//UpdateParticle();
 
 	// 影の更新処理
-	UpdateShadow();
+	//UpdateShadow();
 
 	// 当たり判定処理
-	CheckHit();
+	//CheckHit();
 
 	// スコアの更新処理
 	UpdateScore();
@@ -264,7 +283,7 @@ void UpdateGame(void)
 
 	// スカイドームの更新
 	static XMFLOAT3 rot = { 0.0f,0.0f,0.0f };
-	rot.y -= 0.003f;
+	rot.y -= 0.001f;
 	pSky->SetRot(rot);
 
 	// 空飛ぶカラスの更新
@@ -287,6 +306,8 @@ void UpdateGame(void)
 //=============================================================================
 void DrawGame0(void)
 {
+
+
 	// 3Dの物を描画する処理
 	// 地面の描画処理
 	//DrawMeshField();
@@ -312,11 +333,15 @@ void DrawGame0(void)
 	// パーティクルの描画処理
 	//DrawParticle();
 
+	// スカイドームの描画処理
+	pSky->Draw();
+
+	// イベントの建物描画処理
+	pBuilding->Draw();
+
 	// ローラーの描画処理
 	pRoller->Draw();
 
-	// スカイドームの描画処理
-	pSky->Draw();
 
 	// 空飛ぶカラスの描画処理
 	if (pFlyingCrow) pFlyingCrow->Draw();
@@ -369,6 +394,8 @@ void DrawGame(void)
 	SetCameraAT(pos);
 	SetCamera();
 
+	SetShader(SHADER_MODE_PHONG);
+	
 	switch(g_ViewPortType_Game)
 	{
 	case TYPE_FULL_SCREEN:
@@ -379,6 +406,7 @@ void DrawGame(void)
 	case TYPE_LEFT_HALF_SCREEN:
 	case TYPE_RIGHT_HALF_SCREEN:
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
+
 		DrawGame0();
 
 		// エネミー視点
@@ -393,6 +421,7 @@ void DrawGame(void)
 		SetCameraAT(pos);
 		SetCamera();
 
+		//SetShader(SHADER_MODE_DEFAULT);
 		DrawGame0();
 		break;
 
@@ -495,7 +524,7 @@ void CheckHit(void)
 
 void SetShotCrows(XMFLOAT4 color)
 {
-	XMFLOAT3 targetPos = { 0.0f,0.0f,50.0f };
+	XMFLOAT3 targetPos = { 0.0f, 0.0f, 200.0f };
 	// 飛んでいくカラスの初期化
 	pFlyingCrow = new FlyingCrow(color, targetPos);
 

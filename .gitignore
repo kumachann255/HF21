@@ -50,7 +50,7 @@ Thumbs.db
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
-.x64/
+x64/
 
 # Files built by Visual Studio
 *_i.c

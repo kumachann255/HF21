@@ -2,18 +2,18 @@
 #include "main.h"
 #include "object.h"
 
-#define RAND_CONTROLPOS_X_MAX		(70)
-#define RAND_CONTROLPOS_Y_MAX		(200)
+#define RAND_CONTROLPOS_X_MAX		(200)
+#define RAND_CONTROLPOS_Y_MAX		(500)
 
 class FlyingCrow :public Object
 {
 private:
 	XMFLOAT4 m_color;			// 色
-	XMFLOAT3 m_startPos = {200.0f, 30.0f, -150.0f};		// 始発地
+	XMFLOAT3 m_startPos = { 150.0f, 80.0f, -350.0f};		// 始発地
 	XMFLOAT3 m_targetPos;		// 目的地
 
-	XMFLOAT3 m_controlPosA = { 0.0f, 40.0f, -150.0f };		// 制御点A
-	XMFLOAT3 m_controlPosB = { -180.0f, 30.0f, -100.0f };		// 制御点B
+	XMFLOAT3 m_controlPosA = { -80.0f, 100.0f, -350.0f };		// 制御点A
+	XMFLOAT3 m_controlPosB = { -280.0f, 60.0f, -275.0f };		// 制御点B
 
 	float m_time = 0.0f;
 
