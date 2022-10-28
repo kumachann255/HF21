@@ -29,6 +29,7 @@
 #include "prefab.h"
 #include "object.h"
 #include "roller.h"
+#include "FlyingCrow.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -61,6 +62,10 @@ Prefab *pPrefabRoller;
 // イベントの建物
 Object *pBuilding;
 Prefab *pPrefabBuilding;
+
+FlyingCrow *pFlyingCrow = nullptr;
+Prefab *pPrefabFlyingCrow = nullptr;
+
 
 //=============================================================================
 // 初期化処理
@@ -153,6 +158,10 @@ HRESULT InitGame(void)
 	XMFLOAT3 pos = { 0.0f,30.0f,0.0f };
 	pBuilding->SetPos(pos);
 
+	// カラスのモデル読み込み
+	pPrefabFlyingCrow = new Prefab();
+	pPrefabFlyingCrow->SetModel("model_crow.obj");
+
 	// ドラムの初期化
 	InitDrum();
 
@@ -207,6 +216,8 @@ void UninitGame(void)
 	delete pPrefabSky;
 	delete pBuilding;
 	delete pPrefabBuilding;
+	if (pFlyingCrow) delete pFlyingCrow;
+	delete pPrefabFlyingCrow;
 
 
 }
@@ -275,6 +286,17 @@ void UpdateGame(void)
 	rot.y -= 0.003f;
 	pSky->SetRot(rot);
 
+	// 空飛ぶカラスの更新
+	if (pFlyingCrow)
+	{
+		pFlyingCrow->Update();
+		if (pFlyingCrow->GetTime() >= 1.0f)
+		{
+			delete pFlyingCrow;
+			pFlyingCrow = nullptr;
+		}
+	}
+
 // ドラムの更新処理
 	UpdateDrum();
 }
@@ -322,12 +344,18 @@ void DrawGame0(void)
 	pRoller->Draw();
 
 
+	// 空飛ぶカラスの描画処理
+	if (pFlyingCrow) pFlyingCrow->Draw();
+
 	// 2Dの物を描画する処理
 	// Z比較なし
 	SetDepthEnable(FALSE);
 
 	// ライティングを無効
 	SetLightEnable(FALSE);
+
+	// ビューポートの切り換え
+	SetViewPort(TYPE_FULL_SCREEN);
 
 	// スコアの描画処理
 	DrawScore();
@@ -345,9 +373,6 @@ void DrawGame0(void)
 
 void DrawPizzle(void)
 {
-	// ビューポートの切り換え
-	SetViewPort(TYPE_FULL_SCREEN);
-
 	DrawPuzzleBG();
 
 	DrawDrum();
@@ -384,10 +409,16 @@ void DrawGame(void)
 
 		// エネミー視点
 		pos = GetEnemy()->pos;
+
 		pos.y = 0.0f;
+		//SetCameraAT(pos);
+		//SetCamera();
+		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
+
+		if (pFlyingCrow) pos = pFlyingCrow->GetPos();
 		SetCameraAT(pos);
 		SetCamera();
-		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
+
 		DrawGame0();
 		break;
 
@@ -488,3 +519,15 @@ void CheckHit(void)
 }
 
 
+void SetShotCrows(XMFLOAT4 color)
+{
+	XMFLOAT3 targetPos = { 0.0f,0.0f,50.0f };
+	// 飛んでいくカラスの初期化
+	pFlyingCrow = new FlyingCrow(color, targetPos);
+
+	// 飛んでいくカラスの大きさセット
+	pFlyingCrow->SetPrefab(pPrefabFlyingCrow);
+	XMFLOAT3 scl3 = { 0.3f,0.3f,0.3f };
+	pFlyingCrow->SetScl(scl3);
+	pPrefabFlyingCrow->SetColor(color);
+}

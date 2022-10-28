@@ -11,6 +11,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "drum.h"
+#include "game.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -183,6 +184,11 @@ void UpdateDrum(void)
 				}
 
 				SetColor(i);
+
+				if (i == 2)
+				{
+					SetShotCrows(g_Color);
+				}
 				break;
 			}
 		}
@@ -345,4 +351,11 @@ void SetColor(int i)
 			}
 		}
 	}
+}
+
+
+
+XMFLOAT4 GetColor(void)
+{
+	return g_Color;
 }
