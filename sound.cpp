@@ -43,6 +43,7 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/lockon000.wav", 0 },		// ’e”­ŽË‰¹
 	{ (char*)"data/SE/shot000.wav", 0 },		// ’e”­ŽË‰¹
 	{ (char*)"data/SE/shot001.wav", 0 },		// ƒqƒbƒg‰¹
+	//‹È’Ç‰Á‚µ‚Ü‚·
 };
 
 //=============================================================================
