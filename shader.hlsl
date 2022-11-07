@@ -165,6 +165,7 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 				{
 					lightDir = normalize(Light.Direction[i].xyz);
 					light = dot(lightDir, inNormal.xyz);
+					light = step(light, 0.5);
 
 					light = 0.5 - 0.5 * light;
 					tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
@@ -173,6 +174,7 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 				{
 					lightDir = normalize(Light.Position[i].xyz - inWorldPos.xyz);
 					light = dot(lightDir, inNormal.xyz);
+					light = step(light, 0.5);
 
 					tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
 

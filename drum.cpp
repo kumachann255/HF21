@@ -12,6 +12,7 @@
 #include "sprite.h"
 #include "drum.h"
 #include "game.h"
+#include "slot.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -35,6 +36,8 @@
 // プロトタイプ宣言
 //*****************************************************************************
 void SetColor(int i);
+
+
 
 
 //*****************************************************************************
@@ -184,8 +187,6 @@ void UpdateDrum(void)
 					g_Drum[i][p].SetStopDrum();
 				}
 
-				SetColor(i);
-
 				if (i == 2)
 				{
 					SetShotCrows(g_Color);
@@ -203,7 +204,7 @@ void UpdateDrum(void)
 			drumMove[i] = true;
 		}
 
-		g_Color = { 0.2f,0.2f,0.2f,1.0f };
+		//g_Color = { 0.2f,0.2f,0.2f,1.0f };
 	}
 
 	if (drumMove[0]) g_count++;
@@ -230,9 +231,6 @@ void UpdateDrum(void)
 			g_Drum[2][p].SetMove(true);
 		}
 	}
-
-
-
 }
 
 //=============================================================================
@@ -359,4 +357,9 @@ void SetColor(int i)
 XMFLOAT4 GetColor(void)
 {
 	return g_Color;
+}
+
+void SetColorTemp(XMFLOAT4 color)
+{
+	g_Color = color;
 }

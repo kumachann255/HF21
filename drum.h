@@ -85,3 +85,4 @@ void UpdateDrum(void);
 void DrawDrum(void);
 
 XMFLOAT4 GetColor(void);
+void SetColorTemp(XMFLOAT4 color);
