@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ƒpƒYƒ‹‚ÌBGˆ— [drum.cpp]
+// ãƒ‘ã‚ºãƒ«ã®BGå‡¦ç† [drum.cpp]
 // Author : 
 //
 //=============================================================================
@@ -12,13 +12,14 @@
 #include "sprite.h"
 #include "drum.h"
 #include "game.h"
+#include "slot.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
-#define TEXTURE_WIDTH				(R_SCREEN_WIDTH)	// ”wŒiƒTƒCƒY
+#define TEXTURE_WIDTH				(R_SCREEN_WIDTH)	// èƒŒæ™¯ã‚µã‚¤ã‚º
 #define TEXTURE_HEIGHT				(R_SCREEN_HEIGHT)	// 
-#define FLAM_TEXTURE_WIDTH			(430.0f)	// ”wŒiƒTƒCƒY
+#define FLAM_TEXTURE_WIDTH			(430.0f)	// èƒŒæ™¯ã‚µã‚¤ã‚º
 #define FLAM_TEXTURE_HEIGHT			(470.0f)	// 
 #define FLAM_OFFSET_Y				(80.0f)
 #define FLAM_OFFSET_X				(-4.0f)
@@ -27,21 +28,23 @@
 #define TEST_POS_Y					(250.0f)
 
 
-#define TEXTURE_MAX					(8)				// ƒeƒNƒXƒ`ƒƒ‚Ì”
+#define TEXTURE_MAX					(8)				// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ•°
 #define TEXTURE_POS_X_BASE			(850.0f)
 #define DRUM_SPEED					(2.0f)
 
 //*****************************************************************************
-// ƒvƒƒgƒ^ƒCƒvéŒ¾
+// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //*****************************************************************************
 void SetColor(int i);
 
 
+
+
 //*****************************************************************************
-// ƒOƒ[ƒoƒ‹•Ï”
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //*****************************************************************************
-static ID3D11Buffer				*g_VertexBuffer = NULL;		// ’¸“_î•ñ
-static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// ƒeƒNƒXƒ`ƒƒî•ñ
+static ID3D11Buffer				*g_VertexBuffer = NULL;		// é ‚ç‚¹æƒ…å ±
+static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±
 
 static char *g_TexturName[TEXTURE_MAX] = {
 	"data/TEXTURE/tex_penki_red.png",
@@ -67,13 +70,13 @@ static BOOL						g_Load = FALSE;
 
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT InitDrum(void)
 {
 	ID3D11Device *pDevice = GetDevice();
 
-	//ƒeƒNƒXƒ`ƒƒ¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆ
 	for (int i = 0; i < TEXTURE_MAX; i++)
 	{
 		g_Texture[i] = NULL;
@@ -86,7 +89,7 @@ HRESULT InitDrum(void)
 	}
 
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DYNAMIC;
@@ -96,7 +99,7 @@ HRESULT InitDrum(void)
 	GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
 
 
-	// •Ï”‚Ì‰Šú‰»
+	// å¤‰æ•°ã®åˆæœŸåŒ–
 	for (int i = 0; i < 3; i++)
 	{
 		for (int p = 0; p < 3; p++)
@@ -130,7 +133,7 @@ HRESULT InitDrum(void)
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void UninitDrum(void)
 {
@@ -155,7 +158,7 @@ void UninitDrum(void)
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void UpdateDrum(void)
 {
@@ -168,7 +171,7 @@ void UpdateDrum(void)
 		}
 	}
 
-	// ~‚ß‚é
+	// æ­¢ã‚ã‚‹
 	//if ((GetKeyboardTrigger(DIK_J)) && (g_count > 60))
 	if ((GetKeyboardTrigger(DIK_J)))
 		{
@@ -184,16 +187,14 @@ void UpdateDrum(void)
 					g_Drum[i][p].SetStopDrum();
 				}
 
-				PlaySound(SOUND_LABEL_SE_se_slot_button_01);	// ƒXƒƒbƒg‚ğ~‚ß‚é
-
-				SetColor(i);
+				PlaySound(SOUND_LABEL_SE_se_slot_button_01);	// ã‚¹ãƒ­ãƒƒãƒˆã‚’æ­¢ã‚ã‚‹
 
 				if (i == 2)
 				{
 					SetShotCrows(g_Color);
 
-					PlaySound(SOUND_LABEL_SE_se_crow_cry_01);	// ƒJƒ‰[ƒX‚Ì–Â‚«º
-					PlaySound(SOUND_LABEL_SE_se_crow_flap_04);	// ƒJƒ‰[ƒX”­Ë
+					PlaySound(SOUND_LABEL_SE_se_crow_cry_01);	// ã‚«ãƒ©ãƒ¼ã‚¹ã®é³´ãå£°
+					PlaySound(SOUND_LABEL_SE_se_crow_flap_04);	// ã‚«ãƒ©ãƒ¼ã‚¹ç™ºå°„
 
 				}
 				break;
@@ -201,18 +202,18 @@ void UpdateDrum(void)
 		}
 	}
 
-	// “®‚©‚·
+	// å‹•ã‹ã™
 	if (GetKeyboardTrigger(DIK_K))
 	{
 
-		PlaySound(SOUND_LABEL_SE_se_slot_lever_01);				// ƒXƒƒbƒg‚ğ“®‚©‚·
+		PlaySound(SOUND_LABEL_SE_se_slot_lever_01);				// ã‚¹ãƒ­ãƒƒãƒˆã‚’å‹•ã‹ã™
 
 		for (int i = 0; i < 3; i++)
 		{
 			drumMove[i] = true;
 		}
 
-		g_Color = { 0.2f,0.2f,0.2f,1.0f };
+		//g_Color = { 0.2f,0.2f,0.2f,1.0f };
 	}
 
 	if (drumMove[0]) g_count++;
@@ -239,86 +240,83 @@ void UpdateDrum(void)
 			g_Drum[2][p].SetMove(true);
 		}
 	}
-
-
-
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void DrawDrum(void)
 {
-	// ’¸“_ƒoƒbƒtƒ@İ’è
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 
-	// ƒ}ƒgƒŠƒNƒXİ’è
+	// ãƒãƒˆãƒªã‚¯ã‚¹è¨­å®š
 	SetWorldViewProjection2D();
 
-	// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// ƒ}ƒeƒŠƒAƒ‹İ’è
+	// ãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
-	// ƒ^ƒCƒgƒ‹‚Ì”wŒi‚ğ•`‰æ
+	// ã‚¿ã‚¤ãƒˆãƒ«ã®èƒŒæ™¯ã‚’æç”»
 	for (int i = 0; i < 3; i++)
 	{
 		for (int p = 0; p < 3; p++)
 		{
-			// ƒeƒNƒXƒ`ƒƒİ’è
+			// ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[g_Drum[i][p].GetType()]);
 
-			// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+			// ï¼‘æšã®ãƒãƒªã‚´ãƒ³ã®é ‚ç‚¹ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’è¨­å®š
 			SetSprite(g_VertexBuffer, g_Drum[i][p].m_Pos.x, g_Drum[i][p].m_Pos.y, TEXTURE_WIDTH_COLOR, TEXTURE_HEIGHT_COLOR, 0.0f, 0.0f, 1.0f, 1.0f);
 
-			// ƒ|ƒŠƒSƒ“•`‰æ
+			// ãƒãƒªã‚´ãƒ³æç”»
 			GetDeviceContext()->Draw(4, 0);
 		}
 	}
 
-	// ƒhƒ‰ƒ€‚Ì˜g‚ğ•`‰æ
+	// ãƒ‰ãƒ©ãƒ ã®æ ã‚’æç”»
 	{
-		// ƒeƒNƒXƒ`ƒƒİ’è
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[6]);
 
-		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		// ï¼‘æšã®ãƒãƒªã‚´ãƒ³ã®é ‚ç‚¹ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’è¨­å®š
 		SetSprite(g_VertexBuffer, TEXTURE_POS_X_BASE - TEXTURE_WIDTH_COLOR + FLAM_OFFSET_X, START_POS_Y + TEXTURE_HEIGHT_COLOR * 2.0f - FLAM_OFFSET_Y, FLAM_TEXTURE_WIDTH, FLAM_TEXTURE_HEIGHT, 0.0f, 0.0f, 1.0f, 1.0f);
 		//SetSpriteColor(g_VertexBuffer, g_Pos.x, g_Pos.y, TEXTURE_WIDTH_LOGO, TEXTURE_HEIGHT_LOGO, 0.0f, 0.0f, 1.0f, 1.0f,
 		//	XMFLOAT4(1.0f, 1.0f, 1.0f, alpha));
 
-		// ƒ|ƒŠƒSƒ“•`‰æ
+		// ãƒãƒªã‚´ãƒ³æç”»
 		GetDeviceContext()->Draw(4, 0);
 	}
 
-	// ‚µ‚ÌF‚ğ•`‰æ
+	// è©¦ã—ã®è‰²ã‚’æç”»
 	{
-		// ƒeƒNƒXƒ`ƒƒİ’è
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[7]);
 
-		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		// ï¼‘æšã®ãƒãƒªã‚´ãƒ³ã®é ‚ç‚¹ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’è¨­å®š
 		//SetSprite(g_VertexBuffer, TEXTURE_POS_X_BASE - TEXTURE_WIDTH_COLOR, START_POS_Y + TEXTURE_HEIGHT_COLOR * 2.0f - FLAM_OFFSET_Y, FLAM_TEXTURE_WIDTH, FLAM_TEXTURE_HEIGHT, 0.0f, 0.0f, 1.0f, 1.0f);
 		SetSpriteColor(g_VertexBuffer, TEST_POS_X, TEST_POS_Y, TEXTURE_WIDTH_COLOR, TEXTURE_HEIGHT_COLOR, 0.0f, 0.0f, 1.0f, 1.0f,
 			g_Color);
 
-		// ƒ|ƒŠƒSƒ“•`‰æ
+		// ãƒãƒªã‚´ãƒ³æç”»
 		GetDeviceContext()->Draw(4, 0);
 	}
 
-	//	// ‰ÁŒ¸Z‚ÌƒeƒXƒg
-	//	SetBlendState(BLEND_MODE_ADD);		// ‰ÁZ‡¬
-	////	SetBlendState(BLEND_MODE_SUBTRACT);	// Œ¸Z‡¬
+	//	// åŠ æ¸›ç®—ã®ãƒ†ã‚¹ãƒˆ
+	//	SetBlendState(BLEND_MODE_ADD);		// åŠ ç®—åˆæˆ
+	////	SetBlendState(BLEND_MODE_SUBTRACT);	// æ¸›ç®—åˆæˆ
 	//	for(int i=0; i<30; i++)
 	//	{
-	//		// ƒeƒNƒXƒ`ƒƒİ’è
+	//		// ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 	//		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
 	//
-	//		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+	//		// ï¼‘æšã®ãƒãƒªã‚´ãƒ³ã®é ‚ç‚¹ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’è¨­å®š
 	//		float dx = 100.0f;
 	//		float dy = 100.0f;
 	//		float sx = (float)(rand() % 100);
@@ -328,10 +326,10 @@ void DrawDrum(void)
 	//		SetSpriteColor(g_VertexBuffer, dx+sx, dy+sy, 50, 50, 0.0f, 0.0f, 1.0f, 1.0f,
 	//			XMFLOAT4(0.3f, 0.3f, 1.0f, 0.5f));
 	//
-	//		// ƒ|ƒŠƒSƒ“•`‰æ
+	//		// ãƒãƒªã‚´ãƒ³æç”»
 	//		GetDeviceContext()->Draw(4, 0);
 	//	}
-	//	SetBlendState(BLEND_MODE_ALPHABLEND);	// ”¼“§–¾ˆ—‚ğŒ³‚É–ß‚·
+	//	SetBlendState(BLEND_MODE_ALPHABLEND);	// åŠé€æ˜å‡¦ç†ã‚’å…ƒã«æˆ»ã™
 
 }
 
@@ -368,4 +366,9 @@ void SetColor(int i)
 XMFLOAT4 GetColor(void)
 {
 	return g_Color;
+}
+
+void SetColorTemp(XMFLOAT4 color)
+{
+	g_Color = color;
 }
