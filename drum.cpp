@@ -184,11 +184,17 @@ void UpdateDrum(void)
 					g_Drum[i][p].SetStopDrum();
 				}
 
+				PlaySound(SOUND_LABEL_SE_se_slot_button_01);	// スロットを止める
+
 				SetColor(i);
 
 				if (i == 2)
 				{
 					SetShotCrows(g_Color);
+
+					PlaySound(SOUND_LABEL_SE_se_crow_cry_01);	// カラースの鳴き声
+					PlaySound(SOUND_LABEL_SE_se_crow_flap_04);	// カラース発射
+
 				}
 				break;
 			}
@@ -198,6 +204,9 @@ void UpdateDrum(void)
 	// 動かす
 	if (GetKeyboardTrigger(DIK_K))
 	{
+
+		PlaySound(SOUND_LABEL_SE_se_slot_lever_01);				// スロットを動かす
+
 		for (int i = 0; i < 3; i++)
 		{
 			drumMove[i] = true;

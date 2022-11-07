@@ -43,7 +43,12 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/lockon000.wav", 0 },		// 弾発射音
 	{ (char*)"data/SE/shot000.wav", 0 },		// 弾発射音
 	{ (char*)"data/SE/shot001.wav", 0 },		// ヒット音
-	//曲追加します
+
+	{ (char*)"data/SE/se_slot_button_01.wav", 0 },	// スロットを止める
+	{ (char*)"data/SE/se_slot_lever_01.wav", 0 },	// スロットを動かす
+	{ (char*)"data/SE/se_crow_cry_01.wav", 0 },		// カラースの鳴き声
+	{ (char*)"data/SE/se_crow_flap_04.wav", 0 },	// カラース発射
+
 };
 
 //=============================================================================

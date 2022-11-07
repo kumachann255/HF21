@@ -24,6 +24,12 @@ enum
 	SOUND_LABEL_SE_lockon000,	// 
 	SOUND_LABEL_SE_shot000,		// 
 	SOUND_LABEL_SE_shot001,		// 
+
+	SOUND_LABEL_SE_se_slot_button_01,	// スロットを止める
+	SOUND_LABEL_SE_se_slot_lever_01,	// スロットを動かす
+	SOUND_LABEL_SE_se_crow_cry_01,		// カラースの鳴き声
+	SOUND_LABEL_SE_se_crow_flap_04,		// カラース発射
+
 	SOUND_LABEL_MAX,
 };
 
