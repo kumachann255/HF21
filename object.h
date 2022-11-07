@@ -25,7 +25,7 @@
 class Object
 {
 private:
-	BOOL m_inUse;			// 使用中フラグ
+	BOOL m_isUse;			// 使用中フラグ
 
 	XMFLOAT3 m_pos;			// ワールド座標
 	XMFLOAT3 m_rot;			// ワールド回転
@@ -33,17 +33,16 @@ private:
 
 	XMMATRIX m_mtxWorld;	// ワールドマトリクス
 
-
-public:
+protected:
 	Prefab *m_prefab;		// プレハブデータ( モデルデータ読み込み と ローカル座標の変換 )
+public:
 
 	// コンストラクタ・デストラクタ
 	Object();
 	virtual ~Object();
 
 	// ゲッター・セッター
-	BOOL GetInUse(void) { return m_inUse; }
-	void SetInUse(BOOL inUse) { m_inUse = inUse; }
+	BOOL GetInUse(void) { return m_isUse; }
 
 	virtual void SetPos(XMFLOAT3 pos) { m_pos = pos; }
 	XMFLOAT3 GetPos(void) { return m_pos; }
@@ -58,6 +57,8 @@ public:
 
 	void SetPrefab(Prefab * prefab) { m_prefab = prefab; }
 	Prefab * GetPrefab(void) { return m_prefab; }
+	void SetPrefabPos(XMFLOAT3 pos) { m_prefab->SetPos(pos); }
+	void SetPrefabRot(XMFLOAT3 rot) { m_prefab->SetRot(rot); }
 
 	// メンバ関数
 	virtual void Update(void);
