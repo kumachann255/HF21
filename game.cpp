@@ -51,17 +51,8 @@ static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
-// スカイドーム
-Object *pSky;
-Prefab *pPrefabSky;
-
 // ローラー
 Roller *pRoller;
-Prefab *pPrefabRoller;
-
-// イベントの建物
-Object *pBuilding;
-Prefab *pPrefabBuilding;
 
 FlyingCrow *pFlyingCrow[CROWS_MAX] = {nullptr,nullptr,nullptr,nullptr,nullptr};
 Prefab *pPrefabFlyingCrow[CROWS_MAX];
@@ -75,7 +66,7 @@ HRESULT InitGame(void)
 	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 	// フィールドの初期化
-	InitMeshField(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), 100, 100, 13.0f, 13.0f);
+	//InitMeshField(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), 100, 100, 13.0f, 13.0f);
 
 	// ライトを有効化	// 影の初期化処理
 	InitShadow();
@@ -84,27 +75,27 @@ HRESULT InitGame(void)
 	InitPlayer();
 
 	// エネミーの初期化
-	InitEnemy();
+	//InitEnemy();
 
 	// 壁の初期化
-	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f, 0.0f, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
-	InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f, -XM_PI * 0.50f, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
-	InitMeshWall(XMFLOAT3(MAP_RIGHT, 0.0f, 0.0f), XMFLOAT3(0.0f, XM_PI * 0.50f, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
-	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f,  XM_PI, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f, 0.0f, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f, -XM_PI * 0.50f, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(MAP_RIGHT, 0.0f, 0.0f), XMFLOAT3(0.0f, XM_PI * 0.50f, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f,  XM_PI, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
 
 	// 壁(裏側用の半透明)
-	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f,    XM_PI, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
-	InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f,   XM_PI * 0.50f, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
-	InitMeshWall(XMFLOAT3(MAP_RIGHT, 0.0f, 0.0f), XMFLOAT3(0.0f, -XM_PI * 0.50f, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
-	InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f, 0.0f, 0.0f),
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f,    XM_PI, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f,   XM_PI * 0.50f, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(MAP_RIGHT, 0.0f, 0.0f), XMFLOAT3(0.0f, -XM_PI * 0.50f, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
+	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f, 0.0f, 0.0f),
+	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
 
 	// 木を生やす
 	InitTree();
@@ -124,39 +115,8 @@ HRESULT InitGame(void)
 	//==================================
 	// ローラーの初期化
 	pRoller = new Roller();
-	pPrefabRoller = new Prefab();
+	pRoller->GetPrefab()->SetModel("model_map.obj");
 
-	// ローラーの回転セット(※引数付きコンストラクタ作ります。m(_ _)m )
-	pPrefabRoller->SetModel("model_map.obj");
-	XMFLOAT3 rot = { XMConvertToRadians(90.0f),0.0f,0.0f };
-	pRoller->SetRot(rot);
-
-	// ローラーの大きさセット
-	pRoller->SetPrefab(pPrefabRoller);
-	XMFLOAT3 scl = { 10.0f,10.0f,10.0f };
-	pRoller->SetScl(scl);
-
-	// スカイドーム初期化
-	pSky = new Object();
-	pPrefabSky = new Prefab();
-	pPrefabSky->SetModel("model_sky_spring_01.obj");
-
-	// スカイドーム大きさセット
-	pSky->SetPrefab(pPrefabSky);
-	XMFLOAT3 scl2 = { 15.0f,15.0f,15.0f };
-	pSky->SetScl(scl2);
-
-	// イベントの建物の初期化
-	pBuilding = new Object();
-	pPrefabBuilding = new Prefab();
-	pPrefabBuilding->SetModel("model_mapobj_biru.obj");
-	pBuilding->SetPrefab(pPrefabBuilding);
-	XMFLOAT3 rot3 = { 0.0f,XMConvertToRadians(45.0f),0.0f };
-	pBuilding->SetRot(rot3);
-	XMFLOAT3 scl3 = { 3.0f,3.0f,3.0f };
-	pBuilding->SetScl(scl3);
-	XMFLOAT3 pos = { 0.0f,30.0f,0.0f };
-	pBuilding->SetPos(pos);
 
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
@@ -190,39 +150,34 @@ void UninitGame(void)
 	UninitPuzzleBG();
 
 	// パーティクルの終了処理
-	UninitParticle();
+	//UninitParticle();
 
 	// スコアの終了処理
 	UninitScore();
 
 	// 弾の終了処理
-	UninitBullet();
+	//UninitBullet();
 
 	// 木の終了処理
-	UninitTree();
+	//UninitTree();
 
 	// 壁の終了処理
-	UninitMeshWall();
+	//UninitMeshWall();
 
 	// 地面の終了処理
-	UninitMeshField();
+	//UninitMeshField();
 
 	// エネミーの終了処理
-	UninitEnemy();
+	//UninitEnemy();
 
 	// プレイヤーの終了処理
 	UninitPlayer();
 
 	// 影の終了処理
-	UninitShadow();
+	//UninitShadow();
 
 	// オブジェクト関係の終了処理
 	delete pRoller;
-	delete pPrefabRoller;
-	delete pSky;
-	delete pPrefabSky;
-	delete pBuilding;
-	delete pPrefabBuilding;
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
 		if (pFlyingCrow[i]) delete pFlyingCrow[i];
@@ -294,9 +249,6 @@ void UpdateGame(void)
 	pRoller->Update();
 
 	// スカイドームの更新
-	static XMFLOAT3 rot = { 0.0f,0.0f,0.0f };
-	rot.y -= 0.001f;
-	pSky->SetRot(rot);
 
 	// 空飛ぶカラスの更新
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -349,10 +301,8 @@ void DrawGame0(void)
 	//DrawParticle();
 
 	// スカイドームの描画処理
-	pSky->Draw();
 
 	// イベントの建物描画処理
-	pBuilding->Draw();
 
 	// ローラーの描画処理
 	pRoller->Draw();
