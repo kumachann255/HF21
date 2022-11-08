@@ -33,11 +33,18 @@
 #include "drum3D.h"
 #include "housing.h"
 #include "slot.h"
+#include "Sky.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define CROWS_MAX (100)
+enum OBJ
+{
+	OBJ_ROLLER,	// ローラー
+	OBJ_SKY,	// 空
+	OBJ_MAX,
+};
 
 
 //*****************************************************************************
@@ -54,8 +61,8 @@ static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
-// ローラー
-Roller *pRoller;
+// オブジェクトたち
+Object *pObj[OBJ_MAX];
 
 // ドラム3D
 Drum3D* pDrum3DL;
@@ -133,9 +140,9 @@ HRESULT InitGame(void)
 	InitPuzzleBG();
 
 	//==================================
-	// ローラーの初期化
-	pRoller = new Roller();
-	pRoller->GetPrefab()->SetModel("model_map.obj");
+	// オブジェクトの初期化
+	pObj[OBJ_ROLLER] = new Roller;
+	pObj[OBJ_SKY] = new Sky;
 
 
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -240,7 +247,11 @@ void UninitGame(void)
 	//UninitShadow();
 
 	// オブジェクト関係の終了処理
-	delete pRoller;
+	for (int i = 0; i < OBJ_MAX; i++)
+	{
+		if (pObj[i])delete pObj[i];
+	}
+
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
 		if (pFlyingCrow[i]) delete pFlyingCrow[i];
@@ -314,10 +325,11 @@ void UpdateGame(void)
 	// パズルのBGの更新処理
 	UpdatePuzzleBG();
 
-	// ローラーの更新
-	pRoller->Update();
-
-	// スカイドームの更新
+	// オブジェクトの更新
+	for (int i = 0; i < OBJ_MAX; i++)
+	{
+		if (pObj[i])	pObj[i]->Update();
+	}
 
 	// 空飛ぶカラスの更新
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -380,15 +392,11 @@ void DrawGame0(void)
 	// パーティクルの描画処理
 	//DrawParticle();
 
-	// スカイドームの描画処理
-
-	// イベントの建物描画処理
-
-	//pBuilding->Draw();
-
-
-	// ローラーの描画処理
-	//pRoller->Draw();
+	// Objectの描画処理
+	for (int i = 0; i < OBJ_MAX; i++)
+	{
+		if (pObj[i])	pObj[i]->Draw();
+	}
 
 	// ドラム3Dの描画処理
 	pDrum3DL->Draw();
