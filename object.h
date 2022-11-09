@@ -42,7 +42,8 @@ public:
 	virtual ~Object();
 
 	// ゲッター・セッター
-	BOOL GetInUse(void) { return m_isUse; }
+	BOOL GetIsUse(void) { return m_isUse; }
+	void SetIsUse(BOOL flag) {  m_isUse = flag; }
 
 	virtual void SetPos(XMFLOAT3 pos) { m_pos = pos; }
 	XMFLOAT3 GetPos(void) { return m_pos; }
