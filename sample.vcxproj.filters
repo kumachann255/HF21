@@ -33,6 +33,7 @@
     <ClCompile Include="slot.cpp" />
     <ClCompile Include="drum3D.cpp" />
     <ClCompile Include="Sky.cpp" />
+    <ClCompile Include="SkyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
@@ -69,5 +70,6 @@
     <ClInclude Include="housing.h" />
     <ClInclude Include="drum3D.h" />
     <ClInclude Include="Sky.h" />
+    <ClInclude Include="SkyManager.h" />
   </ItemGroup>
 </Project>

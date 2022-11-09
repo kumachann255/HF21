@@ -163,6 +163,7 @@
     <ClInclude Include="score.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="Sky.h" />
+    <ClInclude Include="SkyManager.h" />
     <ClInclude Include="slot.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="score.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="Sky.cpp" />
+    <ClCompile Include="SkyManager.cpp" />
     <ClCompile Include="slot.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />

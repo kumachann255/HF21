@@ -30,22 +30,19 @@
 #include "object.h"
 #include "roller.h"
 #include "FlyingCrow.h"
-#include "drum3D.h"
-#include "housing.h"
-#include "slot.h"
 #include "Sky.h"
+#include "SkyManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define CROWS_MAX (100)
+
 enum OBJ
 {
 	OBJ_ROLLER,	// ローラー
-	OBJ_SKY,	// 空
 	OBJ_MAX,
 };
-
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -61,27 +58,10 @@ static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
-// オブジェクトたち
+SkyManager *pSkyManager = nullptr;
 Object *pObj[OBJ_MAX];
 
-// ドラム3D
-Drum3D* pDrum3DL;
-Drum3D* pDrum3DC;
-Drum3D* pDrum3DR;
-Prefab *pPrefabDrum3D;
-
-// 筐体
-Housing* pHousing;
-Prefab *pPrefabHousing;
-
-// スロット
-Slot* pSlot;
-
-// イベントの建物
-Object *pBuilding;
-Prefab *pPrefabBuilding;
-
-FlyingCrow *pFlyingCrow[CROWS_MAX] = {nullptr,nullptr,nullptr,nullptr,nullptr};
+FlyingCrow *pFlyingCrow[CROWS_MAX] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 Prefab *pPrefabFlyingCrow[CROWS_MAX];
 
 
@@ -92,19 +72,19 @@ HRESULT InitGame(void)
 {
 	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
-	// フィールドの初期化
+	//// フィールドの初期化
 	//InitMeshField(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), 100, 100, 13.0f, 13.0f);
 
 	// ライトを有効化	// 影の初期化処理
 	InitShadow();
 
-	// プレイヤーの初期化
-	InitPlayer();
+	//// プレイヤーの初期化
+	//InitPlayer();
 
-	// エネミーの初期化
+	//// エネミーの初期化
 	//InitEnemy();
 
-	// 壁の初期化
+	//// 壁の初期化
 	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f, 0.0f, 0.0f),
 	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
 	//InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f, -XM_PI * 0.50f, 0.0f),
@@ -114,7 +94,7 @@ HRESULT InitGame(void)
 	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f,  XM_PI, 0.0f),
 	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), 16, 2, 80.0f, 80.0f);
 
-	// 壁(裏側用の半透明)
+	//// 壁(裏側用の半透明)
 	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_TOP), XMFLOAT3(0.0f,    XM_PI, 0.0f),
 	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
 	//InitMeshWall(XMFLOAT3(MAP_LEFT, 0.0f, 0.0f), XMFLOAT3(0.0f,   XM_PI * 0.50f, 0.0f),
@@ -124,25 +104,23 @@ HRESULT InitGame(void)
 	//InitMeshWall(XMFLOAT3(0.0f, 0.0f, MAP_DOWN), XMFLOAT3(0.0f, 0.0f, 0.0f),
 	//	XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f), 16, 2, 80.0f, 80.0f);
 
-	// 木を生やす
-	InitTree();
+	//// 木を生やす
+	//InitTree();
 
-	// 弾の初期化
-	InitBullet();
+	//// 弾の初期化
+	//InitBullet();
 
 	// スコアの初期化
 	InitScore();
 
 	// パーティクルの初期化
-	InitParticle();
+	//InitParticle();
 
 	// パズルのBGの初期化
 	InitPuzzleBG();
 
-	//==================================
-	// オブジェクトの初期化
+	pSkyManager = new SkyManager;
 	pObj[OBJ_ROLLER] = new Roller;
-	pObj[OBJ_SKY] = new Sky;
 
 
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -158,49 +136,6 @@ HRESULT InitGame(void)
 
 	// ドラムの初期化
 	InitDrum();
-
-
-	// ドラム3Dの初期化
-	pDrum3DL = new Drum3D();
-	pDrum3DC = new Drum3D();
-	pDrum3DR = new Drum3D();
-	pPrefabDrum3D = new Prefab();
-	pPrefabDrum3D->SetModel("model_slot_roll.obj");
-
-	// ドラム3Dの大きさセット
-	pDrum3DL->SetPrefab(pPrefabDrum3D);
-	pDrum3DC->SetPrefab(pPrefabDrum3D);
-	pDrum3DR->SetPrefab(pPrefabDrum3D);
-	XMFLOAT3 sclDrum3D = { 1.0f,1.0f,1.0f };
-	pDrum3DL->SetScl(sclDrum3D);
-	pDrum3DC->SetScl(sclDrum3D);
-	pDrum3DR->SetScl(sclDrum3D);
-
-	// ドラム3Dの位置セット
-	XMFLOAT3 posDrum3DL = { -5.0f,0.0f,0.0f };
-	XMFLOAT3 posDrum3DC = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 posDrum3DR = { 5.0f,0.0f,0.0f };
-	pDrum3DL->SetPos(posDrum3DL);
-	pDrum3DC->SetPos(posDrum3DC);
-	pDrum3DR->SetPos(posDrum3DR);
-
-	// 筐体の初期化
-	pHousing = new Housing();
-	pPrefabHousing = new Prefab();
-	pPrefabHousing->SetModel("model_slot.obj");
-
-	// 筐体の大きさセット
-	pHousing->SetPrefab(pPrefabHousing);
-	XMFLOAT3 sclHousing = { 1.0f,1.0f,1.0f };
-	pHousing->SetScl(sclHousing);
-
-	// 筐体の向きセット
-	XMFLOAT3 rotHousing = { 0.0f,3.14f,0.0f };
-	pHousing->SetRot(rotHousing);
-
-
-	// スロットの初期化
-	pSlot = new Slot(pHousing, pDrum3DL, pDrum3DC, pDrum3DR);
 
 	// BGM再生
 	//PlaySound(SOUND_LABEL_BGM_sample001);
@@ -219,34 +154,34 @@ void UninitGame(void)
 	// パズルのBGの終了処理
 	UninitPuzzleBG();
 
-	// パーティクルの終了処理
+	//// パーティクルの終了処理
 	//UninitParticle();
 
 	// スコアの終了処理
 	UninitScore();
 
-	// 弾の終了処理
+	//// 弾の終了処理
 	//UninitBullet();
 
-	// 木の終了処理
+	//// 木の終了処理
 	//UninitTree();
 
-	// 壁の終了処理
+	//// 壁の終了処理
 	//UninitMeshWall();
 
-	// 地面の終了処理
+	//// 地面の終了処理
 	//UninitMeshField();
 
-	// エネミーの終了処理
+	//// エネミーの終了処理
 	//UninitEnemy();
 
-	// プレイヤーの終了処理
-	UninitPlayer();
+	//// プレイヤーの終了処理
+	//UninitPlayer();
 
-	// 影の終了処理
+	//// 影の終了処理
 	//UninitShadow();
 
-	// オブジェクト関係の終了処理
+
 	for (int i = 0; i < OBJ_MAX; i++)
 	{
 		if (pObj[i])delete pObj[i];
@@ -259,13 +194,7 @@ void UninitGame(void)
 
 	}
 
-	delete pDrum3DL;
-	delete pDrum3DC;
-	delete pDrum3DR;
-	delete pPrefabDrum3D;
-	delete pHousing;
-	delete pPrefabHousing;
-	delete pSlot;
+	delete pSkyManager;
 
 }
 
@@ -289,14 +218,14 @@ void UpdateGame(void)
 
 #endif
 
-	if(g_bPause == FALSE)
+	if (g_bPause == FALSE)
 		return;
 
 	//// 地面処理の更新
 	//UpdateMeshField();
 
 	// プレイヤーの更新処理
-	UpdatePlayer();
+	//UpdatePlayer();
 
 	// エネミーの更新処理
 	//UpdateEnemy();
@@ -325,7 +254,6 @@ void UpdateGame(void)
 	// パズルのBGの更新処理
 	UpdatePuzzleBG();
 
-	// オブジェクトの更新
 	for (int i = 0; i < OBJ_MAX; i++)
 	{
 		if (pObj[i])	pObj[i]->Update();
@@ -345,19 +273,12 @@ void UpdateGame(void)
 		}
 	}
 
+	// 季節管理の更新
+	pSkyManager->Update();
+
+
 	// ドラムの更新処理
 	UpdateDrum();
-
-	// ドラム3Dの更新処理
-	pDrum3DL->Update();
-	pDrum3DC->Update();
-	pDrum3DR->Update();
-
-	// スロットの更新処理
-	pSlot->Update();
-
-	// 色の反映
-	SetColorTemp(pSlot->GetColor());
 }
 
 //=============================================================================
@@ -392,21 +313,14 @@ void DrawGame0(void)
 	// パーティクルの描画処理
 	//DrawParticle();
 
-	// Objectの描画処理
+	// 季節管理の描画処理
+	pSkyManager->Draw();
+
+
 	for (int i = 0; i < OBJ_MAX; i++)
 	{
 		if (pObj[i])	pObj[i]->Draw();
 	}
-
-	// ドラム3Dの描画処理
-	pDrum3DL->Draw();
-	pDrum3DC->Draw();
-	pDrum3DR->Draw();
-
-	// 筐体の描画処理
-	pHousing->Draw();
-
-
 
 	// 空飛ぶカラスの描画処理
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -462,10 +376,9 @@ void DrawGame(void)
 	SetCameraAT(pos);
 	SetCamera();
 
-	//SetShader(SHADER_MODE_PHONG);
-	SetShader(SHADER_MODE_DEFAULT);
-	
-	switch(g_ViewPortType_Game)
+	SetShader(SHADER_MODE_PHONG);
+
+	switch (g_ViewPortType_Game)
 	{
 	case TYPE_FULL_SCREEN:
 		SetViewPort(TYPE_FULL_SCREEN);
