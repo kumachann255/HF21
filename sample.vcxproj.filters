@@ -32,8 +32,7 @@
     <ClCompile Include="tree.cpp" />
     <ClCompile Include="slot.cpp" />
     <ClCompile Include="drum3D.cpp" />
-    <ClCompile Include="Sky.cpp" />
-    <ClCompile Include="SkyManager.cpp" />
+    <ClCompile Include="housing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
@@ -69,7 +68,5 @@
     <ClInclude Include="slot.h" />
     <ClInclude Include="housing.h" />
     <ClInclude Include="drum3D.h" />
-    <ClInclude Include="Sky.h" />
-    <ClInclude Include="SkyManager.h" />
   </ItemGroup>
 </Project>

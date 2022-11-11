@@ -59,6 +59,9 @@ using namespace DirectX;
 #define R_SCREEN_WIDTH	(336)			// ウインドウの幅
 #define R_SCREEN_HEIGHT	(540 - RU_SCREEN_HEIGHT) // ウインドウの高さ
 
+#define RD_SCREEN_WIDTH	(336)			// ウインドウの幅
+#define RD_SCREEN_HEIGHT (540 - RU_SCREEN_HEIGHT) // ウインドウの高さ
+
 
 #define SCREEN_CENTER_X	(SCREEN_WIDTH / 2)	// ウインドウの中心Ｘ座標
 #define SCREEN_CENTER_Y	(SCREEN_HEIGHT / 2)	// ウインドウの中心Ｙ座標

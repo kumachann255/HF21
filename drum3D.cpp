@@ -4,6 +4,19 @@
 #define RADIAN9 (6.14f / 9.0f)
 #define OFFSET	(0.25f)
 
+Drum3D::Drum3D()
+{
+	m_prefab = new Prefab;
+
+	XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 scl = { 1.0f, 1.0f, 1.0f };
+
+	SetPos(pos);
+	SetRot(rot);
+	SetScl(scl);
+}
+
 void Drum3D::Update(void)
 {
 	XMFLOAT3 rot = this->GetRot();
