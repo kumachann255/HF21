@@ -61,11 +61,9 @@ Roller *pRoller;
 Drum3D* pDrum3DL;
 Drum3D* pDrum3DC;
 Drum3D* pDrum3DR;
-Prefab *pPrefabDrum3D;
 
 // 筐体
 Housing* pHousing;
-Prefab *pPrefabHousing;
 
 // スロット
 Slot* pSlot;
@@ -150,20 +148,18 @@ HRESULT InitGame(void)
 	pPrefabFlyingCrow[0]->SetModel("model_crow.obj");
 
 	// ドラムの初期化
-	InitDrum();
+	//InitDrum();
 
 
 	// ドラム3Dの初期化
 	pDrum3DL = new Drum3D();
 	pDrum3DC = new Drum3D();
 	pDrum3DR = new Drum3D();
-	pPrefabDrum3D = new Prefab();
-	pPrefabDrum3D->SetModel("model_slot_roll.obj");
+	pDrum3DL->GetPrefab()->SetModel("model_slot_roll.obj");
+	pDrum3DC->GetPrefab()->SetModel("model_slot_roll.obj");
+	pDrum3DR->GetPrefab()->SetModel("model_slot_roll.obj");
 
 	// ドラム3Dの大きさセット
-	pDrum3DL->SetPrefab(pPrefabDrum3D);
-	pDrum3DC->SetPrefab(pPrefabDrum3D);
-	pDrum3DR->SetPrefab(pPrefabDrum3D);
 	XMFLOAT3 sclDrum3D = { 1.0f,1.0f,1.0f };
 	pDrum3DL->SetScl(sclDrum3D);
 	pDrum3DC->SetScl(sclDrum3D);
@@ -179,11 +175,9 @@ HRESULT InitGame(void)
 
 	// 筐体の初期化
 	pHousing = new Housing();
-	pPrefabHousing = new Prefab();
-	pPrefabHousing->SetModel("model_slot.obj");
+	pHousing->GetPrefab()->SetModel("model_slot.obj");
 
 	// 筐体の大きさセット
-	pHousing->SetPrefab(pPrefabHousing);
 	XMFLOAT3 sclHousing = { 1.0f,1.0f,1.0f };
 	pHousing->SetScl(sclHousing);
 
@@ -207,7 +201,7 @@ HRESULT InitGame(void)
 void UninitGame(void)
 {
 	// ドラムの終了りょり
-	UninitDrum();
+	//UninitDrum();
 
 	// パズルのBGの終了処理
 	UninitPuzzleBG();
@@ -251,9 +245,7 @@ void UninitGame(void)
 	delete pDrum3DL;
 	delete pDrum3DC;
 	delete pDrum3DR;
-	delete pPrefabDrum3D;
 	delete pHousing;
-	delete pPrefabHousing;
 	delete pSlot;
 
 }
@@ -334,7 +326,7 @@ void UpdateGame(void)
 	}
 
 	// ドラムの更新処理
-	UpdateDrum();
+	//UpdateDrum();
 
 	// ドラム3Dの更新処理
 	pDrum3DL->Update();
@@ -345,7 +337,7 @@ void UpdateGame(void)
 	pSlot->Update();
 
 	// 色の反映
-	SetColorTemp(pSlot->GetColor());
+	//SetColorTemp(pSlot->GetColor());
 }
 
 //=============================================================================
@@ -420,7 +412,7 @@ void DrawGame0(void)
 	DrawScore();
 
 	// パズル画面の描画
-	DrawPizzle();
+	//DrawPizzle();
 
 
 	// ライティングを有効に

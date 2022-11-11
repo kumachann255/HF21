@@ -32,6 +32,7 @@
     <ClCompile Include="tree.cpp" />
     <ClCompile Include="slot.cpp" />
     <ClCompile Include="drum3D.cpp" />
+    <ClCompile Include="housing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />

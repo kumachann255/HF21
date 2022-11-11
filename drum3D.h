@@ -12,7 +12,7 @@ private:
 	float m_result = 0.0f;
 
 public:
-	Drum3D() {}
+	Drum3D();
 
 	void SetSpeed(float speed) { m_speed = speed; }
 	float GetSpeed(void) { return m_speed; }
@@ -30,5 +30,5 @@ public:
 
 	void SetResult(void);
 
-
+	~Drum3D() { delete m_prefab; };
 };

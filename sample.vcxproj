@@ -179,6 +179,7 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="FlyingCrow.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="housing.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />

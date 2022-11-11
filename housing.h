@@ -8,6 +8,8 @@ private:
 
 
 public:
+	Housing();
+	~Housing() { delete m_prefab; };
 
 
 };
