@@ -20,14 +20,15 @@
 #define	SLOT_POS_Y_CAM		(5.0f)			// カメラの初期位置(Y座標)
 #define	SLOT_POS_Z_CAM		(-30.0f)		// カメラの初期位置(Z座標)
 
-//#define	POS_X_CAM		(0.0f)			// カメラの初期位置(X座標)
-//#define	POS_Y_CAM		(200.0f)		// カメラの初期位置(Y座標)
-//#define	POS_Z_CAM		(-400.0f)		// カメラの初期位置(Z座標)
+#define	IVENT_POS_X_CAM		(20.0f)			// カメラの初期位置(X座標)
+#define	IVENT_POS_Y_CAM		(30.0f)		// カメラの初期位置(Y座標)
+#define	IVENT_POS_Z_CAM		(-50.0f)		// カメラの初期位置(Z座標)
 
 
 #define	VIEW_ANGLE		(XMConvertToRadians(45.0f))						// ビュー平面の視野角
 #define	VIEW_ASPECT		((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比	
 #define	VIEW_ASPECT_HARF ((float)L_SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比	
+#define	VIEW_ASPECT_IVENT ((float)RU_SCREEN_WIDTH / (float)RU_SCREEN_HEIGHT)	// ビュー平面のアスペクト比	
 #define	VIEW_ASPECT_SLOT ((float)RD_SCREEN_WIDTH / (float)RD_SCREEN_HEIGHT)	// ビュー平面のアスペクト比	
 #define	VIEW_NEAR_Z		(10.0f)											// ビュー平面のNearZ値
 #define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値
@@ -201,7 +202,8 @@ void SetCamera(void)
 
 
 	if(g_ViewPortType == TYPE_LEFT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
-	else if(g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN ) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
+	else if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN ) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
+	else if (g_ViewPortType == TYPE_RIGHT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_IVENT, VIEW_NEAR_Z, VIEW_FAR_Z);
 	SetProjectionMatrix(&mtxProjection);
 	XMStoreFloat4x4(&g_Camera.mtxProjection, mtxProjection);
 
@@ -305,11 +307,19 @@ void SetCameraAT(XMFLOAT3 pos)
 	g_Camera.at = pos;
 
 
-	if (g_ViewPortType == TYPE_RIGHT_HALF_SCREEN) g_Camera.len = 50.0f;
-	else if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN)
+	if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN)
 	{
 		float vx, vz;
 		g_Camera.pos = { POS_X_CAM, SLOT_POS_Y_CAM, SLOT_POS_Z_CAM };
+		vx = g_Camera.pos.x - g_Camera.at.x;
+		vz = g_Camera.pos.z - g_Camera.at.z;
+		g_Camera.len = sqrtf(vx * vx + vz * vz);
+	}
+	else if(g_ViewPortType == TYPE_RIGHT_HALF_SCREEN)
+	{
+		float vx, vz;
+		//g_Camera.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
+		g_Camera.pos = { IVENT_POS_X_CAM, IVENT_POS_Y_CAM, IVENT_POS_Z_CAM };
 		vx = g_Camera.pos.x - g_Camera.at.x;
 		vz = g_Camera.pos.z - g_Camera.at.z;
 		g_Camera.len = sqrtf(vx * vx + vz * vz);

@@ -50,16 +50,16 @@ using namespace DirectX;
 #define SCREEN_WIDTH	(960)			// ウインドウの幅
 #define SCREEN_HEIGHT	(540)			// ウインドウの高さ
 
-#define L_SCREEN_WIDTH	(624)			// ウインドウの幅
+#define L_SCREEN_WIDTH	(SCREEN_WIDTH * 0.55f)			// ウインドウの幅
 #define L_SCREEN_HEIGHT	(540)			// ウインドウの高さ
 
-#define RU_SCREEN_WIDTH	(336)			// ウインドウの幅
-#define RU_SCREEN_HEIGHT (190)			// ウインドウの高さ
+#define RU_SCREEN_WIDTH	(SCREEN_WIDTH - L_SCREEN_WIDTH)			// ウインドウの幅
+#define RU_SCREEN_HEIGHT (160)			// ウインドウの高さ
 
-#define R_SCREEN_WIDTH	(336)			// ウインドウの幅
-#define R_SCREEN_HEIGHT	(540 - RU_SCREEN_HEIGHT) // ウインドウの高さ
+#define R_SCREEN_WIDTH	(RU_SCREEN_WIDTH)			// ウインドウの幅
+#define R_SCREEN_HEIGHT	(540) // ウインドウの高さ
 
-#define RD_SCREEN_WIDTH	(336)			// ウインドウの幅
+#define RD_SCREEN_WIDTH	(RU_SCREEN_WIDTH)			// ウインドウの幅
 #define RD_SCREEN_HEIGHT (540 - RU_SCREEN_HEIGHT) // ウインドウの高さ
 
 
