@@ -34,6 +34,7 @@
 #include "housing.h"
 #include "slot.h"
 #include "Sky.h"
+#include "SkyManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -42,7 +43,6 @@
 enum OBJ
 {
 	OBJ_ROLLER,	// ローラー
-	OBJ_SKY,	// 空
 	OBJ_MAX,
 };
 
@@ -61,6 +61,8 @@ static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
+// スカイマネージャー
+SkyManager *pSkyManager = nullptr;
 // オブジェクトたち
 Object *pObj[OBJ_MAX];
 
@@ -81,7 +83,7 @@ Slot* pSlot;
 Object *pBuilding;
 Prefab *pPrefabBuilding;
 
-FlyingCrow *pFlyingCrow[CROWS_MAX] = {nullptr,nullptr,nullptr,nullptr,nullptr};
+FlyingCrow *pFlyingCrow[CROWS_MAX] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 Prefab *pPrefabFlyingCrow[CROWS_MAX];
 
 
@@ -142,7 +144,7 @@ HRESULT InitGame(void)
 	//==================================
 	// オブジェクトの初期化
 	pObj[OBJ_ROLLER] = new Roller;
-	pObj[OBJ_SKY] = new Sky;
+	pSkyManager = new SkyManager;
 
 
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -266,6 +268,7 @@ void UninitGame(void)
 	delete pHousing;
 	delete pPrefabHousing;
 	delete pSlot;
+	delete pSkyManager;
 
 }
 
@@ -289,7 +292,7 @@ void UpdateGame(void)
 
 #endif
 
-	if(g_bPause == FALSE)
+	if (g_bPause == FALSE)
 		return;
 
 	//// 地面処理の更新
@@ -358,6 +361,10 @@ void UpdateGame(void)
 
 	// 色の反映
 	SetColorTemp(pSlot->GetColor());
+
+	// 季節管理の更新
+	pSkyManager->Update();
+
 }
 
 //=============================================================================
@@ -391,6 +398,10 @@ void DrawGame0(void)
 
 	// パーティクルの描画処理
 	//DrawParticle();
+
+
+	// 季節管理の描画処理
+	pSkyManager->Draw();
 
 	// Objectの描画処理
 	for (int i = 0; i < OBJ_MAX; i++)
@@ -462,10 +473,10 @@ void DrawGame(void)
 	SetCameraAT(pos);
 	SetCamera();
 
-	//SetShader(SHADER_MODE_PHONG);
-	SetShader(SHADER_MODE_DEFAULT);
-	
-	switch(g_ViewPortType_Game)
+	SetShader(SHADER_MODE_PHONG);
+	//SetShader(SHADER_MODE_DEFAULT);
+
+	switch (g_ViewPortType_Game)
 	{
 	case TYPE_FULL_SCREEN:
 		SetViewPort(TYPE_FULL_SCREEN);
