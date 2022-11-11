@@ -8,19 +8,28 @@
 #include "main.h"
 #include "roller.h"
 
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define	ROTATE_SPEED		(0.3f)			// 回転速度
+#define	ROLLER_SCL			(8.0f)			// ローラーの大きさ
 
 
 Roller::Roller()
 {
+
+	// モデルの設定
 	m_prefab = new Prefab;
+	m_prefab->SetModel("model_map.obj");
 
+	// ローカル設定
 	XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
-	XMFLOAT3 rot = { XMConvertToRadians(90.0f), 0.0f, 0.0f };
-	XMFLOAT3 scl = { 10.0f, 10.0f, 10.0f };
+	XMFLOAT3 rot = { 0.0f, 0.0f , 0.0f };
+	XMFLOAT3 scl = { ROLLER_SCL, ROLLER_SCL, ROLLER_SCL };
 
-	SetPos(pos);
-	SetRot(rot);
-	SetScl(scl);
+	m_prefab->SetPos(pos);
+	m_prefab->SetRot(rot);
+	m_prefab->SetScl(scl);
 
 }
 
@@ -33,13 +42,16 @@ Roller::~Roller()
 
 void Roller::Update(void)
 {
-	// ワールド座標回転
-	static XMFLOAT3 rot = { 0.0f,0.0f, 0.0f };
-	rot.x -= XMConvertToRadians(0.3f);
-	this->SetRot(rot);
 
 	// ローカル回転
-	XMFLOAT3 rot2 = { 0.0f,XMConvertToRadians(45.0f), 0.0f };
-	SetPrefabRot(rot2);
+	static XMFLOAT3 rot = { 0.0f,XMConvertToRadians(45.0f), 0.0f };
+	rot.x -= XMConvertToRadians(ROTATE_SPEED);
+
+	if (rot.x < -XM_PI)
+	{
+		rot.x += XM_PI * 2.0f;
+	}
+
+	m_prefab->SetRot(rot);
 
 }

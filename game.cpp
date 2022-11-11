@@ -33,11 +33,18 @@
 #include "drum3D.h"
 #include "housing.h"
 #include "slot.h"
+#include "Sky.h"
+#include "SkyManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define CROWS_MAX (100)
+enum OBJ
+{
+	OBJ_ROLLER,	// ローラー
+	OBJ_MAX,
+};
 
 
 //*****************************************************************************
@@ -54,8 +61,10 @@ static int	g_ViewPortType_Game = TYPE_LEFT_HALF_SCREEN;
 
 static BOOL	g_bPause = TRUE;	// ポーズON/OFF
 
-// ローラー
-Roller *pRoller;
+// スカイマネージャー
+SkyManager *pSkyManager = nullptr;
+// オブジェクトたち
+Object *pObj[OBJ_MAX];
 
 // ドラム3D
 Drum3D* pDrum3DL;
@@ -72,7 +81,7 @@ Slot* pSlot;
 Object *pBuilding;
 Prefab *pPrefabBuilding;
 
-FlyingCrow *pFlyingCrow[CROWS_MAX] = {nullptr,nullptr,nullptr,nullptr,nullptr};
+FlyingCrow *pFlyingCrow[CROWS_MAX] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 Prefab *pPrefabFlyingCrow[CROWS_MAX];
 
 
@@ -131,9 +140,9 @@ HRESULT InitGame(void)
 	InitPuzzleBG();
 
 	//==================================
-	// ローラーの初期化
-	pRoller = new Roller();
-	pRoller->GetPrefab()->SetModel("model_map.obj");
+	// オブジェクトの初期化
+	pObj[OBJ_ROLLER] = new Roller;
+	pSkyManager = new SkyManager;
 
 
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -234,7 +243,11 @@ void UninitGame(void)
 	//UninitShadow();
 
 	// オブジェクト関係の終了処理
-	delete pRoller;
+	for (int i = 0; i < OBJ_MAX; i++)
+	{
+		if (pObj[i])delete pObj[i];
+	}
+
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
 		if (pFlyingCrow[i]) delete pFlyingCrow[i];
@@ -247,6 +260,7 @@ void UninitGame(void)
 	delete pDrum3DR;
 	delete pHousing;
 	delete pSlot;
+	delete pSkyManager;
 
 }
 
@@ -270,7 +284,7 @@ void UpdateGame(void)
 
 #endif
 
-	if(g_bPause == FALSE)
+	if (g_bPause == FALSE)
 		return;
 
 	//// 地面処理の更新
@@ -306,10 +320,11 @@ void UpdateGame(void)
 	// パズルのBGの更新処理
 	UpdatePuzzleBG();
 
-	// ローラーの更新
-	pRoller->Update();
-
-	// スカイドームの更新
+	// オブジェクトの更新
+	for (int i = 0; i < OBJ_MAX; i++)
+	{
+		if (pObj[i])	pObj[i]->Update();
+	}
 
 	// 空飛ぶカラスの更新
 	for (int i = 0; i < CROWS_MAX; i++)
@@ -338,6 +353,10 @@ void UpdateGame(void)
 
 	// 色の反映
 	//SetColorTemp(pSlot->GetColor());
+	SetColorTemp(pSlot->GetColor());
+
+	// 季節管理の更新
+	pSkyManager->Update();
 }
 
 //=============================================================================
@@ -345,7 +364,90 @@ void UpdateGame(void)
 //=============================================================================
 void DrawGame0(void)
 {
+	switch (GetViewPortType())
+	{
+	case TYPE_FULL_SCREEN:
+		// 2Dの物を描画する処理
+		// Z比較なし
+		SetDepthEnable(FALSE);
 
+		// ライティングを無効
+		SetLightEnable(FALSE);
+
+		// ビューポートの切り換え
+		SetViewPort(TYPE_FULL_SCREEN);
+
+		// スコアの描画処理
+		DrawScore();
+
+		// パズル画面の描画
+		//DrawPizzle();
+
+
+		// ライティングを有効に
+		SetLightEnable(TRUE);
+
+		// Z比較あり
+		SetDepthEnable(TRUE);
+
+		break;
+
+	case TYPE_LEFT_HALF_SCREEN:
+		// 季節管理の描画処理
+		pSkyManager->Draw();
+
+		// Objectの描画処理
+		for (int i = 0; i < OBJ_MAX; i++)
+		{
+			if (pObj[i])	pObj[i]->Draw();
+		}
+
+		// 空飛ぶカラスの描画処理
+		for (int i = 0; i < CROWS_MAX; i++)
+		{
+			if (pFlyingCrow[i]) pFlyingCrow[i]->Draw();
+		}
+
+		break;
+
+	case TYPE_RIGHT_HALF_SCREEN:
+		// 季節管理の描画処理
+		pSkyManager->Draw();
+
+		// Objectの描画処理
+		for (int i = 0; i < OBJ_MAX; i++)
+		{
+			if (pObj[i])	pObj[i]->Draw();
+		}
+
+		// 空飛ぶカラスの描画処理
+		for (int i = 0; i < CROWS_MAX; i++)
+		{
+			if (pFlyingCrow[i]) pFlyingCrow[i]->Draw();
+		}
+
+		break;
+
+	case TYPE_DOWN_RIGHT_HALF_SCREEN:
+		pSkyManager->Draw();
+
+		// ドラム3Dの描画処理
+		pDrum3DL->Draw();
+		pDrum3DC->Draw();
+		pDrum3DR->Draw();
+
+		// 筐体の描画処理
+		pHousing->Draw();
+
+		break;
+
+
+
+
+
+
+
+	}
 
 	// 3Dの物を描画する処理
 	// 地面の描画処理
@@ -372,54 +474,11 @@ void DrawGame0(void)
 	// パーティクルの描画処理
 	//DrawParticle();
 
-	// スカイドームの描画処理
-
-	// イベントの建物描画処理
-
-	//pBuilding->Draw();
-
-
-	// ローラーの描画処理
-	//pRoller->Draw();
-
-	// ドラム3Dの描画処理
-	pDrum3DL->Draw();
-	pDrum3DC->Draw();
-	pDrum3DR->Draw();
-
-	// 筐体の描画処理
-	pHousing->Draw();
 
 
 
-	// 空飛ぶカラスの描画処理
-	for (int i = 0; i < CROWS_MAX; i++)
-	{
-		if (pFlyingCrow[i]) pFlyingCrow[i]->Draw();
-	}
-
-	// 2Dの物を描画する処理
-	// Z比較なし
-	SetDepthEnable(FALSE);
-
-	// ライティングを無効
-	SetLightEnable(FALSE);
-
-	// ビューポートの切り換え
-	SetViewPort(TYPE_FULL_SCREEN);
-
-	// スコアの描画処理
-	DrawScore();
-
-	// パズル画面の描画
-	//DrawPizzle();
 
 
-	// ライティングを有効に
-	SetLightEnable(TRUE);
-
-	// Z比較あり
-	SetDepthEnable(TRUE);
 }
 
 void DrawPizzle(void)
@@ -446,10 +505,10 @@ void DrawGame(void)
 	SetCameraAT(pos);
 	SetCamera();
 
-	//SetShader(SHADER_MODE_PHONG);
-	SetShader(SHADER_MODE_DEFAULT);
-	
-	switch(g_ViewPortType_Game)
+	SetShader(SHADER_MODE_PHONG);
+	//SetShader(SHADER_MODE_DEFAULT);
+
+	switch (g_ViewPortType_Game)
 	{
 	case TYPE_FULL_SCREEN:
 		SetViewPort(TYPE_FULL_SCREEN);
@@ -458,7 +517,13 @@ void DrawGame(void)
 
 	case TYPE_LEFT_HALF_SCREEN:
 	case TYPE_RIGHT_HALF_SCREEN:
+
+		// 左のマップ画面
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
+		pos = GetPlayer()->pos;
+		pos.y = 0.0f;			// カメラ酔いを防ぐためにクリアしている
+		SetCameraAT(pos);
+		SetCamera();
 		SetCamera();
 
 		DrawGame0();
@@ -469,6 +534,8 @@ void DrawGame(void)
 		pos.y = 0.0f;
 		//SetCameraAT(pos);
 		//SetCamera();
+
+		// 右上のイベント画面
 		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
 
 		for (int i = 0; i < CROWS_MAX; i++)
@@ -481,6 +548,15 @@ void DrawGame(void)
 
 		//SetShader(SHADER_MODE_DEFAULT);
 		DrawGame0();
+
+		// 右下のスロット画面
+		SetViewPort(TYPE_DOWN_RIGHT_HALF_SCREEN);
+		pos = GetPlayer()->pos;
+		pos.y = 0.0f;			// カメラ酔いを防ぐためにクリアしている
+		SetCameraAT(pos);
+		SetCamera();
+		DrawGame0();
+
 		break;
 
 	case TYPE_UP_HALF_SCREEN:
