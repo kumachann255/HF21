@@ -6,7 +6,7 @@ class Drum3D : public Object
 {
 private:
 	float m_speed = 0.0f;
-	const float m_speedMax = 0.1f;
+	const float m_speedMax = 0.07f;
 	bool m_move = false;
 	int m_color = 0;
 	float m_result = 0.0f;

@@ -16,7 +16,7 @@ void Slot::Update(void)
 	}
 
 	// Ž~‚ß‚é
-	if ((GetKeyboardTrigger(DIK_K)) && (m_count > 60))
+	if ((GetKeyboardTrigger(DIK_SPACE)) && (m_count > 40))
 	{
 		if (pDrumR->GetMove())
 		{
@@ -35,10 +35,10 @@ void Slot::Update(void)
 	}
 
 	// ‰ñ‚·
-	if ((GetKeyboardTrigger(DIK_J)))
+	if ((GetKeyboardTrigger(DIK_RETURN)))
 	{
 		pDrumR->SpinStart();
-		m_count = 0;
+		if(!m_move) m_count = 0;
 		m_move = true;
 	}
 

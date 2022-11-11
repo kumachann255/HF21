@@ -35,11 +35,14 @@
 #include "slot.h"
 #include "Sky.h"
 #include "SkyManager.h"
+#include "room.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define CROWS_MAX (100)
+#define IVENT_POS_X_OFFSET	(20.0f)			// カメラの位置調整
+
 enum OBJ
 {
 	OBJ_ROLLER,	// ローラー
@@ -80,6 +83,8 @@ Slot* pSlot;
 // イベントの建物
 Object *pBuilding;
 Prefab *pPrefabBuilding;
+
+Room *pRoom;
 
 FlyingCrow *pFlyingCrow[CROWS_MAX] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 Prefab *pPrefabFlyingCrow[CROWS_MAX];
@@ -194,6 +199,9 @@ HRESULT InitGame(void)
 	XMFLOAT3 rotHousing = { 0.0f,3.14f,0.0f };
 	pHousing->SetRot(rotHousing);
 
+	// 部屋の初期化
+	pRoom = new Room();
+	pRoom->GetPrefab()->SetModel("model_room_temp.obj");
 
 	// スロットの初期化
 	pSlot = new Slot(pHousing, pDrum3DL, pDrum3DC, pDrum3DR);
@@ -261,6 +269,7 @@ void UninitGame(void)
 	delete pHousing;
 	delete pSlot;
 	delete pSkyManager;
+	delete pRoom;
 
 }
 
@@ -411,20 +420,7 @@ void DrawGame0(void)
 		break;
 
 	case TYPE_RIGHT_HALF_SCREEN:
-		// 季節管理の描画処理
-		pSkyManager->Draw();
-
-		// Objectの描画処理
-		for (int i = 0; i < OBJ_MAX; i++)
-		{
-			if (pObj[i])	pObj[i]->Draw();
-		}
-
-		// 空飛ぶカラスの描画処理
-		for (int i = 0; i < CROWS_MAX; i++)
-		{
-			if (pFlyingCrow[i]) pFlyingCrow[i]->Draw();
-		}
+		pRoom->Draw();
 
 		break;
 
@@ -500,8 +496,9 @@ void DrawGame(void)
 #endif
 
 	// プレイヤー視点
-	pos = GetPlayer()->pos;
-	pos.y = 0.0f;			// カメラ酔いを防ぐためにクリアしている
+	//pos = GetPlayer()->pos;
+	//pos.y = 0.0f;			// カメラ酔いを防ぐためにクリアしている
+	pos = { 0.0f,0.0f,0.0f };
 	SetCameraAT(pos);
 	SetCamera();
 
@@ -528,14 +525,9 @@ void DrawGame(void)
 
 		DrawGame0();
 
-		// エネミー視点
-		pos = GetEnemy()->pos;
-
-		pos.y = 0.0f;
-		//SetCameraAT(pos);
-		//SetCamera();
 
 		// 右上のイベント画面
+		SetShader(SHADER_MODE_DEFAULT);
 		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
 
 		for (int i = 0; i < CROWS_MAX; i++)
@@ -543,18 +535,20 @@ void DrawGame(void)
 			if (pFlyingCrow[i]) pos = pFlyingCrow[i]->GetPos();
 		}
 
+		pos = { 0.0f,IVENT_POS_X_OFFSET,0.0f };
 		SetCameraAT(pos);
 		SetCamera();
 
-		//SetShader(SHADER_MODE_DEFAULT);
 		DrawGame0();
 
 		// 右下のスロット画面
+		SetShader(SHADER_MODE_PHONG);
 		SetViewPort(TYPE_DOWN_RIGHT_HALF_SCREEN);
 		pos = GetPlayer()->pos;
 		pos.y = 0.0f;			// カメラ酔いを防ぐためにクリアしている
 		SetCameraAT(pos);
 		SetCamera();
+
 		DrawGame0();
 
 		break;
@@ -565,8 +559,9 @@ void DrawGame(void)
 		DrawGame0();
 
 		// エネミー視点
-		pos = GetEnemy()->pos;
-		pos.y = 0.0f;
+		//pos = GetEnemy()->pos;
+		//pos.y = 0.0f;
+		pos = { 0.0f,0.0f,0.0f };
 		SetCameraAT(pos);
 		SetCamera();
 		SetViewPort(TYPE_DOWN_HALF_SCREEN);

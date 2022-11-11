@@ -6,10 +6,12 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="drum.cpp" />
+    <ClCompile Include="drum3D.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="FlyingCrow.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="housing.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
@@ -26,13 +28,13 @@
     <ClCompile Include="roller.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="shadow.cpp" />
+    <ClCompile Include="Sky.cpp" />
+    <ClCompile Include="SkyManager.cpp" />
+    <ClCompile Include="slot.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="tree.cpp" />
-    <ClCompile Include="slot.cpp" />
-    <ClCompile Include="drum3D.cpp" />
-    <ClCompile Include="housing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
@@ -40,10 +42,12 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="debugproc.h" />
     <ClInclude Include="drum.h" />
+    <ClInclude Include="drum3D.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="FlyingCrow.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="housing.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
@@ -61,12 +65,13 @@
     <ClInclude Include="rotator.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="shadow.h" />
+    <ClInclude Include="Sky.h" />
+    <ClInclude Include="SkyManager.h" />
+    <ClInclude Include="slot.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="tree.h" />
-    <ClInclude Include="slot.h" />
-    <ClInclude Include="housing.h" />
-    <ClInclude Include="drum3D.h" />
+    <ClInclude Include="room.h" />
   </ItemGroup>
 </Project>
