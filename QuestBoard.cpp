@@ -1,44 +1,48 @@
 //=============================================================================
 //
-// Sky管理 [Sky.cpp]
-// Author : 
+// クエストボード処理 [QuestBoard.cpp]
+// Author : 柏村大地
 //
 //=============================================================================
-#include"Sky.h"
+#include "QuestBoard.h"
+
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	SKY_ROTATE_SPEED	(0.001f)		// 回転速度
-#define	SKY_SCL				(4.0f)			// 大きさ
-
+#define	BOARD_ROTATE_SPEED	(0.001f)		// 回転速度
+#define	BOARD_SCL			(0.6f)			// 大きさ
+#define	ROLLER_RADIUS		(85.0f)			// ローラーの半径
 
 
 //=============================================================================
 // コンストラクター
 //=============================================================================
-Sky::Sky()
+QuestBoard::QuestBoard(std::string name , XMFLOAT3 pos)
 {
-	m_prefab = new Prefab;
-	//m_prefab->SetModel("model_sky_spring_01.obj");
 
-	XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
+	m_prefab = new Prefab;
+	m_prefab->SetModel(name);
+
+	//XMFLOAT3 rot = { 0.0f, XMConvertToRadians(45.0f), XMConvertToRadians(-30.0f) };
 	XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
-	XMFLOAT3 scl = { SKY_SCL, SKY_SCL, SKY_SCL };
+	XMFLOAT3 scl = { BOARD_SCL, BOARD_SCL, BOARD_SCL };
 
 	m_prefab->SetPos(pos);
 	m_prefab->SetRot(rot);
 	m_prefab->SetScl(scl);
 
+	//XMFLOAT4 color = { 1.0f,0.0f,0.0f,1.0f };
+	//m_prefab->SetColor(color);
 }
 
 //=============================================================================
 // デストラクター
 //=============================================================================
-Sky::~Sky()
+QuestBoard::~QuestBoard()
 {
 	if (m_prefab) {
-		delete m_prefab; 
+		delete m_prefab;
 		m_prefab = nullptr;
 	}
 }
@@ -46,17 +50,17 @@ Sky::~Sky()
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Sky::Update(void)
+void QuestBoard::Update(void)
 {
+	//m_time += 0.01f;
+	//if (m_time >= XM_2PI)	m_time = 0.0f;
 
-	// ローカル回転
-	XMFLOAT3 rot2 = GetRot();
-	rot2.y += SKY_ROTATE_SPEED;
+	//m_pos.y = ROLLER_RADIUS * sinf(m_time);
+	//m_pos.z = ROLLER_RADIUS * cosf(m_time);
+	//m_prefab->SetPos(m_pos);
 
-	if (rot2.y >= XM_PI * 2) { rot2.y = 0.0f; }
-
-	SetRot(rot2);
-
+	//m_rot = { -m_time * 0.25f,XMConvertToRadians(45.0f), XMConvertToRadians(3.0f) };
+	//m_prefab->SetRot(m_rot);
 
 }
 
@@ -64,24 +68,22 @@ void Sky::Update(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Sky::Draw(void)
+void QuestBoard::Draw(XMMATRIX WorldMatrix)
 {
-	// ラスタライザ設定
-	SetCullingMode(CULL_MODE_FRONT);	//表のポリゴンを描画しない
+	SetCullingMode(CULL_MODE_NONE);		//カリングなし
 
 	SetDepthEnable(TRUE);
 
 	// ワールドマトリクス生成
-	XMMATRIX mtxWorld = GetWorldMatrix(GetPos(), GetRot(), GetScl());
+	XMMATRIX mtxWorld = GetWorldMatrix(m_prefab->GetPos(), m_prefab->GetRot(), m_prefab->GetScl());
 
 	// プレハブ(ローカル座標)にワールドマトリクスをかける
-	mtxWorld = XMMatrixMultiply(mtxWorld, m_prefab->GetMtxWorld());
+	mtxWorld = XMMatrixMultiply(mtxWorld, WorldMatrix);
 
 	SetWorldMatrix(&mtxWorld);	// シェーダーにデータを送る
 
 	DrawModel(m_prefab->GetModel());
 
 	SetCullingMode(CULL_MODE_BACK);		//カリングを戻す
-
 
 }

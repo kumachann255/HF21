@@ -9,30 +9,16 @@
 #include "input.h"
 #include "camera.h"
 #include "debugproc.h"
-#include "model.h"
-#include "player.h"
-#include "enemy.h"
-#include "shadow.h"
 #include "light.h"
-#include "meshfield.h"
-#include "meshwall.h"
-#include "tree.h"
-#include "collision.h"
-#include "bullet.h"
-#include "score.h"
 #include "sound.h"
-#include "particle.h"
-
-#include "title.h"
-#include "game.h"
-#include "result.h"
 #include "fade.h"
+#include "game.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define CLASS_NAME		"AppClass"			// ウインドウのクラス名
-#define WINDOW_NAME		"メッシュ表示"		// ウインドウのキャプション名
+#define CLASS_NAME		"AppClass"		// ウインドウのクラス名
+#define WINDOW_NAME		"カラース"		// ウインドウのキャプション名
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -58,7 +44,6 @@ char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
 #endif
 
 int	g_Mode = MODE_GAME;					// 起動時の画面を設定
-
 
 //=============================================================================
 // メイン関数
@@ -233,19 +218,20 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// サウンドの初期化
 	InitSound(hWnd);
 
-
 	// ライトを有効化
 	SetLightEnable(TRUE);
 
 	// 背面ポリゴンをカリング
 	SetCullingMode(CULL_MODE_BACK);
 
-
 	// フェードの初期化
 	InitFade();
 
+	// ゲームの初期化
+	InitGame();
+
 	// 最初のモードをセット
-	SetMode(g_Mode);	// ここはSetModeのままで！
+	//SetMode(g_Mode);	// ここはSetModeのままで！
 
 	return S_OK;
 }
@@ -255,9 +241,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //=============================================================================
 void Uninit(void)
 {
-	// 終了のモードをセット
-	SetMode(MODE_MAX);
-
 
 	// サウンド終了処理
 	UninitSound();
@@ -270,6 +253,10 @@ void Uninit(void)
 
 	// レンダラーの終了処理
 	UninitRenderer();
+
+	// ゲームの終了
+	UninitGame();
+
 }
 
 //=============================================================================
@@ -286,25 +273,11 @@ void Update(void)
 	// カメラ更新
 	UpdateCamera();
 
-	// モードによって処理を分ける
-	switch (g_Mode)
-	{
-	case MODE_TITLE:		// タイトル画面の更新
-		UpdateTitle();
-		break;
-
-	case MODE_GAME:			// ゲーム画面の更新
-		UpdateGame();
-		break;
-
-	case MODE_RESULT:		// リザルト画面の更新
-		UpdateResult();
-		break;
-	}
+	// ゲームの更新
+	UpdateGame();
 
 	// フェード処理の更新
 	UpdateFade();
-
 
 }
 
@@ -318,51 +291,8 @@ void Draw(void)
 
 	SetCamera();
 
-	// モードによって処理を分ける
-	switch (g_Mode)
-	{
-	case MODE_TITLE:		// タイトル画面の描画
-		SetViewPort(TYPE_FULL_SCREEN);
-
-		// 2Dの物を描画する処理
-		// Z比較なし
-		SetDepthEnable(FALSE);
-
-		// ライティングを無効
-		SetLightEnable(FALSE);
-
-		DrawTitle();
-
-		// ライティングを有効に
-		SetLightEnable(TRUE);
-
-		// Z比較あり
-		SetDepthEnable(TRUE);
-		break;
-
-	case MODE_GAME:			// ゲーム画面の描画
-		DrawGame();
-		break;
-
-	case MODE_RESULT:		// リザルト画面の描画
-		SetViewPort(TYPE_FULL_SCREEN);
-
-		// 2Dの物を描画する処理
-		// Z比較なし
-		SetDepthEnable(FALSE);
-
-		// ライティングを無効
-		SetLightEnable(FALSE);
-
-		DrawResult();
-
-		// ライティングを有効に
-		SetLightEnable(TRUE);
-
-		// Z比較あり
-		SetDepthEnable(TRUE);
-		break;
-	}
+	// ゲームの描画
+	DrawGame();
 
 	// フェード描画
 	DrawFade();
@@ -403,44 +333,20 @@ char* GetDebugStr(void)
 //=============================================================================
 void SetMode(int mode)
 {
-	// モードを変える前に全部メモリを解放しちゃう
-
-	// タイトル画面の終了処理
-	UninitTitle();
-
-	// ゲーム画面の終了処理
-	UninitGame();
-
-	// リザルト画面の終了処理
-	UninitResult();
-
+	// モードを変える前に全部メモリを解放
+	//UninitGame();
 
 	g_Mode = mode;	// 次のモードをセットしている
 
 	switch (g_Mode)
 	{
 	case MODE_TITLE:
-		// タイトル画面の初期化
-		InitTitle();
 		break;
-
 	case MODE_GAME:
-		// ゲーム画面の初期化
-		InitGame();
 		break;
-
 	case MODE_RESULT:
-		// リザルト画面の初期化
-		InitResult();
 		break;
-
-		// ゲーム終了時の処理
 	case MODE_MAX:
-		// エネミーの終了処理
-		UninitEnemy();
-
-		// プレイヤーの終了処理
-		UninitPlayer();
 		break;
 	}
 }
@@ -452,4 +358,3 @@ int GetMode(void)
 {
 	return g_Mode;
 }
-

@@ -10,7 +10,6 @@
 //=============================================================================
 #pragma once
 
-#include "main.h"
 #include "Prefab.h"
 
 //*****************************************************************************
@@ -42,8 +41,8 @@ public:
 	virtual ~Object();
 
 	// ゲッター・セッター
-	BOOL GetIsUse(void) { return m_isUse; }
 	void SetIsUse(BOOL flag) {  m_isUse = flag; }
+	BOOL GetIsUse(void) { return m_isUse; }
 
 	virtual void SetPos(XMFLOAT3 pos) { m_pos = pos; }
 	XMFLOAT3 GetPos(void) { return m_pos; }

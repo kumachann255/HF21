@@ -1,20 +1,23 @@
 //=============================================================================
 //
-// パーティクル処理 [particle.h]
-// Author : 
+// GodObjectの処理 [GodObject.h]
+// Author : 柏村大地
 //
 //=============================================================================
 #pragma once
-
+#include "God.h"
 
 //*****************************************************************************
-// プロトタイプ宣言
+// マクロ定義
 //*****************************************************************************
-HRESULT InitParticle(void);
-void UninitParticle(void);
-void UpdateParticle(void);
-void DrawParticle(void);
 
-int SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSizeX, float fSizeY, int nLife);
-void SetColorParticle(int nIdxParticle, XMFLOAT4 col);
+class GodObject
+{
+private:
+	class God *m_God = nullptr;
+public:
+	GodObject(God *god);
+	virtual ~GodObject() {}
+	God *GetGod() { return m_God; }
+};
 

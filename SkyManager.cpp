@@ -6,11 +6,12 @@
 //=============================================================================
 #include "SkyManager.h"
 #include "input.h"
+#include "debugproc.h"
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-SkyManager::SkyManager()
+SkyManager::SkyManager(God *god):GodObject(god)
 {
 
 	// テクスチャ生成
@@ -24,12 +25,10 @@ SkyManager::SkyManager()
 			nullptr);
 	}
 
-
 	m_seasons[BUFFER_FRONT] = new Sky;
 	m_seasons[BUFFER_FRONT]->GetPrefab()->SetModel(g_ModelName[SEASON_MODE_SPRING]);
 	m_seasons[BUFFER_FRONT]->SetIsUse(TRUE);
 	m_seasons[BUFFER_FRONT]->GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[SEASON_MODE_SPRING];
-
 
 }
 
@@ -69,25 +68,32 @@ void SkyManager::Update(void)
 
 	}
 
-	 m_color = { 1.0f,1.0f,1.0f,1.0f };
-	 m_time += 0.01f;
-	 m_color.w += 0.02f * cosf(m_time);
+	// m_color = { 1.0f,1.0f,1.0f,1.0f };
+	// m_time += 0.01f;
+	// m_color.w += 0.02f * cosf(m_time);
 
-	if (m_time >= (XM_PI * 2) - XMConvertToRadians(30.0f))
+	//if (m_time >= (XM_PI * 2) - XMConvertToRadians(30.0f))
+	//{
+	//	m_swich++;
+	//	m_swich %= SEASON_MODE_MAX;
+
+
+	//}
+
+	//if (m_time >= (XM_PI * 2))
+	//{
+	//	m_time = 0.0f;
+
+	//}
+
+	//m_seasons[BUFFER_FRONT]->GetPrefab()->SetColor(m_color);
+
+	if (GetKeyboardTrigger(DIK_F1))
 	{
 		m_swich++;
 		m_swich %= SEASON_MODE_MAX;
 
-
 	}
-
-	if (m_time >= (XM_PI * 2))
-	{
-		m_time = 0.0f;
-
-	}
-
-	m_seasons[BUFFER_FRONT]->GetPrefab()->SetColor(m_color);
 
 
 	// デバッグ用
@@ -128,10 +134,16 @@ void SkyManager::Update(void)
 //=============================================================================
 void SkyManager::Draw(void)
 {
+
+
 	for (int i = 0; i < BUFFER_MAX; i++)
 	{
 		if (m_seasons[i]) m_seasons[i]->Draw();
 	}
+
+#ifdef _DEBUG	// デバッグ情報を表示する
+	//PrintDebugProc("TEST_SKY\n");
+#endif
 
 }
 

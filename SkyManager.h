@@ -5,14 +5,14 @@
 //
 //=============================================================================
 #pragma once
-#include "main.h"
 #include "Sky.h"
-#include "object.h"
+#include "GodObject.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define SEASON_MAX	(5)
+
 
 enum SEASON_MODE
 {
@@ -37,18 +37,18 @@ static std::string g_ModelName[SEASON_MODE_MAX] = {
 
 static char *g_TextureName[SEASON_MODE_MAX] =
 {
-	"data/TEXTURE/sky000.jpg",
-	"data/TEXTURE/tex_skyStar_01.png",
-	"data/TEXTURE/sky002.jpg",
-	"data/TEXTURE/tex_skyKumori_01.jpg",
-	"data/TEXTURE/tex_skyNami_01.jpg",
+	"data/TEXTURE/SKY/tex_skyKumori_01.jpg",
+	"data/TEXTURE/SKY/sky000.jpg",
+	"data/TEXTURE/SKY/tex_skyStar_01.png",
+	"data/TEXTURE/SKY/sky002.jpg",
+	"data/TEXTURE/SKY/tex_skyNami_01.jpg",
 };
 
 
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class SkyManager
+class SkyManager:public GodObject
 {
 
 private:
@@ -58,7 +58,7 @@ private:
 	float m_time = 0;
 	XMFLOAT4 m_color = { 1.0f,1.0f,1.0f,1.0f };
 public:
-	SkyManager();
+	SkyManager(God *god);
 	~SkyManager();
 
 	void Update(void);
