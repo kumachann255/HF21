@@ -1,18 +1,25 @@
 //=============================================================================
 //
-// メッシュ壁の処理 [meshwall.h]
-// Author : 
+// シーンの処理 [Scene.h]
+// Author : 柏村大地
 //
 //=============================================================================
 #pragma once
-
+#include "GodObject.h"
 
 //*****************************************************************************
-// プロトタイプ宣言
+// マクロ定義
 //*****************************************************************************
-HRESULT InitMeshWall(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT4 col,
-						int nNumBlockX, int nNumBlockY, float fSizeBlockX, float fSizeBlockY);
-void UninitMeshWall(void);
-void UpdateMeshWall(void);
-void DrawMeshWall(void);
+
+class Scene : public GodObject
+{
+
+public:
+	Scene(God * god);
+	virtual~Scene();
+	virtual void Init();
+	virtual void Update();
+	virtual void Draw();
+	virtual void NextScene();
+};
 

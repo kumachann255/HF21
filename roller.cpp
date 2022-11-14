@@ -11,13 +11,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ROTATE_SPEED		(0.3f)			// 回転速度
-#define	ROLLER_SCL			(8.0f)			// ローラーの大きさ
+#define	ROTATE_SPEED		(0.01f)			// 回転速度
+#define	ROLLER_SCL			(10.0f)			// ローラーの大きさ
 
 
-Roller::Roller()
+Roller::Roller(God *god) :GodObject(god)
 {
-
 	// モデルの設定
 	m_prefab = new Prefab;
 	m_prefab->SetModel("model_map.obj");
@@ -45,7 +44,7 @@ void Roller::Update(void)
 
 	// ローカル回転
 	static XMFLOAT3 rot = { 0.0f,XMConvertToRadians(45.0f), 0.0f };
-	rot.x -= XMConvertToRadians(ROTATE_SPEED);
+	rot.x -= ROTATE_SPEED;
 
 	if (rot.x < -XM_PI)
 	{

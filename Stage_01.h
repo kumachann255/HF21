@@ -1,23 +1,25 @@
 //=============================================================================
 //
-// ゲーム画面処理 [game.h]
-// Author : 
+// ステージ１の処理 [Stage_01.h]
+// Author : 柏村大地
 //
 //=============================================================================
 #pragma once
-
+#include "Scene.h"
 
 //*****************************************************************************
-// プロトタイプ宣言
+// マクロ定義
 //*****************************************************************************
-HRESULT InitGame(void);
-void UninitGame(void);
-void UpdateGame(void);
-void DrawGame(void);
 
-void DrawPizzle(void);
-void SetShotCrows(XMFLOAT4 color);
+class Stage_01 : public Scene
+{
 
-XMFLOAT3 GetFlyingCrowPos(void);
+public:
+	Stage_01(God * god);
+	~Stage_01();
+	void Init();
+	void Update();
+	void Draw();
+	void NextScene();
+};
 
-int GetViewPortType(void);

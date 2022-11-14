@@ -8,9 +8,8 @@
 // ※ローカルの回転はよく使う
 //=============================================================================
 #pragma once
-#include"main.h"
 #include"model.h"
-#include <iostream>	//他で使うなら main.h に記入
+#include <string> 
 
 //*****************************************************************************
 // マクロ定義
@@ -40,7 +39,8 @@ public:
 	// ゲッター・セッター
 	void SetModel(std::string modelName);		// モデル読み込み
 
-	BOOL GetIsLoad(void) { return m_isLoadModel; };
+	BOOL GetIsLoad(void) { return m_isLoadModel; }
+	void SetIsLoad(BOOL flag) {  m_isLoadModel = flag; }
 
 	void SetPos(XMFLOAT3 pos) { m_pos = pos; }
 	XMFLOAT3 GetPos(void) { return m_pos; }
@@ -49,10 +49,11 @@ public:
 	void SetScl(XMFLOAT3 scl) { m_scl = scl; }
 	XMFLOAT3 GetScl(void) { return m_scl; }
 
+	void SetName(std::string name) { m_name = name; }
 	void SetColor(XMFLOAT4 color);
 
-	DX11_MODEL * GetModel(void) { return &m_model; };
-	XMMATRIX GetMtxWorld(void) { return GetWorldMatrix(m_pos, m_rot, m_scl); };
+	DX11_MODEL * GetModel(void) { return &m_model; }
+	XMMATRIX GetMtxWorld(void) { return GetWorldMatrix(m_pos, m_rot, m_scl); }
 };
 
 

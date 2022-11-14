@@ -7,15 +7,16 @@
 
 #pragma once
 #include "object.h"
+#include "GodObject.h"
 
-class Roller :public Object
+class Roller :public Object , GodObject
 {
 
 private:
 
 
 public:
-	Roller();
+	Roller(God *god);
 	~Roller();
 
 	void Update(void) override;

@@ -29,13 +29,12 @@
 //=============================================================================
 Object::Object()
 {
-	m_prefab = NULL;
-
 	m_isUse = TRUE;
 
 	m_pos = { 0.0f, 0.0f, 0.0f };
 	m_rot = { 0.0f, 0.0f, 0.0f };
 	m_scl = { 1.0f, 1.0f, 1.0f };
+
 }
 
 
@@ -67,12 +66,13 @@ void Object::Draw(void)
 
 	// ラスタライザ設定
 	SetCullingMode(CULL_MODE_NONE);
+	//SetBlendState(BLEND_MODE_ADD);
 
 	// ワールドマトリクス生成
 	XMMATRIX mtxWorld = GetWorldMatrix(m_pos, m_rot, m_scl);
 
 	// プレハブ(ローカル座標)にワールドマトリクスをかける
-	mtxWorld = XMMatrixMultiply(mtxWorld, m_prefab->GetMtxWorld());
+	mtxWorld = XMMatrixMultiply(m_prefab->GetMtxWorld(), mtxWorld);
 
 	SetWorldMatrix(&mtxWorld);	// シェーダーにデータを送る
 
