@@ -3,8 +3,9 @@
 #include "object.h"
 #include "housing.h"
 #include "drum3D.h"
+#include "GodObject.h"
 
-class Slot
+class Slot:public GodObject
 {
 private:
 	Housing* pHousing = nullptr;
@@ -18,9 +19,10 @@ private:
 
 
 public:
-	Slot() {}
-	Slot(Housing* Housing, Drum3D* DrumL, Drum3D* DrumC, Drum3D* DrumR) : 
-		pHousing(Housing), pDrumL(DrumL), pDrumC(DrumC), pDrumR(DrumR) {}
+	Slot(God *god);
+	~Slot();
+	//Slot(Housing* Housing, Drum3D* DrumL, Drum3D* DrumC, Drum3D* DrumR) : 
+	//	pHousing(Housing), pDrumL(DrumL), pDrumC(DrumC), pDrumR(DrumR) {}
 
 	void SetHousing(Housing* Housing) { pHousing = Housing; }
 	void SetDrumL(Drum3D* DrumL) { pDrumL = DrumL; }
@@ -33,6 +35,7 @@ public:
 	Drum3D* GetDrumR(void) { return pDrumR; }
 
 	void Update(void);
+	void Draw(void);
 
 	XMFLOAT4 GetColor(void);
 

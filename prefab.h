@@ -36,9 +36,9 @@ public:
 	Prefab();	
 	~Prefab();	
 
-	// ゲッター・セッター
 	void SetModel(std::string modelName);		// モデル読み込み
-
+	void SetModelDate(DX11_MODEL model) { m_model = model; }
+	
 	BOOL GetIsLoad(void) { return m_isLoadModel; }
 	void SetIsLoad(BOOL flag) {  m_isLoadModel = flag; }
 
@@ -50,9 +50,11 @@ public:
 	XMFLOAT3 GetScl(void) { return m_scl; }
 
 	void SetName(std::string name) { m_name = name; }
+	void SetLoadModelFlag(BOOL flag) { m_isLoadModel = flag; }
 	void SetColor(XMFLOAT4 color);
 
-	DX11_MODEL * GetModel(void) { return &m_model; }
+	DX11_MODEL *GetModel(void) { return &m_model; }
+	DX11_MODEL GetModelDate(void) { return m_model; }
 	XMMATRIX GetMtxWorld(void) { return GetWorldMatrix(m_pos, m_rot, m_scl); }
 };
 

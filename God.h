@@ -12,6 +12,8 @@
 class SkyManager;
 class Roller;
 class QuestBoardManager;
+class Slot;
+class FlyingCrowManager;
 
 enum SCENE_ID {
 	TITLE_ID,
@@ -32,6 +34,8 @@ private:
 	 SkyManager *m_pSkymanager = nullptr;
 	 Roller *m_pRoller = nullptr;
 	 QuestBoardManager *m_pQuestBoardManager = nullptr;
+	 Slot *m_pSlot = nullptr;
+	 FlyingCrowManager *m_pFlyingCrowManager = nullptr;
 
 public:
 	God();
@@ -46,6 +50,8 @@ public:
 	SkyManager *GetSkyManager() { return m_pSkymanager; }
 	Roller *GetRoller() { return m_pRoller; }
 	QuestBoardManager *GetQuestBoardManager() { return m_pQuestBoardManager; }
+	Slot *GetSlot() { return m_pSlot; }
+	FlyingCrowManager *GetFlyingCrowManager() { return m_pFlyingCrowManager; }
 };
 
 //*****************************************************************************

@@ -12,6 +12,8 @@
 #include "SkyManager.h"
 #include "Roller.h"
 #include "QuestBoardManager.h"
+#include "Slot.h"
+#include "FlyingCrowManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -26,7 +28,7 @@ static SCENE_ID g_curSceneId;
 God::God()
 {
 	// 初めのシーンIDを設定
-	g_curSceneId = TITLE_ID;
+	g_curSceneId = STAGE_01ID;
 
 	//　管理するシーンを登場させる
 	Scenes[TITLE_ID] = new Title(this);
@@ -37,6 +39,8 @@ God::God()
 	m_pSkymanager = new SkyManager(this);
 	m_pRoller = new Roller(this);
 	m_pQuestBoardManager = new QuestBoardManager(this);
+	m_pSlot = new Slot(this);
+	m_pFlyingCrowManager = new FlyingCrowManager(this);
 
 }
 
@@ -52,6 +56,8 @@ God::~God()
 	delete m_pSkymanager;
 	delete m_pRoller;
 	delete m_pQuestBoardManager;
+	delete m_pSlot;
+	delete m_pFlyingCrowManager;
 }
 
 //=============================================================================

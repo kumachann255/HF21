@@ -7,8 +7,61 @@ enum {
 	drum3D_yellow,
 };
 
+#define SLOT_SIZE	(1.0f)
+
+
+Slot::Slot(God *god) :GodObject(god)
+{
+
+	// 筐体の初期化
+	pHousing = new Housing();
+
+	// 筐体の大きさセット
+	XMFLOAT3 sclHousing = { 1.0f,1.0f,1.0f };
+	pHousing->GetPrefab()->SetScl(sclHousing);
+
+	// 筐体の向きセット
+	XMFLOAT3 rotHousing = { 0.0f,3.14f,0.0f };
+	pHousing->GetPrefab()->SetRot(rotHousing);
+
+	// ドラム3Dの初期化
+	pDrumL = new Drum3D();
+	pDrumC = new Drum3D();
+	pDrumR = new Drum3D();
+
+	// ドラム3Dの大きさセット
+	XMFLOAT3 scl = { 1.0f,1.0f,1.0f };
+	pDrumL->GetPrefab()->SetScl(scl);
+	pDrumC->GetPrefab()->SetScl(scl);
+	pDrumR->GetPrefab()->SetScl(scl);
+
+	// ドラム3Dのローカル位置セット
+	XMFLOAT3 posDrumL = { -5.0f,0.0f,0.0f };
+	XMFLOAT3 posDrumC = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 posDrumR = { 5.0f,0.0f,0.0f };
+	pDrumL->GetPrefab()->SetPos(posDrumL);
+	pDrumC->GetPrefab()->SetPos(posDrumC);
+	pDrumR->GetPrefab()->SetPos(posDrumR);
+
+}
+
+Slot::~Slot()
+{
+	delete pDrumL;
+	delete pDrumC;
+	delete pDrumR;
+	delete pHousing;
+}
+
+
 void Slot::Update(void)
 {
+
+	pDrumL->Update();
+	pDrumC->Update();
+	pDrumR->Update();
+
+
 	// 時間を進める
 	if (m_move)
 	{
@@ -54,6 +107,15 @@ void Slot::Update(void)
 		}
 	}
 }
+
+void Slot::Draw()
+{
+	pDrumL->Draw();
+	pDrumC->Draw();
+	pDrumR->Draw();
+	pHousing->Draw();
+}
+
 
 XMFLOAT4 Slot::GetColor(void)
 {

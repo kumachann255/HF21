@@ -191,7 +191,7 @@ void UpdateDrum(void)
 
 				if (i == 2)
 				{
-					SetShotCrows(g_Color);
+					//SetShotCrows(g_Color);
 
 					PlaySound(SOUND_LABEL_SE_se_crow_cry_01);	// カラースの鳴き声
 					PlaySound(SOUND_LABEL_SE_se_crow_flap_04);	// カラース発射

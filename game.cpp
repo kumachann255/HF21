@@ -20,7 +20,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define CROWS_MAX (100)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -97,94 +96,7 @@ void UpdateGame(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawGame0(void)
-{
-
-}
-
 void DrawGame(void)
 {
-
-
 	GameGod->Draw();
-
-
-
-
-
-
-//	XMFLOAT3 pos = {0.0f,0.0f,0.0f};
-//
-//
-//
-//	// プレイヤー視点
-//	//pos = GetPlayer()->pos;
-//	pos.y = 0.0f;			// カメラ酔いを防ぐためにクリアしている
-//	SetCameraAT(pos);
-//	SetCamera();
-//
-//	SetShader(SHADER_MODE_PHONG);
-//	//SetShader(SHADER_MODE_DEFAULT);
-//
-//	switch (g_ViewPortType_Game)
-//	{
-//	case TYPE_FULL_SCREEN:
-//		SetViewPort(TYPE_FULL_SCREEN);
-//		DrawGame0();
-//		break;
-//
-//	case TYPE_LEFT_HALF_SCREEN:
-//	case TYPE_RIGHT_HALF_SCREEN:
-//		SetViewPort(TYPE_LEFT_HALF_SCREEN);
-//		SetCameraAT(pos);
-//		SetCamera();
-//
-//		DrawGame0();
-//
-//		pos.y = 0.0f;
-//		//SetCameraAT(pos);
-//		//SetCamera();
-//		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
-//
-//		SetCameraAT(pos);
-//		SetCamera();
-//
-//		//SetShader(SHADER_MODE_DEFAULT);
-//		DrawGame0();
-//		break;
-//
-//	case TYPE_UP_HALF_SCREEN:
-//	case TYPE_DOWN_HALF_SCREEN:
-//		SetViewPort(TYPE_UP_HALF_SCREEN);
-//		DrawGame0();
-//
-//		// エネミー視点
-//		//pos = GetEnemy()->pos;
-//		pos.y = 0.0f;
-//		SetCameraAT(pos);
-//		SetCamera();
-//		SetViewPort(TYPE_DOWN_HALF_SCREEN);
-//		DrawGame0();
-//		break;
-//
-//	}
-}
-
-
-void SetShotCrows(XMFLOAT4 color)
-{
-	//int a = rand() % (CROWS_MAX - 2) + 2;
-
-	//for (int i = 0; i < a; i++)
-	//{
-	//	XMFLOAT3 targetPos = { -50.0f, 20.0f, -100.0f };
-	//	// 飛んでいくカラスの初期化
-	//	pFlyingCrow[i] = new FlyingCrow(color, targetPos);
-
-	//	// 飛んでいくカラスの大きさセット
-	//	pFlyingCrow[i]->SetPrefab(pPrefabFlyingCrow[0]);
-	//	XMFLOAT3 scl3 = { 0.3f,0.3f,0.3f };
-	//	pFlyingCrow[i]->SetScl(scl3);
-	//	pPrefabFlyingCrow[0]->SetColor(color);
-	//}
 }

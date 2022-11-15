@@ -46,9 +46,9 @@ void Roller::Update(void)
 	static XMFLOAT3 rot = { 0.0f,XMConvertToRadians(45.0f), 0.0f };
 	rot.x -= ROTATE_SPEED;
 
-	if (rot.x < -XM_PI)
+	if (rot.x < -XM_PI*2)
 	{
-		rot.x += XM_PI * 2.0f;
+		rot.x = 0.0f;
 	}
 
 	m_prefab->SetRot(rot);

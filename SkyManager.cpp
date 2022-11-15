@@ -88,12 +88,12 @@ void SkyManager::Update(void)
 
 	//m_seasons[BUFFER_FRONT]->GetPrefab()->SetColor(m_color);
 
-	if (GetKeyboardTrigger(DIK_F1))
-	{
-		m_swich++;
-		m_swich %= SEASON_MODE_MAX;
+	//if (GetKeyboardTrigger(DIK_F1))
+	//{
+	//	m_swich++;
+	//	m_swich %= SEASON_MODE_MAX;
 
-	}
+	//}
 
 
 	// デバッグ用
@@ -132,13 +132,40 @@ void SkyManager::Update(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void SkyManager::Draw(void)
+void SkyManager::Draw(SKYBG_MODE swich)
 {
+	m_swich = swich;
+
+	switch (m_swich)
+	{
+	case SEASON_MODE_SPRING:
+		m_seasons[BUFFER_FRONT]->GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[SEASON_MODE_SPRING];
+		break;
+
+	case SEASON_MODE_SUMMER:
+		m_seasons[BUFFER_FRONT]->GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[SEASON_MODE_SUMMER];
+		break;
+
+	case SEASON_MODE_AUTUMN:
+		m_seasons[BUFFER_FRONT]->GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[SEASON_MODE_AUTUMN];
+		break;
+
+	case SEASON_MODE_WINTER:
+		m_seasons[BUFFER_FRONT]->GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[SEASON_MODE_WINTER];
+		break;
+
+	case SEASON_MODE_RAIN:
+		m_seasons[BUFFER_FRONT]->GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[SEASON_MODE_RAIN];
+		break;
+	}
 
 
 	for (int i = 0; i < BUFFER_MAX; i++)
 	{
-		if (m_seasons[i]) m_seasons[i]->Draw();
+		if (m_seasons[i])
+		{
+			m_seasons[i]->Draw();
+		}
 	}
 
 #ifdef _DEBUG	// デバッグ情報を表示する
@@ -146,41 +173,3 @@ void SkyManager::Draw(void)
 #endif
 
 }
-
-//=============================================================================
-// 生成処理
-//=============================================================================
-//void SkyManager::Create(SEASON_MODE mode)
-//{
-//
-//	// フロントが使用中ならバックに生成
-//	if (m_seasons[BUFFER_FRONT])
-//	{
-//		// バックに生成
-//		m_seasons[BUFFER_BACK] = new Sky;
-//		m_seasons[BUFFER_BACK]->GetPrefab()->SetModel(g_ModelName[mode]);
-//		m_seasons[BUFFER_BACK]->SetIsUse(TRUE);
-//
-//		// フロントをデリート
-//		m_seasons[BUFFER_FRONT]->SetIsUse(FALSE);
-//		delete  m_seasons[BUFFER_FRONT];
-//		m_seasons[BUFFER_FRONT] = nullptr;
-//
-//	}
-//
-//	// バックが使用中ならフロントに生成
-//	else if (m_seasons[BUFFER_BACK])
-//	{
-//		// フロントに生成
-//		m_seasons[BUFFER_FRONT] = new Sky;
-//		m_seasons[BUFFER_FRONT]->GetPrefab()->SetModel(g_ModelName[mode]);
-//		m_seasons[BUFFER_FRONT]->SetIsUse(TRUE);
-//
-//		// バックをデリート
-//		m_seasons[BUFFER_BACK]->SetIsUse(FALSE);
-//		delete  m_seasons[BUFFER_BACK];
-//		m_seasons[BUFFER_BACK] = nullptr;
-//
-//	}
-//
-//}

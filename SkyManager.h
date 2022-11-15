@@ -24,6 +24,16 @@ enum SEASON_MODE
 	SEASON_MODE_MAX,
 };
 
+enum SKYBG_MODE
+{
+	SKYBG_MODE_Kemuri,		// 煙
+	SKYBG_MODE_Aozora,		// 青空
+	SKYBG_MODE_Utyuu,		// 宇宙
+	SKYBG_MODE_Kumori,		// 曇り
+	SKYBG_MODE_Shining,		// シャイニング
+	SKYBG_MODE_MAX,
+};
+
 enum BUFFER_MODE
 {
 	BUFFER_FRONT,		// フロントバッファー
@@ -38,7 +48,7 @@ static std::string g_ModelName[SEASON_MODE_MAX] = {
 static char *g_TextureName[SEASON_MODE_MAX] =
 {
 	"data/TEXTURE/SKY/tex_skyKumori_01.jpg",
-	"data/TEXTURE/SKY/sky000.jpg",
+	"data/TEXTURE/SKY/sky001.jpg",
 	"data/TEXTURE/SKY/tex_skyStar_01.png",
 	"data/TEXTURE/SKY/sky002.jpg",
 	"data/TEXTURE/SKY/tex_skyNami_01.jpg",
@@ -62,6 +72,5 @@ public:
 	~SkyManager();
 
 	void Update(void);
-	void Draw(void);
-	void Create(SEASON_MODE mode);
+	void Draw(SKYBG_MODE swich);
 };
