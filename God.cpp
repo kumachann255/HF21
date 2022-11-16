@@ -14,6 +14,7 @@
 #include "QuestBoardManager.h"
 #include "Slot.h"
 #include "FlyingCrowManager.h"
+#include "slotManager.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -39,9 +40,7 @@ God::God()
 	m_pSkymanager = new SkyManager(this);
 	m_pRoller = new Roller(this);
 	m_pQuestBoardManager = new QuestBoardManager(this);
-	m_pSlot = new Slot(this);
-	m_pFlyingCrowManager = new FlyingCrowManager(this);
-
+	m_pSlotManager = new SlotManager(this);
 }
 
 //=============================================================================
@@ -56,8 +55,7 @@ God::~God()
 	delete m_pSkymanager;
 	delete m_pRoller;
 	delete m_pQuestBoardManager;
-	delete m_pSlot;
-	delete m_pFlyingCrowManager;
+	delete m_pSlotManager;
 }
 
 //=============================================================================

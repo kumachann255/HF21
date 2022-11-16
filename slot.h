@@ -4,6 +4,7 @@
 #include "housing.h"
 #include "drum3D.h"
 #include "GodObject.h"
+#include "FlyingCrowManager.h"
 
 class Slot:public GodObject
 {
@@ -13,6 +14,8 @@ private:
 	Drum3D* pDrumC = nullptr;
 	Drum3D* pDrumR = nullptr;
 
+
+	bool m_shot = false;
 	int m_count = 0;
 	bool m_move = false;
 
@@ -39,8 +42,8 @@ public:
 
 	XMFLOAT4 GetColor(void);
 
-
-
+	void SetShot(bool data) { m_shot = data; }
+	bool GetShot(void) { return m_shot; }
 
 
 
