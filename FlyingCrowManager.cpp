@@ -87,7 +87,6 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color)
 	{
 		if (!m_pFlyingCrow[i].GetIsUse())
 		{
-
 			XMFLOAT3 targetPos = { -50.0f, 20.0f, -100.0f };
 			XMFLOAT3 scl = { 0.5f,0.5f,0.5f };
 			float speed = (float)(rand() % FLYINGCROW_SPEED_MAX + 10) * 0.001f;
@@ -100,7 +99,7 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color)
 			m_pFlyingCrow[i].SetColor(color);
 			m_pFlyingCrow[i].SetSpeed(speed);
 			m_pFlyingCrow[i].SetTime(0.0f);
+			m_pFlyingCrow[i].GetPrefab()->SetColor(color);
 		}
 	}
-
 }

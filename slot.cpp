@@ -83,7 +83,7 @@ void Slot::Update(void)
 		else if (pDrumL->GetMove())
 		{
 			pDrumL->Stop();
-
+			m_shot = true;
 		}
 	}
 

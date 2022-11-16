@@ -15,6 +15,7 @@
 #include "FlyingCrowManager.h"
 #include "debugproc.h"
 #include "light.h"
+#include "slotManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -57,17 +58,17 @@ void Stage_01::Update(void)
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRoller()->Update();
 	GetGod()->GetQuestBoardManager()->Update();
-	GetGod()->GetSlot()->Update();
-	GetGod()->GetFlyingCrowManager()->Update();
-
+	//GetGod()->GetSlot()->Update();
+	//GetGod()->GetFlyingCrowManager()->Update();
+	GetGod()->GetSlotManager()->Update();
 
 	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
 
 	// カラース発生
-	if (GetKeyboardTrigger(DIK_5))
-	{
-		GetGod()->GetFlyingCrowManager()->SetShotCrows(color);
-	}
+	//if (GetKeyboardTrigger(DIK_5))
+	//{
+	//	GetGod()->GetFlyingCrowManager()->SetShotCrows(color);
+	//}
 
 }
 
@@ -98,7 +99,7 @@ void Stage_01::Draw(void)
 	case TYPE_LEFT_HALF_SCREEN:
 	case TYPE_RIGHT_HALF_SCREEN:
 
-	//左画面=====================================
+	//右下画面=====================================
 
 		SetViewPort(TYPE_DOWN_RIGHT_HALF_SCREEN);
 		SetCameraAT(pos);
@@ -108,7 +109,7 @@ void Stage_01::Draw(void)
 		SetLightPos(0, lightPos);
 
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Shining);
-		GetGod()->GetSlot()->Draw();
+		GetGod()->GetSlotManager()->Draw(slot);
 
 	//左画面=====================================
 
@@ -122,7 +123,7 @@ void Stage_01::Draw(void)
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
 		GetGod()->GetRoller()->Draw();
 		GetGod()->GetQuestBoardManager()->Draw();
-		GetGod()->GetFlyingCrowManager()->Draw();
+		GetGod()->GetSlotManager()->Draw(FlyingCrow);
 
 	//右上画面===================================
 
