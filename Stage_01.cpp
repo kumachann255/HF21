@@ -11,7 +11,10 @@
 #include "QuestBoardManager.h"
 #include "fade.h"
 #include "camera.h"
+#include "slot.h"
+#include "FlyingCrowManager.h"
 #include "debugproc.h"
+#include "light.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -48,12 +51,24 @@ void Stage_01::Init(void)
 //=============================================================================
 void Stage_01::Update(void)
 {
+	// シーン切り替えチェック
+	NextScene();
+
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRoller()->Update();
 	GetGod()->GetQuestBoardManager()->Update();
+	GetGod()->GetSlot()->Update();
+	GetGod()->GetFlyingCrowManager()->Update();
 
-	// シーン切り替えチェック
-	NextScene();
+
+	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
+
+	// カラース発生
+	if (GetKeyboardTrigger(DIK_5))
+	{
+		GetGod()->GetFlyingCrowManager()->SetShotCrows(color);
+	}
+
 }
 
 //=============================================================================
@@ -62,12 +77,11 @@ void Stage_01::Update(void)
 void Stage_01::Draw(void)
 {
 	XMFLOAT3 pos = { 0.0f,0.0f,0.0f };
-
-
+	SetShader(SHADER_MODE_PHONG);
+	
 #ifdef _DEBUG
 	// デバッグ表示
 	PrintDebugProc("GetViewPortType():%d\n", GetViewPortType());
-
 #endif
 
 	switch (GetViewPortType())
@@ -86,13 +100,29 @@ void Stage_01::Draw(void)
 
 	//左画面=====================================
 
+		SetViewPort(TYPE_DOWN_RIGHT_HALF_SCREEN);
+		SetCameraAT(pos);
+		SetCamera();
+
+		XMFLOAT3 lightPos = { 100.0f, 0.0f, -100.0f };
+		SetLightPos(0, lightPos);
+
+		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Shining);
+		GetGod()->GetSlot()->Draw();
+
+	//左画面=====================================
+
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
 		SetCameraAT(pos);
 		SetCamera();
 
-		GetGod()->GetSkyManager()->Draw();
+		XMFLOAT3 lightPos2 = { -500.0f, 50.0f, -100.0f };
+		SetLightPos(0, lightPos2);
+
+		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
 		GetGod()->GetRoller()->Draw();
 		GetGod()->GetQuestBoardManager()->Draw();
+		GetGod()->GetFlyingCrowManager()->Draw();
 
 	//右上画面===================================
 
@@ -100,7 +130,7 @@ void Stage_01::Draw(void)
 		SetCameraAT(pos);
 		SetCamera();
 
-		GetGod()->GetSkyManager()->Draw();
+		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Utyuu);
 
 
 		break;
@@ -124,7 +154,7 @@ void Stage_01::Draw(void)
 void Stage_01::NextScene(void)
 {
 	// フェードアウトを開始させる
-	if (GetKeyboardTrigger(DIK_RETURN))
+	if (GetKeyboardTrigger(DIK_1))
 	{
 		SetFade(FADE_OUT);
 	}

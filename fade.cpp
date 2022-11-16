@@ -177,6 +177,8 @@ void DrawFade(void)
 {
 	if (g_Fade == FADE_NONE) return;	// フェードしないのなら描画しない
 
+	SetViewPort(TYPE_FULL_SCREEN);
+
 	// 2Dの物を描画する処理
 	// Z比較なし
 	SetDepthEnable(FALSE);

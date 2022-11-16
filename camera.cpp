@@ -166,8 +166,8 @@ void UpdateCamera(void)
 	// カメラを初期に戻す
 	if (GetKeyboardPress(DIK_R))
 	{
-		UninitCamera();
-		InitCamera();
+		//UninitCamera();
+		//InitCamera();
 	}
 
 #endif
@@ -175,7 +175,7 @@ void UpdateCamera(void)
 
 
 #ifdef _DEBUG	// デバッグ情報を表示する
-	PrintDebugProc("Camera:ZC QE TB YN UM R\n");
+	//PrintDebugProc("Camera:ZC QE TB YN UM R\n");
 #endif
 }
 
@@ -339,5 +339,3 @@ void SetCameraAT(XMFLOAT3 pos)
 	g_Camera.pos.z = g_Camera.at.z - cosf(g_Camera.rot.y) * g_Camera.len;
 
 }
-
-

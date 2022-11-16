@@ -1,24 +1,34 @@
 //=============================================================================
 //
-// ライト処理 [light.h]
+// カラース管理処理 [FlyingCrowManager.h]
 // Author : 
 //
 //=============================================================================
 #pragma once
-
+#include "FlyingCrow.h"
+#include "GodObject.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define CROWS_MAX (50)
+
 
 //*****************************************************************************
-// プロトタイプ宣言
+// クラス定義
 //*****************************************************************************
-void InitLight(void);
-void UpdateLight(void);
+class FlyingCrowManager :public GodObject
+{
 
-void SetLightData(int index, LIGHT *light);
-void SetLightPos(int index, XMFLOAT3 pos);
-void SetFogData(FOG *fog);
-LIGHT *GetLightData(int index);
+private:
+	FlyingCrow *m_pFlyingCrow = nullptr;
+public:
+	FlyingCrowManager(God *god);
+	~FlyingCrowManager();
 
+	void Update(void);
+	void Draw(void);
+	void SetShotCrows(XMFLOAT4 color);
+	void FlyingCrowManager::SetCrows(XMFLOAT3 pos, XMFLOAT3 rot);
+
+};

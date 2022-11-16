@@ -181,7 +181,7 @@ void Title::Draw(void)
 void Title::NextScene(void)
 {
 	// フェードアウトを開始させる
-	if (GetKeyboardTrigger(DIK_RETURN))
+	if (GetKeyboardTrigger(DIK_1))
 	{
 		SetFade(FADE_OUT);
 	}

@@ -84,6 +84,17 @@ void SetLightData(int index, LIGHT *light)
 	SetLight(index, light);
 }
 
+//=============================================================================
+// ライトの設定
+// Typeによってセットするメンバー変数が変わってくる
+//=============================================================================
+void SetLightPos(int index, XMFLOAT3 pos)
+{
+	g_Light[index].Position = pos;
+
+	SetLight(index, &g_Light[index]);
+}
+
 
 LIGHT *GetLightData(int index)
 {

@@ -45,13 +45,17 @@ QuestBoardManager::~QuestBoardManager()
 //=============================================================================
 void QuestBoardManager::Update(void)
 {
-	if (GetKeyboardTrigger(DIK_F5))
+	float RollerAngle = GetGod()->GetRoller()->GetPrefab()->GetRot().x;
+
+	//if (RollerAngleX < XMConvertToRadians(45.0f))
+
+	if (GetKeyboardTrigger(DIK_6))
 	{
 		m_StartPos = { 0.0f + (rand()%100),70.0f,0.0f };
 		BoardArray.push_back(new QuestBoard(MODEL_NAME01, m_StartPos));
 	}
 
-	if (GetKeyboardTrigger(DIK_F6))
+	if (GetKeyboardTrigger(DIK_7))
 	{
 		BoardArray.erase(std::cbegin(BoardArray));
 	}
@@ -65,7 +69,7 @@ void QuestBoardManager::Update(void)
 
 
 #ifdef _DEBUG	// デバッグ情報を表示する
-	PrintDebugProc("Board.Size:%d\n", BoardArray.size());
+	//PrintDebugProc("Board.Size:%d\n", BoardArray.size());
 	//PrintDebugProc("BoardArray.back().GetIsUse():%d\n", BoardArray.back().GetIsUse());
 #endif
 
@@ -93,6 +97,14 @@ void QuestBoardManager::Draw(void)
 
 		(*it)->Draw(mtxWorld);
 	}
+
+
+//#ifdef _DEBUG	// デバッグ情報を表示する
+//	PrintDebugProc("Rollerの回転 X :%f\n", GetGod()->GetRoller()->GetPrefab()->GetRot().x);
+//	PrintDebugProc("Rollerの回転 Y :%f\n", GetGod()->GetRoller()->GetPrefab()->GetRot().y);
+//	PrintDebugProc("Rollerの回転 Z :%f\n", GetGod()->GetRoller()->GetPrefab()->GetRot().z);
+//#endif
+
 }
 
 
