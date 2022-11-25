@@ -15,6 +15,9 @@
 #include "Slot.h"
 #include "FlyingCrowManager.h"
 #include "slotManager.h"
+#include "room.h"
+#include "trainingCrow.h"
+#include "TrainingCrowManager.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -41,6 +44,9 @@ God::God()
 	m_pRoller = new Roller(this);
 	m_pQuestBoardManager = new QuestBoardManager(this);
 	m_pSlotManager = new SlotManager(this);
+	m_pRoom = new Room(this);
+	m_pTrainingCrowSquat = new TrainingCrowSquat(this);
+	m_pTrainingCrowManager = new TrainingCrowManager(this);
 }
 
 //=============================================================================
@@ -56,6 +62,9 @@ God::~God()
 	delete m_pRoller;
 	delete m_pQuestBoardManager;
 	delete m_pSlotManager;
+	delete m_pRoom;
+	delete m_pTrainingCrowSquat;
+	delete m_pTrainingCrowManager;
 }
 
 //=============================================================================

@@ -7,8 +7,8 @@
 
 enum
 {
-	slot,
-	FlyingCrow,
+	No_slot,
+	No_FlyingCrow,
 };
 
 

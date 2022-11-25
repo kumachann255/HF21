@@ -31,11 +31,11 @@ void SlotManager::Draw(int type)
 {
 	switch (type)
 	{
-	case slot:
+	case No_slot:
 		m_pSlot->Draw();
 		break;
 
-	case FlyingCrow:
+	case No_FlyingCrow:
 		m_pFlyingCrowManager->Draw();
 		break;
 	}
