@@ -287,6 +287,7 @@ void Update(void)
 	PrintDebugProc("[7]:クエストボード削除\n");
 	PrintDebugProc("[enter]:スロット開始\n");
 	PrintDebugProc("[space]:スロット停止\n");
+	PrintDebugProc("[T]:筋トレメニュー変更\n");
 #endif
 
 

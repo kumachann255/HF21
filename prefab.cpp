@@ -67,6 +67,30 @@ void Prefab::SetModel(std::string modelName)
 	m_isLoadModel = TRUE;
 }
 
+void Prefab::SetModelMorphing(std::string modelName)
+{
+	char path[256] = "data/MODEL/";
+
+	// strcat(文字連結)の引数はポインターなので
+	// c_str()でcharのポインタを取り出しています。
+	LoadModelMorphing(strcat(path, modelName.c_str()), &m_model);
+
+	m_name = modelName;
+
+	m_isLoadModel = TRUE;
+
+}
+
+MODEL Prefab::GetModel(std::string modelName)
+{
+	MODEL model;
+	char path[256] = "data/MODEL/";
+
+	LoadObj(strcat(path, modelName.c_str()), &model);
+
+	return MODEL();
+}
+
 void Prefab::SetColor(XMFLOAT4 color)
 {
 	m_model.SubsetArray[0].Material.Material.Diffuse = color;

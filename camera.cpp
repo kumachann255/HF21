@@ -21,8 +21,8 @@
 #define	SLOT_POS_Z_CAM		(-30.0f)		// カメラの初期位置(Z座標)
 
 #define	IVENT_POS_X_CAM		(20.0f)			// カメラの初期位置(X座標)
-#define	IVENT_POS_Y_CAM		(30.0f)		// カメラの初期位置(Y座標)
-#define	IVENT_POS_Z_CAM		(-50.0f)		// カメラの初期位置(Z座標)
+#define	IVENT_POS_Y_CAM		(30.0f)			// カメラの初期位置(Y座標)
+#define	IVENT_POS_Z_CAM		(-100.0f)		// カメラの初期位置(Z座標)
 
 
 #define	VIEW_ANGLE		(XMConvertToRadians(45.0f))						// ビュー平面の視野角
@@ -35,11 +35,13 @@
 
 #define	VALUE_MOVE_CAMERA	(2.0f)										// カメラの移動量
 #define	VALUE_ROTATE_CAMERA	(XM_PI * 0.01f)								// カメラの回転量
+#define	VALUE_ROTATE_CAMERA_EVENT	(XM_PI * 0.0011f)								// カメラの回転量
 
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
 static CAMERA			g_Camera;		// カメラデータ
+static CAMERA			g_CameraEvent;	// イベント時のカメラデータ
 
 static int				g_ViewPortType = TYPE_FULL_SCREEN;
 
@@ -52,6 +54,11 @@ void InitCamera(void)
 	g_Camera.at  = { 0.0f, 0.0f, 0.0f };
 	g_Camera.up  = { 0.0f, 1.0f, 0.0f };
 	g_Camera.rot = { 0.0f, 0.0f, 0.0f };
+
+	g_CameraEvent.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
+	g_CameraEvent.at = { 0.0f, 0.0f, 0.0f };
+	g_CameraEvent.up = { 0.0f, 1.0f, 0.0f };
+	g_CameraEvent.rot = { 0.0f, 0.0f, 0.0f };
 
 	// 視点と注視点の距離を計算
 	float vx, vz;
@@ -172,6 +179,17 @@ void UpdateCamera(void)
 
 #endif
 
+	// イベント画面は常に回転している
+	{
+		g_CameraEvent.rot.y += VALUE_ROTATE_CAMERA_EVENT;
+		if (g_CameraEvent.rot.y > XM_PI)
+		{
+			g_CameraEvent.rot.y -= XM_PI * 2.0f;
+		}
+
+		g_CameraEvent.pos.x = g_CameraEvent.at.x - sinf(g_CameraEvent.rot.y) * g_CameraEvent.len;
+		g_CameraEvent.pos.z = g_CameraEvent.at.z - cosf(g_CameraEvent.rot.y) * g_CameraEvent.len;
+	}
 
 
 #ifdef _DEBUG	// デバッグ情報を表示する
@@ -186,24 +204,59 @@ void UpdateCamera(void)
 void SetCamera(void) 
 {
 	// ビューマトリックス設定
-	XMMATRIX mtxView;
-	mtxView = XMMatrixLookAtLH(XMLoadFloat3(&g_Camera.pos), XMLoadFloat3(&g_Camera.at), XMLoadFloat3(&g_Camera.up));
-	SetViewMatrix(&mtxView);
-	XMStoreFloat4x4(&g_Camera.mtxView, mtxView);
 
-	XMMATRIX mtxInvView;
-	mtxInvView = XMMatrixInverse(nullptr, mtxView);
-	XMStoreFloat4x4(&g_Camera.mtxInvView, mtxInvView);
+	if (g_ViewPortType == TYPE_RIGHT_HALF_SCREEN)
+	{
+		XMMATRIX mtxView;
+		mtxView = XMMatrixLookAtLH(XMLoadFloat3(&g_CameraEvent.pos), XMLoadFloat3(&g_CameraEvent.at), XMLoadFloat3(&g_CameraEvent.up));
+		SetViewMatrix(&mtxView);
+		XMStoreFloat4x4(&g_Camera.mtxView, mtxView);
+
+		XMMATRIX mtxInvView;
+		mtxInvView = XMMatrixInverse(nullptr, mtxView);
+		XMStoreFloat4x4(&g_Camera.mtxInvView, mtxInvView);
+	}
+	else
+	{
+		XMMATRIX mtxView;
+		mtxView = XMMatrixLookAtLH(XMLoadFloat3(&g_Camera.pos), XMLoadFloat3(&g_Camera.at), XMLoadFloat3(&g_Camera.up));
+		SetViewMatrix(&mtxView);
+		XMStoreFloat4x4(&g_Camera.mtxView, mtxView);
+
+		XMMATRIX mtxInvView;
+		mtxInvView = XMMatrixInverse(nullptr, mtxView);
+		XMStoreFloat4x4(&g_Camera.mtxInvView, mtxInvView);
+	}
 
 
 	// プロジェクションマトリックス設定
 	XMMATRIX mtxProjection;
 	mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT, VIEW_NEAR_Z, VIEW_FAR_Z);
 
+	switch (g_ViewPortType)
+	{
+	case TYPE_LEFT_HALF_SCREEN:
+		mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
 
-	if(g_ViewPortType == TYPE_LEFT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
-	else if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN ) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
-	else if (g_ViewPortType == TYPE_RIGHT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_IVENT, VIEW_NEAR_Z, VIEW_FAR_Z);
+		break;
+
+	case TYPE_DOWN_RIGHT_HALF_SCREEN:
+		mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
+
+		break;
+
+	case TYPE_RIGHT_HALF_SCREEN:
+		mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_IVENT, VIEW_NEAR_Z, VIEW_FAR_Z);
+
+		break;
+
+	default:
+
+		break;
+	}
+	//if(g_ViewPortType == TYPE_LEFT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
+	//else if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN ) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_HARF, VIEW_NEAR_Z, VIEW_FAR_Z);
+	//else if (g_ViewPortType == TYPE_RIGHT_HALF_SCREEN) mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT_IVENT, VIEW_NEAR_Z, VIEW_FAR_Z);
 	SetProjectionMatrix(&mtxProjection);
 	XMStoreFloat4x4(&g_Camera.mtxProjection, mtxProjection);
 
@@ -304,38 +357,76 @@ int GetViewPortType(void)
 void SetCameraAT(XMFLOAT3 pos)
 {
 	// カメラの注視点をプレイヤーの座標にしてみる
-	g_Camera.at = pos;
+	g_Camera.at = g_CameraEvent.at =  pos;
 
+	float vx, vz;
 
-	if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN)
+	switch (g_ViewPortType)
 	{
-		float vx, vz;
+	case TYPE_DOWN_RIGHT_HALF_SCREEN:
 		g_Camera.pos = { POS_X_CAM, SLOT_POS_Y_CAM, SLOT_POS_Z_CAM };
 		vx = g_Camera.pos.x - g_Camera.at.x;
 		vz = g_Camera.pos.z - g_Camera.at.z;
 		g_Camera.len = sqrtf(vx * vx + vz * vz);
-	}
-	else if(g_ViewPortType == TYPE_RIGHT_HALF_SCREEN)
-	{
-		float vx, vz;
+
+		// カメラの視点をカメラのY軸回転に対応させている
+		g_Camera.pos.x = g_Camera.at.x - sinf(g_Camera.rot.y) * g_Camera.len;
+		g_Camera.pos.z = g_Camera.at.z - cosf(g_Camera.rot.y) * g_Camera.len;
+
+		break;
+
+	case TYPE_RIGHT_HALF_SCREEN:
 		//g_Camera.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
-		g_Camera.pos = { IVENT_POS_X_CAM, IVENT_POS_Y_CAM, IVENT_POS_Z_CAM };
-		vx = g_Camera.pos.x - g_Camera.at.x;
-		vz = g_Camera.pos.z - g_Camera.at.z;
-		g_Camera.len = sqrtf(vx * vx + vz * vz);
-	}
-	else
-	{
-		float vx, vz;
+		g_CameraEvent.pos = { IVENT_POS_X_CAM, IVENT_POS_Y_CAM, IVENT_POS_Z_CAM };
+		vx = g_CameraEvent.pos.x - g_CameraEvent.at.x;
+		vz = g_CameraEvent.pos.z - g_CameraEvent.at.z;
+		g_CameraEvent.len = sqrtf(vx * vx + vz * vz);
+
+		// カメラの視点をカメラのY軸回転に対応させている
+		g_CameraEvent.pos.x = g_CameraEvent.at.x - sinf(g_CameraEvent.rot.y) * g_CameraEvent.len;
+		g_CameraEvent.pos.z = g_CameraEvent.at.z - cosf(g_CameraEvent.rot.y) * g_CameraEvent.len;
+
+		break;
+
+	default:
 		g_Camera.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
 		vx = g_Camera.pos.x - g_Camera.at.x;
 		vz = g_Camera.pos.z - g_Camera.at.z;
 		g_Camera.len = sqrtf(vx * vx + vz * vz);
+
+		// カメラの視点をカメラのY軸回転に対応させている
+		g_Camera.pos.x = g_Camera.at.x - sinf(g_Camera.rot.y) * g_Camera.len;
+		g_Camera.pos.z = g_Camera.at.z - cosf(g_Camera.rot.y) * g_Camera.len;
+
+		break;
 	}
 
+	//if (g_ViewPortType == TYPE_DOWN_RIGHT_HALF_SCREEN)
+	//{
+	//	float vx, vz;
+	//	g_Camera.pos = { POS_X_CAM, SLOT_POS_Y_CAM, SLOT_POS_Z_CAM };
+	//	vx = g_Camera.pos.x - g_Camera.at.x;
+	//	vz = g_Camera.pos.z - g_Camera.at.z;
+	//	g_Camera.len = sqrtf(vx * vx + vz * vz);
+	//}
+	//else if(g_ViewPortType == TYPE_RIGHT_HALF_SCREEN)
+	//{
+	//	float vx, vz;
+	//	//g_Camera.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
+	//	g_Camera.pos = { IVENT_POS_X_CAM, IVENT_POS_Y_CAM, IVENT_POS_Z_CAM };
+	//	vx = g_Camera.pos.x - g_Camera.at.x;
+	//	vz = g_Camera.pos.z - g_Camera.at.z;
+	//	g_Camera.len = sqrtf(vx * vx + vz * vz);
+	//}
+	//else
+	//{
+	//	float vx, vz;
+	//	g_Camera.pos = { POS_X_CAM, POS_Y_CAM, POS_Z_CAM };
+	//	vx = g_Camera.pos.x - g_Camera.at.x;
+	//	vz = g_Camera.pos.z - g_Camera.at.z;
+	//	g_Camera.len = sqrtf(vx * vx + vz * vz);
+	//}
 
-	// カメラの視点をカメラのY軸回転に対応させている
-	g_Camera.pos.x = g_Camera.at.x - sinf(g_Camera.rot.y) * g_Camera.len;
-	g_Camera.pos.z = g_Camera.at.z - cosf(g_Camera.rot.y) * g_Camera.len;
+
 
 }

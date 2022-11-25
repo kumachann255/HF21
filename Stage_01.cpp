@@ -16,6 +16,9 @@
 #include "debugproc.h"
 #include "light.h"
 #include "slotManager.h"
+#include "room.h"
+#include "trainingCrow.h"
+#include "TrainingCrowManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -61,6 +64,9 @@ void Stage_01::Update(void)
 	//GetGod()->GetSlot()->Update();
 	//GetGod()->GetFlyingCrowManager()->Update();
 	GetGod()->GetSlotManager()->Update();
+	GetGod()->GetTrainingCrowSquat()->Update();
+	GetGod()->GetTrainingCrowManager()->Update();
+
 
 	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
 
@@ -109,7 +115,8 @@ void Stage_01::Draw(void)
 		SetLightPos(0, lightPos);
 
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Shining);
-		GetGod()->GetSlotManager()->Draw(slot);
+		GetGod()->GetSlotManager()->Draw(No_slot);
+
 
 	//左画面=====================================
 
@@ -123,7 +130,7 @@ void Stage_01::Draw(void)
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
 		GetGod()->GetRoller()->Draw();
 		GetGod()->GetQuestBoardManager()->Draw();
-		GetGod()->GetSlotManager()->Draw(FlyingCrow);
+		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
 
 	//右上画面===================================
 
@@ -132,8 +139,9 @@ void Stage_01::Draw(void)
 		SetCamera();
 
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Utyuu);
-
-
+		//GetGod()->GetRoom()->Draw();
+		//GetGod()->GetTrainingCrowSquat()->Draw();
+		GetGod()->GetTrainingCrowManager()->Draw();
 		break;
 
 	case TYPE_UP_HALF_SCREEN:

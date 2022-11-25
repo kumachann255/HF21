@@ -15,6 +15,9 @@ class QuestBoardManager;
 class Slot;
 class FlyingCrowManager;
 class SlotManager;
+class Room;
+class TrainingCrowSquat;
+class TrainingCrowManager;
 
 enum SCENE_ID {
 	TITLE_ID,
@@ -38,6 +41,9 @@ private:
 	 //Slot *m_pSlot = nullptr;
 	 //FlyingCrowManager *m_pFlyingCrowManager = nullptr;
 	 SlotManager *m_pSlotManager = nullptr;
+	 Room *m_pRoom = nullptr;
+	 TrainingCrowSquat *m_pTrainingCrowSquat = nullptr;
+	 TrainingCrowManager *m_pTrainingCrowManager = nullptr;
 
 public:
 	God();
@@ -55,6 +61,9 @@ public:
 	//Slot *GetSlot() { return m_pSlot; }
 	//FlyingCrowManager *GetFlyingCrowManager() { return m_pFlyingCrowManager; }
 	SlotManager *GetSlotManager() { return m_pSlotManager; }
+	Room *GetRoom() { return m_pRoom; }
+	TrainingCrowSquat *GetTrainingCrowSquat() { return m_pTrainingCrowSquat; }
+	TrainingCrowManager *GetTrainingCrowManager() { return m_pTrainingCrowManager; }
 };
 
 //*****************************************************************************

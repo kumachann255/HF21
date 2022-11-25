@@ -37,7 +37,10 @@ public:
 	~Prefab();	
 
 	void SetModel(std::string modelName);		// ƒ‚ƒfƒ‹“Ç‚İ‚İ
+	void SetModelMorphing(std::string modelName);		// ƒ‚ƒfƒ‹“Ç‚İ‚İ
 	void SetModelDate(DX11_MODEL model) { m_model = model; }
+
+	MODEL GetModel(std::string modelName);
 	
 	BOOL GetIsLoad(void) { return m_isLoadModel; }
 	void SetIsLoad(BOOL flag) {  m_isLoadModel = flag; }
