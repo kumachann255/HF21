@@ -1,45 +1,37 @@
 //=============================================================================
 //
-// クエストボードマネージャー処理 [QuestBoardManager.h]
-// Author : 柏村大地
+// ランプマネージャー処理 [LampManager.h]
+// Author : 
 //
 //=============================================================================
 #pragma once
-#include "QuestBoard.h"
+#include "Lamp.h"
 #include "GodObject.h"
-#include <vector>
-#include "LampManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define LAMP_MAX	(3)
+
 
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-
-// クラスを格納する配列の定義（STL）
-typedef std::vector<QuestBoard*> QuestBoardArray;
-
-class QuestBoardManager :public GodObject
+class LampManager
 {
+
 private:
-	QuestBoardArray BoardArray;
-	XMFLOAT3 m_StartPos{ 0.0f ,0.0f,0.0f };
-	int m_MakeCnt = 0;		// 出現カウント
-	int m_colorId[5][3];	// ボード５個分
-
-	// ランプのテクスチャー
+	Lamp m_lamps[LAMP_MAX] ;
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };
-
+	int m_swich = 0;
+	float m_time = 0;
+	XMFLOAT4 m_color = { 1.0f,1.0f,1.0f,1.0f };
 public:
-	QuestBoardManager(God *god);
-	~QuestBoardManager();
-
-	QuestBoardArray *GetBoardArray(void) { return &BoardArray; }
-	int GetRampColor(void) { BoardArray.size(); }
+	LampManager();
+	~LampManager();
 
 	void Update(void);
-	void Draw(void);
+	void Draw(XMMATRIX WorldMatrix);
+	Lamp *GetLamp(void) { return &m_lamps[0]; }
+	
 };
-

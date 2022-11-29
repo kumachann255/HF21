@@ -282,9 +282,6 @@ void Update(void)
 
 #ifdef _DEBUG	// デバッグ情報を表示する
 	PrintDebugProc("[1]:シーン切り替え\n");
-	PrintDebugProc("[5]:カラース発生\n");
-	PrintDebugProc("[6]:クエストボード発生\n");
-	PrintDebugProc("[7]:クエストボード削除\n");
 	PrintDebugProc("[enter]:スロット開始\n");
 	PrintDebugProc("[space]:スロット停止\n");
 	PrintDebugProc("[T]:筋トレメニュー変更\n");
