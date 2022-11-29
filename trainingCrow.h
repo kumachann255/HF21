@@ -6,13 +6,18 @@
 #include "Morphing.h"
 
 #define MAX_SQUAT_MOVE	(2)	
+#define MAX_SQUAT_SPEED	(0.3f)
+#define MIN_SQUAT_SPEED	(0.03f)
+#define ADD_SQUAT_SPEED	(0.001f)
+
+#define MAX_SQUAT_MAXSPEED_TIME	(60)
 
 class TrainingCrowSquat : public Object, GodObject, Morphing
 {
 private:
-	Prefab *m_prefab2;
-
-	Morphing *m_pMorphing = nullptr;
+	float m_speed = 0.03f;
+	BOOL m_isSpeedUp = FALSE;
+	int m_count = 0;
 
 public:
 	TrainingCrowSquat(God *god) :GodObject(god) {
@@ -21,13 +26,9 @@ public:
 		m_prefab = new Prefab;
 		m_prefab->SetModelMorphing("model_barbellsquat_crow02.obj");
 
-		m_prefab2 = new Prefab;
-		m_prefab2->SetModel("model_barbellsquat_crow01.obj");
-
 		m_Squat_Vertex = new MODEL[MAX_SQUAT_MOVE];
 
 		// モーフィングするオブジェクトの読み込み
-		m_pMorphing = new Morphing;
 		LoadObj("data/MODEL/model_barbellsquat_crow01.obj", &m_Squat_Vertex[0]);
 		LoadObj("data/MODEL/model_barbellsquat_crow02.obj", &m_Squat_Vertex[1]);
 

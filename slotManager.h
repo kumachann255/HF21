@@ -3,7 +3,7 @@
 #include "GodObject.h"
 #include "slot.h"
 #include "FlyingCrowManager.h"
-
+#include "bonusSlot.h"
 
 enum
 {

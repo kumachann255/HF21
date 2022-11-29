@@ -18,6 +18,7 @@
 #include "room.h"
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
+#include "bonusSlotManager.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -47,6 +48,7 @@ God::God()
 	m_pRoom = new Room(this);
 	m_pTrainingCrowSquat = new TrainingCrowSquat(this);
 	m_pTrainingCrowManager = new TrainingCrowManager(this);
+	m_pBonusSlotManager = new BonusSlotManager(this);
 }
 
 //=============================================================================
@@ -65,6 +67,7 @@ God::~God()
 	delete m_pRoom;
 	delete m_pTrainingCrowSquat;
 	delete m_pTrainingCrowManager;
+	delete m_pBonusSlotManager;
 }
 
 //=============================================================================

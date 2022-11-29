@@ -1,4 +1,6 @@
 #include "trainingCrow.h"
+#include "input.h"
+#include "TrainingCrowManager.h"
 
 void TrainingCrowSquat::Update()
 {
@@ -34,9 +36,23 @@ void TrainingCrowSquat::Update()
 			m_pVertex[p].Position.z += m_Squat_Vertex[brfore].VertexArray[p].Position.z;
 		}
 
-		if (m_time < 1.0f)
+		if (this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
 		{
-			m_time += 0.03f;
+			if(m_speed < MAX_SQUAT_SPEED) m_speed += ADD_SQUAT_SPEED;
+			else
+			{
+				m_count++;
+			}
+		}
+		else
+		{
+			m_speed = MIN_SQUAT_SPEED;
+			m_count = 0;
+		}
+
+		if ((m_time < 1.0f) && (m_count < MAX_SQUAT_MAXSPEED_TIME))
+		{
+			m_time += m_speed;
 
 			if (m_time > 1.0f)
 			{
@@ -45,6 +61,16 @@ void TrainingCrowSquat::Update()
 				m_MorphingType %= m_MorphingTypeMax;
 			}
 		}
+		else
+		{	// ê¨å˜
+			m_time = 0.0f;
+			m_MorphingType = 0;
+		}
+		//else
+		//{	// é∏îs
+		//	m_time = 0.0f;
+		//	m_MorphingType = 1;
+		//}
 
 		D3D11_SUBRESOURCE_DATA sd;
 		ZeroMemory(&sd, sizeof(sd));

@@ -14,8 +14,11 @@
 // マクロ定義
 //*****************************************************************************
 #define	POS_X_CAM			(0.0f)			// カメラの初期位置(X座標)
-#define	POS_Y_CAM			(150.0f)			// カメラの初期位置(Y座標)
+#define	POS_Y_CAM			(150.0f)		// カメラの初期位置(Y座標)
 #define	POS_Z_CAM			(-500.0f)		// カメラの初期位置(Z座標)
+
+#define	FULL_POS_Y_CAM		(5.0f)		// カメラの初期位置(Y座標)
+#define	FULL_POS_Z_CAM		(-40.0f)		// カメラの初期位置(Z座標)
 
 #define	SLOT_POS_Y_CAM		(5.0f)			// カメラの初期位置(Y座標)
 #define	SLOT_POS_Z_CAM		(-30.0f)		// カメラの初期位置(Z座標)
@@ -352,7 +355,6 @@ int GetViewPortType(void)
 }
 
 
-
 // カメラの視点と注視点をセット
 void SetCameraAT(XMFLOAT3 pos)
 {
@@ -385,6 +387,20 @@ void SetCameraAT(XMFLOAT3 pos)
 		// カメラの視点をカメラのY軸回転に対応させている
 		g_CameraEvent.pos.x = g_CameraEvent.at.x - sinf(g_CameraEvent.rot.y) * g_CameraEvent.len;
 		g_CameraEvent.pos.z = g_CameraEvent.at.z - cosf(g_CameraEvent.rot.y) * g_CameraEvent.len;
+
+		break;
+
+	case TYPE_FULL_SCREEN:
+		g_Camera.pos = { POS_X_CAM, FULL_POS_Y_CAM, FULL_POS_Z_CAM };
+		g_Camera.at.y = FULL_POS_Y_CAM;
+
+		vx = g_Camera.pos.x - g_Camera.at.x;
+		vz = g_Camera.pos.z - g_Camera.at.z;
+		g_Camera.len = sqrtf(vx * vx + vz * vz);
+
+		// カメラの視点をカメラのY軸回転に対応させている
+		g_Camera.pos.x = g_Camera.at.x - sinf(g_Camera.rot.y) * g_Camera.len;
+		g_Camera.pos.z = g_Camera.at.z - cosf(g_Camera.rot.y) * g_Camera.len;
 
 		break;
 

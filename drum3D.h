@@ -2,14 +2,36 @@
 #include "main.h"
 #include "object.h"
 
+#define MAX_RESULT_NORMAL	 (9)
+#define MAX_RESULT_BONUS	 (10)
+#define RADIAN9 (6.14f / MAX_RESULT_NORMAL)
+#define RADIAN10 (6.14f / MAX_RESULT_BONUS)
+#define MAX_SPEED_NORMAL	(0.07f)
+
+#define OFFSET	(0.25f)
+
+enum {
+	drum3D_red,
+	drum3D_blue,
+	drum3D_yellow,
+	drum3D_max,
+};
+
+
 class Drum3D : public Object
 {
 private:
 	float m_speed = 0.0f;
-	const float m_speedMax = 0.07f;
 	bool m_move = false;
 	int m_color = 0;
 	float m_result = 0.0f;
+	int m_resultMax = MAX_RESULT_NORMAL;
+	float m_resultRadian = RADIAN9;
+
+protected:
+	float m_offset = OFFSET;
+	int m_colorMax = drum3D_max;
+	float m_speedMax = MAX_SPEED_NORMAL;
 
 public:
 	Drum3D();
@@ -19,6 +41,9 @@ public:
 
 	void SetMove(bool date) { m_move = date; }
 	bool GetMove(void) { return m_move; }
+
+	void SetNormal(void);
+	void SetBonus(void);
 
 	int GetColor(void) { return m_color; }
 

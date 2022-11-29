@@ -1,14 +1,42 @@
 #include "trainingCrowBench.h"
+#include "TrainingCrowManager.h"
 
 void TrainingCrowBench::Update()
 {
+	if (this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
+	{
+		if(m_speed < MAX_BENCH_SPEED) m_speed += ADD_BENCH_SPEED;
+		else
+		{
+			m_count++;
+		}
+	}
+	else
+	{
+		m_speed = BENCH_SPEED;
+		m_count = 0;
+	}
+
 	if ((GetPos().y < m_wing_Pos.y) || (GetPos().y - BENCH_MAX_HEIGHT > m_wing_Pos.y))
 	{
 		m_vec *= -1.0f;
 	}
 
-	m_wing_Pos.y += BENCH_SPEED * m_vec;
-	m_barbell_Pos.y += BENCH_SPEED * m_vec;
+	if (m_count < MAX_BENCH_MAXSPEED_TIME)
+	{
+		m_wing_Pos.y += m_speed * m_vec;
+		m_barbell_Pos.y += m_speed * m_vec;
+	}
+	else
+	{	// ¬Œ÷
+		m_wing_Pos.y = GetPos().y;
+		m_barbell_Pos.y = GetPos().y;
+	}
+	//else
+	//{	// Ž¸”s
+	//	m_wing_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
+	//	m_barbell_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
+	//}
 
 }
 

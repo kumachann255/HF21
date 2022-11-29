@@ -19,6 +19,7 @@
 #include "room.h"
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
+#include "bonusSlotManager.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -66,6 +67,12 @@ void Stage_01::Update(void)
 	GetGod()->GetSlotManager()->Update();
 	GetGod()->GetTrainingCrowSquat()->Update();
 	GetGod()->GetTrainingCrowManager()->Update();
+	GetGod()->GetBonusSlotManager()->Update();
+
+	if (GetGod()->GetTrainingCrowManager()->GetBonus())
+	{
+		SetViewPort(TYPE_FULL_SCREEN);
+	}
 
 
 	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
@@ -99,6 +106,8 @@ void Stage_01::Draw(void)
 		SetViewPort(TYPE_FULL_SCREEN);
 		SetCameraAT(pos);
 		SetCamera();
+
+		GetGod()->GetBonusSlotManager()->Draw();
 
 		break;
 
