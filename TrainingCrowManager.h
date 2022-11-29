@@ -22,9 +22,17 @@ private:
 
 	int m_Type = No_Bench;
 
+	BOOL m_isBonus = FALSE;
+	BOOL m_isSpeedUp = FALSE;
+
 public:
 	TrainingCrowManager(God *god);
 
 	void Update();
 	void Draw();
+
+	void SetIsSpeedUp(BOOL data) { m_isSpeedUp = data; }
+	BOOL GetIsSpeedUp(void) { return m_isSpeedUp; }
+
+	BOOL GetBonus(void) { return m_isBonus; }
 };

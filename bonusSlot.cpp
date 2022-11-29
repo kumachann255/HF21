@@ -1,11 +1,11 @@
-#include "slot.h"
+#include "bonusSlot.h"
 #include "input.h"
+#include "GodObject.h"
 
-
-Slot::Slot()
+BonusSlot::BonusSlot()
 {
 	// 筐体の初期化
-	pHousing = new Housing();
+	pHousing = new BonusHousing();
 
 	// 筐体の大きさセット
 	XMFLOAT3 sclHousing = { 1.0f,1.0f,1.0f };
@@ -16,9 +16,9 @@ Slot::Slot()
 	pHousing->GetPrefab()->SetRot(rotHousing);
 
 	// ドラム3Dの初期化
-	pDrumL = new Drum3Dx100();
-	pDrumC = new Drum3D();
-	pDrumR = new Drum3D();
+	pDrumL = new BonusDrum();
+	pDrumC = new BonusDrum();
+	pDrumR = new BonusDrum();
 
 	// ドラム3Dの大きさセット
 	XMFLOAT3 scl = { 1.0f,1.0f,1.0f };
@@ -36,16 +36,7 @@ Slot::Slot()
 
 }
 
-Slot::~Slot()
-{
-	delete pDrumL;
-	delete pDrumC;
-	delete pDrumR;
-	delete pHousing;
-}
-
-
-void Slot::Update(void)
+void BonusSlot::Update(void)
 {
 
 	pDrumL->Update();
@@ -74,7 +65,14 @@ void Slot::Update(void)
 		else if (pDrumL->GetMove())
 		{
 			pDrumL->Stop();
-			m_shot = true;
+
+			if ((pDrumR->GetColor() == pDrumC->GetColor()) &&
+				(pDrumR->GetColor() == pDrumL->GetColor()))
+			{
+				pHousing->SetGoMorphing();
+			}
+
+			//m_shot = true;
 		}
 	}
 
@@ -82,7 +80,7 @@ void Slot::Update(void)
 	if ((GetKeyboardTrigger(DIK_RETURN)))
 	{
 		pDrumR->SpinStart();
-		if(!m_move) m_count = 0;
+		if (!m_move) m_count = 0;
 		m_move = true;
 	}
 
@@ -99,7 +97,7 @@ void Slot::Update(void)
 	}
 }
 
-void Slot::Draw()
+void BonusSlot::Draw()
 {
 	pDrumL->Draw();
 	pDrumC->Draw();
@@ -108,59 +106,67 @@ void Slot::Draw()
 }
 
 
-XMFLOAT4 Slot::GetColor(void)
+XMFLOAT4 BonusSlot::GetColor(void)
 {
 	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
 
-	if (!pDrumR->GetMove())
+	if (!pDrumL->GetMove())
 	{
-		switch (pDrumR->GetColor())
+		if ((pDrumR->GetColor() == pDrumC->GetColor()) &&
+			(pDrumR->GetColor() == pDrumL->GetColor()))
 		{
-		case drum3D_red:
-			color.x += 0.7f;
-			break;
-
-		case drum3D_blue:
-			color.z += 0.7f;
-			break;
-
-		case drum3D_yellow:
-			color.x += 0.35f;
-			color.y += 0.35f;
-			break;
+			pHousing->SetGoMorphing();
 		}
+
+
+
+		//switch (pDrumR->GetColor())
+		//{
+		//case drum3D_red:
+		//	color.x += 0.7f;
+		//	break;
+
+		//case drum3D_blue:
+		//	color.z += 0.7f;
+		//	break;
+
+		//case drum3D_yellow:
+		//	color.x += 0.35f;
+		//	color.y += 0.35f;
+		//	break;
+		//}
 	}
 
-	if (!pDrumC->GetMove())
-	{
-		switch (pDrumC->GetColor())
-		{
-		case drum3D_red:
-			color.x += 0.7f;
-			break;
+	//if (!pDrumC->GetMove())
+	//{
+	//	switch (pDrumC->GetColor())
+	//	{
+	//	case drum3D_red:
+	//		color.x += 0.7f;
+	//		break;
 
-		case drum3D_blue:
-			color.z += 0.7f;
+	//	case drum3D_blue:
+	//		color.z += 0.7f;
 
-			// 緑は特殊
-			if (pDrumR->GetColor() == drum3D_yellow)
-			{
-				color = { 0.2f,1.4f,0.2f,1.0f };
-			}
-			break;
+	//		// 緑は特殊
+	//		if (pDrumR->GetColor() == drum3D_yellow)
+	//		{
+	//			color = { 0.2f,1.4f,0.2f,1.0f };
+	//		}
+	//		break;
 
-		case drum3D_yellow:
-			color.x += 0.35f;
-			color.y += 0.35f;
+	//	case drum3D_yellow:
+	//		color.x += 0.35f;
+	//		color.y += 0.35f;
 
-			// 緑は特殊
-			if (pDrumR->GetColor() == drum3D_blue)
-			{
-				color = { 0.2f,1.4f,0.2f,1.0f };
-			}
-			break;
-		}
-	}
+	//		// 緑は特殊
+	//		if (pDrumR->GetColor() == drum3D_blue)
+	//		{
+	//			color = { 0.2f,1.4f,0.2f,1.0f };
+	//		}
+	//		break;
+	//	}
+	//}
 
 	return color;
 }

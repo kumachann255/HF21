@@ -1,8 +1,6 @@
 #include "drum3D.h"
 #include "input.h"
 
-#define RADIAN9 (6.14f / 9.0f)
-#define OFFSET	(0.25f)
 
 Drum3D::Drum3D()
 {
@@ -68,17 +66,30 @@ void Drum3D::SetResult(void)
 
 	float temp = 0.0f;
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < m_resultMax; i++)
 	{
-		if ((rot.x < temp + RADIAN9 / 2) && (rot.x > temp - RADIAN9 / 2))
+		if ((rot.x < temp + m_resultRadian / 2) && (rot.x > temp - m_resultRadian / 2))
 		{
-			m_color = i % 3;
-			m_result = i * RADIAN9;
+			m_color = i % m_colorMax;
+			m_result = i * m_resultRadian;
 			m_result *= -1.0f;
-			m_result -= OFFSET;
+			m_result -= m_offset;
 			return;
 		}
 
-		temp += RADIAN9;
+		temp += m_resultRadian;
 	}
 }
+
+void Drum3D::SetNormal(void)
+{
+	m_resultMax = MAX_RESULT_NORMAL;
+	m_resultRadian = RADIAN9;
+}
+
+void Drum3D::SetBonus(void)
+{
+	m_resultMax = MAX_RESULT_BONUS;
+	m_resultRadian = RADIAN10;
+}
+

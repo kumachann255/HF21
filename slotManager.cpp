@@ -1,10 +1,11 @@
 #include "slotManager.h"
-
+#include "camera.h"
+#include "TrainingCrowManager.h"
 
 
 SlotManager::SlotManager(God *god) : GodObject(god)
 {
-	m_pSlot = new Slot(god);
+	m_pSlot = new Slot();
 	m_pFlyingCrowManager = new FlyingCrowManager(god);
 }
 
@@ -16,6 +17,8 @@ SlotManager::~SlotManager()
 
 void SlotManager::Update()
 {
+	if (this->GetGod()->GetTrainingCrowManager()->GetBonus()) return;
+
 	m_pSlot->Update();
 
 	if (m_pSlot->GetShot())

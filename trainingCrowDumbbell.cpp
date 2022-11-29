@@ -1,13 +1,49 @@
 #include "trainingCrowDumbbell.h"
+#include "TrainingCrowManager.h"
 
 void TrainingCrowDumbbell::Update()
 {
-	if ((GetRot().x < m_wing_Rot.x) || (GetRot().x - DUMBBELL_MAX_ROT > m_wing_Rot.x))
+	if (this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
 	{
-		m_vec *= -1.0f;
+		m_isUp = TRUE;
+		if (m_speed < MAX_DUMBBELL_SPEED) m_speed += ADD_DUMBBELL_SPEED;
+		else
+		{
+			m_count++;
+		}
+	}
+	else
+	{
+		m_speed = DUMBBELL_SPEED;
+		m_count = 0;
+		
+		if (m_isUp)
+		{
+			m_isUp = FALSE;
+			m_wing_Rot = { 0.0f, 3.14f *  0.75f, 0.0f };
+		}
 	}
 
-	m_wing_Rot.x += DUMBBELL_SPEED * m_vec;
+	if (m_speed < MAX_DUMBBELL_SPEED)
+	{
+		if ((GetRot().x + DUMBBELL_MAX_ROT < m_wing_Rot.x) || (GetRot().x - DUMBBELL_MAX_ROT > m_wing_Rot.x))
+		{
+			m_vec *= -1.0f;
+		}
+	}
+	else
+	{
+		m_vec = -1.0f;
+	}
+
+	if (m_count < MAX_DUMBBELL_MAXSPEED_TIME)
+	{
+		m_wing_Rot.x += m_speed * m_vec;
+	}
+	else
+	{
+		m_wing_Rot.x = GetRot().x - 1.72f;
+	}
 }
 
 void TrainingCrowDumbbell::Draw()

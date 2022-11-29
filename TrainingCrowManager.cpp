@@ -20,6 +20,21 @@ void TrainingCrowManager::Update()
 		m_Type %= No_TrainingMax;
 	}
 
+	if (GetKeyboardTrigger(DIK_B))
+	{
+		if(!m_isBonus) m_isBonus = TRUE;
+		else m_isBonus = FALSE;
+	}
+
+	if (GetKeyboardTrigger(DIK_S))
+	{
+		if (!m_isSpeedUp) m_isSpeedUp = TRUE;
+		else
+		{
+			m_isSpeedUp = FALSE;
+		}
+	}
+
 	switch (m_Type)
 	{
 	case No_Squat:

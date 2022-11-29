@@ -288,6 +288,9 @@ void Update(void)
 	PrintDebugProc("[enter]:スロット開始\n");
 	PrintDebugProc("[space]:スロット停止\n");
 	PrintDebugProc("[T]:筋トレメニュー変更\n");
+	PrintDebugProc("[S]:筋トレスピードアップ / リセット\n");
+	PrintDebugProc("[H]:筐体モーフィング進める\n");
+	PrintDebugProc("[N]:筐体モーフィングリセット\n");
 #endif
 
 

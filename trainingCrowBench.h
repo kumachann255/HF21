@@ -7,7 +7,11 @@
 
 #define MAX_BENCH_MOVE	(2)	
 #define BENCH_SPEED		(1.0f)
+#define MAX_BENCH_SPEED		(10.0f)
+#define ADD_BENCH_SPEED		(0.02f)
 #define BENCH_MAX_HEIGHT	(30.0f)
+
+#define MAX_BENCH_MAXSPEED_TIME	(60)
 
 #define BENCH_Y_OFFSET	(2.0f)
 
@@ -22,6 +26,8 @@ private:
 	XMFLOAT3 m_barbell_Pos;
 
 	float m_vec = 1.0f;
+	float m_speed = BENCH_SPEED;
+	int m_count = 0;
 
 public:
 	TrainingCrowBench(God *god) :GodObject(god) {
