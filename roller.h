@@ -9,6 +9,8 @@
 #include "object.h"
 #include "GodObject.h"
 
+#define	ROTATE_SPEED		(0.001f)		// ‰ñ“]‘¬“x
+
 class Roller :public Object , GodObject
 {
 

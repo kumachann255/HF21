@@ -152,6 +152,8 @@
     <ClInclude Include="GodObject.h" />
     <ClInclude Include="housing.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="Lamp.h" />
+    <ClInclude Include="LampManager.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
@@ -200,6 +202,8 @@
     <ClCompile Include="GodObject.cpp" />
     <ClCompile Include="housing.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Lamp.cpp" />
+    <ClCompile Include="LampManager.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
