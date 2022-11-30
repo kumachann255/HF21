@@ -65,7 +65,6 @@ void Stage_01::Update(void)
 	//GetGod()->GetSlot()->Update();
 	//GetGod()->GetFlyingCrowManager()->Update();
 	GetGod()->GetSlotManager()->Update();
-	GetGod()->GetTrainingCrowSquat()->Update();
 	GetGod()->GetTrainingCrowManager()->Update();
 	GetGod()->GetBonusSlotManager()->Update();
 
@@ -147,7 +146,7 @@ void Stage_01::Draw(void)
 		SetCameraAT(pos);
 		SetCamera();
 
-		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Utyuu);
+		//GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Utyuu);
 		//GetGod()->GetRoom()->Draw();
 		//GetGod()->GetTrainingCrowSquat()->Draw();
 		GetGod()->GetTrainingCrowManager()->Draw();

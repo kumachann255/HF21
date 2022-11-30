@@ -45,7 +45,6 @@ God::God()
 	m_pRoller = new Roller(this);
 	m_pQuestBoardManager = new QuestBoardManager(this);
 	m_pSlotManager = new SlotManager(this);
-	m_pRoom = new Room(this);
 	m_pTrainingCrowSquat = new TrainingCrowSquat(this);
 	m_pTrainingCrowManager = new TrainingCrowManager(this);
 	m_pBonusSlotManager = new BonusSlotManager(this);
@@ -64,7 +63,6 @@ God::~God()
 	delete m_pRoller;
 	delete m_pQuestBoardManager;
 	delete m_pSlotManager;
-	delete m_pRoom;
 	delete m_pTrainingCrowSquat;
 	delete m_pTrainingCrowManager;
 	delete m_pBonusSlotManager;

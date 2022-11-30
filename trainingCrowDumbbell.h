@@ -12,7 +12,7 @@
 #define ADD_DUMBBELL_SPEED	(0.0015f)
 #define DUMBBELL_MAX_ROT	(1.0f)
 
-#define MAX_DUMBBELL_MAXSPEED_TIME	(60)
+#define MAX_DUMBBELL_MAXSPEED_TIME	(80)
 
 #define DUMBBELL_Y_OFFSET	(2.0f)
 
@@ -29,6 +29,8 @@ private:
 	float m_speed = DUMBBELL_SPEED;
 	int m_count = 0;
 	BOOL m_isUp = FALSE;
+	int m_waitCount = 0;
+
 
 public:
 	TrainingCrowDumbbell(God *god) :GodObject(god) {

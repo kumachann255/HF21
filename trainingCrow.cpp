@@ -38,7 +38,10 @@ void TrainingCrowSquat::Update()
 
 		if (this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
 		{
-			if(m_speed < MAX_SQUAT_SPEED) m_speed += ADD_SQUAT_SPEED;
+			if (m_speed < MAX_SQUAT_SPEED)
+			{
+				m_speed += ADD_SQUAT_SPEED;
+			}
 			else
 			{
 				m_count++;
@@ -61,16 +64,31 @@ void TrainingCrowSquat::Update()
 				m_MorphingType %= m_MorphingTypeMax;
 			}
 		}
-		else
+		else if(this->GetGod()->GetTrainingCrowManager()->GetSuccess())
 		{	// ¬Œ÷
 			m_time = 0.0f;
 			m_MorphingType = 0;
+			if (m_waitCount > WAIT_SQUAT_TIME * 2)
+			{
+				this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
+				this->GetGod()->GetTrainingCrowManager()->SetBonusStart();
+				m_waitCount = 0;
+				m_speed = BENCH_SPEED;
+				m_count = 0;
+			}
 		}
-		//else
-		//{	// Ž¸”s
-		//	m_time = 0.0f;
-		//	m_MorphingType = 1;
-		//}
+		else if (this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
+		{	// Ž¸”s
+			m_time = 0.0f;
+			m_MorphingType = 1;
+			if (m_waitCount > WAIT_SQUAT_TIME)
+			{
+				this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
+				m_waitCount = 0;
+				m_speed = BENCH_SPEED;
+				m_count = 0;
+			}
+		}
 
 		D3D11_SUBRESOURCE_DATA sd;
 		ZeroMemory(&sd, sizeof(sd));

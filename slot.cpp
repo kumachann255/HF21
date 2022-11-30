@@ -75,6 +75,13 @@ void Slot::Update(void)
 		{
 			pDrumL->Stop();
 			m_shot = true;
+
+			if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_RED;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_BLUE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_YELLOW;
 		}
 	}
 
@@ -111,6 +118,7 @@ void Slot::Draw()
 XMFLOAT4 Slot::GetColor(void)
 {
 	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
+
 
 	if (!pDrumR->GetMove())
 	{

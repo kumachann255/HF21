@@ -13,7 +13,7 @@
 #define	LAMP_ROTATE_SPEED	(0.006f)	// 回転速度
 #define	LAMP_SCL			(1.0f)		// 大きさ
 
-
+#define LAMP_LIFE			(90)
 
 //=============================================================================
 // コンストラクター
@@ -47,6 +47,8 @@ Lamp::~Lamp()
 //=============================================================================
 void Lamp::Update(void)
 {
+	if (!this->GetIsUse()) return;
+
 	static XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
 	rot.x += LAMP_ROTATE_SPEED;
 	rot.y += LAMP_ROTATE_SPEED;
@@ -58,6 +60,15 @@ void Lamp::Update(void)
 		rot.y = 0.0f;
 		rot.z = 0.0f;
 	}
+
+	if (m_clear)
+	{
+		m_count++;
+		if (m_count > LAMP_LIFE)
+		{
+			this->SetIsUse(FALSE);
+		}
+	}
 }
 
 
@@ -66,6 +77,8 @@ void Lamp::Update(void)
 //=============================================================================
 void Lamp::Draw(XMMATRIX WorldMatrix)
 {
+	if (!this->GetIsUse()) return;
+
 	SetCullingMode(CULL_MODE_BACK);
 
 	SetDepthEnable(TRUE);
@@ -82,4 +95,9 @@ void Lamp::Draw(XMMATRIX WorldMatrix)
 
 	DrawModel(m_prefab->GetModel());
 
+}
+
+void Lamp::SetDelete(void)
+{
+	m_clear = TRUE;
 }

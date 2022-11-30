@@ -40,9 +40,30 @@ void TrainingCrowDumbbell::Update()
 	{
 		m_wing_Rot.x += m_speed * m_vec;
 	}
-	else
+	else if(this->GetGod()->GetTrainingCrowManager()->GetSuccess())
 	{
 		m_wing_Rot.x = GetRot().x - 1.72f;
+		m_waitCount++;
+		if (m_waitCount > WAIT_SQUAT_TIME * 2)
+		{
+			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
+			this->GetGod()->GetTrainingCrowManager()->SetBonusStart();
+			m_waitCount = 0;
+			m_speed = BENCH_SPEED;
+			m_count = 0;
+		}
+	}
+	else if(this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
+	{
+		m_wing_Rot.x = GetRot().x + 1.72f;
+		m_waitCount++;
+		if (m_waitCount > WAIT_SQUAT_TIME)
+		{
+			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
+			m_waitCount = 0;
+			m_speed = BENCH_SPEED;
+			m_count = 0;
+		}
 	}
 }
 

@@ -52,6 +52,7 @@ void UpdateCamera(void);
 void SetCamera(void);
 
 CAMERA *GetCamera(void);
+CAMERA *GetCameraEvent(void);
 
 void SetViewPort(int type);
 int GetViewPortType(void);
