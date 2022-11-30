@@ -8,6 +8,7 @@
 #include "input.h"
 //#include "debugproc.h"
 #include "Roller.h"
+#include "TrainingCrowManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -125,6 +126,15 @@ void QuestBoardManager::Update(void)
 			!pLamp[2].GetIsUse() )
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
+			this->GetGod()->GetTrainingCrowManager()->AddStock();
+
+			int probability = rand() % 10;
+
+			if (probability < 2)
+			{
+				this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
+			}
+
 
 			//=============================================
 			/*ここにサウンド入れて!!クエストボード消滅音(成功)*/
@@ -138,7 +148,7 @@ void QuestBoardManager::Update(void)
 	// 消す処理	(時間切れ)
 	if (!BoardArray.empty()){
 		// 120度回転したら消す
-		if(BoardArray[0]->GetRot().x > XMConvertToRadians(120.0f))
+		if(BoardArray[0]->GetRot().x > XMConvertToRadians(210.0f))
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
 
@@ -209,6 +219,30 @@ void QuestBoardManager::Draw(void)
 		// ランプの描画
 		(*board)->GetLampManager()->Draw(mtxWorld);
 	}
+}
+
+int QuestBoardManager::GetSerchBoard(int colorType)
+{
+	//Lamp *lampFlont = BoardArray.front()->GetLampManager()->GetLamp();
+	//lampFlont[0].GetColorTypeId;
+
+	for (int i = 0; i < BoardArray.size(); i++)
+	{
+		if (BoardArray.empty()) continue;
+
+		Lamp *lamp = BoardArray[i]->GetLampManager()->GetLamp();
+		for (int p = 0; p < 3; p++)
+		{
+			if ((lamp[p].GetColorTypeId() == colorType) && (lamp[p].GetIsUse()))
+			{
+				lamp[p].SetDelete();
+				return i;
+			}
+			
+		}
+	}
+
+	return LAMP_TYPE_NONE;
 }
 
 

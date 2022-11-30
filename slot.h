@@ -7,6 +7,7 @@
 #include "GodObject.h"
 #include "FlyingCrowManager.h"
 #include "bonusHousing.h"
+#include "Lamp.h"
 
 
 #define SLOT_SIZE	(1.0f)
@@ -23,7 +24,7 @@ private:
 	int m_count = 0;
 	bool m_move = false;
 
-
+	int m_colorType = 0;
 
 public:
 	Slot();
@@ -49,7 +50,7 @@ public:
 	void SetShot(bool data) { m_shot = data; }
 	bool GetShot(void) { return m_shot; }
 
-
+	int GetColorType(void) { return m_colorType; };
 
 
 

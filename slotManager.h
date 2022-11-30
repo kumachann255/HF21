@@ -4,6 +4,7 @@
 #include "slot.h"
 #include "FlyingCrowManager.h"
 #include "bonusSlot.h"
+#include "QuestBoardManager.h"
 
 enum
 {
@@ -17,6 +18,7 @@ class SlotManager : GodObject
 private:
 	Slot *m_pSlot = nullptr;
 	FlyingCrowManager *m_pFlyingCrowManager = nullptr;
+	//QuestBoardManager *
 
 public:
 	SlotManager(God *god);

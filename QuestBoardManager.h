@@ -41,5 +41,7 @@ public:
 
 	void Update(void);
 	void Draw(void);
+
+	int GetSerchBoard(int colorType);
 };
 

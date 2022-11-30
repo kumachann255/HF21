@@ -4,6 +4,9 @@
 #include "trainingCrow.h"
 #include "trainingCrowBench.h"
 #include "trainingCrowDumbbell.h"
+#include "room.h"
+
+#define BONUS_START_TIME		(120)
 
 enum
 {
@@ -20,10 +23,18 @@ private:
 	TrainingCrowBench *m_pTrainingCrowBench = nullptr;
 	TrainingCrowDumbbell *m_pTrainingCrowDumbbell = nullptr;
 
+	Room *m_pRoom = nullptr;
+
 	int m_Type = No_Bench;
 
 	BOOL m_isBonus = FALSE;
 	BOOL m_isSpeedUp = FALSE;
+	BOOL m_isTrainingSuccess = FALSE;
+	int m_count = 0;
+
+	BOOL m_isSuccess = FALSE;
+
+	int m_stock = 0;
 
 public:
 	TrainingCrowManager(God *god);
@@ -35,4 +46,11 @@ public:
 	BOOL GetIsSpeedUp(void) { return m_isSpeedUp; }
 
 	BOOL GetBonus(void) { return m_isBonus; }
+	void SetBonusStart(void) { m_isTrainingSuccess = TRUE; }
+
+	BOOL GetSuccess(void) { return m_isSuccess; }
+	void SetSuccess(BOOL data) { m_isSuccess = data; }
+	
+	BOOL UseStock(void);
+	void AddStock(void) { m_stock++; };
 };

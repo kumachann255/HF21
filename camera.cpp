@@ -17,8 +17,8 @@
 #define	POS_Y_CAM			(150.0f)		// カメラの初期位置(Y座標)
 #define	POS_Z_CAM			(-500.0f)		// カメラの初期位置(Z座標)
 
-#define	FULL_POS_Y_CAM		(5.0f)		// カメラの初期位置(Y座標)
-#define	FULL_POS_Z_CAM		(-40.0f)		// カメラの初期位置(Z座標)
+#define	FULL_POS_Y_CAM		(7.0f)		// カメラの初期位置(Y座標)
+#define	FULL_POS_Z_CAM		(-130.0f)		// カメラの初期位置(Z座標)
 
 #define	SLOT_POS_Y_CAM		(5.0f)			// カメラの初期位置(Y座標)
 #define	SLOT_POS_Z_CAM		(-30.0f)		// カメラの初期位置(Z座標)
@@ -234,7 +234,7 @@ void SetCamera(void)
 
 	// プロジェクションマトリックス設定
 	XMMATRIX mtxProjection;
-	mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE, VIEW_ASPECT, VIEW_NEAR_Z, VIEW_FAR_Z);
+	mtxProjection = XMMatrixPerspectiveFovLH(VIEW_ANGLE / 3, VIEW_ASPECT, VIEW_NEAR_Z, VIEW_FAR_Z);
 
 	switch (g_ViewPortType)
 	{
@@ -273,6 +273,14 @@ void SetCamera(void)
 CAMERA *GetCamera(void) 
 {
 	return &g_Camera;
+}
+
+//=============================================================================
+// イベント時のカメラの取得
+//=============================================================================
+CAMERA *GetCameraEvent(void)
+{
+	return &g_CameraEvent;
 }
 
 //=============================================================================

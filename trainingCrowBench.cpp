@@ -27,17 +27,34 @@ void TrainingCrowBench::Update()
 		m_wing_Pos.y += m_speed * m_vec;
 		m_barbell_Pos.y += m_speed * m_vec;
 	}
-	else
+	else if(this->GetGod()->GetTrainingCrowManager()->GetSuccess())
 	{	// ¬Œ÷
 		m_wing_Pos.y = GetPos().y;
 		m_barbell_Pos.y = GetPos().y;
-	}
-	//else
-	//{	// Ž¸”s
-	//	m_wing_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
-	//	m_barbell_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
-	//}
+		m_waitCount++;
 
+		if (m_waitCount > WAIT_SQUAT_TIME * 2)
+		{
+			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
+			this->GetGod()->GetTrainingCrowManager()->SetBonusStart();
+			m_waitCount = 0;
+			m_speed = BENCH_SPEED;
+			m_count = 0;
+		}
+	}
+	else if(this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
+	{	// Ž¸”s
+		m_wing_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
+		m_barbell_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
+		m_waitCount++;
+		if (m_waitCount > WAIT_SQUAT_TIME * 4)
+		{
+			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
+			m_waitCount = 0;
+			m_speed = BENCH_SPEED;
+			m_count = 0;
+		}
+	}
 }
 
 void TrainingCrowBench::Draw()

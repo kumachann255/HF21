@@ -10,7 +10,8 @@
 #define MIN_SQUAT_SPEED	(0.03f)
 #define ADD_SQUAT_SPEED	(0.001f)
 
-#define MAX_SQUAT_MAXSPEED_TIME	(60)
+#define MAX_SQUAT_MAXSPEED_TIME	(80)
+#define WAIT_SQUAT_TIME	(60)
 
 class TrainingCrowSquat : public Object, GodObject, Morphing
 {
@@ -18,6 +19,8 @@ private:
 	float m_speed = 0.03f;
 	BOOL m_isSpeedUp = FALSE;
 	int m_count = 0;
+
+	int m_waitCount = 0;
 
 public:
 	TrainingCrowSquat(God *god) :GodObject(god) {
@@ -57,8 +60,5 @@ public:
 
 	void Update();
 
-
 	~TrainingCrowSquat() { delete m_prefab; };
-
-
 };
