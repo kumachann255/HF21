@@ -184,6 +184,7 @@
     <ClInclude Include="trainingCrowDumbbell.h" />
     <ClInclude Include="TrainingCrowManager.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bonusDrumh.cpp" />
@@ -233,6 +234,7 @@
     <ClCompile Include="trainingCrowDumbbell.cpp" />
     <ClCompile Include="TrainingCrowManager.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

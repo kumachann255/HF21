@@ -24,6 +24,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+static char *g_TexturName[STAGE_01_TEX_MAX] = {
+	"data/TEXTURE/bg000.jpg",
+	"data/TEXTURE/title_logo.png",
+	"data/TEXTURE/effect000.jpg",
+};
+
 
 
 //=============================================================================
@@ -31,7 +37,15 @@
 //=============================================================================
 Stage_01::Stage_01(God *god):Scene(god)
 {
+	XMFLOAT3 pos0 = { 0.0f,0.0f,0.0f };
+	float w0 = 200.0f;
+	float h0 = 100.0f;
+	int time0 = 2;
 
+
+	m_UIManager.Register(new UIObject(pos0, w0, h0, time0));
+
+	m_UIManager.GetUIObject(0)->GetUITexData()->Create(g_TexturName[0]);
 }
 
 //=============================================================================
@@ -61,9 +75,12 @@ void Stage_01::Update(void)
 
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRoller()->Update();
-	GetGod()->GetQuestBoardManager()->Update();
 	//GetGod()->GetSlot()->Update();
 	//GetGod()->GetFlyingCrowManager()->Update();
+	if (!GetGod()->GetTrainingCrowManager()->GetBonus())
+	{
+		GetGod()->GetQuestBoardManager()->Update();
+	}
 	GetGod()->GetSlotManager()->Update();
 	GetGod()->GetTrainingCrowManager()->Update();
 	GetGod()->GetBonusSlotManager()->Update();
@@ -71,6 +88,12 @@ void Stage_01::Update(void)
 	if (GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		SetViewPort(TYPE_FULL_SCREEN);
+	}
+
+
+	// テクスチャの更新処理
+	{
+		m_UIManager.GetUIObject(0)->Update();
 	}
 
 
@@ -162,6 +185,11 @@ void Stage_01::Draw(void)
 		break;
 
 	}
+
+
+	m_UIManager.Draw();
+
+
 
 }
 

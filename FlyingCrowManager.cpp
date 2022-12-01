@@ -101,14 +101,13 @@ void FlyingCrowManager::Draw(void)
 //=============================================================================
 // ¶¬ˆ—
 //=============================================================================
-void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType)
+void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType, int num)
 {
-	int a = rand() % (CROWS_MAX - 2) + 2;
 	m_targetNo = colorType;
 
 	QuestBoard **pQuestBoardArray = this->GetGod()->GetQuestBoardManager()->GetBoardArray()->data();
 
-	for (int i = 0; i < a; i++)
+	for (int i = 0; i < num; i++)
 	{
 		if (!m_pFlyingCrow[i].GetIsUse())
 		{

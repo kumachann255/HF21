@@ -1,6 +1,8 @@
 #include "bonusHousing.h"
 #include "input.h"
 
+#define MAX_BONUS_HOUSING_LOOP	(2)
+
 BonusHousing::BonusHousing()
 {
 	m_prefab = new Prefab;
@@ -90,7 +92,27 @@ void BonusHousing::Update()
 		else if (m_time < 1.0f)
 		{
 			m_time += 0.03f;
-			if (m_MorphingType == 1) m_time += 0.08f;
+			if (m_MorphingType == 1)
+			{
+				if (m_loopNum == MAX_BONUS_HOUSING_LOOP) m_time -= 0.01f;
+				else m_time += 0.015f;
+
+				if ((m_time > 1.0f) && (m_loopNum < MAX_BONUS_HOUSING_LOOP))
+				{
+					m_time = 0.0f;
+					m_loopNum++;
+				}
+			}
+		}
+
+		if ((m_time > 1.0f) && (m_loopNum == MAX_BONUS_HOUSING_LOOP))
+		{
+			m_waitTime++;
+		}
+
+		if (m_waitTime > MAX_HOUSING_CLEAR_WAIT)
+		{
+			ResetMorphing();
 		}
 
 		D3D11_SUBRESOURCE_DATA sd;
@@ -106,6 +128,10 @@ void BonusHousing::Update()
 		memcpy(pVtx, m_pVertex, sizeof(VERTEX_3D)*m_Squat_Vertex[0].VertexNum);
 
 		GetDeviceContext()->Unmap(m_prefab->GetModel()->VertexBuffer, 0);
+	}
+	else
+	{
+
 	}
 }
 
@@ -126,3 +152,38 @@ void BonusHousing::SetGoMorphing()
 		m_isVibration = FALSE;
 	}
 }
+
+void BonusHousing::ResetMorphing()
+{
+	m_waitTime = 0;
+	m_isVibration = FALSE;
+	m_isMove = FALSE;
+	m_isEnd = TRUE;
+	m_loopNum = 0;
+
+	// 差分(途中経過)の初期化
+	for (int i = 0; i < m_Squat_Vertex[0].VertexNum; i++)
+	{
+		m_pVertex[i].Position = m_Squat_Vertex[0].VertexArray[i].Position;
+		m_pVertex[i].Diffuse = m_Squat_Vertex[0].VertexArray[i].Diffuse;
+		m_pVertex[i].Normal = m_Squat_Vertex[0].VertexArray[i].Normal;
+		m_pVertex[i].TexCoord = m_Squat_Vertex[0].VertexArray[i].TexCoord;
+	}
+
+	D3D11_SUBRESOURCE_DATA sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = m_pVertex;
+
+	// 頂点バッファに値をセットする
+	D3D11_MAPPED_SUBRESOURCE msr;
+	GetDeviceContext()->Map(m_prefab->GetModel()->VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	VERTEX_3D* pVtx = (VERTEX_3D*)msr.pData;
+
+	// 全頂点情報を毎回上書きしているのはDX11ではこの方が早いからです
+	memcpy(pVtx, m_pVertex, sizeof(VERTEX_3D)*m_Squat_Vertex[0].VertexNum);
+
+	GetDeviceContext()->Unmap(m_prefab->GetModel()->VertexBuffer, 0);
+
+}
+
+

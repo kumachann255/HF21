@@ -1,5 +1,6 @@
 #include "slot.h"
 #include "input.h"
+#include "debugproc.h"
 
 
 Slot::Slot()
@@ -16,7 +17,7 @@ Slot::Slot()
 	pHousing->GetPrefab()->SetRot(rotHousing);
 
 	// ドラム3Dの初期化
-	pDrumL = new Drum3Dx100();
+	pDrumL = new Drum3Dx1050();
 	pDrumC = new Drum3D();
 	pDrumR = new Drum3D();
 
@@ -78,12 +79,40 @@ void Slot::Update(void)
 
 			if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_RED;
 			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_PURPLE;
 			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_ORANGE;
 			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_BLUE;
 			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_GREEN;
 			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_YELLOW;
+
+			switch (pDrumL->GetColor())
+			{
+			case drum3D_x10:
+				m_crowNum = 10;
+				break;
+
+			case drum3D_x30:
+				m_crowNum = 30;
+				break;
+
+			case drum3D_x50:
+				m_crowNum = 50;
+				break;
+			}
 		}
 	}
+
+#ifdef _DEBUG	// デバッグ情報を表示する
+
+	//m_debug = m_colorType;
+	//m_debugR = pDrumR->GetColor();
+	//m_debugC = pDrumC->GetColor();
+	//PrintDebugProc("[%d]:カラースの色タイプ\n", m_debug);
+	//PrintDebugProc("[%d]:Rの色タイプ\n", m_debugR);
+	//PrintDebugProc("[%d]:Cの色タイプ\n", m_debugC);
+#endif
 
 	// 回す
 	if ((GetKeyboardTrigger(DIK_RETURN)))
@@ -169,6 +198,7 @@ XMFLOAT4 Slot::GetColor(void)
 			break;
 		}
 	}
+
 
 	return color;
 }

@@ -16,7 +16,7 @@ class Slot
 {
 private:
 	Housing* pHousing = nullptr;
-	Drum3Dx100* pDrumL = nullptr;
+	Drum3Dx1050* pDrumL = nullptr;
 	Drum3D* pDrumC = nullptr;
 	Drum3D* pDrumR = nullptr;
 
@@ -25,6 +25,12 @@ private:
 	bool m_move = false;
 
 	int m_colorType = 0;
+	int m_crowNum = 0;
+
+	int m_debug = 0;
+	int m_debugR = 0;
+	int m_debugC = 0;
+	int m_debugL = 0;
 
 public:
 	Slot();
@@ -33,7 +39,7 @@ public:
 	//	pHousing(Housing), pDrumL(DrumL), pDrumC(DrumC), pDrumR(DrumR) {}
 
 	void SetHousing(Housing* Housing) { pHousing = Housing; }
-	void SetDrumL(Drum3Dx100* DrumL) { pDrumL = DrumL; }
+	void SetDrumL(Drum3Dx1050* DrumL) { pDrumL = DrumL; }
 	void SetDrumC(Drum3D* DrumC) { pDrumC = DrumC; }
 	void SetDrumR(Drum3D* DrumR) { pDrumR = DrumR; }
 
@@ -52,7 +58,7 @@ public:
 
 	int GetColorType(void) { return m_colorType; };
 
-
-
+	void SetCrowNum(int num) { m_crowNum = num; };
+	int GetCrowNum(void) { return m_crowNum; };
 
 };

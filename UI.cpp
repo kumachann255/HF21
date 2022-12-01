@@ -89,7 +89,6 @@ UITexData::~UITexData()
 		m_Texture->Release();
 		m_Texture = NULL;
 	}
-
 }
 
 
@@ -123,6 +122,8 @@ UIObject::~UIObject()
 //=============================================================================
 void UIObject::Update(void)
 {
+	if (!m_isUse) return;
+
 	m_timeCnt++;
 
 	if (m_timeCnt > m_timeLimit)
