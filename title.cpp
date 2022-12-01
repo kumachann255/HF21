@@ -53,7 +53,7 @@ TitleUI::TitleUI()
 
 	m_UIObject[TITLE_TEX_BG] = new UIObject;
 	m_UIObject[TITLE_TEX_BG]->GetUITexData()->SetTextureName(g_TexturName[TITLE_TEX_BG]);
-	m_UIObject[TITLE_TEX_BG]->GetUITexData()->Create();
+	m_UIObject[TITLE_TEX_BG]->GetUITexData()->Create(g_TexturName[0]);
 
 	XMFLOAT3 pos = { TEXTURE_WIDTH / 2,TEXTURE_HEIGHT / 2,0.0f };
 	m_UIObject[TITLE_TEX_BG]->SetPos(pos);

@@ -146,6 +146,7 @@
     <ClInclude Include="drum3Dx100h.h" />
     <ClInclude Include="eventManager.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="FLUID3D_GPU.h" />
     <ClInclude Include="FlyingCrow.h" />
     <ClInclude Include="FlyingCrowManager.h" />
     <ClInclude Include="game.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="drum3D.cpp" />
     <ClCompile Include="eventManager.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="FLUID3D_GPU.cpp" />
     <ClCompile Include="FlyingCrow.cpp" />
     <ClCompile Include="FlyingCrowManager.cpp" />
     <ClCompile Include="game.cpp" />
