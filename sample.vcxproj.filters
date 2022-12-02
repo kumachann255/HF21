@@ -168,6 +168,9 @@
     <ClInclude Include="FLUID3D_GPU.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\最新版\Staffroll.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -312,6 +315,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="FLUID3D_GPU.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\最新版\Staffroll.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

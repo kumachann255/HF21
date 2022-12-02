@@ -204,7 +204,7 @@ void Stage_01::NextScene(void)
 	// フェードアウトが終わったらシーンを切り替える
 	if (GetFadeOut_EndFlag())
 	{
-		GetGod()->ChangeScene(TITLE_ID);
+		GetGod()->ChangeScene(ENDROLL_ID);
 
 	}
 }

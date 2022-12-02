@@ -19,6 +19,8 @@
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
 #include "bonusSlotManager.h"
+#include "Staffroll.h"
+
 
 //*****************************************************************************
 // マクロ定義
@@ -33,11 +35,12 @@ static SCENE_ID g_curSceneId;
 God::God()
 {
 	// 初めのシーンIDを設定
-	g_curSceneId = STAGE_01ID;
+	g_curSceneId = TITLE_ID;
 
 	//　管理するシーンを登場させる
 	Scenes[TITLE_ID] = new Title(this);
 	Scenes[STAGE_01ID] = new Stage_01(this);
+	Scenes[ENDROLL_ID] = new StaffRoll(this);
 
 
 	// お互いの情報を共有できるようにインスタンス化

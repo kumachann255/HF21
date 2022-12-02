@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\最新版\Staffroll.h" />
     <ClInclude Include="bonusDrumh.h" />
     <ClInclude Include="bonusHousing.h" />
     <ClInclude Include="bonusSlot.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\最新版\Staffroll.cpp" />
     <ClCompile Include="bonusDrumh.cpp" />
     <ClCompile Include="bonusHousing.cpp" />
     <ClCompile Include="bonusSlot.cpp" />
