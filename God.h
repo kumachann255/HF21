@@ -19,6 +19,8 @@ class Room;
 class TrainingCrowSquat;
 class TrainingCrowManager;
 class BonusSlotManager;
+class AnimationManager;
+class TexManager;
 
 enum SCENE_ID {
 	TITLE_ID,
@@ -46,6 +48,9 @@ private:
 	 TrainingCrowSquat *m_pTrainingCrowSquat = nullptr;
 	 TrainingCrowManager *m_pTrainingCrowManager = nullptr;
 	 BonusSlotManager *m_pBonusSlotManager = nullptr;
+	 AnimationManager *m_pAnimationManager = nullptr;
+	 TexManager *m_pTexManager = nullptr;
+
 
 public:
 	God();
@@ -67,6 +72,10 @@ public:
 	TrainingCrowSquat *GetTrainingCrowSquat() { return m_pTrainingCrowSquat; }
 	TrainingCrowManager *GetTrainingCrowManager() { return m_pTrainingCrowManager; }
 	BonusSlotManager *GetBonusSlotManager() { return m_pBonusSlotManager; }
+
+	TexManager *GetTexManager() { return m_pTexManager; }
+	AnimationManager *GetAnimationManager() { return m_pAnimationManager; }
+
 };
 
 //*****************************************************************************

@@ -7,19 +7,21 @@
 #pragma once
 #include "Scene.h"
 #include "UIManager.h"
+#include "AnimationManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define STAGE_01_TEX_MAX			(3)				// テクスチャの数
+#define ENDING_TEX_MAX			(3)				// テクスチャの数
 
-class Stage_01 : public Scene
+class Ending : public Scene
 {
 private:
+	UIManager m_UIManager;
 
 public:
-	Stage_01(God * god);
-	~Stage_01();
+	Ending(God * god);
+	~Ending();
 	void Init();
 	void Update();
 	void Draw();

@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="bonusDrumh.h" />
     <ClInclude Include="bonusHousing.h" />
     <ClInclude Include="bonusSlot.h" />
@@ -144,8 +145,12 @@
     <ClInclude Include="drum.h" />
     <ClInclude Include="drum3D.h" />
     <ClInclude Include="drum3Dx100h.h" />
+    <ClInclude Include="Ending.h" />
+    <ClInclude Include="endingStage.h" />
+    <ClInclude Include="endingSun.h" />
     <ClInclude Include="eventManager.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="FLUID3D_GPU.h" />
     <ClInclude Include="FlyingCrow.h" />
     <ClInclude Include="FlyingCrowManager.h" />
     <ClInclude Include="game.h" />
@@ -178,6 +183,7 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="Stage_01.h" />
+    <ClInclude Include="texManager.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="trainingCrow.h" />
     <ClInclude Include="trainingCrowBench.h" />
@@ -187,6 +193,7 @@
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="bonusDrumh.cpp" />
     <ClCompile Include="bonusHousing.cpp" />
     <ClCompile Include="bonusSlot.cpp" />
@@ -196,8 +203,11 @@
     <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="drum.cpp" />
     <ClCompile Include="drum3D.cpp" />
+    <ClCompile Include="Ending.cpp" />
+    <ClCompile Include="endingSun.cpp" />
     <ClCompile Include="eventManager.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="FLUID3D_GPU.cpp" />
     <ClCompile Include="FlyingCrow.cpp" />
     <ClCompile Include="FlyingCrowManager.cpp" />
     <ClCompile Include="game.cpp" />
@@ -228,6 +238,7 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="Stage_01.cpp" />
+    <ClCompile Include="texManager.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="trainingCrow.cpp" />
     <ClCompile Include="trainingCrowBench.cpp" />

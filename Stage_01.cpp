@@ -20,16 +20,16 @@
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
 #include "bonusSlotManager.h"
+#include "FLUID3D_GPU.h"
+#include "renderer.h"
+#include "texManager.h"
+#include "UI.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-static char *g_TexturName[STAGE_01_TEX_MAX] = {
-	"data/TEXTURE/bg000.jpg",
-	"data/TEXTURE/title_logo.png",
-	"data/TEXTURE/effect000.jpg",
-};
 
+FLUID3D_GPU* m_pSolverGPU;
 
 
 //=============================================================================
@@ -37,15 +37,17 @@ static char *g_TexturName[STAGE_01_TEX_MAX] = {
 //=============================================================================
 Stage_01::Stage_01(God *god):Scene(god)
 {
-	XMFLOAT3 pos0 = { 0.0f,0.0f,0.0f };
-	float w0 = 200.0f;
-	float h0 = 100.0f;
-	int time0 = 2;
+	////ソルバー生成
+	m_pSolverGPU = new FLUID3D_GPU;
 
+	m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
+		, GetRenderTargetView(), GetDepthStencilView());
 
-	m_UIManager.Register(new UIObject(pos0, w0, h0, time0));
+	XMFLOAT3 pos = { -50.0f,-10.0f,0.0f };
+	XMFLOAT3 scl = { 100.0f,50.0f,100.0f };
 
-	m_UIManager.GetUIObject(0)->GetUITexData()->Create(g_TexturName[0]);
+	m_pSolverGPU->SetPos(pos);
+	m_pSolverGPU->SetScl(scl);
 }
 
 //=============================================================================
@@ -53,6 +55,7 @@ Stage_01::Stage_01(God *god):Scene(god)
 //=============================================================================
 Stage_01::~Stage_01()
 {
+	delete m_pSolverGPU;
 }
 
 //=============================================================================
@@ -73,6 +76,13 @@ void Stage_01::Update(void)
 	// シーン切り替えチェック
 	NextScene();
 
+	//流体計算
+	{
+		m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
+		m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
+		m_pSolverGPU->Solve();
+	}
+
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRoller()->Update();
 	//GetGod()->GetSlot()->Update();
@@ -88,23 +98,21 @@ void Stage_01::Update(void)
 	if (GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		SetViewPort(TYPE_FULL_SCREEN);
+		m_pSolverGPU->SetUse(TRUE);
+	}
+	else
+	{
+		m_pSolverGPU->SetUse(FALSE);
 	}
 
 
 	// テクスチャの更新処理
 	{
-		m_UIManager.GetUIObject(0)->Update();
+		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+		{
+			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(0)->Update();
+		}
 	}
-
-
-	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
-
-	// カラース発生
-	//if (GetKeyboardTrigger(DIK_5))
-	//{
-	//	GetGod()->GetFlyingCrowManager()->SetShotCrows(color);
-	//}
-
 }
 
 //=============================================================================
@@ -130,6 +138,7 @@ void Stage_01::Draw(void)
 		SetCamera();
 
 		GetGod()->GetBonusSlotManager()->Draw();
+		m_pSolverGPU->DrawFluid();
 
 		break;
 
@@ -187,8 +196,42 @@ void Stage_01::Draw(void)
 	}
 
 
-	m_UIManager.Draw();
+	// テクスチャの更新処理
+	{
+		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+		{
+			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(0)->Draw();
+		}
+	}
 
+	if (GetKeyboardTrigger(DIK_3))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_fade, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_4))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_right, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_5))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_left, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_6))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_up, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_7))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_under, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_8))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_9))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
 
 
 }

@@ -19,6 +19,9 @@
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
 #include "bonusSlotManager.h"
+#include "AnimationManager.h"
+#include "Ending.h"
+#include "texManager.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -48,6 +51,10 @@ God::God()
 	m_pTrainingCrowSquat = new TrainingCrowSquat(this);
 	m_pTrainingCrowManager = new TrainingCrowManager(this);
 	m_pBonusSlotManager = new BonusSlotManager(this);
+	m_pTexManager = new TexManager(this);
+
+	m_pAnimationManager = new AnimationManager(this);
+
 }
 
 //=============================================================================
@@ -66,6 +73,8 @@ God::~God()
 	delete m_pTrainingCrowSquat;
 	delete m_pTrainingCrowManager;
 	delete m_pBonusSlotManager;
+	delete m_pAnimationManager;
+	delete m_pTexManager;
 }
 
 //=============================================================================

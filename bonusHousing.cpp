@@ -129,10 +129,6 @@ void BonusHousing::Update()
 
 		GetDeviceContext()->Unmap(m_prefab->GetModel()->VertexBuffer, 0);
 	}
-	else
-	{
-
-	}
 }
 
 void BonusHousing::SetGoMorphing()

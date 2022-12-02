@@ -137,6 +137,16 @@ ID3D11DeviceContext* GetDeviceContext( void )
 	return g_ImmediateContext;
 }
 
+ID3D11RenderTargetView* GetRenderTargetView(void)
+{
+	return g_RenderTargetView;
+}
+
+ID3D11DepthStencilView* GetDepthStencilView(void)
+{
+	return g_DepthStencilView;
+}
+
 
 void SetDepthEnable( BOOL Enable )
 {
@@ -1062,6 +1072,21 @@ void SetShader(SHADER_MODE mode)
 		break;
 
 	}
+}
 
+//=============================================================================
+// シェーダーのコンスタントバッファーに各種データを渡す
+//=============================================================================
+void Send_WVPCbuffer(void)
+{
+	//シェーダーのコンスタントバッファーに各種データを渡す
+	g_ImmediateContext->VSSetConstantBuffers(0, 1, &g_WorldBuffer);
+	g_ImmediateContext->VSSetConstantBuffers(1, 1, &g_ViewBuffer);
+	g_ImmediateContext->VSSetConstantBuffers(2, 1, &g_ProjectionBuffer);
+
+	g_ImmediateContext->PSSetConstantBuffers(0, 1, &g_WorldBuffer);
+	g_ImmediateContext->PSSetConstantBuffers(1, 1, &g_ViewBuffer);
 
 }
+
+
