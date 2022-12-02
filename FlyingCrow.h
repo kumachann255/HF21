@@ -5,6 +5,9 @@
 #define RAND_CONTROLPOS_X_MAX		(200)
 #define RAND_CONTROLPOS_Y_MAX		(500)
 
+#define MAX_FLYINGCROW_SCL			(0.3f)
+#define VALUE_FLYINGCROW_SCL		(0.005f)
+
 #define FLYINGCROW_SPEED_MAX		(8)
 
 class FlyingCrow :public Object
@@ -20,9 +23,16 @@ private:
 	float m_time = 0.0f;
 	float m_speed = 0.0f;
 
+	float m_sclDownValue = 0.0f;
+
+	XMFLOAT2 m_offset = { 0.0f, 0.0f };
 
 public:
-	FlyingCrow() { m_prefab = new Prefab;}
+	FlyingCrow() { 
+		m_prefab = new Prefab;
+		m_offset.x = (float)(rand() % 10 - 5);
+		m_offset.y = (float)(rand() % 15 - 5) + 40.0f;
+	}
 	FlyingCrow(XMFLOAT4 color, XMFLOAT3 targetPos) : m_color(color) , m_targetPos(targetPos) {
 		// Ç±Ç±Ç≈êßå‰ì_ÇÃÉâÉìÉ_ÉÄâªÇçsÇ§
 		//m_controlPosA.x += (float)(rand() % RAND_CONTROLPOS_X_MAX - RAND_CONTROLPOS_X_MAX);
@@ -57,5 +67,8 @@ public:
 	void DeleteFlyingCrow(void){};
 
 	void Update(void) override;
+
+	void SetOffset(XMFLOAT2 data) { m_offset = data; };
+	XMFLOAT2 GetOffset(void) { return m_offset; }
 
 };

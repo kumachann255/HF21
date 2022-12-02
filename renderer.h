@@ -104,6 +104,8 @@ void Present(void);
 
 ID3D11Device *GetDevice( void );
 ID3D11DeviceContext *GetDeviceContext( void );
+ID3D11RenderTargetView* GetRenderTargetView(void);
+ID3D11DepthStencilView* GetDepthStencilView(void);
 
 void SetDepthEnable( BOOL Enable );
 void SetBlendState(BLEND_MODE bm);
@@ -144,4 +146,5 @@ HRESULT MakeShader(ID3D11Device* pDevice, LPSTR szFileName, LPSTR szFuncName, LP
 // シェーダー切り替え
 //=============================================================================
 void SetShader(SHADER_MODE mode);
+void Send_WVPCbuffer(void);
 

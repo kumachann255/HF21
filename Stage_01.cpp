@@ -20,10 +20,13 @@
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
 #include "bonusSlotManager.h"
+#include "FLUID3D_GPU.h"
+#include "renderer.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+FLUID3D_GPU* m_pSolverGPU;
 
 
 //=============================================================================
@@ -31,6 +34,18 @@
 //=============================================================================
 Stage_01::Stage_01(God *god):Scene(god)
 {
+	////ソルバー生成
+	m_pSolverGPU = new FLUID3D_GPU;
+
+	m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
+		, GetRenderTargetView(), GetDepthStencilView());
+
+	XMFLOAT3 pos = { -50.0f,-10.0f,0.0f };
+	XMFLOAT3 scl = { 100.0f,50.0f,100.0f };
+
+	m_pSolverGPU->SetPos(pos);
+	m_pSolverGPU->SetScl(scl);
+
 
 }
 
@@ -39,6 +54,7 @@ Stage_01::Stage_01(God *god):Scene(god)
 //=============================================================================
 Stage_01::~Stage_01()
 {
+	delete m_pSolverGPU;
 }
 
 //=============================================================================
@@ -59,19 +75,26 @@ void Stage_01::Update(void)
 	// シーン切り替えチェック
 	NextScene();
 
+	//流体計算
+	{
+		m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
+		m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
+		m_pSolverGPU->Solve();
+	}
+
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRoller()->Update();
 	GetGod()->GetQuestBoardManager()->Update();
 	//GetGod()->GetSlot()->Update();
 	//GetGod()->GetFlyingCrowManager()->Update();
 	GetGod()->GetSlotManager()->Update();
-	GetGod()->GetTrainingCrowSquat()->Update();
 	GetGod()->GetTrainingCrowManager()->Update();
 	GetGod()->GetBonusSlotManager()->Update();
 
 	if (GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		SetViewPort(TYPE_FULL_SCREEN);
+		m_pSolverGPU->SetUse(TRUE);
 	}
 
 
@@ -108,6 +131,7 @@ void Stage_01::Draw(void)
 		SetCamera();
 
 		GetGod()->GetBonusSlotManager()->Draw();
+		m_pSolverGPU->DrawFluid();
 
 		break;
 
@@ -147,7 +171,7 @@ void Stage_01::Draw(void)
 		SetCameraAT(pos);
 		SetCamera();
 
-		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Utyuu);
+		//GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Utyuu);
 		//GetGod()->GetRoom()->Draw();
 		//GetGod()->GetTrainingCrowSquat()->Draw();
 		GetGod()->GetTrainingCrowManager()->Draw();

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ƒ^ƒCƒgƒ‹‰æ–Êˆ— [Title.cpp]
+// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢å‡¦ç† [Title.cpp]
 // Author : 
 //
 //=============================================================================
@@ -15,15 +15,15 @@
 #include "debugproc.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
-#define TEXTURE_MAX		(6)		// ƒeƒNƒXƒ`ƒƒ‚Ì”
-#define DEBUGPOS_ADD	(1.0f)	// ƒfƒoƒbƒO—pPOS‚Ì‰ÁŒ¸Z—p
+#define TEXTURE_MAX		(6)		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ•°
+#define DEBUGPOS_ADD	(1.0f)	// ãƒ‡ãƒãƒƒã‚°ç”¨POSã®åŠ æ¸›ç®—ç”¨
 
 //*****************************************************************************
-// ƒOƒ[ƒoƒ‹•Ï”
-static ID3D11Buffer				*g_VertexBuffer = NULL;		// ’¸“_î•ñ
-static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// ƒeƒNƒXƒ`ƒƒî•ñ
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+static ID3D11Buffer				*g_VertexBuffer = NULL;		// é ‚ç‚¹æƒ…å ±
+static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±
 
 static char *g_TexturName[TEXTURE_MAX] = {
 	"data/TEXTURE/title_exit02.png",
@@ -36,19 +36,19 @@ static char *g_TexturName[TEXTURE_MAX] = {
 
 static BOOL						g_Load = FALSE;
 
-// ƒ^ƒCƒgƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+// ã‚¿ã‚¤ãƒˆãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 s_Title title[TEXTURE_MAX];
 
 /*
 
-title[0] == ã–‹
-title[1] == EXITƒo[
-title[2] == GAME_STARTƒo[
+title[0] == ä¸Šå¹•
+title[1] == EXITãƒãƒ¼
+title[2] == GAME_STARTãƒãƒ¼
 
 */
 
 //=============================================================================
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^[ ¦ƒV[ƒ“‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^[‚É“n‚µ‚Ä‚ ‚°‚é
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼ â€»ã‚·ãƒ¼ãƒ³ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼ã«æ¸¡ã—ã¦ã‚ã’ã‚‹
 //=============================================================================
 Title::Title(God *god) : Scene(god)
 {
@@ -56,7 +56,7 @@ Title::Title(God *god) : Scene(god)
 }
 
 //=============================================================================
-// ƒfƒXƒgƒ‰ƒNƒ^[
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼
 //=============================================================================
 Title::~Title()
 {
@@ -64,7 +64,7 @@ Title::~Title()
 }
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 void Title::Init(void)
 {
@@ -72,7 +72,7 @@ void Title::Init(void)
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void Title::Update(void)
 {
@@ -104,20 +104,20 @@ void Title::Update(void)
 	}
 
 
-#ifdef _DEBUG	// ƒfƒoƒbƒOî•ñ‚ğ•\¦‚·‚é
+#ifdef _DEBUG	// ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã‚’è¡¨ç¤ºã™ã‚‹
 
-	// ‡@ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦
+	// â‘ ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®åˆ‡ã‚Šæ›¿ãˆ
 	ChangeNum(&m_DebugNum);
 
-	// ‡A2D‰æ‘œˆÊ’uŠm”F
+	// â‘¡2Dç”»åƒä½ç½®ç¢ºèª
 	DebugPrint(title[m_DebugNum].g_Pos.x, title[m_DebugNum].g_Pos.y);
 
-	// ‡B2D‰æ‘œˆÊ’u•ÏX
-	PosCustom(&title[m_DebugNum].g_Pos.x, &title[m_DebugNum].g_Pos.y); // ”z—ñ‚Ì—v‘f”‚ÉƒfƒoƒbƒN”Ô†‚ğ“ü‚ê‚é–‚ÅiƒfƒoƒbƒN‘ÎÛ==ƒfƒoƒbƒN”Ô†j‚Æ‚·‚é
+	// â‘¢2Dç”»åƒä½ç½®å¤‰æ›´
+	PosCustom(&title[m_DebugNum].g_Pos.x, &title[m_DebugNum].g_Pos.y); // é…åˆ—ã®è¦ç´ æ•°ã«ãƒ‡ãƒãƒƒã‚¯ç•ªå·ã‚’å…¥ã‚Œã‚‹äº‹ã§ï¼ˆãƒ‡ãƒãƒƒã‚¯å¯¾è±¡==ãƒ‡ãƒãƒƒã‚¯ç•ªå·ï¼‰ã¨ã™ã‚‹
 
-	/* ‡@A‡AA‡B‚Ì—¬‚ê‚ªd—vIChangeNum()ŠÖ”‚Åƒƒ“ƒo•Ï”‚Ìm_DebugNum‚ÉƒAƒNƒZƒX‚µ‚ÄƒfƒoƒbƒN‘ÎÛ‚ğŒˆ‚ß‚ÄA‚»‚ê‚ğ”½‰f‚³‚¹‚Ä‚©‚çˆÊ’uŠm”FAˆÊ’uŠm”F‚ğ‚µ‚Ä‚¢‚é*/
+	/* â‘ ã€â‘¡ã€â‘¢ã®æµã‚ŒãŒé‡è¦ï¼ChangeNum()é–¢æ•°ã§ãƒ¡ãƒ³ãƒå¤‰æ•°ã®m_DebugNumã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãƒ‡ãƒãƒƒã‚¯å¯¾è±¡ã‚’æ±ºã‚ã¦ã€ãã‚Œã‚’åæ˜ ã•ã›ã¦ã‹ã‚‰ä½ç½®ç¢ºèªã€ä½ç½®ç¢ºèªã‚’ã—ã¦ã„ã‚‹*/
 
-	// ƒV[ƒ“Ø‚è‘Ö‚¦ƒ`ƒFƒbƒN
+	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãƒã‚§ãƒƒã‚¯
 	NextScene();
 
 #endif
@@ -126,7 +126,7 @@ void Title::Update(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void Title::Draw(void)
 {
@@ -134,17 +134,18 @@ void Title::Draw(void)
 }
 
 //=============================================================================
-// ƒV[ƒ“‘JˆÚˆ—
+// ã‚·ãƒ¼ãƒ³é·ç§»å‡¦ç†
 //=============================================================================
 void Title::NextScene(void)
 {
-	// ƒtƒF[ƒhƒAƒEƒg‚ğŠJn‚³‚¹‚é
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã‚’é–‹å§‹ã•ã›ã‚‹
 	if (GetKeyboardTrigger(DIK_1))
 	{
 		SetFade(FADE_OUT);
 	}
 
-	// ƒtƒF[ƒhƒAƒEƒg‚ªI‚í‚Á‚½‚çƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
+
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆãŒçµ‚ã‚ã£ãŸã‚‰ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	if (GetFadeOut_EndFlag())
 	{
 		GetGod()->ChangeScene(STAGE_01ID);
@@ -153,7 +154,7 @@ void Title::NextScene(void)
 }
 
 //=============================================================================
-// ƒAƒjƒ[ƒVƒ‡ƒ“Ø‚è‘Ö‚¦ˆ—in‚Ü‚èj
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†ï¼ˆå§‹ã¾ã‚Šï¼‰
 //=============================================================================
 int Title::SetMode(int mode)
 {
@@ -218,7 +219,7 @@ void Title::CloseCurtain(float * curtainR, float * curtainL)
 {
 	*curtainR -= 1.0f;
 	if (*curtainR < 720.0f)
-	{ // •Â‚Ü‚èØ‚Á‚½‚çFADEOUTˆ—
+	{ // é–‰ã¾ã‚Šåˆ‡ã£ãŸã‚‰FADEOUTå‡¦ç†
 		*curtainR = 720.0f;
 		SetFade(FADE_OUT);
 	}
@@ -231,26 +232,26 @@ void Title::CloseCurtain(float * curtainR, float * curtainL)
 }
 
 //=============================================================================
-// ƒAƒjƒ[ƒVƒ‡ƒ“Ø‚è‘Ö‚¦ˆ—iI‚í‚èj
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†ï¼ˆçµ‚ã‚ã‚Šï¼‰
 //=============================================================================
 
 //=============================================================================
-// ƒfƒoƒbƒN‹@\‘S”Ê(n‚Ü‚è)
+// ãƒ‡ãƒãƒƒã‚¯æ©Ÿæ§‹å…¨èˆ¬(å§‹ã¾ã‚Š)
 //=============================================================================
 
-// ƒfƒoƒbƒO‚Ìî•ñ‚Ì•\¦
-void Title::DebugPrint(float posX, float posY) // •\¦‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚Â“ü‚ê‚é
+// ãƒ‡ãƒãƒƒã‚°ã®æƒ…å ±ã®è¡¨ç¤º
+void Title::DebugPrint(float posX, float posY) // è¡¨ç¤ºã—ãŸã„ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®åº§æ¨™ã®å¼•æ•°ã‚’2ã¤å…¥ã‚Œã‚‹
 {
-	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦ : SPACEƒL[\n");
-	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌãˆÚ“® : ªƒL[ , ƒfƒoƒbƒO‘ÎÛ‚Ì‰ºˆÚ“® : «ƒL[\n");
-	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚Ì‰EˆÚ“® : ¨ƒL[ , ƒfƒoƒbƒO‘ÎÛ‚Ì¶ˆÚ“® : ©ƒL[\n");
-	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌˆÚ“®—Ê•ÏXƒ{ƒ^ƒ“ : CƒL[\n");
-	PrintDebugProc("ƒfƒoƒbƒN‘ÎÛ : title[%d] \n", m_DebugNum);
-	PrintDebugProc("ƒfƒoƒbƒNƒ|ƒWƒVƒ‡ƒ“ : PosX : %f, DebugPosY : %f\n", posX, posY);
+	PrintDebugProc("ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®åˆ‡ã‚Šæ›¿ãˆ : SPACEã‚­ãƒ¼\n");
+	PrintDebugProc("ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®ä¸Šç§»å‹• : â†‘ã‚­ãƒ¼ , ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®ä¸‹ç§»å‹• : â†“ã‚­ãƒ¼\n");
+	PrintDebugProc("ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®å³ç§»å‹• : â†’ã‚­ãƒ¼ , ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®å·¦ç§»å‹• : â†ã‚­ãƒ¼\n");
+	PrintDebugProc("ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®ç§»å‹•é‡å¤‰æ›´ãƒœã‚¿ãƒ³ : Cã‚­ãƒ¼\n");
+	PrintDebugProc("ãƒ‡ãƒãƒƒã‚¯å¯¾è±¡ : title[%d] \n", m_DebugNum);
+	PrintDebugProc("ãƒ‡ãƒãƒƒã‚¯ãƒã‚¸ã‚·ãƒ§ãƒ³ : PosX : %f, DebugPosY : %f\n", posX, posY);
 }
 
-// ƒfƒoƒbƒO‘ÎÛ‚ÌˆÊ’u•ÏX
-void Title::PosCustom(float *posX, float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚Âiƒ|ƒCƒ“ƒ^j“ü‚ê‚é
+// ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®ä½ç½®å¤‰æ›´
+void Title::PosCustom(float *posX, float *posY) // ç§»å‹•ã—ãŸã„ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®åº§æ¨™ã®å¼•æ•°ã‚’2ã¤ï¼ˆãƒã‚¤ãƒ³ã‚¿ï¼‰å…¥ã‚Œã‚‹
 {
 	if (GetKeyboardTrigger(DIK_C))
 	{
@@ -267,22 +268,22 @@ void Title::PosCustom(float *posX, float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚
 	switch (m_DebugSwich)
 	{
 	case true:
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAYã•ûŒü‚ÉˆÚ“®
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Yä¸Šæ–¹å‘ã«ç§»å‹•
 		if (GetKeyboardTrigger(DIK_UP))
 		{
 			*posY -= DEBUGPOS_ADD;
 		}
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAY‰º•ûŒü‚ÉˆÚ“®
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Yä¸‹æ–¹å‘ã«ç§»å‹•
 		if (GetKeyboardTrigger(DIK_DOWN))
 		{
 			*posY += DEBUGPOS_ADD;
 		}
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX‰E•ûŒü‚É‰ÁZ
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Xå³æ–¹å‘ã«åŠ ç®—
 		if (GetKeyboardTrigger(DIK_RIGHT))
 		{
 			*posX += DEBUGPOS_ADD;
 		}
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX¶•ûŒü‚É‰ÁZ
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Xå·¦æ–¹å‘ã«åŠ ç®—
 		if (GetKeyboardTrigger(DIK_LEFT))
 		{
 			*posX -= DEBUGPOS_ADD;
@@ -290,22 +291,22 @@ void Title::PosCustom(float *posX, float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚
 		break;
 
 	case false:
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAYã•ûŒü‚ÉˆÚ“®
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Yä¸Šæ–¹å‘ã«ç§»å‹•
 		if (GetKeyboardPress(DIK_UP))
 		{
 			*posY -= DEBUGPOS_ADD;
 		}
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAY‰º•ûŒü‚ÉˆÚ“®
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Yä¸‹æ–¹å‘ã«ç§»å‹•
 		if (GetKeyboardPress(DIK_DOWN))
 		{
 			*posY += DEBUGPOS_ADD;
 		}
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX‰E•ûŒü‚É‰ÁZ
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Xå³æ–¹å‘ã«åŠ ç®—
 		if (GetKeyboardPress(DIK_RIGHT))
 		{
 			*posX += DEBUGPOS_ADD;
 		}
-		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX¶•ûŒü‚É‰ÁZ
+		// æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã€Xå·¦æ–¹å‘ã«åŠ ç®—
 		if (GetKeyboardPress(DIK_LEFT))
 		{
 			*posX -= DEBUGPOS_ADD;
@@ -313,8 +314,8 @@ void Title::PosCustom(float *posX, float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚
 	}
 }
 
-// ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦
-int Title::ChangeNum(int *Num) // ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦iƒfƒoƒbƒN”Ô†‚ğ‘ÎÛƒIƒuƒWƒFƒNƒg‚Ì”z—ñ‚Ìˆø”‚É“ü‚ê‚é–‚ÅØ‚è‘Ö‚¦‚ğs‚¦‚é‚æ‚¤‚É‚·‚éj
+// ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®åˆ‡ã‚Šæ›¿ãˆ
+int Title::ChangeNum(int *Num) // ãƒ‡ãƒãƒƒã‚°å¯¾è±¡ã®åˆ‡ã‚Šæ›¿ãˆï¼ˆãƒ‡ãƒãƒƒã‚¯ç•ªå·ã‚’å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—ã®å¼•æ•°ã«å…¥ã‚Œã‚‹äº‹ã§åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œãˆã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼‰
 {
 	int r;
 
@@ -336,17 +337,17 @@ int Title::ChangeNum(int *Num) // ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦iƒfƒoƒbƒN”Ô†‚ğ‘ÎÛƒIƒu
 }
 
 //=============================================================================
-// ƒfƒoƒbƒN‹@\‘S”Ê(I‚í‚è)
+// ãƒ‡ãƒãƒƒã‚¯æ©Ÿæ§‹å…¨èˆ¬(çµ‚ã‚ã‚Š)
 //=============================================================================
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT InitTitle(void)
 {
 	ID3D11Device *pDevice = GetDevice();
 
-	//ƒeƒNƒXƒ`ƒƒ¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆ
 	for (int i = 0; i < TEXTURE_MAX; i++)
 	{
 		g_Texture[i] = NULL;
@@ -359,7 +360,7 @@ HRESULT InitTitle(void)
 	}
 
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DYNAMIC;
@@ -368,7 +369,7 @@ HRESULT InitTitle(void)
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
 
-	// •Ï”‚Ì‰Šú‰»(EXITƒo[)
+	// å¤‰æ•°ã®åˆæœŸåŒ–(EXITãƒãƒ¼)
 	title[0].g_Use = TRUE;
 	title[0].g_w = 128;
 	title[0].g_h = 44;
@@ -377,7 +378,7 @@ HRESULT InitTitle(void)
 	title[0].alpha = 1.0f;
 	title[0].flag_alpha = TRUE;
 
-	// •Ï”‚Ì‰Šú‰»(GAME_STARTƒo[)
+	// å¤‰æ•°ã®åˆæœŸåŒ–(GAME_STARTãƒãƒ¼)
 	title[1].g_Use = TRUE;
 	title[1].g_w = 182;
 	title[1].g_h = 44;
@@ -386,25 +387,25 @@ HRESULT InitTitle(void)
 	title[1].alpha = 1.0f;
 	title[1].flag_alpha = TRUE;
 
-	// •Ï”‚Ì‰Šú‰»(‰EƒJ[ƒeƒ“)
+	// å¤‰æ•°ã®åˆæœŸåŒ–(å³ã‚«ãƒ¼ãƒ†ãƒ³)
 	title[2].g_Use = TRUE;
 	title[2].g_w = 480;
 	title[2].g_h = 540;
-	title[2].g_Pos = XMFLOAT3(720.0f, SCREEN_CENTER_Y, 0.0f); // ŠJ‚«~‚ß‚Í1200.0f
+	title[2].g_Pos = XMFLOAT3(720.0f, SCREEN_CENTER_Y, 0.0f); // é–‹ãæ­¢ã‚ã¯1200.0f
 	title[2].g_TexNo = 1;
 	title[2].alpha = 1.0f;
 	title[2].flag_alpha = TRUE;
 
-	// •Ï”‚Ì‰Šú‰»(¶ƒJ[ƒeƒ“)
+	// å¤‰æ•°ã®åˆæœŸåŒ–(å·¦ã‚«ãƒ¼ãƒ†ãƒ³)
 	title[3].g_Use = TRUE;
 	title[3].g_w = 480;
 	title[3].g_h = 540;
-	title[3].g_Pos = XMFLOAT3(240.0f, SCREEN_CENTER_Y, 0.0f); // ŠJ‚«~‚ß‚Í-240.0f
+	title[3].g_Pos = XMFLOAT3(240.0f, SCREEN_CENTER_Y, 0.0f); // é–‹ãæ­¢ã‚ã¯-240.0f
 	title[3].g_TexNo = 2;
 	title[3].alpha = 1.0f;
 	title[3].flag_alpha = TRUE;
 
-	// •Ï”‚Ì‰Šú‰»(–‹)
+	// å¤‰æ•°ã®åˆæœŸåŒ–(å¹•)
 	title[4].g_Use = TRUE;
 	title[4].g_w = 1024;
 	title[4].g_h = 540;
@@ -413,21 +414,21 @@ HRESULT InitTitle(void)
 	title[4].alpha = 1.0f;
 	title[4].flag_alpha = TRUE;
 
-	// •Ï”‚Ì‰Šú‰»(ƒJ[ƒ\ƒ‹)
+	// å¤‰æ•°ã®åˆæœŸåŒ–(ã‚«ãƒ¼ã‚½ãƒ«)
 	title[5].g_Use = TRUE;
 	title[5].g_w = 110;
 	title[5].g_h = 90;
 	title[5].g_Pos = title[0].g_Pos;
-	title[5].g_Pos.x += 13.0f; // ”÷’²®EXITPos.X
-	title[5].g_Pos.y += 40.0f; // ”÷’²®EXITPos.Y
-	//title[5].g_Pos.x += 12.0f; // ”÷’²®GAME_STARTPos.X
-	//title[5].g_Pos.y += 40.0f; // ”÷’²®GAME_STARTPos.Y
+	title[5].g_Pos.x += 13.0f; // å¾®èª¿æ•´EXITPos.X
+	title[5].g_Pos.y += 40.0f; // å¾®èª¿æ•´EXITPos.Y
+	//title[5].g_Pos.x += 12.0f; // å¾®èª¿æ•´GAME_STARTPos.X
+	//title[5].g_Pos.y += 40.0f; // å¾®èª¿æ•´GAME_STARTPos.Y
 	title[5].g_TexNo = 5;
 	title[5].alpha = 1.0f;
 	title[5].flag_alpha = TRUE;
 
 
-	//// •Ï”‚Ì‰Šú‰»(EXITƒo[)
+	//// å¤‰æ•°ã®åˆæœŸåŒ–(EXITãƒãƒ¼)
 	//maku.g_Use = TRUE;
 	//maku.g_w = 960;
 	//maku.g_h = 128;
@@ -437,7 +438,7 @@ HRESULT InitTitle(void)
 	//maku.alpha = 1.0f;
 	//maku.flag_alpha = TRUE;
 
-	//// •Ï”‚Ì‰Šú‰»(GAME_STARTƒo[)
+	//// å¤‰æ•°ã®åˆæœŸåŒ–(GAME_STARTãƒãƒ¼)
 	//maku.g_Use = TRUE;
 	//maku.g_w = 960;
 	//maku.g_h = 128;
@@ -447,7 +448,7 @@ HRESULT InitTitle(void)
 	//maku.alpha = 1.0f;
 	//maku.flag_alpha = TRUE;
 
-	//// •Ï”‚Ì‰Šú‰»(ƒJ[ƒ\ƒ‹)
+	//// å¤‰æ•°ã®åˆæœŸåŒ–(ã‚«ãƒ¼ã‚½ãƒ«)
 	//maku.g_Use = TRUE;
 	//maku.g_w = 960;
 	//maku.g_h = 128;
@@ -458,7 +459,7 @@ HRESULT InitTitle(void)
 	//maku.flag_alpha = TRUE;
 
 
-	// BGMÄ¶
+	// BGMå†ç”Ÿ
 	PlaySound(SOUND_LABEL_BGM_sample000);
 
 	g_Load = TRUE;
@@ -466,7 +467,7 @@ HRESULT InitTitle(void)
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void UninitTitle(void)
 {
@@ -491,7 +492,7 @@ void UninitTitle(void)
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void UpdateTitle(void)
 {
@@ -499,42 +500,42 @@ void UpdateTitle(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void DrawTitle(void)
 {
 	SetViewPort(TYPE_FULL_SCREEN);
 
-	// ƒ‰ƒCƒg‚ğ—LŒø‰»
+	// ãƒ©ã‚¤ãƒˆã‚’æœ‰åŠ¹åŒ–
 	SetLightEnable(FALSE);
 
-	// ’¸“_ƒoƒbƒtƒ@İ’è
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 
-	// ƒ}ƒgƒŠƒNƒXİ’è
+	// ãƒãƒˆãƒªã‚¯ã‚¹è¨­å®š
 	SetWorldViewProjection2D();
 
-	// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// ƒ}ƒeƒŠƒAƒ‹İ’è
+	// ãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
-	// ƒ^ƒCƒgƒ‹‚Ì”wŒi‚ğ•`‰æ
+	// ã‚¿ã‚¤ãƒˆãƒ«ã®èƒŒæ™¯ã‚’æç”»
 	for (int i = 0; i < TEXTURE_MAX; i++)
 	{
-		// ƒeƒNƒXƒ`ƒƒİ’è
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[i]);
 
-		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		// ï¼‘æšã®ãƒãƒªã‚´ãƒ³ã®é ‚ç‚¹ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’è¨­å®š
 		SetSprite(g_VertexBuffer, title[i].g_Pos.x, title[i].g_Pos.y, title[i].g_w, title[i].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
 
-		// ƒ|ƒŠƒSƒ“•`‰æ
+		// ãƒãƒªã‚´ãƒ³æç”»
 		GetDeviceContext()->Draw(4, 0);
 	}
 

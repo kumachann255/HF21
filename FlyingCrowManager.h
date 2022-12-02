@@ -22,13 +22,15 @@ class FlyingCrowManager :public GodObject
 
 private:
 	FlyingCrow *m_pFlyingCrow = nullptr;
+	int m_targetNo = 0;
+	XMFLOAT3 m_noneTargetPos = { -50.0f, 200.0f, -100.0f };
+
 public:
 	FlyingCrowManager(God *god);
 	~FlyingCrowManager();
 
 	void Update(void);
 	void Draw(void);
-	void SetShotCrows(XMFLOAT4 color);
+	void SetShotCrows(XMFLOAT4 color, int colorType);
 	void FlyingCrowManager::SetCrows(XMFLOAT3 pos, XMFLOAT3 rot);
-
 };

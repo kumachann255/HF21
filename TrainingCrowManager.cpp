@@ -1,15 +1,13 @@
 #include "TrainingCrowManager.h"
 #include "input.h"
+#include "debugproc.h"
 
 TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 {
 	m_pTrainingCrowSquat = new TrainingCrowSquat(god);
 	m_pTrainingCrowBench = new TrainingCrowBench(god);
 	m_pTrainingCrowDumbbell = new TrainingCrowDumbbell(god);
-
-
-
-
+	m_pRoom = new Room();
 }
 
 void TrainingCrowManager::Update()
@@ -35,6 +33,11 @@ void TrainingCrowManager::Update()
 		}
 	}
 
+	if (GetKeyboardTrigger(DIK_U))
+	{
+		AddStock();
+	}
+
 	switch (m_Type)
 	{
 	case No_Squat:
@@ -49,6 +52,33 @@ void TrainingCrowManager::Update()
 		m_pTrainingCrowDumbbell->Update();
 		break;
 	}
+
+	if (m_isTrainingSuccess)
+	{
+		m_count++;
+		if (m_count > BONUS_START_TIME)
+		{
+			m_count = 0; 
+			m_isTrainingSuccess = FALSE;
+			m_isBonus = TRUE;
+		}
+	}
+
+	if (!m_isSpeedUp && !m_isTrainingSuccess && !m_isBonus)
+	{
+		if (UseStock())
+		{
+			m_isSpeedUp = TRUE;
+		}
+	}
+
+
+	m_pRoom->Update();
+
+#ifdef _DEBUG	// デバッグ情報を表示する
+	PrintDebugProc("<%d>:ストック数\n",m_stock);
+#endif
+
 
 }
 
@@ -69,4 +99,18 @@ void TrainingCrowManager::Draw()
 		break;
 	}
 	
+	m_pRoom->Draw();
+}
+
+BOOL TrainingCrowManager::UseStock(void)
+{
+	BOOL ans = FALSE;
+
+	if (m_stock > 0)
+	{
+		m_stock--;
+		ans = TRUE;
+	}
+
+	return ans;
 }

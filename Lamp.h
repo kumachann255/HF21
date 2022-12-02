@@ -18,6 +18,8 @@ enum LAMP_TYPE
 	LAMP_TYPE_PURPLE,
 	LAMP_TYPE_ORANGE,
 	LAMP_TYPE_MAX,
+	LAMP_TYPE_NONE,
+
 };
 
 
@@ -25,6 +27,8 @@ class Lamp :public Object
 {
 private:
 	int m_ColorTypeId = 0;
+	BOOL m_clear = FALSE;
+	int m_count = 0;
 
 public:
 	Lamp();
@@ -36,5 +40,6 @@ public:
 	 int GetColorTypeId(void) { return m_ColorTypeId; }
 	 void SetColorTypeId(int colorId) {  m_ColorTypeId = colorId; }
 
+	 void SetDelete(void);
 };
 
