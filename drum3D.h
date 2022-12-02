@@ -17,6 +17,13 @@ enum {
 	drum3D_max,
 };
 
+enum {
+	drum3D_x10,
+	drum3D_x50,
+	drum3D_x30,
+	drum3D_x100,
+};
+
 
 class Drum3D : public Object
 {

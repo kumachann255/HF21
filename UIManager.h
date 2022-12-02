@@ -28,6 +28,7 @@ public:
 		return m_pUIObject[index];
 	}
 
+	void SetTexture(int texNo, int texType, XMFLOAT3 pos, int time);
 
 };
 

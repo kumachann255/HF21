@@ -1,7 +1,7 @@
 //=============================================================================
 //
-// _‚Ìˆ— [God.cpp]
-// Author : ”‘º‘å’n
+// ç¥ã®å‡¦ç† [God.cpp]
+// Author : æŸæ‘å¤§åœ°
 //
 //=============================================================================
 #include "God.h"
@@ -19,31 +19,33 @@
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
 #include "bonusSlotManager.h"
+#include "AnimationManager.h"
+#include "Ending.h"
+#include "texManager.h"
 #include "Staffroll.h"
 
-
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
 
-// Œ»İ‚ÌƒV[ƒ“ID
+// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ID
 static SCENE_ID g_curSceneId;
 
 //=============================================================================
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^[
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼
 //=============================================================================
 God::God()
 {
-	// ‰‚ß‚ÌƒV[ƒ“ID‚ğİ’è
+	// åˆã‚ã®ã‚·ãƒ¼ãƒ³IDã‚’è¨­å®š
 	g_curSceneId = TITLE_ID;
 
-	//@ŠÇ—‚·‚éƒV[ƒ“‚ğ“oê‚³‚¹‚é
+	//ã€€ç®¡ç†ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’ç™»å ´ã•ã›ã‚‹
 	Scenes[TITLE_ID] = new Title(this);
 	Scenes[STAGE_01ID] = new Stage_01(this);
 	Scenes[ENDROLL_ID] = new StaffRoll(this);
 
 
-	// ‚¨Œİ‚¢‚Ìî•ñ‚ğ‹¤—L‚Å‚«‚é‚æ‚¤‚ÉƒCƒ“ƒXƒ^ƒ“ƒX‰»
+	// ãŠäº’ã„ã®æƒ…å ±ã‚’å…±æœ‰ã§ãã‚‹ã‚ˆã†ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–
 	m_pSkymanager = new SkyManager(this);
 	m_pRoller = new Roller(this);
 	m_pQuestBoardManager = new QuestBoardManager(this);
@@ -51,10 +53,14 @@ God::God()
 	m_pTrainingCrowSquat = new TrainingCrowSquat(this);
 	m_pTrainingCrowManager = new TrainingCrowManager(this);
 	m_pBonusSlotManager = new BonusSlotManager(this);
+	m_pTexManager = new TexManager(this);
+
+	m_pAnimationManager = new AnimationManager(this);
+
 }
 
 //=============================================================================
-// ƒfƒXƒgƒ‰ƒNƒ^[
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼
 //=============================================================================
 God::~God()
 {
@@ -69,14 +75,16 @@ God::~God()
 	delete m_pTrainingCrowSquat;
 	delete m_pTrainingCrowManager;
 	delete m_pBonusSlotManager;
+	delete m_pAnimationManager;
+	delete m_pTexManager;
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void God::Update(void)
 {
-	// Œ»İ‚ÌƒV[ƒ“‚ğXV
+	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°
 	Scenes[g_curSceneId]->Update();
 
 	//if (GetKeyboardTrigger(DIK_F1))
@@ -87,18 +95,18 @@ void God::Update(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void God::Draw(void)
 {
-	// Œ»İ‚ÌƒV[ƒ“‚ğXV
+	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°
 	Scenes[g_curSceneId]->Draw();
 
 }
 
 
 //=============================================================================
-// ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—
+// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†
 //=============================================================================
 void God::ChangeScene(SCENE_ID sceneId)
 {
@@ -108,14 +116,14 @@ void God::ChangeScene(SCENE_ID sceneId)
 
 
 //*****************************************************************************
-// ƒV[ƒ“‚ÌƒQƒbƒ^[
+// ã‚·ãƒ¼ãƒ³ã®ã‚²ãƒƒã‚¿ãƒ¼
 //*****************************************************************************
 SCENE_ID GetSceneID(void)
 {
 	return g_curSceneId;
 }
 //*****************************************************************************
-// ƒV[ƒ“‚ÌƒZƒbƒ^[
+// ã‚·ãƒ¼ãƒ³ã®ã‚»ãƒƒã‚¿ãƒ¼
 //*****************************************************************************
 void SetSceneID(SCENE_ID nextSceneId)
 {

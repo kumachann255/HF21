@@ -26,7 +26,7 @@ void SlotManager::Update()
 		m_pSlot->SetShot(false);
 		int color = m_pSlot->GetColorType();
 		m_pFlyingCrowManager->SetShotCrows(m_pSlot->GetColor(), 
-			this->GetGod()->GetQuestBoardManager()->GetSerchBoard(color));
+			this->GetGod()->GetQuestBoardManager()->GetSerchBoard(color), m_pSlot->GetCrowNum());
 	}
 
 	m_pFlyingCrowManager->Update();

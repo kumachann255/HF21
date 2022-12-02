@@ -105,4 +105,5 @@ void QuestBoard::Draw(XMMATRIX WorldMatrix)
 
 	DrawModel(m_prefab->GetModel());
 
+	SetBlendState(BLEND_MODE_ALPHABLEND);
 }

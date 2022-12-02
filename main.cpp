@@ -362,6 +362,8 @@ void SetMode(int mode)
 		break;
 	case MODE_RESULT:
 		break;
+	case MODE_ENDING:
+		break;
 	case MODE_MAX:
 		break;
 	}

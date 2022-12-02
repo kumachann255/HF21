@@ -89,7 +89,6 @@ UITexData::~UITexData()
 		m_Texture->Release();
 		m_Texture = NULL;
 	}
-
 }
 
 
@@ -123,11 +122,37 @@ UIObject::~UIObject()
 //=============================================================================
 void UIObject::Update(void)
 {
+	if (!m_isUse) return;
+
 	m_timeCnt++;
+	m_count++;
 
 	if (m_timeCnt > m_timeLimit)
 	{
 		m_isUse = FALSE;
+	}
+
+	switch (m_texType)
+	{
+	case texType_normal:
+		UpdateNomal();
+		break;
+
+	case texType_fade:
+		UpdateFade();
+		break;
+
+	case texType_cutIn_right:
+	case texType_cutIn_left:
+	case texType_cutIn_up:
+	case texType_cutIn_under:
+		UpdateCutIn();
+		break;
+
+	case texType_zoomIn:
+	case texType_zoomIn_rot:
+		UpdateZoomIn();
+		break;
 	}
 }
 
@@ -162,7 +187,7 @@ void UIObject::Draw(void)
 	// É}ÉeÉäÉAÉãê›íË
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse = m_color;
 	SetMaterial(material);
 
 	// É^ÉCÉgÉãÇÃîwåiÇï`âÊ
@@ -186,4 +211,119 @@ void UIObject::Draw(void)
 	// Zî‰ärÇ†ÇË
 	SetDepthEnable(TRUE);
 }
+
+void UIObject::UpdateNomal(void)
+{
+}
+
+void UIObject::UpdateFade(void)
+{
+	if (m_timeCnt < UI_ACTION_TIME)
+	{
+		m_color.w = ((float)m_timeCnt / (float)UI_ACTION_TIME);
+	}
+	else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
+		(m_timeCnt < m_timeLimit))
+	{
+		m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+	}
+}
+
+void UIObject::UpdateCutIn(void)
+{
+	switch (m_texType)
+	{
+	case texType_cutIn_right:
+	case texType_cutIn_up:
+		m_vec = 1.0f;
+
+		break;
+
+	case texType_cutIn_left:
+	case texType_cutIn_under:
+		m_vec = -1.0f;
+
+		break;
+	}
+
+	float t;
+	switch (m_texType)
+	{
+	case texType_cutIn_right:
+	case texType_cutIn_left:
+		t = (float)UI_CUTIN_DISTANCE_X / (float)UI_ACTION_TIME;
+
+		if (m_timeCnt < UI_ACTION_TIME)
+		{
+			m_pos.x += (t * t) * m_vec;
+			m_color.w = ((float)m_timeCnt / (float)UI_ACTION_TIME);
+
+		}
+		else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
+			(m_timeCnt < m_timeLimit))
+		{
+			m_pos.x += (t * t) * m_vec;
+			m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+		}
+
+		break;
+
+	case texType_cutIn_up:
+	case texType_cutIn_under:
+		t = (float)UI_CUTIN_DISTANCE_Y / (float)UI_ACTION_TIME;
+
+		if (m_timeCnt < UI_ACTION_TIME)
+		{
+			m_pos.y += (t * t) * m_vec;
+			m_color.w = ((float)m_timeCnt / (float)UI_ACTION_TIME);
+
+		}
+		else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
+			(m_timeCnt < m_timeLimit))
+		{
+			m_pos.y += (t * t) * m_vec;
+			m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+		}
+
+		break;
+	}
+}
+
+void UIObject::UpdateZoomIn(void)
+{
+	if (m_timeCnt < UI_ACTION_TIME)
+	{
+		m_fWidth = m_fWidthMax * ((float)m_timeCnt / (float)UI_ACTION_TIME);
+		m_fHeight = m_fHeightMax * ((float)m_timeCnt / (float)UI_ACTION_TIME);
+
+		if (m_texType == texType_zoomIn_rot)
+		{
+			m_rot += UI_ROT_SPEED;
+		}
+	}
+	else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
+		(m_timeCnt < m_timeLimit))
+	{
+		m_fWidth = m_fWidthMax * (1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME);
+		m_fHeight = m_fHeightMax * (1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME);
+
+		if (m_texType == texType_zoomIn_rot)
+		{
+			m_rot -= UI_ROT_SPEED;
+		}
+
+		if (m_fWidth < 10.0f)
+		{
+			m_isUse = FALSE;
+		}
+	}
+	else
+	{
+		m_fWidth = m_fWidthMax;
+		m_fHeight = m_fHeightMax;
+		m_rot = 0.0f;
+	}
+
+}
+
 

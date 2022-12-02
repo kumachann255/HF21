@@ -31,6 +31,6 @@ public:
 
 	void Update(void);
 	void Draw(void);
-	void SetShotCrows(XMFLOAT4 color, int colorType);
+	void SetShotCrows(XMFLOAT4 color, int colorType, int num);
 	void FlyingCrowManager::SetCrows(XMFLOAT3 pos, XMFLOAT3 rot);
 };

@@ -22,10 +22,13 @@
 #include "bonusSlotManager.h"
 #include "FLUID3D_GPU.h"
 #include "renderer.h"
+#include "texManager.h"
+#include "UI.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+
 FLUID3D_GPU* m_pSolverGPU;
 
 
@@ -45,8 +48,6 @@ Stage_01::Stage_01(God *god):Scene(god)
 
 	m_pSolverGPU->SetPos(pos);
 	m_pSolverGPU->SetScl(scl);
-
-
 }
 
 //=============================================================================
@@ -84,9 +85,12 @@ void Stage_01::Update(void)
 
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRoller()->Update();
-	GetGod()->GetQuestBoardManager()->Update();
 	//GetGod()->GetSlot()->Update();
 	//GetGod()->GetFlyingCrowManager()->Update();
+	if (!GetGod()->GetTrainingCrowManager()->GetBonus())
+	{
+		GetGod()->GetQuestBoardManager()->Update();
+	}
 	GetGod()->GetSlotManager()->Update();
 	GetGod()->GetTrainingCrowManager()->Update();
 	GetGod()->GetBonusSlotManager()->Update();
@@ -96,16 +100,19 @@ void Stage_01::Update(void)
 		SetViewPort(TYPE_FULL_SCREEN);
 		m_pSolverGPU->SetUse(TRUE);
 	}
+	else
+	{
+		m_pSolverGPU->SetUse(FALSE);
+	}
 
 
-	XMFLOAT4 color = { 0.2f,0.2f,0.2f,1.0f };
-
-	// カラース発生
-	//if (GetKeyboardTrigger(DIK_5))
-	//{
-	//	GetGod()->GetFlyingCrowManager()->SetShotCrows(color);
-	//}
-
+	// テクスチャの更新処理
+	{
+		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+		{
+			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(0)->Update();
+		}
+	}
 }
 
 //=============================================================================
@@ -187,6 +194,45 @@ void Stage_01::Draw(void)
 		break;
 
 	}
+
+
+	// テクスチャの更新処理
+	{
+		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+		{
+			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(0)->Draw();
+		}
+	}
+
+	if (GetKeyboardTrigger(DIK_3))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_fade, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_4))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_right, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_5))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_left, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_6))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_up, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_7))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_under, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_8))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+	if (GetKeyboardTrigger(DIK_9))
+	{
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	}
+
 
 }
 

@@ -46,6 +46,7 @@ public:
 	BOOL GetIsSpeedUp(void) { return m_isSpeedUp; }
 
 	BOOL GetBonus(void) { return m_isBonus; }
+	void SetBonus(BOOL data) { m_isBonus = data; }
 	void SetBonusStart(void) { m_isTrainingSuccess = TRUE; }
 
 	BOOL GetSuccess(void) { return m_isSuccess; }

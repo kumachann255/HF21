@@ -7,7 +7,7 @@
 
 #define MAX_SQUAT_MOVE	(2)	
 #define MAX_SQUAT_SPEED	(0.3f)
-#define MIN_SQUAT_SPEED	(0.03f)
+#define MIN_SQUAT_SPEED	(0.02f)
 #define ADD_SQUAT_SPEED	(0.001f)
 
 #define MAX_SQUAT_MAXSPEED_TIME	(80)
