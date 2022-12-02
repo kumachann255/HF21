@@ -341,8 +341,6 @@ void SetViewPort(int type)
 		vp.TopLeftX = (FLOAT)L_SCREEN_WIDTH;
 		vp.TopLeftY = (FLOAT)RU_SCREEN_HEIGHT;
 		break;
-
-
 	}
 	g_ImmediateContext->RSSetViewports(1, &vp);
 
