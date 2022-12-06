@@ -8,6 +8,10 @@ enum {
 	telop_1,
 	telop_2,
 	telop_3,
+	telop_guidance,
+	trandition_white,
+	trandition_whiteFull,
+	trandition_crow,
 	telop_max,
 };
 
@@ -20,6 +24,8 @@ enum {
 	texType_cutIn_under,
 	texType_zoomIn,
 	texType_zoomIn_rot,
+	texType_tansition,
+	texType_endless,
 };
 
 
@@ -30,6 +36,10 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_num_1.png",
 	"data/TEXTURE/tex_num_2.png",
 	"data/TEXTURE/tex_num_3.png",
+	"data/TEXTURE/tex_guidance.png",
+	"data/TEXTURE/tex_whiteBox.png",
+	"data/TEXTURE/tex_whiteBox.png",
+	"data/TEXTURE/tex_transition_crow.png",
 };
 
 

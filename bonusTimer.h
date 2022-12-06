@@ -7,8 +7,8 @@
 #include "UI.h"
 
 #define BONUS_TIMER_TEXTURE_MAX		(1)		// テクスチャの数
-#define BONUS_TIMER_TEXTURE_WIDTH	(64)	// キャラサイズ
-#define BONUS_TIMER_TEXTURE_HEIGHT	(128)	// 
+#define BONUS_TIMER_TEXTURE_WIDTH	(80)	// キャラサイズ
+#define BONUS_TIMER_TEXTURE_HEIGHT	(160)	// 
 
 
 class BonusTimer
@@ -18,7 +18,7 @@ private:
 	ID3D11ShaderResourceView	*m_Texture[BONUS_TIMER_TEXTURE_MAX] = { NULL };	// テクスチャ情報
 
 	char *m_TexturName[BONUS_TIMER_TEXTURE_MAX] = {
-		"data/TEXTURE/number16x32.png",
+		"data/TEXTURE/slotfont16x32.png",
 	};
 
 	BOOL m_Use;					// TRUE:使っている  FALSE:未使用

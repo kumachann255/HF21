@@ -9,6 +9,7 @@
 //#include "debugproc.h"
 #include "Roller.h"
 #include "TrainingCrowManager.h"
+#include "slotManager.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -126,7 +127,11 @@ void QuestBoardManager::Update(void)
 			!pLamp[2].GetIsUse() )
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
-			this->GetGod()->GetTrainingCrowManager()->AddStock();
+
+			if (!this->GetGod()->GetSlotManager()->GetRainbow())
+			{
+				this->GetGod()->GetTrainingCrowManager()->AddStock();
+			}
 
 			int probability = rand() % 10;
 

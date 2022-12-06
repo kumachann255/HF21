@@ -1,6 +1,7 @@
 #include "bonusHousing.h"
 #include "input.h"
 #include <time.h>
+#include "texManager.h"
 
 #define MAX_BONUS_HOUSING_LOOP	(2)
 
@@ -137,6 +138,11 @@ void BonusHousing::Update()
 			m_waitTime++;
 		}
 
+		if (m_waitTime == MAX_HOUSING_CLEAR_WAIT - TRANSITION_HALF_TIME)
+		{
+			m_isTransition = TRUE;
+		}
+
 		if (m_waitTime > MAX_HOUSING_CLEAR_WAIT)
 		{
 			ResetMorphing();
@@ -214,6 +220,10 @@ void BonusHousing::SetColor(XMFLOAT4 color)
 {
 	m_resultColor[m_resultNum] = color;
 	m_resultNum++;
+	if (m_resultNum == 3)
+	{
+		m_isTimeStop = TRUE;
+	}
 }
 
 void BonusHousing::ResetColor(void)

@@ -29,6 +29,9 @@ private:
 
 	int m_waitTime = 0;
 
+	BOOL m_isTimeStop = FALSE;
+	BOOL m_isTransition = FALSE;
+
 public:
 	BonusHousing();
 	~BonusHousing() { delete m_prefab; };
@@ -44,4 +47,10 @@ public:
 
 	void SetColor(XMFLOAT4 color);
 	void ResetColor(void);
+
+	void SetTimeStop(BOOL data) { m_isTimeStop = data; };
+	BOOL GetTimeStop(void) { return m_isTimeStop; };
+
+	void SetTransition(BOOL data) { m_isTransition = data; };
+	BOOL GetTransition(void) { return m_isTransition; };
 };

@@ -166,6 +166,7 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="Morphing.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="prefab.h" />
     <ClInclude Include="puzzleBG.h" />
     <ClInclude Include="QuestBoardManager.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="model.cpp" />
     <ClCompile Include="Morphing.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="pizzleBG.cpp" />
     <ClCompile Include="prefab.cpp" />
     <ClCompile Include="QestBoardManager.cpp" />

@@ -6,6 +6,7 @@
 //=============================================================================
 #include"Lamp.h"
 #include "Roller.h"
+#include "particle.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -67,6 +68,10 @@ void Lamp::Update(void)
 		if (m_count > LAMP_LIFE)
 		{
 			this->SetIsUse(FALSE);
+
+			XMFLOAT3 pos = GetPos();
+			CallParticle(pos, 15.0f, 50, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL);
+
 		}
 	}
 }
@@ -90,6 +95,14 @@ void Lamp::Draw(XMMATRIX WorldMatrix)
 
 	// プレハブ(ローカル座標)にワールドマトリクスをかける
 	mtxWorld = XMMatrixMultiply(mtxWorld, WorldMatrix);
+
+	// 座標を取り出す
+	XMFLOAT3 pos = { mtxWorld.r[3].m128_f32[0],
+					 mtxWorld.r[3].m128_f32[1],
+					 mtxWorld.r[3].m128_f32[2] };
+
+	SetPos(pos);
+
 
 	SetWorldMatrix(&mtxWorld);	// シェーダーにデータを送る
 

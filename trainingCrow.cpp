@@ -70,9 +70,9 @@ void TrainingCrowSquat::Update()
 			m_time = 0.0f;
 			m_MorphingType = 0;
 
-			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 3);
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
 
-			if (m_waitCount > WAIT_SQUAT_TIME * 2)
+			if (m_waitCount > WAIT_SQUAT_TIME * 3)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 				this->GetGod()->GetTrainingCrowManager()->SetBonusStart();
