@@ -37,7 +37,7 @@ static SCENE_ID g_curSceneId;
 God::God()
 {
 	// 初めのシーンIDを設定
-	g_curSceneId = TITLE_ID;
+	g_curSceneId = STAGE_01ID;
 
 	//　管理するシーンを登場させる
 	Scenes[TITLE_ID] = new Title(this);

@@ -24,6 +24,7 @@
 #include "renderer.h"
 #include "texManager.h"
 #include "UI.h"
+#include "particle.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -48,6 +49,10 @@ Stage_01::Stage_01(God *god):Scene(god)
 
 	m_pSolverGPU->SetPos(pos);
 	m_pSolverGPU->SetScl(scl);
+
+	// パーティクル初期化
+	InitParticle();
+
 }
 
 //=============================================================================
@@ -56,6 +61,10 @@ Stage_01::Stage_01(God *god):Scene(god)
 Stage_01::~Stage_01()
 {
 	delete m_pSolverGPU;
+
+	// パーティクル終了
+	UninitParticle();
+
 }
 
 //=============================================================================
@@ -75,6 +84,10 @@ void Stage_01::Update(void)
 {
 	// シーン切り替えチェック
 	NextScene();
+
+	// パーティクル更新
+	UpdateParticle();
+
 
 	//流体計算
 	{
@@ -171,6 +184,7 @@ void Stage_01::Draw(void)
 		GetGod()->GetRoller()->Draw();
 		GetGod()->GetQuestBoardManager()->Draw();
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
+		DrawParticle();
 
 	//右上画面===================================
 
