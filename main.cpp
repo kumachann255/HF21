@@ -43,7 +43,7 @@ char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
 
 #endif
 
-int	g_Mode = MODE_TITLE;					// 起動時の画面を設定
+int	g_Mode = MODE_GAME;					// 起動時の画面を設定
 
 //=============================================================================
 // メイン関数
@@ -282,12 +282,6 @@ void Update(void)
 
 #ifdef _DEBUG	// デバッグ情報を表示する
 	PrintDebugProc("[1]:シーン切り替え\n");
-	PrintDebugProc("[enter]:スロット開始\n");
-	PrintDebugProc("[space]:スロット停止\n");
-	PrintDebugProc("[T]:筋トレメニュー変更\n");
-	PrintDebugProc("[S]:筋トレスピードアップ / リセット\n");
-	PrintDebugProc("[H]:筐体モーフィング進める\n");
-	PrintDebugProc("[N]:筐体モーフィングリセット\n");
 #endif
 
 

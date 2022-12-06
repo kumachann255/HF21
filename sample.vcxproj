@@ -135,11 +135,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
-    <ClInclude Include="..\..\..\最新版\Staffroll.h" />
     <ClInclude Include="bonusDrumh.h" />
     <ClInclude Include="bonusHousing.h" />
     <ClInclude Include="bonusSlot.h" />
     <ClInclude Include="bonusSlotManager.h" />
+    <ClInclude Include="bonusTimer.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="debugproc.h" />
@@ -183,6 +183,7 @@
     <ClInclude Include="slotManager.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
+    <ClInclude Include="Staffroll.h" />
     <ClInclude Include="Stage_01.h" />
     <ClInclude Include="texManager.h" />
     <ClInclude Include="Title.h" />
@@ -195,11 +196,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationManager.cpp" />
-    <ClCompile Include="..\..\..\最新版\Staffroll.cpp" />
     <ClCompile Include="bonusDrumh.cpp" />
     <ClCompile Include="bonusHousing.cpp" />
     <ClCompile Include="bonusSlot.cpp" />
     <ClCompile Include="bonusSlotManager.cpp" />
+    <ClCompile Include="bonusTimer.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="debugproc.cpp" />
@@ -239,6 +240,7 @@
     <ClCompile Include="slotManager.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="Staffroll.cpp" />
     <ClCompile Include="Stage_01.cpp" />
     <ClCompile Include="texManager.cpp" />
     <ClCompile Include="Title.cpp" />

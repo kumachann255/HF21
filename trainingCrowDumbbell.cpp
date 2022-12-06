@@ -1,5 +1,6 @@
 #include "trainingCrowDumbbell.h"
 #include "TrainingCrowManager.h"
+#include "texManager.h"
 
 void TrainingCrowDumbbell::Update()
 {
@@ -44,6 +45,9 @@ void TrainingCrowDumbbell::Update()
 	{
 		m_wing_Rot.x = GetRot().x - 1.72f;
 		m_waitCount++;
+
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 3);
+
 		if (m_waitCount > WAIT_SQUAT_TIME * 2)
 		{
 			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);

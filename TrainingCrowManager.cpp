@@ -1,6 +1,7 @@
 #include "TrainingCrowManager.h"
 #include "input.h"
 #include "debugproc.h"
+#include "bonusSlotManager.h"
 
 TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 {
@@ -12,6 +13,9 @@ TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 
 void TrainingCrowManager::Update()
 {
+#ifdef _DEBUG	// デバッグ情報を表示する
+	PrintDebugProc("<%d>:ストック数\n", m_stock);
+
 	if (GetKeyboardTrigger(DIK_T))
 	{
 		m_Type++;
@@ -31,12 +35,14 @@ void TrainingCrowManager::Update()
 		{
 			m_isSpeedUp = FALSE;
 		}
+		SetSuccess(TRUE);
 	}
 
 	if (GetKeyboardTrigger(DIK_U))
 	{
 		AddStock();
 	}
+#endif
 
 	switch (m_Type)
 	{
@@ -61,6 +67,7 @@ void TrainingCrowManager::Update()
 			m_count = 0; 
 			m_isTrainingSuccess = FALSE;
 			m_isBonus = TRUE;
+			m_isSuccess = FALSE;
 		}
 	}
 
@@ -72,14 +79,7 @@ void TrainingCrowManager::Update()
 		}
 	}
 
-
 	m_pRoom->Update();
-
-#ifdef _DEBUG	// デバッグ情報を表示する
-	PrintDebugProc("<%d>:ストック数\n",m_stock);
-#endif
-
-
 }
 
 void TrainingCrowManager::Draw()

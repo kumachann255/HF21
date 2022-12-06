@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "sprite.h"
 #include "UI.h"
+#include "texManager.h"
 
 
 //*****************************************************************************

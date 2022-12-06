@@ -1,6 +1,8 @@
 #include "slotManager.h"
 #include "camera.h"
 #include "TrainingCrowManager.h"
+#include "input.h"
+#include "debugproc.h"
 
 
 SlotManager::SlotManager(God *god) : GodObject(god)
@@ -19,14 +21,45 @@ void SlotManager::Update()
 {
 	if (this->GetGod()->GetTrainingCrowManager()->GetBonus()) return;
 
+
+#ifdef _DEBUG	// デバッグ情報を表示する
+	if ((GetKeyboardTrigger(DIK_R)))
+	{
+		if (!m_isRainbow) m_isRainbow = TRUE;
+		else m_isRainbow = FALSE;
+	}
+
+	if (m_isRainbow) PrintDebugProc("[TRUE]:レインボーカラースモード\n");
+	else PrintDebugProc("[FALSE]:レインボーカラースモード\n");
+
+#endif
+
 	m_pSlot->Update();
+
+	if (m_isRainbow) m_pSlot->GetHousing()->SetRainbow(TRUE);
+	else m_pSlot->GetHousing()->SetRainbow(FALSE);
+
+	int CrowNum = m_pSlot->GetCrowNum();
+	if (m_isRainbow) CrowNum = 3;
 
 	if (m_pSlot->GetShot())
 	{
-		m_pSlot->SetShot(false);
-		int color = m_pSlot->GetColorType();
-		m_pFlyingCrowManager->SetShotCrows(m_pSlot->GetColor(), 
-			this->GetGod()->GetQuestBoardManager()->GetSerchBoard(color), m_pSlot->GetCrowNum());
+		for (int i = 0; i < CrowNum; i++)
+		{
+			m_pSlot->SetShot(false);
+			int color = m_pSlot->GetColorType();
+
+			if (!m_isRainbow)
+			{
+				m_pFlyingCrowManager->SetShotCrows(m_pSlot->GetColor(),
+					this->GetGod()->GetQuestBoardManager()->GetSerchBoard(color), i);
+			}
+			else
+			{
+				m_pFlyingCrowManager->SetShotCrows(m_pSlot->GetColor(),
+					this->GetGod()->GetQuestBoardManager()->GetSerchBoardRainbow(), i);
+			}
+		}
 	}
 
 	m_pFlyingCrowManager->Update();
@@ -44,4 +77,16 @@ void SlotManager::Draw(int type)
 		m_pFlyingCrowManager->Draw();
 		break;
 	}
+}
+
+void SlotManager::SetRainbowMode(void)
+{
+	m_isRainbow = TRUE;
+	m_pSlot->SetRainbowModel();
+}
+
+void SlotManager::ResetRainbowMode(void)
+{
+	m_isRainbow = FALSE;
+	m_pSlot->ResetRainbowModel();
 }

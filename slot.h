@@ -61,4 +61,7 @@ public:
 	void SetCrowNum(int num) { m_crowNum = num; };
 	int GetCrowNum(void) { return m_crowNum; };
 
+	void SetRainbowModel(void);
+	void ResetRainbowModel(void);
+
 };

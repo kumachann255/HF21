@@ -11,17 +11,6 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-enum{
-	texType_normal,
-	texType_fade,
-	texType_cutIn_right,
-	texType_cutIn_left,
-	texType_cutIn_up,
-	texType_cutIn_under,
-	texType_zoomIn,
-	texType_zoomIn_rot,
-};
-
 #define UI_ACTION_TIME	(80)
 #define UI_CUTIN_DISTANCE_X	(80.0f)
 #define UI_CUTIN_DISTANCE_Y	(40.0f)

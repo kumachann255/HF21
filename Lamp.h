@@ -40,6 +40,7 @@ public:
 	 int GetColorTypeId(void) { return m_ColorTypeId; }
 	 void SetColorTypeId(int colorId) {  m_ColorTypeId = colorId; }
 
-	 void SetDelete(void);
+	 void SetDelete(BOOL data) { m_clear = data; };
+	 BOOL GetDelete(void) { return m_clear; };
 };
 
