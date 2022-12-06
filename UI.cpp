@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "sprite.h"
 #include "UI.h"
+#include "texManager.h"
 
 
 //*****************************************************************************
@@ -124,8 +125,11 @@ void UIObject::Update(void)
 {
 	if (!m_isUse) return;
 
-	m_timeCnt++;
-	m_count++;
+	if (m_texType != texType_endless)
+	{
+		m_timeCnt++;
+		m_count++;
+	}
 
 	if (m_timeCnt > m_timeLimit)
 	{
@@ -152,6 +156,10 @@ void UIObject::Update(void)
 	case texType_zoomIn:
 	case texType_zoomIn_rot:
 		UpdateZoomIn();
+		break;
+
+	case texType_tansition:
+		UpdateTransition();
 		break;
 	}
 }
@@ -251,18 +259,19 @@ void UIObject::UpdateCutIn(void)
 	{
 	case texType_cutIn_right:
 	case texType_cutIn_left:
-		t = (float)UI_CUTIN_DISTANCE_X / (float)UI_ACTION_TIME;
 
 		if (m_timeCnt < UI_ACTION_TIME)
 		{
-			m_pos.x += (t * t) * m_vec;
+			t = (float)m_timeCnt / (float)UI_ACTION_TIME;
+			m_pos.x += (t * t) * m_vec * UI_CUTIN_SPEED;
 			m_color.w = ((float)m_timeCnt / (float)UI_ACTION_TIME);
 
 		}
 		else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
 			(m_timeCnt < m_timeLimit))
 		{
-			m_pos.x += (t * t) * m_vec;
+			t = (float)(m_timeCnt - (m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+			m_pos.x += (t * t) * m_vec * UI_CUTIN_SPEED;
 			m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
 		}
 
@@ -270,19 +279,20 @@ void UIObject::UpdateCutIn(void)
 
 	case texType_cutIn_up:
 	case texType_cutIn_under:
-		t = (float)UI_CUTIN_DISTANCE_Y / (float)UI_ACTION_TIME;
 
 		if (m_timeCnt < UI_ACTION_TIME)
 		{
-			m_pos.y += (t * t) * m_vec;
+			t = (float)m_timeCnt / (float)UI_ACTION_TIME;
+			m_pos.y += (t * t) * m_vec * UI_CUTIN_SPEED;
 			m_color.w = ((float)m_timeCnt / (float)UI_ACTION_TIME);
 
 		}
 		else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
 			(m_timeCnt < m_timeLimit))
 		{
-			m_pos.y += (t * t) * m_vec;
-			m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+			t = (float)(m_timeCnt - (m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+			m_pos.y += (t * t) * m_vec * UI_CUTIN_SPEED;
+			m_color.w = 1.0f - (((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME);
 		}
 
 		break;
@@ -324,6 +334,11 @@ void UIObject::UpdateZoomIn(void)
 		m_rot = 0.0f;
 	}
 
+}
+
+void UIObject::UpdateTransition(void)
+{
+	m_pos.x += UI_TRANSITION_SPEED;
 }
 
 

@@ -36,6 +36,7 @@ void UIManager::Draw(void)
 
 void UIManager::SetTexture(int texNo, int texType, XMFLOAT3 pos, int time)
 {
+	if (m_pUIObject[texNo]->GetUse()) return;
 	m_pUIObject[texNo]->SetUse(TRUE);
 	m_pUIObject[texNo]->SetPos(pos);
 	m_pUIObject[texNo]->SetTexNo(texNo);

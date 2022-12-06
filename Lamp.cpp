@@ -110,8 +110,3 @@ void Lamp::Draw(XMMATRIX WorldMatrix)
 
 	SetBlendState(BLEND_MODE_ALPHABLEND);
 }
-
-void Lamp::SetDelete(void)
-{
-	m_clear = TRUE;
-}

@@ -70,6 +70,30 @@ void BonusSlot::Update(void)
 				(pDrumR->GetColor() == pDrumL->GetColor()))
 			{
 				pHousing->SetGoMorphing();
+
+				switch (pDrumR->GetColor())
+				{
+				case bonus_drum3D_red:
+					pHousing->SetColor(XMFLOAT4(1.0f, 0.2f, 0.2f, 1.0f));
+					break;
+
+				case bonus_drum3D_blue:
+					pHousing->SetColor(XMFLOAT4(0.2f, 0.2f, 1.0f, 1.0f));
+					break;
+
+				case bonus_drum3D_yellow:
+					pHousing->SetColor(XMFLOAT4(0.7f, 0.7f, 0.2f, 1.0f));
+					break;
+
+				case bonus_drum3D_green:
+					pHousing->SetColor(XMFLOAT4(0.2f, 1.0f, 0.2f, 1.0f));
+					break;
+
+				case bonus_drum3D_purple:
+					pHousing->SetColor(XMFLOAT4(0.7f, 0.2f, 0.7f, 1.0f));
+					break;
+
+				}
 			}
 
 			//m_shot = true;

@@ -24,6 +24,16 @@ enum {
 	drum3D_x100,
 };
 
+enum {
+	bonus_drum3D_purple,
+	bonus_drum3D_red,
+	bonus_drum3D_yellow,
+	bonus_drum3D_green,
+	bonus_drum3D_blue,
+	bonus_drum3D_max,
+};
+
+
 
 class Drum3D : public Object
 {
@@ -61,6 +71,13 @@ public:
 	void SpinStart(void);
 
 	void SetResult(void);
+
+	void SetRainbowModel(void);
+	void SetRainbowModelL(void);
+
+	void ResetRainbowModel(void);
+	void ResetRainbowModelL(void);
+
 
 	~Drum3D() { delete m_prefab; };
 };

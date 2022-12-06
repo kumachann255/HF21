@@ -1,5 +1,6 @@
 #include "trainingCrowBench.h"
 #include "TrainingCrowManager.h"
+#include "texManager.h"
 
 void TrainingCrowBench::Update()
 {
@@ -32,8 +33,9 @@ void TrainingCrowBench::Update()
 		m_wing_Pos.y = GetPos().y;
 		m_barbell_Pos.y = GetPos().y;
 		m_waitCount++;
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
 
-		if (m_waitCount > WAIT_SQUAT_TIME * 2)
+		if (m_waitCount > WAIT_SQUAT_TIME * 3)
 		{
 			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 			this->GetGod()->GetTrainingCrowManager()->SetBonusStart();

@@ -123,7 +123,7 @@ void Stage_01::Update(void)
 	{
 		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
 		{
-			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(0)->Update();
+			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Update();
 		}
 	}
 }
@@ -139,6 +139,13 @@ void Stage_01::Draw(void)
 #ifdef _DEBUG
 	// デバッグ表示
 	PrintDebugProc("GetViewPortType():%d\n", GetViewPortType());
+	PrintDebugProc("[enter]:スロット開始\n");
+	PrintDebugProc("[space]:スロット停止\n");
+	PrintDebugProc("[T]:筋トレメニュー変更\n");
+	PrintDebugProc("[S]:筋トレスピードアップ / リセット\n");
+	PrintDebugProc("[H]:筐体モーフィング進める\n");
+	PrintDebugProc("[N]:筐体モーフィングリセット\n");
+
 #endif
 
 	switch (GetViewPortType())
@@ -151,6 +158,15 @@ void Stage_01::Draw(void)
 		SetCamera();
 
 		GetGod()->GetBonusSlotManager()->Draw();
+
+		// テクスチャの描画処理
+		{
+			for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+			{
+				GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Draw();
+			}
+		}
+
 		m_pSolverGPU->DrawFluid();
 
 		break;
@@ -196,6 +212,15 @@ void Stage_01::Draw(void)
 		//GetGod()->GetRoom()->Draw();
 		//GetGod()->GetTrainingCrowSquat()->Draw();
 		GetGod()->GetTrainingCrowManager()->Draw();
+
+		// テクスチャの描画処理
+		{
+			for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+			{
+				GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Draw();
+			}
+		}
+
 		break;
 
 	case TYPE_UP_HALF_SCREEN:
@@ -210,13 +235,7 @@ void Stage_01::Draw(void)
 	}
 
 
-	// テクスチャの更新処理
-	{
-		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
-		{
-			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(0)->Draw();
-		}
-	}
+#ifdef _DEBUG	// デバッグ情報を表示する
 
 	if (GetKeyboardTrigger(DIK_3))
 	{
@@ -232,7 +251,7 @@ void Stage_01::Draw(void)
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_up, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_1, texType_cutIn_up, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
 	}
 	if (GetKeyboardTrigger(DIK_7))
 	{
@@ -246,7 +265,7 @@ void Stage_01::Draw(void)
 	{
 		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
 	}
-
+#endif
 
 }
 
@@ -255,11 +274,13 @@ void Stage_01::Draw(void)
 //=============================================================================
 void Stage_01::NextScene(void)
 {
+#ifdef _DEBUG	// デバッグ情報を表示する
 	// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
 		SetFade(FADE_OUT);
 	}
+#endif
 
 	// フェードアウトが終わったらシーンを切り替える
 	if (GetFadeOut_EndFlag())

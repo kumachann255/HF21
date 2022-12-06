@@ -22,7 +22,7 @@ class FlyingCrowManager :public GodObject
 
 private:
 	FlyingCrow *m_pFlyingCrow = nullptr;
-	int m_targetNo = 0;
+	int m_targetNo[3] = { 0, 0, 0 };
 	XMFLOAT3 m_noneTargetPos = { -50.0f, 200.0f, -100.0f };
 
 public:
@@ -33,4 +33,5 @@ public:
 	void Draw(void);
 	void SetShotCrows(XMFLOAT4 color, int colorType, int num);
 	void FlyingCrowManager::SetCrows(XMFLOAT3 pos, XMFLOAT3 rot);
+	void SetRainbowColor(int i);
 };
