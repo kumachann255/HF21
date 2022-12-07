@@ -230,7 +230,9 @@ void BonusHousing::ResetColor(void)
 {
 	m_colorTime = 0.0f;
 	m_resultNum = 0;
-	m_colorType = 0;
+	m_colorType = 0; 
+	m_time = 0.0f;
+
 	for (int i = 0; i < 3; i++)
 	{
 		m_resultColor[i] = { 1.0f, 1.0f, 1.0f, 1.0f };

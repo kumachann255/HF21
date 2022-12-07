@@ -52,7 +52,6 @@ Stage_01::Stage_01(God *god):Scene(god)
 
 	// パーティクル初期化
 	InitParticle();
-
 }
 
 //=============================================================================
@@ -117,6 +116,9 @@ void Stage_01::Update(void)
 	{
 		m_pSolverGPU->SetUse(FALSE);
 	}
+
+	// UIの表示
+	GetGod()->GetTexManager()->GetUIManager()->SetTexture(ui_waku_full, texType_endless, XMFLOAT3(480.0f, 270.0f, 0.0f), 10);
 
 
 	// テクスチャの更新処理
