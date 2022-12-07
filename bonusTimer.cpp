@@ -50,10 +50,12 @@ void BonusTimer::Draw(void)
 {
 	// 2Dの物を描画する処理
 	// Z比較なし
-	SetDepthEnable(FALSE);
+	SetDepthEnable(TRUE);
 
 	// ライティングを無効
 	SetLightEnable(FALSE);
+
+	SetAlphaTestEnable(TRUE);
 
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);

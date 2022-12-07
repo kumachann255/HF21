@@ -6,12 +6,13 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager = new UIManager();
 
 	XMFLOAT3 pos0 = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 pos1 = { 480.0f,270.0f,0.0f };
 	float w0 = 350.0f;
 	float h0 = 100.0f;
 	int time0 = 0;
 
 	m_pUiManager->Register(new UIObject(pos0, 432.0f, 380.0f, time0));
-	m_pUiManager->Register(new UIObject(pos0, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 600.0f, 200.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 350.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 350.0f, time0));
@@ -32,6 +33,8 @@ TexManager::TexManager(God * god):GodObject(god)
 		m_pUiManager->GetUIObject(i)->GetUITexData()->Create(g_TexturName[i]);
 	}
 
+	m_pUiManager->GetUIObject(ui_waku_full)->SetTexType(texType_endless);
+	m_pUiManager->GetUIObject(ui_waku_full)->SetTexNo(ui_waku_full);
 }
 
 void TexManager::Update()
@@ -40,13 +43,19 @@ void TexManager::Update()
 	{
 		m_pUiManager->GetUIObject(i)->Update();
 	}
+
+	if (GetGod()->GetTrainingCrowManager()->GetBonus())
+	{
+		m_pUiManager->GetUIObject(ui_waku_full)->SetUse(FALSE);
+	}
+	else m_pUiManager->GetUIObject(ui_waku_full)->SetUse(TRUE);
+
 }
 
 void TexManager::Draw()
 {
 	for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
 	{
-		if ((i == ui_waku_full) && (GetGod()->GetTrainingCrowManager()->GetBonus())) continue;
 		m_pUiManager->GetUIObject(i)->Draw();
 	}
 }

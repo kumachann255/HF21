@@ -66,6 +66,4 @@ public:
 	void Draw();
 
 	UIManager *GetUIManager() { return m_pUiManager; }
-
-
 };

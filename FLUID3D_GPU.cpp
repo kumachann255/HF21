@@ -13,6 +13,55 @@ FLUID3D_GPU::~FLUID3D_GPU()
 
 }
 
+void FLUID3D_GPU::Clear(ID3D11Device* pDevice)
+{
+
+	D3D11_BUFFER_DESC bdesc;
+	D3D11_UNORDERED_ACCESS_VIEW_DESC udesc;
+
+	m_pDevice = pDevice;
+
+	//3Dテクスチャー
+	CreateEmpty3DTexture(SIZE + 2, m_pDevice, &m_D_Tex.pTex3D, &m_D_Tex.pSRV);
+	for (int i = 0; i < 2; i++) CreateEmpty3DTexture(SIZE + 2, m_pDevice, &m_D[i].pTex3D, &m_D[i].pSRV);
+	for (int i = 0; i < 2; i++) CreateEmpty3DTexture(SIZE + 2, m_pDevice, &m_V[i].pTex3D, &m_V[i].pSRV);
+	CreateEmpty3DTexture(SIZE + 2, m_pDevice, &m_V_s.pTex3D, &m_V_s.pSRV);
+	CreateEmpty3DTexture(SIZE + 2, m_pDevice, &m_V_bs.pTex3D, &m_V_bs.pSRV);
+
+	//ストラクチャードバッファ
+	ZeroMemory(&bdesc, sizeof(bdesc));
+	bdesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+	bdesc.ByteWidth = sizeof(SBUFFER_ELEMENT)*(SIZE + 2)*(SIZE + 2)*(SIZE + 2);
+	bdesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	bdesc.StructureByteStride = sizeof(SBUFFER_ELEMENT);
+	m_pDevice->CreateBuffer(&bdesc, NULL, &m_Prs.pStredBuf);
+	m_pDevice->CreateBuffer(&bdesc, NULL, &m_Div.pStredBuf);
+
+	//UAV
+	ZeroMemory(&udesc, sizeof(udesc));
+	udesc.Format = DXGI_FORMAT_UNKNOWN;
+	udesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+	udesc.Texture2D.MipSlice = 0;
+	udesc.Buffer.NumElements = (SIZE + 2)*(SIZE + 2)*(SIZE + 2);
+	m_pDevice->CreateUnorderedAccessView(m_Prs.pStredBuf, &udesc, &m_Prs.pUAV);
+	m_pDevice->CreateUnorderedAccessView(m_Div.pStredBuf, &udesc, &m_Div.pUAV);
+
+	//UAV (3Dテクスチャーの)
+	ZeroMemory(&udesc, sizeof(udesc));
+	udesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+	udesc.Texture3D.FirstWSlice = 0;
+	udesc.Texture3D.WSize = SIZE;
+	udesc.Texture3D.MipSlice = 0;
+	udesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE3D;
+
+	m_pDevice->CreateUnorderedAccessView(m_D_Tex.pTex3D, &udesc, &m_D_Tex.pUAV);
+	for (int i = 0; i < 2; i++) m_pDevice->CreateUnorderedAccessView(m_D[i].pTex3D, &udesc, &m_D[i].pUAV);
+	for (int i = 0; i < 2; i++) m_pDevice->CreateUnorderedAccessView(m_V[i].pTex3D, &udesc, &m_V[i].pUAV);
+	m_pDevice->CreateUnorderedAccessView(m_V_s.pTex3D, &udesc, &m_V_s.pUAV);
+	m_pDevice->CreateUnorderedAccessView(m_V_bs.pTex3D, &udesc, &m_V_bs.pUAV);
+
+}
+
 //
 //
 //hlslファイルを読み込みシェーダーを作成する
@@ -588,8 +637,9 @@ void FLUID3D_GPU::DrawFluid(void)
 		m_pDeviceContext->VSSetShader(m_Cube.pVertexShader, NULL, 0);
 		m_pDeviceContext->PSSetShader(m_Cube.pPixelShader, NULL, 0);
 		
-		//// ワールドマトリックスの設定
+		// ワールドマトリックスの設定
 		SetWorldMatrix(&mtxWorld);
+
 		//シェーダーのコンスタントバッファーに各種データを渡す
 		Send_WVPCbuffer();
 
@@ -603,21 +653,8 @@ void FLUID3D_GPU::DrawFluid(void)
 		m_pDeviceContext->ClearRenderTargetView(m_TextureB.pRTV,ClearColor);//画面クリア
 		m_pDeviceContext->ClearDepthStencilView(m_TextureB.pDSV,D3D11_CLEAR_DEPTH,1.0f,0);//深度バッファクリア
 
-		// ビューポート設定
-		SetViewPort(TYPE_FULL_SCREEN);
-		SetCamera();
-
 		//バックフェイスのみレンダリングするようにカリングモードをセット
 		SetCullingMode(CULL_MODE_FRONT);
-
-		//使用するシェーダーのセット	
-		m_pDeviceContext->VSSetShader(m_Cube.pVertexShader,NULL,0);
-		m_pDeviceContext->PSSetShader(m_Cube.pPixelShader,NULL,0);
-
-		//// ワールドマトリックスの設定
-		SetWorldMatrix(&mtxWorld);
-		//シェーダーのコンスタントバッファーに各種データを渡す
-		Send_WVPCbuffer();
 
 		DrawBox();
 	}
@@ -626,10 +663,6 @@ void FLUID3D_GPU::DrawFluid(void)
 	{
 		//レンダーターゲットをバックバッファーに戻す
 		m_pDeviceContext->OMSetRenderTargets(1,&m_BackBuffer.pRTV,m_BackBuffer.pDSV);
-
-		// ビューポート設定
-		SetViewPort(TYPE_FULL_SCREEN);
-		SetCamera();
 
 		SetCullingMode(CULL_MODE_BACK);
 		m_pDeviceContext->PSSetSamplers(0,1,&m_pSampleLinear);
@@ -644,14 +677,8 @@ void FLUID3D_GPU::DrawFluid(void)
 		//3Dテクスチャーをシェーダーにセット		
 		m_pDeviceContext->PSSetShaderResources(2, 1, &m_D_Tex.pSRV);
 
-		// ワールドマトリックスの設定
-		SetWorldMatrix(&mtxWorld);
-		//シェーダーのコンスタントバッファーに各種データを渡す
-		SetCamera();
-		Send_WVPCbuffer();
-
-
 		DrawBox();
+
 	}
 }
 
