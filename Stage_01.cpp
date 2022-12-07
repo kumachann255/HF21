@@ -20,7 +20,6 @@
 #include "trainingCrow.h"
 #include "TrainingCrowManager.h"
 #include "bonusSlotManager.h"
-#include "FLUID3D_GPU.h"
 #include "renderer.h"
 #include "texManager.h"
 #include "UI.h"
@@ -30,7 +29,6 @@
 // マクロ定義
 //*****************************************************************************
 
-FLUID3D_GPU* m_pSolverGPU;
 
 
 //=============================================================================
@@ -38,21 +36,8 @@ FLUID3D_GPU* m_pSolverGPU;
 //=============================================================================
 Stage_01::Stage_01(God *god):Scene(god)
 {
-	////ソルバー生成
-	m_pSolverGPU = new FLUID3D_GPU;
-
-	m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
-		, GetRenderTargetView(), GetDepthStencilView());
-
-	XMFLOAT3 pos = { -50.0f,-10.0f,0.0f };
-	XMFLOAT3 scl = { 100.0f,50.0f,100.0f };
-
-	m_pSolverGPU->SetPos(pos);
-	m_pSolverGPU->SetScl(scl);
-
 	// パーティクル初期化
 	InitParticle();
-
 }
 
 //=============================================================================
@@ -60,11 +45,8 @@ Stage_01::Stage_01(God *god):Scene(god)
 //=============================================================================
 Stage_01::~Stage_01()
 {
-	delete m_pSolverGPU;
-
 	// パーティクル終了
 	UninitParticle();
-
 }
 
 //=============================================================================
@@ -88,14 +70,6 @@ void Stage_01::Update(void)
 	// パーティクル更新
 	UpdateParticle();
 
-
-	//流体計算
-	{
-		m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
-		m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
-		m_pSolverGPU->Solve();
-	}
-
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRollerManager()->Update();
 	//GetGod()->GetSlot()->Update();
@@ -108,16 +82,11 @@ void Stage_01::Update(void)
 	GetGod()->GetTrainingCrowManager()->Update();
 	GetGod()->GetBonusSlotManager()->Update();
 
+
 	if (GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		SetViewPort(TYPE_FULL_SCREEN);
-		m_pSolverGPU->SetUse(TRUE);
 	}
-	else
-	{
-		m_pSolverGPU->SetUse(FALSE);
-	}
-
 
 	// テクスチャの更新処理
 	{
@@ -167,7 +136,6 @@ void Stage_01::Draw(void)
 			}
 		}
 
-		m_pSolverGPU->DrawFluid();
 
 		break;
 
