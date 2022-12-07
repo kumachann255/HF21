@@ -81,6 +81,26 @@ void Drum3D::SetResult(void)
 	}
 }
 
+void Drum3D::SetRainbowModel(void)
+{
+	m_prefab->SetModel("model_slot_x100drum.obj");
+}
+
+void Drum3D::SetRainbowModelL(void)
+{
+	m_prefab->SetModel("model_slot_x100drum.obj");
+}
+
+void Drum3D::ResetRainbowModel(void)
+{
+	m_prefab->SetModel("model_slot_roll.obj");
+}
+
+void Drum3D::ResetRainbowModelL(void)
+{
+	m_prefab->SetModel("model_slot_x10-50drum.obj");
+}
+
 void Drum3D::SetNormal(void)
 {
 	m_resultMax = MAX_RESULT_NORMAL;

@@ -1,5 +1,7 @@
 #include "bonusHousing.h"
 #include "input.h"
+#include <time.h>
+#include "texManager.h"
 
 #define MAX_BONUS_HOUSING_LOOP	(2)
 
@@ -29,6 +31,11 @@ BonusHousing::BonusHousing()
 		m_pVertex[i].TexCoord = m_Squat_Vertex[0].VertexArray[i].TexCoord;
 	}
 
+	for (int i = 0; i < 3; i++)
+	{
+		m_resultColor[i] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	}
+	m_ansColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
@@ -36,8 +43,6 @@ BonusHousing::BonusHousing()
 	SetPos(pos);
 	SetRot(rot);
 	SetScl(scl);
-
-
 }
 
 void BonusHousing::Update()
@@ -51,6 +56,29 @@ void BonusHousing::Update()
 		m_isMove = FALSE;
 		m_MorphingType = 0;
 		m_time = 0.0f;
+	}
+
+	// 色のモーフィング
+	if (m_resultNum > 0)
+	{
+		int before = m_colorType;
+		int after = (m_colorType + 1) % m_resultNum;
+
+		m_colorTime += HOUSING_COLOR_SPEED;
+		if(m_resultNum >= 3) m_colorTime += MAX_HOUSING_COLOR_SPEED;
+
+		if (m_colorTime > 1.0f)
+		{
+			m_colorTime = 0.0f;
+			m_colorType++;
+			m_colorType %= m_resultNum;
+		}
+
+		m_ansColor.x = m_resultColor[before].x + ((m_resultColor[after].x - m_resultColor[before].x) * m_colorTime);
+		m_ansColor.y = m_resultColor[before].y + ((m_resultColor[after].y - m_resultColor[before].y) * m_colorTime);
+		m_ansColor.z = m_resultColor[before].z + ((m_resultColor[after].z - m_resultColor[before].z) * m_colorTime);
+
+		this->GetPrefab()->SetColor(m_ansColor);
 	}
 
 
@@ -110,6 +138,11 @@ void BonusHousing::Update()
 			m_waitTime++;
 		}
 
+		if (m_waitTime == MAX_HOUSING_CLEAR_WAIT - TRANSITION_HALF_TIME)
+		{
+			m_isTransition = TRUE;
+		}
+
 		if (m_waitTime > MAX_HOUSING_CLEAR_WAIT)
 		{
 			ResetMorphing();
@@ -151,6 +184,7 @@ void BonusHousing::SetGoMorphing()
 
 void BonusHousing::ResetMorphing()
 {
+	m_MorphingType = 0;
 	m_waitTime = 0;
 	m_isVibration = FALSE;
 	m_isMove = FALSE;
@@ -180,6 +214,29 @@ void BonusHousing::ResetMorphing()
 
 	GetDeviceContext()->Unmap(m_prefab->GetModel()->VertexBuffer, 0);
 
+}
+
+void BonusHousing::SetColor(XMFLOAT4 color)
+{
+	m_resultColor[m_resultNum] = color;
+	m_resultNum++;
+	if (m_resultNum == 3)
+	{
+		m_isTimeStop = TRUE;
+	}
+}
+
+void BonusHousing::ResetColor(void)
+{
+	m_colorTime = 0.0f;
+	m_resultNum = 0;
+	m_colorType = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		m_resultColor[i] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	}
+	m_ansColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	this->GetPrefab()->SetColor(m_ansColor);
 }
 
 

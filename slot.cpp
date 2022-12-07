@@ -90,15 +90,15 @@ void Slot::Update(void)
 			switch (pDrumL->GetColor())
 			{
 			case drum3D_x10:
-				m_crowNum = 10;
+				m_crowNum = 1;
 				break;
 
 			case drum3D_x30:
-				m_crowNum = 30;
+				m_crowNum = 2;
 				break;
 
 			case drum3D_x50:
-				m_crowNum = 50;
+				m_crowNum = 3;
 				break;
 			}
 		}
@@ -199,6 +199,19 @@ XMFLOAT4 Slot::GetColor(void)
 		}
 	}
 
-
 	return color;
+}
+
+void Slot::SetRainbowModel(void)
+{
+	pDrumL->SetRainbowModelL();
+	pDrumC->SetRainbowModel();
+	pDrumR->SetRainbowModel();
+}
+
+void Slot::ResetRainbowModel(void)
+{
+	pDrumL->ResetRainbowModelL();
+	pDrumC->ResetRainbowModel();
+	pDrumR->ResetRainbowModel();
 }

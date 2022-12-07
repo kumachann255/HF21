@@ -28,7 +28,7 @@ LampManager::LampManager(void)
 		XMFLOAT3 pos = { -LAMP_OFSETX + (i*LAMP_OFSETX),LAMP_OFSETY,0.0f };
 		m_lamps[i].GetPrefab()->SetPos(pos);
 		m_lamps[i].SetIsUse(TRUE);
-
+		m_lamps[i].SetDelete(FALSE);
 		//int colorId = rand() % 4;
 		//m_lamps[i].SetColorTypeId(colorId);
 		//m_lamps[i].GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[colorId];

@@ -9,6 +9,7 @@
 //#include "debugproc.h"
 #include "RollerManager.h"
 #include "TrainingCrowManager.h"
+#include "slotManager.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -130,13 +131,22 @@ void QuestBoardManager::Update(void)
 			!pLamp[2].GetIsUse() )
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
-			this->GetGod()->GetTrainingCrowManager()->AddStock();
+
+			if (!this->GetGod()->GetSlotManager()->GetRainbow())
+			{
+				this->GetGod()->GetTrainingCrowManager()->AddStock();
+			}
 
 			int probability = rand() % 10;
 
-			if (probability < 2)
+			if (probability - m_failureCount < 2)
 			{
+				m_failureCount = 0;
 				this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
+			}
+			else
+			{
+				m_failureCount++;
 			}
 
 
@@ -236,12 +246,31 @@ int QuestBoardManager::GetSerchBoard(int colorType)
 		Lamp *lamp = BoardArray[i]->GetLampManager()->GetLamp();
 		for (int p = 0; p < 3; p++)
 		{
-			if ((lamp[p].GetColorTypeId() == colorType) && (lamp[p].GetIsUse()))
+			if ((lamp[p].GetColorTypeId() == colorType) && (lamp[p].GetIsUse()) && (!lamp[p].GetDelete()))
 			{
-				lamp[p].SetDelete();
+				lamp[p].SetDelete(TRUE);
 				return i;
 			}
-			
+		}
+	}
+
+	return LAMP_TYPE_NONE;
+}
+
+int QuestBoardManager::GetSerchBoardRainbow(void)
+{
+	for (int i = 0; i < BoardArray.size(); i++)
+	{
+		if (BoardArray.empty()) continue;
+
+		Lamp *lamp = BoardArray[i]->GetLampManager()->GetLamp();
+		for (int p = 0; p < 3; p++)
+		{
+			if ((lamp[p].GetIsUse()) && (!lamp[p].GetDelete()))
+			{
+				lamp[p].SetDelete(TRUE);
+				return i;
+			}
 		}
 	}
 

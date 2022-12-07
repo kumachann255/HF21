@@ -6,7 +6,7 @@
 #include "trainingCrowDumbbell.h"
 #include "room.h"
 
-#define BONUS_START_TIME		(120)
+#define BONUS_START_TIME		(60)
 
 enum
 {

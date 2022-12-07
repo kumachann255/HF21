@@ -54,8 +54,9 @@
     <ClCompile Include="TrainingCrowManager.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="particle.cpp" />
     <ClCompile Include="Staffroll.cpp" />
+    <ClCompile Include="bonusTimer.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="RollerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -116,8 +117,10 @@
     <ClInclude Include="TrainingCrowManager.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIManager.h" />
-    <ClInclude Include="particle.h" />
     <ClInclude Include="Staffroll.h" />
+    <ClInclude Include="bonusTimer.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="RollerManager.h" />
+
   </ItemGroup>
 </Project>
