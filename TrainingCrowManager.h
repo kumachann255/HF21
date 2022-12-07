@@ -33,6 +33,7 @@ private:
 	int m_count = 0;
 
 	BOOL m_isSuccess = FALSE;
+	BOOL m_isFalseTelop = FALSE;
 
 	int m_stock = 0;
 
@@ -54,4 +55,9 @@ public:
 	
 	BOOL UseStock(void);
 	void AddStock(void) { m_stock++; };
+
+	void SetTrainingTypeRandom(void) { m_Type = rand() % No_TrainingMax; };
+	
+	void SetFalseTelop(BOOL data) { m_isFalseTelop = data; };
+	BOOL GetFalseTelop(void) { return m_isFalseTelop; };
 };

@@ -58,6 +58,7 @@
     <ClCompile Include="bonusTimer.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="RollerManager.cpp" />
+    <ClCompile Include="rainbowTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -121,6 +122,6 @@
     <ClInclude Include="bonusTimer.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="RollerManager.h" />
-
+    <ClInclude Include="rainbowTime.h" />
   </ItemGroup>
 </Project>

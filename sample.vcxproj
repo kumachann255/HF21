@@ -171,6 +171,7 @@
     <ClInclude Include="puzzleBG.h" />
     <ClInclude Include="QuestBoardManager.h" />
     <ClInclude Include="QuestBoard.h" />
+    <ClInclude Include="rainbowTime.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="roller.h" />
     <ClInclude Include="RollerManager.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="prefab.cpp" />
     <ClCompile Include="QestBoardManager.cpp" />
     <ClCompile Include="QuestBoard.cpp" />
+    <ClCompile Include="rainbowTime.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="roller.cpp" />
     <ClCompile Include="RollerManager.cpp" />

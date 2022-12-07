@@ -4,12 +4,17 @@
 #include "UIManager.h"
 
 enum {
+	trandition_white,
+	ui_waku_full,
 	telop_bonusChance,
 	telop_1,
 	telop_2,
 	telop_3,
+	telop_evolution,
+	telop_wing,
+	telop_breast,
+	telop_thigh,
 	telop_guidance,
-	trandition_white,
 	trandition_whiteFull,
 	trandition_crow,
 	telop_max,
@@ -32,12 +37,17 @@ enum {
 #define TELOP_TEXTURE_MAX	(telop_max)
 
 static char *g_TexturName[TELOP_TEXTURE_MAX] = {
+	"data/TEXTURE/tex_whiteBox.png",
+	"data/TEXTURE/tex_waku_full.png",
 	"data/TEXTURE/telop_bonusChance.png",
 	"data/TEXTURE/tex_num_1.png",
 	"data/TEXTURE/tex_num_2.png",
 	"data/TEXTURE/tex_num_3.png",
+	"data/TEXTURE/tex_evolution.png",
+	"data/TEXTURE/tex_chicken_wings_false.png",
+	"data/TEXTURE/tex_chicken_breast_false.png",
+	"data/TEXTURE/tex_chicken_thigh_false.png",
 	"data/TEXTURE/tex_guidance.png",
-	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_transition_crow.png",
 };
@@ -56,6 +66,4 @@ public:
 	void Draw();
 
 	UIManager *GetUIManager() { return m_pUiManager; }
-
-
 };

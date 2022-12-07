@@ -3,12 +3,15 @@
 #include "TrainingCrowManager.h"
 #include "input.h"
 #include "debugproc.h"
+#include "texManager.h"
+#include <time.h>
 
 
 SlotManager::SlotManager(God *god) : GodObject(god)
 {
 	m_pSlot = new Slot();
 	m_pFlyingCrowManager = new FlyingCrowManager(god);
+	m_pRainbowTimer = new RainbowTimer();
 }
 
 SlotManager::~SlotManager()
@@ -63,6 +66,52 @@ void SlotManager::Update()
 	}
 
 	m_pFlyingCrowManager->Update();
+
+
+	if (m_isRainbow)
+	{
+		m_pRainbowTimer->SetUse(TRUE);
+		m_rainbowStartWait++;
+	}
+
+	if (m_rainbowStartWait == MAX_RAINBOW_STRAT_WAIT)
+	{
+		m_start = clock();
+	}
+	else if (m_rainbowStartWait > MAX_RAINBOW_STRAT_WAIT)
+	{
+		// ŽžŠÔŒv‘ª
+		clock_t time = clock();
+		m_now = (float)(time - m_start) / CLOCKS_PER_SEC;
+		m_now = MAX_RAINBOW_TIME - m_now;
+
+		m_pRainbowTimer->SetTime(m_now);
+
+		if (m_now < 0.0f)
+		{
+			m_timeUpWait++;
+			m_now = 0.0f;
+			m_isRainbow = FALSE;
+
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				telop_bonusChance, texType_zoomIn, XMFLOAT3(480.0f, 300.0f, 0.0f), 4);
+
+			if (m_timeUpWait > MAX_RAINBOW_TIMEUP_WAIT)
+			{
+				m_pRainbowTimer->SetUse(FALSE);
+			}
+
+			if (m_timeUpWait == MAX_RAINBOW_TIMEUP_WAIT + MAX_RAINBOW_TIMEUP_WAIT / 2)
+			{
+				m_timeUpWait = 0;
+				m_rainbowStartWait = 0;
+				ResetRainbowMode();
+
+				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+					trandition_white, texType_fade, XMFLOAT3(744.0f, 350.0f, 0.0f), 4);
+			}
+		}
+	}
 }
 
 void SlotManager::Draw(int type)
@@ -71,6 +120,7 @@ void SlotManager::Draw(int type)
 	{
 	case No_slot:
 		m_pSlot->Draw();
+		m_pRainbowTimer->Draw();
 		break;
 
 	case No_FlyingCrow:

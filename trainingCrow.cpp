@@ -69,15 +69,22 @@ void TrainingCrowSquat::Update()
 		{	// ¬Œ÷
 			m_time = 0.0f;
 			m_MorphingType = 0;
+			m_waitCount++;
 
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
 
-			if (m_waitCount > WAIT_SQUAT_TIME * 3)
+			if (m_waitCount == WAIT_SQUAT_TIME * 4 - TRANSITION_HALF_TIME)
+			{
+				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+					trandition_crow, texType_tansition, XMFLOAT3( -TRANSITION_WIDTH, 270.0f, 0.0f), 4);
+			}
+
+			if (m_waitCount > WAIT_SQUAT_TIME * 4)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 				this->GetGod()->GetTrainingCrowManager()->SetBonusStart();
 				m_waitCount = 0;
-				m_speed = BENCH_SPEED;
+				m_speed = MIN_SQUAT_SPEED;
 				m_count = 0;
 			}
 		}
@@ -85,11 +92,21 @@ void TrainingCrowSquat::Update()
 		{	// Ž¸”s
 			m_time = 0.0f;
 			m_MorphingType = 1;
-			if (m_waitCount > WAIT_SQUAT_TIME)
+			m_waitCount++;
+
+			if (!GetGod()->GetTrainingCrowManager()->GetFalseTelop())
+			{
+				GetGod()->GetTrainingCrowManager()->SetFalseTelop(TRUE);
+
+				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+					telop_thigh, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
+			}
+
+			if (m_waitCount > WAIT_SQUAT_TIME * 4)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 				m_waitCount = 0;
-				m_speed = BENCH_SPEED;
+				m_speed = MIN_SQUAT_SPEED;
 				m_count = 0;
 			}
 		}

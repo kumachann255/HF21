@@ -5,6 +5,8 @@
 #include "FlyingCrowManager.h"
 #include "bonusSlot.h"
 #include "QuestBoardManager.h"
+#include "rainbowTime.h"
+#include <time.h>
 
 enum
 {
@@ -12,15 +14,23 @@ enum
 	No_FlyingCrow,
 };
 
+#define MAX_RAINBOW_TIME			(15.0f)
+#define MAX_RAINBOW_TIMEUP_WAIT		(240)
+#define MAX_RAINBOW_STRAT_WAIT		(240)
 
 class SlotManager : GodObject
 {
 private:
 	Slot *m_pSlot = nullptr;
 	FlyingCrowManager *m_pFlyingCrowManager = nullptr;
+	RainbowTimer *m_pRainbowTimer = nullptr;
 
 	BOOL m_isRainbow = FALSE;
 	//QuestBoardManager *
+	clock_t m_start;
+	float m_now = 0.0f;
+	int m_timeUpWait = 0;
+	int m_rainbowStartWait = 0;
 
 public:
 	SlotManager(God *god);
@@ -35,7 +45,6 @@ public:
 
 	void SetRainbowMode(void);
 	void ResetRainbowMode(void);
-
 };
 
 

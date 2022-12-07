@@ -2,6 +2,7 @@
 #include "input.h"
 #include "debugproc.h"
 #include "bonusSlotManager.h"
+#include "texManager.h"
 
 TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 {
@@ -61,14 +62,9 @@ void TrainingCrowManager::Update()
 
 	if (m_isTrainingSuccess)
 	{
-		m_count++;
-		if (m_count > BONUS_START_TIME)
-		{
-			m_count = 0; 
-			m_isTrainingSuccess = FALSE;
-			m_isBonus = TRUE;
-			m_isSuccess = FALSE;
-		}
+		m_isTrainingSuccess = FALSE;
+		m_isBonus = TRUE;
+		m_isSuccess = FALSE;
 	}
 
 	if (!m_isSpeedUp && !m_isTrainingSuccess && !m_isBonus)
@@ -110,6 +106,13 @@ BOOL TrainingCrowManager::UseStock(void)
 	{
 		m_stock--;
 		ans = TRUE;
+		m_isFalseTelop = FALSE;
+
+		SetTrainingTypeRandom();
+
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_evolution, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
+
 	}
 
 	return ans;

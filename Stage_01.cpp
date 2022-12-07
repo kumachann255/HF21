@@ -90,10 +90,11 @@ void Stage_01::Update(void)
 
 	// テクスチャの更新処理
 	{
-		for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
-		{
-			GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Update();
-		}
+		GetGod()->GetTexManager()->Update();
+		//for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+		//{
+		//	GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Update();
+		//}
 	}
 }
 

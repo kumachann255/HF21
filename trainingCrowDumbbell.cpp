@@ -48,24 +48,39 @@ void TrainingCrowDumbbell::Update()
 
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
 
-		if (m_waitCount > WAIT_SQUAT_TIME * 3)
+		if (m_waitCount == WAIT_SQUAT_TIME * 4 - TRANSITION_HALF_TIME)
+		{
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				trandition_crow, texType_tansition, XMFLOAT3(-TRANSITION_WIDTH, 270.0f, 0.0f), 4);
+		}
+
+		if (m_waitCount > WAIT_SQUAT_TIME * 4)
 		{
 			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 			this->GetGod()->GetTrainingCrowManager()->SetBonusStart();
 			m_waitCount = 0;
-			m_speed = BENCH_SPEED;
+			m_speed = DUMBBELL_SPEED;
 			m_count = 0;
 		}
 	}
 	else if(this->GetGod()->GetTrainingCrowManager()->GetIsSpeedUp())
 	{
-		m_wing_Rot.x = GetRot().x + 1.72f;
+		m_wing_Rot.x = GetRot().x + 0.72f;
 		m_waitCount++;
-		if (m_waitCount > WAIT_SQUAT_TIME)
+
+		if (!GetGod()->GetTrainingCrowManager()->GetFalseTelop())
+		{
+			GetGod()->GetTrainingCrowManager()->SetFalseTelop(TRUE);
+
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				telop_wing, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
+		}
+
+		if (m_waitCount > WAIT_SQUAT_TIME * 4)
 		{
 			this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 			m_waitCount = 0;
-			m_speed = BENCH_SPEED;
+			m_speed = DUMBBELL_SPEED;
 			m_count = 0;
 		}
 	}

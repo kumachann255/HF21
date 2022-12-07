@@ -1,5 +1,5 @@
 #include "UIManager.h"
-
+#include "texManager.h"
 
 
 UIManager::UIManager()
