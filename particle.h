@@ -17,8 +17,8 @@ enum
 	EFFECT_BOM,
 	EFFECT_KEMURI,
 	EFFECT_KEMURI2,
-	EFFECT_REFLECTION,
 	EFFECT_LIGHT,
+	EFFECT_REFLECTION,
 	EFFECT_MAX,
 };
 
@@ -61,7 +61,18 @@ public:
 	};
 
 	~SPRITE_ANIMATION() {};
-	void Init() { SPRITE_ANIMATION(); }
+
+	void Init() {
+		m_patternAnim = 0;
+		m_uwnum = 0;
+		m_countAnim = 0.0f;
+		m_tw = 0.0f;
+		m_th = 0.0f;
+		m_tx = 0.0f;
+		m_ty = 0.0f;
+		m_use = FALSE;
+	}
+
 	void Update(void);   
 	XMFLOAT2 GetTexPos(void) { return XMFLOAT2{ m_tx,m_ty }; }   // テクスチャー座標の取得
 	XMFLOAT2 GetTexWidth(void) { return XMFLOAT2{ m_tw,m_th }; }   // テクスチャー座標の取得

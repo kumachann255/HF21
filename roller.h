@@ -11,18 +11,19 @@
 
 #define	ROTATE_SPEED		(0.001f)		// ‰ñ“]‘¬“x
 
-class Roller :public Object , GodObject
+class Roller :public Object
 {
 
 private:
 
 
 public:
-	Roller(God *god);
+	Roller();
 	~Roller();
 
 	void Update(void) override;
 
-	//void Draw(void) override;
+	void Draw(void) override;
 
 };
+

@@ -56,6 +56,7 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="Staffroll.cpp" />
+    <ClCompile Include="RollerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -117,5 +118,6 @@
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="Staffroll.h" />
+    <ClInclude Include="RollerManager.h" />
   </ItemGroup>
 </Project>

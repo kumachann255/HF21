@@ -10,7 +10,7 @@
 // マクロ定義
 //*****************************************************************************
 class SkyManager;
-class Roller;
+//class Roller;
 class QuestBoardManager;
 class Slot;
 class FlyingCrowManager;
@@ -21,6 +21,8 @@ class TrainingCrowManager;
 class BonusSlotManager;
 class AnimationManager;
 class TexManager;
+class RollerManager;
+
 
 enum SCENE_ID {
 	TITLE_ID,
@@ -40,7 +42,7 @@ private:
 
 	// 神に持たせる
 	 SkyManager *m_pSkymanager = nullptr;
-	 Roller *m_pRoller = nullptr;
+	 //Roller *m_pRoller = nullptr;
 	 QuestBoardManager *m_pQuestBoardManager = nullptr;
 	 //Slot *m_pSlot = nullptr;
 	 //FlyingCrowManager *m_pFlyingCrowManager = nullptr;
@@ -51,6 +53,7 @@ private:
 	 BonusSlotManager *m_pBonusSlotManager = nullptr;
 	 AnimationManager *m_pAnimationManager = nullptr;
 	 TexManager *m_pTexManager = nullptr;
+	 RollerManager *m_pRollerManager = nullptr;
 
 
 public:
@@ -64,7 +67,7 @@ public:
 
 	// ゲッター
 	SkyManager *GetSkyManager() { return m_pSkymanager; }
-	Roller *GetRoller() { return m_pRoller; }
+	//Roller *GetRoller() { return m_pRoller; }
 	QuestBoardManager *GetQuestBoardManager() { return m_pQuestBoardManager; }
 	//Slot *GetSlot() { return m_pSlot; }
 	//FlyingCrowManager *GetFlyingCrowManager() { return m_pFlyingCrowManager; }
@@ -76,7 +79,7 @@ public:
 
 	TexManager *GetTexManager() { return m_pTexManager; }
 	AnimationManager *GetAnimationManager() { return m_pAnimationManager; }
-
+	RollerManager *GetRollerManager() { return m_pRollerManager; }
 };
 
 //*****************************************************************************

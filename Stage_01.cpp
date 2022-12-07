@@ -6,7 +6,7 @@
 //=============================================================================
 #include "Stage_01.h"
 #include "SkyManager.h"
-#include "roller.h"
+#include "rollerManager.h"
 #include "input.h"
 #include "QuestBoardManager.h"
 #include "fade.h"
@@ -97,7 +97,7 @@ void Stage_01::Update(void)
 	}
 
 	GetGod()->GetSkyManager()->Update();
-	GetGod()->GetRoller()->Update();
+	GetGod()->GetRollerManager()->Update();
 	//GetGod()->GetSlot()->Update();
 	//GetGod()->GetFlyingCrowManager()->Update();
 	if (!GetGod()->GetTrainingCrowManager()->GetBonus())
@@ -181,7 +181,7 @@ void Stage_01::Draw(void)
 		SetLightPos(0, lightPos2);
 
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
-		GetGod()->GetRoller()->Draw();
+		GetGod()->GetRollerManager()->Draw();
 		GetGod()->GetQuestBoardManager()->Draw();
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
 		DrawParticle();

@@ -172,6 +172,7 @@
     <ClInclude Include="QuestBoard.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="roller.h" />
+    <ClInclude Include="RollerManager.h" />
     <ClInclude Include="room.h" />
     <ClInclude Include="rotator.h" />
     <ClInclude Include="Scene.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="QuestBoard.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="roller.cpp" />
+    <ClCompile Include="RollerManager.cpp" />
     <ClCompile Include="room.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="score.cpp" />

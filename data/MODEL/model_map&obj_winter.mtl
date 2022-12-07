@@ -1,0 +1,243 @@
+newmtl model_map_winter:phong2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_map.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_map_winter:phong5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_wood_winter.jpeg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_biru:phong3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_biru.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_biru1:phong3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_biru.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_hal:blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_hal.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 0.06
+newmtl model_mapobj_hal:phong4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_halwd.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_hal1:blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_hal.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 0.06
+newmtl model_mapobj_hal1:phong4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_halwd.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:pasted__phong1SG
+illum 4
+Kd 0.14 0.76 0.57
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:pasted__phong2SG
+illum 4
+Kd 0.68 0.13 0.13
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:phong1SG
+illum 4
+Kd 0.10 0.53 0.40
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:phong2SG
+illum 4
+Kd 0.68 0.13 0.13
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:phong3SG
+illum 4
+Kd 0.86 1.00 0.96
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:phong4SG
+illum 4
+Kd 0.71 0.30 0.11
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera:phong5SG
+illum 4
+Kd 0.20 0.20 0.20
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:pasted__phong1SG
+illum 4
+Kd 0.14 0.76 0.57
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:pasted__phong2SG
+illum 4
+Kd 0.68 0.13 0.13
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:phong1SG
+illum 4
+Kd 0.10 0.53 0.40
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:phong2SG
+illum 4
+Kd 0.68 0.13 0.13
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:phong3SG
+illum 4
+Kd 0.86 1.00 0.96
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:phong4SG
+illum 4
+Kd 0.71 0.30 0.11
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tera1:phong5SG
+illum 4
+Kd 0.20 0.20 0.20
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_mapobj_tou:lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_tou.png
+Ni 1.00
+newmtl model_mapobj_tou1:lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_mapobj_tou.png
+Ni 1.00
+newmtl model_wood_winter:pasted__phong4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_wood.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_wood_winter:pasted__phong4SG2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_wood.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_wood_winter:pasted__phong4SG3
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_wood.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_wood_winter:pasted__phong4SG4
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_wood.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl model_wood_winter:phong4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd tex_wood.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00

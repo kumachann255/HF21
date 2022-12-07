@@ -50,11 +50,11 @@ static float					g_fHeightBase = 1.0f;			// 基準の高さ
 
 static char *g_TextureName[TEXTURE_MAX] =
 {
-    "data/TEXTURE/EFFECT/effect_bom.png",
-    "data/TEXTURE/EFFECT/effect_kemuri.png",
+	"data/TEXTURE/EFFECT/effect_bom.png",
+	"data/TEXTURE/EFFECT/effect_kemuri.png",
 	"data/TEXTURE/EFFECT/effect_kemuri2.png",
-    "data/TEXTURE/EFFECT/effect_reflection.png",
-    "data/TEXTURE/EFFECT/effect_light.png",
+	"data/TEXTURE/EFFECT/effect_light.png",
+	"data/TEXTURE/EFFECT/effect_reflection.png",
 };
 
 static BOOL						g_Load = FALSE;
@@ -157,9 +157,6 @@ void UpdateParticle(void)
 //=============================================================================
 void DrawParticle(void)
 {
-	//SetViewPort(TYPE_FULL_SCREEN);
-	//SetCamera();
-
 	// ライティングを無効に
 	SetLightEnable(FALSE);
 
@@ -212,10 +209,10 @@ HRESULT MakeVertexParticle(void)
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 		// 頂点座標の設定
-		vertex[0].Position = XMFLOAT3(-PARTICLE_SIZE_X , PARTICLE_SIZE_Y , 0.0f);
-		vertex[1].Position = XMFLOAT3(PARTICLE_SIZE_X , PARTICLE_SIZE_Y , 0.0f);
-		vertex[2].Position = XMFLOAT3(-PARTICLE_SIZE_X , -PARTICLE_SIZE_Y , 0.0f);
-		vertex[3].Position = XMFLOAT3(PARTICLE_SIZE_X , -PARTICLE_SIZE_Y , 0.0f);
+		vertex[0].Position = XMFLOAT3(-PARTICLE_SIZE_X, PARTICLE_SIZE_Y, 0.0f);
+		vertex[1].Position = XMFLOAT3(PARTICLE_SIZE_X, PARTICLE_SIZE_Y, 0.0f);
+		vertex[2].Position = XMFLOAT3(-PARTICLE_SIZE_X, -PARTICLE_SIZE_Y, 0.0f);
+		vertex[3].Position = XMFLOAT3(PARTICLE_SIZE_X, -PARTICLE_SIZE_Y, 0.0f);
 
 		// 法線の設定
 		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
@@ -289,7 +286,7 @@ void PARTICLE::Update(void)
 		move.y = rand() % 300 / 200.0f;
 		move.z = cosf(fAngle) * fLength;
 
-		nLife = rand() % 100 + 80;
+		nLife = rand() % 100 + 100;
 
 		// ビルボードの設定
 		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -300,12 +297,12 @@ void PARTICLE::Update(void)
 
 
 		fAngle = (float)(rand() % 628 - 314) / 100.0f;
-		fLength = rand() % (int)(200) / 100.0f ;
+		fLength = rand() % (int)(200) / 100.0f;
 		move.x = sinf(fAngle) * fLength;
 		move.y = rand() % 300 / 200.0f;
 		move.z = cosf(fAngle) * fLength;
 
-		nLife = rand() % 100 + 80;
+		nLife = rand() % 100 + 150;
 
 		// ビルボードの設定
 		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -315,12 +312,12 @@ void PARTICLE::Update(void)
 	case MOVE_PATTERN_UPLEFT:
 
 		fAngle = (float)(rand() % 314) / 100.0f;
-		fLength = rand() % (int)(200) / 10.0f ;
-		move.x = -sinf(fAngle) * fLength;
-		move.y = 2.0f;
-		move.z = cosf(fAngle) * fLength;
+		fLength = (float)(rand() % 200) ;
+		move.x = -fLength * 0.4f;
+		move.y = 3.0f;
+		move.z = cosf(fAngle) * fLength * 1.2f;
 
-		nLife = rand() % 100 + 80;
+		nLife = rand() % 100 + 150;
 
 		// ビルボードの設定
 		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -337,7 +334,7 @@ void PARTICLE::Update(void)
 
 		m_nLife--;
 
-		if (m_nLife <= 0 /*|| SpriteAnim.GetUse() == FALSE*/)
+		if (m_nLife <= 0 || SpriteAnim.GetUse() == FALSE)
 		{
 			m_bUse = FALSE;
 			SpriteAnim.SetUse(FALSE);
@@ -363,9 +360,6 @@ void PARTICLE::Draw(void)
 		UINT offset = 0;
 		GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 
-		// マトリクス設定
-		//SetWorldViewProjection2D();
-
 		// プリミティブトポロジ設定
 		GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
@@ -379,10 +373,10 @@ void PARTICLE::Draw(void)
 			VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 			// 頂点座標の設定
-			vertex[0].Position = XMFLOAT3(-m_fSizeX,  m_fSizeY, 0.0f);
-			vertex[1].Position = XMFLOAT3( m_fSizeX,  m_fSizeY, 0.0f);
+			vertex[0].Position = XMFLOAT3(-m_fSizeX, m_fSizeY, 0.0f);
+			vertex[1].Position = XMFLOAT3(m_fSizeX, m_fSizeY, 0.0f);
 			vertex[2].Position = XMFLOAT3(-m_fSizeX, -m_fSizeY, 0.0f);
-			vertex[3].Position = XMFLOAT3( m_fSizeX, -m_fSizeY, 0.0f);
+			vertex[3].Position = XMFLOAT3(m_fSizeX, -m_fSizeY, 0.0f);
 
 			// 法線の設定
 			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
@@ -484,7 +478,7 @@ void SPRITE_ANIMATION::Update(void)
 
 			if (m_uwnum < TEXTURE_PATTERN_DIVIDE_X - 1)
 			{
-				m_uwnum ++;
+				m_uwnum++;
 			}
 			else
 			{
@@ -516,7 +510,7 @@ void SPRITE_ANIMATION::Update(void)
 //
 // 
 //=============================================================================
-void CallParticle(XMFLOAT3 pos ,float size ,int num , int texID , int pattern)
+void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
 {
 
 	for (int i = 0; i < PARTICLE_BUFFER; i++)
