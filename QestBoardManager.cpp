@@ -7,7 +7,7 @@
 #include "QuestBoardManager.h"
 #include "input.h"
 //#include "debugproc.h"
-#include "Roller.h"
+#include "RollerManager.h"
 #include "TrainingCrowManager.h"
 #include "slotManager.h"
 
@@ -18,7 +18,7 @@
 #define	BOARD_SCL			(5.0f)			// 大きさ
 #define	MODEL_NAME01		"model_quest_questboard.obj"	// 読み込むモデル名
 #define BOARD_OFFSET_Y		(70.0f)							// ボードの足元をあわせる
-#define BOARD_MAKETIME		(800)							// ボードの出現時間
+#define BOARD_MAKETIME		(810)							// ボードの出現時間
 
 
 static char *g_TextureName[LAMP_TYPE_MAX] =
@@ -82,6 +82,10 @@ QuestBoardManager::~QuestBoardManager()
 //=============================================================================
 void QuestBoardManager::Update(void)
 {
+	float rotX = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().x;
+	rotX = XMConvertToDegrees(rotX);
+	int AppearRot = (int)(rotX / 45.0f);
+
 	// カウントの更新とリセット
 	m_MakeCnt += 1;
 	if (m_MakeCnt > BOARD_MAKETIME) m_MakeCnt = 0;
@@ -157,7 +161,7 @@ void QuestBoardManager::Update(void)
 
 	// 消す処理	(時間切れ)
 	if (!BoardArray.empty()){
-		// 120度回転したら消す
+		// 210度回転したら消す
 		if(BoardArray[0]->GetRot().x > XMConvertToRadians(210.0f))
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
@@ -176,11 +180,10 @@ void QuestBoardManager::Update(void)
 
 	}
 
-	//const QuestBoardArray::iterator itEnd = BoardArray.end();
-	//for (QuestBoardArray::iterator it = BoardArray.begin(); it != itEnd; ++it)
-	//{
-	//	(*it)->Update();
-	//}
+//#ifdef _DEBUG	// デバッグ情報を表示する
+//	PrintDebugProc("ローラーの回転角度 %f \n", rotX);
+//	PrintDebugProc("ローラーの回転角度/45.0f =  %d \n", AppearRot);
+//#endif
 
 }
 
@@ -199,8 +202,8 @@ void QuestBoardManager::Draw(void)
 	{
 		XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
 		rot.x = (*board)->GetRot().x;	// 自分自身の回転(0度から始めたいから)
-		rot.y = GetGod()->GetRoller()->GetPrefab()->GetRot().y;
-		rot.z = GetGod()->GetRoller()->GetPrefab()->GetRot().z;
+		rot.y = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().y;
+		rot.z = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().z;
 
 
 //================================
@@ -209,9 +212,9 @@ void QuestBoardManager::Draw(void)
 
 		// 親（ローラー）のワールドマトリクス生成
 		mtxWorld = GetWorldMatrix(
-			GetGod()->GetRoller()->GetPrefab()->GetPos(),
+			GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetPos(),
 			rot,
-			GetGod()->GetRoller()->GetScl());
+			GetGod()->GetRollerManager()->GetRoller()->GetScl());
 
 		// ボードの描画
 		(*board)->Draw(mtxWorld);

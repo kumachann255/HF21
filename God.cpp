@@ -23,6 +23,7 @@
 #include "Ending.h"
 #include "texManager.h"
 #include "Staffroll.h"
+#include "RollerManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -47,7 +48,6 @@ God::God()
 
 	// お互いの情報を共有できるようにインスタンス化
 	m_pSkymanager = new SkyManager(this);
-	m_pRoller = new Roller(this);
 	m_pQuestBoardManager = new QuestBoardManager(this);
 	m_pSlotManager = new SlotManager(this);
 	m_pTrainingCrowSquat = new TrainingCrowSquat(this);
@@ -56,6 +56,7 @@ God::God()
 	m_pTexManager = new TexManager(this);
 
 	m_pAnimationManager = new AnimationManager(this);
+	m_pRollerManager = new RollerManager(this);
 
 }
 
@@ -69,7 +70,6 @@ God::~God()
 	}
 
 	delete m_pSkymanager;
-	delete m_pRoller;
 	delete m_pQuestBoardManager;
 	delete m_pSlotManager;
 	delete m_pTrainingCrowSquat;
@@ -77,6 +77,7 @@ God::~God()
 	delete m_pBonusSlotManager;
 	delete m_pAnimationManager;
 	delete m_pTexManager;
+	delete m_pRollerManager;
 }
 
 //=============================================================================

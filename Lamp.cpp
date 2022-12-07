@@ -70,7 +70,8 @@ void Lamp::Update(void)
 			this->SetIsUse(FALSE);
 
 			XMFLOAT3 pos = GetPos();
-			CallParticle(pos, 15.0f, 50, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL);
+			pos.y -= 20.0f;
+			CallParticle(pos, 7.0f, 80, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL);
 
 		}
 	}
