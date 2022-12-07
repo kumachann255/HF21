@@ -65,6 +65,7 @@ private:
 	XMFLOAT3	m_rot;		// å¸Ç´(âÒì])
 	XMFLOAT3	m_scl;		// ëÂÇ´Ç≥(ÉXÉPÅ[Éã)
 	BOOL		m_bUse;
+	BOOL		m_bInitFlag;
 
 	OBJECT m_D[2];
 	OBJECT m_V[2];
@@ -119,18 +120,24 @@ public:
 		m_rot = { 0.0f,0.0f,0.0f };
 		m_scl = { 50.0f,50.0f,50.0f };
 		m_bUse = FALSE;
+		m_bInitFlag = FALSE;
+
 	}
 
 	~FLUID3D_GPU();
+
+	void Clear(ID3D11Device* pDevice);
 
 	void SetPos(XMFLOAT3 pos) { m_pos = pos; }
 	void SetRot(XMFLOAT3 rot) { m_rot = rot; }
 	void SetScl(XMFLOAT3 scl) { m_scl = scl; }
 	void SetUse(BOOL flag) { m_bUse = flag; }
+	void SetInitFlag(BOOL flag) { m_bInitFlag = flag; }
 	XMFLOAT3 GetPos(void) { return m_pos ; }
 	XMFLOAT3 GetRot(void) { return m_rot ; }
 	XMFLOAT3 GetScl(void) { return m_scl ; }
 	BOOL GetUseFlag(void) { return m_bUse; }
+	BOOL GetInitFlag(void) { return m_bInitFlag; }
 
 	void Init(ID3D11Device*,ID3D11DeviceContext*,DWORD,DWORD,ID3D11RenderTargetView*,ID3D11DepthStencilView*);
 	void AddDensitySource(XMFLOAT4&, XMFLOAT4&);

@@ -56,7 +56,7 @@ VS_OUTPUT VS( float4 Pos : POSITION,
 //
 float4 PS( VS_OUTPUT input ) : SV_Target
 {
-	const int Loops = 4;
+	const int Loops = 2;
 	const float Stride = 1.0f / Loops;
 	//頂点座標からテクスチャー座標を作成
 	float2 Tex=input.CPos.xy/=input.CPos.w;
@@ -83,7 +83,7 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 	}
 
 	float4 RedBlack = float4(-1, -2, -3, 0);
-	float4 White = float4(1, 0.5, 0.0, 2);
+	float4 White = float4(0.5, 0.2, 1.0, 2);
 	TotalColor = saturate(lerp(RedBlack, White, Max));
 	return TotalColor;
 }
