@@ -1,6 +1,7 @@
 #include "slot.h"
 #include "input.h"
 #include "debugproc.h"
+#include "sound.h"
 
 
 Slot::Slot()
@@ -63,6 +64,7 @@ void Slot::Update(void)
 	// 止める
 	if ((GetKeyboardTrigger(DIK_SPACE)) && (m_count > 40))
 	{
+		PlaySound(SOUND_LABEL_SE_se_slot_button_01); // スロットを止める
 		if (pDrumR->GetMove())
 		{
 			pDrumR->Stop();
@@ -117,6 +119,7 @@ void Slot::Update(void)
 	// 回す
 	if ((GetKeyboardTrigger(DIK_RETURN)))
 	{
+		PlaySound(SOUND_LABEL_SE_se_slot_lever_01); // スロットを動かす
 		pDrumR->SpinStart();
 		if(!m_move) m_count = 0;
 		m_move = true;

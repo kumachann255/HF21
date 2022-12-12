@@ -10,6 +10,7 @@
 #include "QuestBoard.h"
 #include "Lamp.h"
 #include "slotManager.h"
+#include "sound.h"
 
 //=============================================================================
 // コンストラクタ
@@ -112,6 +113,8 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType, int num)
 
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
+		PlaySound(SOUND_LABEL_SE_se_crow_flap_04); // カラース発射
+		PlaySound(SOUND_LABEL_SE_se_crow_cry_01);  // カラースの鳴き声
 		m_targetNo[num] = colorType;
 
 		if (!m_pFlyingCrow[i].GetIsUse())
