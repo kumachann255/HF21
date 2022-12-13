@@ -1,6 +1,7 @@
 #include "RollerManager.h"
 #include "input.h"
 #include "particle.h"
+#include "sound.h"
 
 #define	SWICH_TIME		(30)	
 #define	PARTICLE_TIME	(40)	
@@ -56,12 +57,15 @@ void RollerManager::Update()
 		pRoller[ROLLER_AUTOM]->SetIsUse(FALSE);
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
+		PlaySound(SOUND_LABEL_SE_se_map_change); // ƒ}ƒbƒv•Ï‰»
+
 	}
 
 	if (SwichCnt == (60 * SWICH_TIME *2) - PARTICLE_TIME)
 	{
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
+
 
 	// ‰Ä‚É‚È‚é
 	if (SwichCnt == 60 * SWICH_TIME *2)
