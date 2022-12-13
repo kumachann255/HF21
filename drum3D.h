@@ -3,10 +3,12 @@
 #include "object.h"
 
 #define MAX_RESULT_NORMAL	 (9)
-#define MAX_RESULT_BONUS	 (10)
+#define MAX_RESULT_BONUS	 (5)
 #define RADIAN9 (6.14f / MAX_RESULT_NORMAL)
 #define RADIAN10 (6.14f / MAX_RESULT_BONUS)
 #define MAX_SPEED_NORMAL	(0.07f)
+#define MAX_SPEED_BONUS		(0.02f)
+#define SPEED_UP_VALUE		(0.0015f)
 
 #define OFFSET	(0.25f)
 
@@ -24,12 +26,23 @@ enum {
 	drum3D_x100,
 };
 
+//// ドラムが10角形の場合
+//enum {
+//	bonus_drum3D_purple,
+//	bonus_drum3D_red,
+//	bonus_drum3D_yellow,
+//	bonus_drum3D_green,
+//	bonus_drum3D_blue,
+//	bonus_drum3D_max,
+//};
+
+// ドラムが5角形の場合
 enum {
+	bonus_drum3D_blue,
 	bonus_drum3D_purple,
 	bonus_drum3D_red,
 	bonus_drum3D_yellow,
 	bonus_drum3D_green,
-	bonus_drum3D_blue,
 	bonus_drum3D_max,
 };
 
@@ -42,13 +55,15 @@ private:
 	bool m_move = false;
 	int m_color = 0;
 	float m_result = 0.0f;
-	int m_resultMax = MAX_RESULT_NORMAL;
 	float m_resultRadian = RADIAN9;
 
 protected:
+	int m_resultMax = MAX_RESULT_NORMAL;
 	float m_offset = OFFSET;
 	int m_colorMax = drum3D_max;
 	float m_speedMax = MAX_SPEED_NORMAL;
+	float m_speedUpValue = SPEED_UP_VALUE;
+
 
 public:
 	Drum3D();

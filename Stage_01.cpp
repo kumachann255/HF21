@@ -131,10 +131,7 @@ void Stage_01::Draw(void)
 
 		// テクスチャの描画処理
 		{
-			for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
-			{
-				GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Draw();
-			}
+			GetGod()->GetTexManager()->Draw();
 		}
 
 
@@ -184,10 +181,7 @@ void Stage_01::Draw(void)
 
 		// テクスチャの描画処理
 		{
-			for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
-			{
-				GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Draw();
-			}
+			GetGod()->GetTexManager()->Draw();
 		}
 
 		break;
@@ -208,7 +202,10 @@ void Stage_01::Draw(void)
 
 	if (GetKeyboardTrigger(DIK_3))
 	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_fade, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME);
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{

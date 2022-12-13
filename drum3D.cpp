@@ -5,7 +5,7 @@
 Drum3D::Drum3D()
 {
 	m_prefab = new Prefab;
-	m_prefab->SetModel("model_slot_roll.obj");
+	m_prefab->SetModel("model_slot_gemdrum.obj");
 
 	XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
@@ -26,7 +26,7 @@ void Drum3D::Update(void)
 		// ³‹K‰»
 		rot.x = (float)((int)(rot.x) % 614) / 100.0f;
 
-		m_speed += 0.001f;
+		m_speed += m_speedUpValue;
 		if (m_speed > m_speedMax) m_speed = m_speedMax;
 
 		rot.x += m_speed;
@@ -83,7 +83,7 @@ void Drum3D::SetResult(void)
 
 void Drum3D::SetRainbowModel(void)
 {
-	m_prefab->SetModel("model_slot_x100drum.obj");
+	m_prefab->SetModel("model_slot_rainbowdrum.obj");
 }
 
 void Drum3D::SetRainbowModelL(void)
@@ -93,7 +93,7 @@ void Drum3D::SetRainbowModelL(void)
 
 void Drum3D::ResetRainbowModel(void)
 {
-	m_prefab->SetModel("model_slot_roll.obj");
+	m_prefab->SetModel("model_slot_gemdrum.obj");
 }
 
 void Drum3D::ResetRainbowModelL(void)
@@ -105,11 +105,15 @@ void Drum3D::SetNormal(void)
 {
 	m_resultMax = MAX_RESULT_NORMAL;
 	m_resultRadian = RADIAN9;
+	m_offset = OFFSET;
+	m_speedUpValue = SPEED_UP_VALUE;
 }
 
 void Drum3D::SetBonus(void)
 {
 	m_resultMax = MAX_RESULT_BONUS;
 	m_resultRadian = RADIAN10;
+	m_offset = OFFSET * 2.0f;
+	m_speedUpValue = SPEED_UP_VALUE * 2.0f;
 }
 

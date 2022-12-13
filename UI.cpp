@@ -146,12 +146,19 @@ void UIObject::Update(void)
 		UpdateFade();
 		break;
 
+	case texType_cutIn_up_Update:
+	case texType_cutIn_under_Update:
+		UpdateZoomInOut();
+
 	case texType_cutIn_right:
 	case texType_cutIn_left:
 	case texType_cutIn_up:
 	case texType_cutIn_under:
 		UpdateCutIn();
 		break;
+
+	case texType_zoomIn_Update:
+		UpdateZoomInOut();
 
 	case texType_zoomIn:
 	case texType_zoomIn_rot:
@@ -245,12 +252,14 @@ void UIObject::UpdateCutIn(void)
 	{
 	case texType_cutIn_right:
 	case texType_cutIn_up:
+	case texType_cutIn_up_Update:
 		m_vec = 1.0f;
 
 		break;
 
 	case texType_cutIn_left:
 	case texType_cutIn_under:
+	case texType_cutIn_under_Update:
 		m_vec = -1.0f;
 
 		break;
@@ -281,7 +290,8 @@ void UIObject::UpdateCutIn(void)
 
 	case texType_cutIn_up:
 	case texType_cutIn_under:
-
+	case texType_cutIn_up_Update:
+	case texType_cutIn_under_Update:
 		if (m_timeCnt < UI_ACTION_TIME)
 		{
 			t = (float)m_timeCnt / (float)UI_ACTION_TIME;
@@ -341,6 +351,17 @@ void UIObject::UpdateZoomIn(void)
 void UIObject::UpdateTransition(void)
 {
 	m_pos.x += UI_TRANSITION_SPEED;
+}
+
+void UIObject::UpdateZoomInOut(void)
+{
+	if ((m_timeCnt > UI_ACTION_TIME) && (m_timeCnt < m_timeLimit - UI_ACTION_TIME))
+	{
+		if (m_timeCnt % UI_UPDATE_SWITCH == 0) m_updateVec *= -1.0f;
+
+		m_fWidth += m_updateVec * (UI_UPDATE_ZOOM_SPEED * m_fWidthMax);
+		m_fHeight += m_updateVec * (UI_UPDATE_ZOOM_SPEED * m_fHeightMax);
+	}
 }
 
 

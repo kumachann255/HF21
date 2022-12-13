@@ -101,7 +101,7 @@ void BonusSlot::Update(void)
 	}
 
 	// ‰ñ‚·
-	if ((GetKeyboardTrigger(DIK_RETURN)))
+	if ((GetKeyboardTrigger(DIK_RETURN)) && (pHousing->GetResultNum() < 3))
 	{
 		pDrumR->SpinStart();
 		if (!m_move) m_count = 0;

@@ -219,6 +219,7 @@ void BonusHousing::ResetMorphing()
 void BonusHousing::SetColor(XMFLOAT4 color)
 {
 	m_resultColor[m_resultNum] = color;
+
 	m_resultNum++;
 	if (m_resultNum == 3)
 	{
@@ -232,6 +233,7 @@ void BonusHousing::ResetColor(void)
 	m_resultNum = 0;
 	m_colorType = 0; 
 	m_time = 0.0f;
+	ResetMorphing();
 
 	for (int i = 0; i < 3; i++)
 	{

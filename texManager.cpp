@@ -13,7 +13,10 @@ TexManager::TexManager(God * god):GodObject(god)
 
 	m_pUiManager->Register(new UIObject(pos0, 432.0f, 380.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+
 	m_pUiManager->Register(new UIObject(pos0, 600.0f, 200.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 700.0f, 200.0f, time0));
+
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 350.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 350.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 350.0f, time0));
@@ -23,7 +26,11 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 75.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 300.0f, 75.0f, time0));
 
-	m_pUiManager->Register(new UIObject(pos0, 600.0f, 90.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 600.0f, 120.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 500.0f, 200.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 600.0f, 140.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 450.0f, 50.0f, time0));
+
 	m_pUiManager->Register(new UIObject(pos0, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 2700, 540.0f, time0));
 

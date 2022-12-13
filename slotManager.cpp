@@ -77,6 +77,11 @@ void SlotManager::Update()
 	if (m_rainbowStartWait == MAX_RAINBOW_STRAT_WAIT)
 	{
 		m_start = clock();
+
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME);
 	}
 	else if (m_rainbowStartWait > MAX_RAINBOW_STRAT_WAIT)
 	{
@@ -85,8 +90,6 @@ void SlotManager::Update()
 		m_now = (float)(time - m_start) / CLOCKS_PER_SEC;
 		m_now = MAX_RAINBOW_TIME - m_now;
 
-		m_pRainbowTimer->SetTime(m_now);
-
 		if (m_now < 0.0f)
 		{
 			m_timeUpWait++;
@@ -94,7 +97,7 @@ void SlotManager::Update()
 			m_isRainbow = FALSE;
 
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_bonusChance, texType_zoomIn, XMFLOAT3(480.0f, 300.0f, 0.0f), 4);
+				telop_rainbowEnd, texType_zoomIn, XMFLOAT3(480.0f, 400.0f, 0.0f), 6);
 
 			if (m_timeUpWait > MAX_RAINBOW_TIMEUP_WAIT)
 			{
@@ -111,6 +114,8 @@ void SlotManager::Update()
 					trandition_white, texType_fade, XMFLOAT3(744.0f, 350.0f, 0.0f), 4);
 			}
 		}
+
+		m_pRainbowTimer->SetTime(m_now);
 	}
 }
 
