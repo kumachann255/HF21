@@ -10,6 +10,7 @@
 #include "RollerManager.h"
 #include "TrainingCrowManager.h"
 #include "slotManager.h"
+#include "sound.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -101,6 +102,8 @@ void QuestBoardManager::Update(void)
 		XMFLOAT3 rot = { 0.0f,0.0f, 0.0f };
 		BoardArray.push_back(new QuestBoard(MODEL_NAME01, m_StartPos , rot));
 
+		PlaySound(SOUND_LABEL_SE_se_quest_appear); // クエスト出現
+
 		//=============================================
 		/*ここにサウンド入れて!!クエストボード出現音*/
 		//=============================================
@@ -131,6 +134,7 @@ void QuestBoardManager::Update(void)
 			!pLamp[2].GetIsUse() )
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
+			PlaySound(SOUND_LABEL_SE_se_quest_clear); // クエスト達成
 
 			if (!this->GetGod()->GetSlotManager()->GetRainbow())
 			{
