@@ -87,6 +87,10 @@ void UpdateGame(void)
 #ifdef _DEBUG
 	// デバッグ表示
 	PrintDebugProc("ViewPortType:%d\n", g_ViewPortType_Game);
+	if (GetKeyboardTrigger(DIK_M))
+	{
+		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
+	}
 
 #endif
 

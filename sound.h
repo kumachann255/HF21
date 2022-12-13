@@ -29,6 +29,9 @@ enum
 	SOUND_LABEL_SE_se_slot_lever_01,	// スロットを動かす
 	SOUND_LABEL_SE_se_crow_cry_01,		// カラースの鳴き声
 	SOUND_LABEL_SE_se_crow_flap_04,		// カラース発射
+	SOUND_LABEL_SE_se_quest_appear,		// クエスト出現
+	SOUND_LABEL_SE_se_quest_clear,		// クエスト達成
+	SOUND_LABEL_SE_se_map_change,		// マップ変化
 
 	SOUND_LABEL_MAX,
 };

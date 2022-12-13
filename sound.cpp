@@ -48,6 +48,9 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/se_slot_lever_01.wav", 0 },	// スロットを動かす
 	{ (char*)"data/SE/se_crow_cry_01.wav", 0 },		// カラースの鳴き声
 	{ (char*)"data/SE/se_crow_flap_04.wav", 0 },	// カラース発射
+	{ (char*)"data/SE/se_quest_appear.wav", 0 },	// クエスト出現
+	{ (char*)"data/SE/se_quest_clear.wav", 0 },		// クエスト達成
+	{ (char*)"data/SE/se_map_change.wav", 0 },		// マップ変化
 
 };
 
