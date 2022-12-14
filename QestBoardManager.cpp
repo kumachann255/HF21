@@ -21,7 +21,6 @@
 #define BOARD_OFFSET_Y		(70.0f)							// ボードの足元をあわせる
 #define BOARD_MAKETIME		(810)							// ボードの出現時間
 
-
 static char *g_TextureName[LAMP_TYPE_MAX] =
 {
 	"data/TEXTURE/LAMP/tex_lamp_red.jpg",
@@ -50,6 +49,7 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 			nullptr);
 	}
 
+	m_pGarbageIcon = new GarbageIcon();
 }
 
 //=============================================================================
@@ -153,15 +153,17 @@ void QuestBoardManager::Update(void)
 				m_failureCount++;
 			}
 
+			m_MissionPoint--;
 
 			//=============================================
 			/*ここにサウンド入れて!!クエストボード消滅音(成功)*/
 			//=============================================
 
 		}
-
 	}
 
+	m_pGarbageIcon->SetIconNum(m_MissionPoint);
+	m_pGarbageIcon->Update();
 
 	// 消す処理	(時間切れ)
 	if (!BoardArray.empty()){
@@ -236,6 +238,8 @@ void QuestBoardManager::Draw(void)
 		// ランプの描画
 		(*board)->GetLampManager()->Draw(mtxWorld);
 	}
+
+	m_pGarbageIcon->Draw();
 }
 
 int QuestBoardManager::GetSerchBoard(int colorType)

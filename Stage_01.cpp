@@ -164,9 +164,9 @@ void Stage_01::Draw(void)
 
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
 		GetGod()->GetRollerManager()->Draw();
-		GetGod()->GetQuestBoardManager()->Draw();
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
 		DrawParticle();
+		GetGod()->GetQuestBoardManager()->Draw();
 
 	//‰Eã‰æ–Ê===================================
 

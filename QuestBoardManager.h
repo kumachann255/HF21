@@ -9,10 +9,12 @@
 #include "GodObject.h"
 #include <vector>
 #include "LampManager.h"
+#include "garbageIcon.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define MAX_MISSION_POINT	(20)
 
 //*****************************************************************************
 // クラス定義
@@ -30,6 +32,9 @@ private:
 	int m_colorId[5][3];	// ボード５個分
 
 	int m_failureCount = 0;
+
+	GarbageIcon *m_pGarbageIcon = nullptr;
+	int m_MissionPoint = MAX_MISSION_POINT;
 
 	// ランプのテクスチャー
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };

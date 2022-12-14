@@ -10,6 +10,16 @@ TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 	m_pTrainingCrowBench = new TrainingCrowBench(god);
 	m_pTrainingCrowDumbbell = new TrainingCrowDumbbell(god);
 	m_pRoom = new Room();
+	m_pProteinIcon = new ProteinIcon();
+}
+
+TrainingCrowManager::~TrainingCrowManager()
+{
+	delete m_pTrainingCrowSquat;
+	delete m_pTrainingCrowBench;
+	delete m_pTrainingCrowDumbbell;
+	delete m_pRoom;
+	delete m_pProteinIcon;
 }
 
 void TrainingCrowManager::Update()
@@ -44,6 +54,9 @@ void TrainingCrowManager::Update()
 		AddStock();
 	}
 #endif
+
+	m_pProteinIcon->SetIconNum(m_stock);
+	m_pProteinIcon->Update();
 
 	switch (m_Type)
 	{
@@ -96,6 +109,7 @@ void TrainingCrowManager::Draw()
 	}
 	
 	m_pRoom->Draw();
+	m_pProteinIcon->Draw();
 }
 
 BOOL TrainingCrowManager::UseStock(void)

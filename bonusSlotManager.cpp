@@ -73,8 +73,11 @@ void BonusSlotManager::Update()
 				m_timeUpWait++;
 				m_now = 0.0f;
 
-				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-					telop_bonusChanceFalse, texType_cutIn_up, m_telopPos4, 6);
+				if (m_timeUpWait == 1)
+				{
+					this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+						telop_bonusChanceFalse, texType_cutIn_up, m_telopPos4, 6);
+				}
 			}
 
 			if (m_timeUpWait == MAX_TIMEUP_WAIT - TRANSITION_HALF_TIME)

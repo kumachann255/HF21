@@ -18,6 +18,7 @@ SlotManager::~SlotManager()
 {
 	delete m_pSlot;
 	delete m_pFlyingCrowManager;
+	delete m_pRainbowTimer;
 }
 
 void SlotManager::Update()
@@ -96,8 +97,11 @@ void SlotManager::Update()
 			m_now = 0.0f;
 			m_isRainbow = FALSE;
 
-			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_rainbowEnd, texType_zoomIn, XMFLOAT3(480.0f, 400.0f, 0.0f), 6);
+			if (m_now == 1)
+			{
+				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+					telop_rainbowEnd, texType_zoomIn, XMFLOAT3(480.0f, 400.0f, 0.0f), 6);
+			}
 
 			if (m_timeUpWait > MAX_RAINBOW_TIMEUP_WAIT)
 			{

@@ -1,11 +1,11 @@
-#include "bonusTimer.h"
+#include "proteinIcon.h"
 
-BonusTimer::BonusTimer()
+ProteinIcon::ProteinIcon()
 {
 	ID3D11Device *pDevice = GetDevice();
 
 	//テクスチャ生成
-	for (int i = 0; i < BONUS_TIMER_TEXTURE_MAX; i++)
+	for (int i = 0; i < PROTEIN_TEXTURE_MAX; i++)
 	{
 		m_Texture[i] = NULL;
 		D3DX11CreateShaderResourceViewFromFile(GetDevice(),
@@ -28,25 +28,21 @@ BonusTimer::BonusTimer()
 
 
 	// プレイヤーの初期化
-	m_Use = TRUE;
-	m_w = BONUS_TIMER_TEXTURE_WIDTH;
-	m_h = BONUS_TIMER_TEXTURE_HEIGHT;
-	m_Pos = { 600.0f, 130.0f, 0.0f };
+	m_w = PROTEIN_TEXTURE_WIDTH;
+	m_h = PROTEIN_TEXTURE_HEIGHT;
+	m_Pos = { 150.0f, 80.0f, 0.0f };
 	m_TexNo = 0;
-
-	m_time = 0;	// スコアの初期化
-
 }
 
-BonusTimer::~BonusTimer()
+ProteinIcon::~ProteinIcon()
 {
 }
 
-void BonusTimer::Update(void)
+void ProteinIcon::Update()
 {
 }
 
-void BonusTimer::Draw(void)
+void ProteinIcon::Draw()
 {
 	// 2Dの物を描画する処理
 	// Z比較なし
@@ -54,8 +50,6 @@ void BonusTimer::Draw(void)
 
 	// ライティングを無効
 	SetLightEnable(FALSE);
-
-	SetAlphaTestEnable(TRUE);
 
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -77,35 +71,14 @@ void BonusTimer::Draw(void)
 	// テクスチャ設定
 	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[m_TexNo]);
 
-	// 桁数分処理する
-	int number = (int)(m_time * 100.0f);
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < m_iconNum; i++)
 	{
-		// 今回表示する桁の数字
-		float x = (float)(number % 10);
-
-		// スコアの位置やテクスチャー座標を反映
-		float px = m_Pos.x - m_w * i;	// スコアの表示位置X
-		if (i >= 2) px -= 20.0f;
-
-		float py = m_Pos.y;			// スコアの表示位置Y
-		float pw = m_w;				// スコアの表示幅
-		float ph = m_h;				// スコアの表示高さ
-
-		float tw = 1.0f / 10;		// テクスチャの幅
-		float th = 1.0f / 1;		// テクスチャの高さ
-		float tx = x * tw;			// テクスチャの左上X座標
-		float ty = 0.0f;			// テクスチャの左上Y座標
-
 		// １枚のポリゴンの頂点とテクスチャ座標を設定
-		SetSpriteColor(m_VertexBuffer, px, py, pw, ph, tx, ty, tw, th,
+		SetSpriteColor(m_VertexBuffer, m_Pos.x + i * PROTEIN_TEXTURE_DISTANCE, m_Pos.y, m_w, m_h, 0.0f, 0.0f, 1.0f, 1.0f,
 			XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
 		// ポリゴン描画
 		GetDeviceContext()->Draw(4, 0);
-
-		// 次の桁へ
-		number /= 10;
 	}
 
 	// ライティングを有効に
@@ -115,7 +88,7 @@ void BonusTimer::Draw(void)
 	SetDepthEnable(TRUE);
 }
 
-void BonusTimer::SetTime(float time)
+void ProteinIcon::SetIconNum(int num)
 {
-	m_time = time;
+	m_iconNum = num;
 }

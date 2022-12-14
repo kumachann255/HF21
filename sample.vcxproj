@@ -155,6 +155,7 @@
     <ClInclude Include="FlyingCrow.h" />
     <ClInclude Include="FlyingCrowManager.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="garbageIcon.h" />
     <ClInclude Include="God.h" />
     <ClInclude Include="GodObject.h" />
     <ClInclude Include="housing.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="prefab.h" />
+    <ClInclude Include="proteinIcon.h" />
     <ClInclude Include="puzzleBG.h" />
     <ClInclude Include="QuestBoardManager.h" />
     <ClInclude Include="QuestBoard.h" />
@@ -217,6 +219,7 @@
     <ClCompile Include="FlyingCrow.cpp" />
     <ClCompile Include="FlyingCrowManager.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="garbageIcon.cpp" />
     <ClCompile Include="God.cpp" />
     <ClCompile Include="GodObject.cpp" />
     <ClCompile Include="housing.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="pizzleBG.cpp" />
     <ClCompile Include="prefab.cpp" />
+    <ClCompile Include="proteinIcon.cpp" />
     <ClCompile Include="QestBoardManager.cpp" />
     <ClCompile Include="QuestBoard.cpp" />
     <ClCompile Include="rainbowTime.cpp" />
