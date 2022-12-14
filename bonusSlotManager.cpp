@@ -23,7 +23,7 @@ BonusSlotManager::BonusSlotManager(God * god) :GodObject(god)
 
 		m_pSolverGPU->SetInitFlag(TRUE);
 
-		XMFLOAT3 pos = { -55.0f,-15.0f,0.0f };
+		XMFLOAT3 pos = { -55.0f,-15.0f,30.0f };
 		XMFLOAT3 scl = { 110.0f,50.0f,100.0f };
 
 		m_pSolverGPU->SetPos(pos);
@@ -104,12 +104,43 @@ void BonusSlotManager::Update()
 				m_isTimeMove = FALSE;
 				m_countDownCount = 0;
 				m_timeUpWait = 0;
+
+				// 炎関連
+				// 初期化していなかったら
+				if (!m_pSolverGPU->GetInitFlag())
+				{
+					m_pSolverGPU->SetUse(FALSE);	 // 使用しない
+					m_pSolverGPU->Clear(GetDevice());// 初期化
+					m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
+				}
+
 			}
 		}
 
 #ifdef _DEBUG
 		PrintDebugProc("[%f]:ボーナスチャンスの制限時間\n", m_now);
 #endif
+
+
+		//炎関連
+		{
+			if (m_pSolverGPU->GetUseFlag())
+			{
+				m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
+				m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
+				m_pSolverGPU->Solve();
+			}
+
+			// 初期化されていたら
+			if (m_pSolverGPU->GetInitFlag())
+			{
+				m_pSolverGPU->SetUse(TRUE);		  // 使用する
+				m_pSolverGPU->SetInitFlag(FALSE); // 初期化フラグOFF
+
+			}
+
+		}
+
 	}
 
 	if (m_pSlot->GetHousing()->GetTransition())
@@ -121,7 +152,8 @@ void BonusSlotManager::Update()
 	}
 
 	// 成功して通常シーンに戻る際の処理
-	if (m_pSlot->GetHousing()->GetEnd())
+	if (m_pSlot->GetHousing()->GetEnd() &&
+	   this->GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
 		m_pSlot->GetHousing()->SetEnt(FALSE);
@@ -137,35 +169,19 @@ void BonusSlotManager::Update()
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 			telop_bonusChance, texType_zoomIn_Update, m_telopPos, 4);
 
+		// 炎関連
+		// 初期化していなかったら
+		if (!m_pSolverGPU->GetInitFlag())
+		{
+			m_pSolverGPU->SetUse(FALSE);	 // 使用しない
+			m_pSolverGPU->Clear(GetDevice());// 初期化
+			m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
+		}
+
 	}
 
 	m_timer->SetTime(m_now);
 	m_timer->Update();
-
-
-	//炎関連
-	{
-		if (m_pSolverGPU->GetUseFlag())
-		{
-			m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
-			m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
-			m_pSolverGPU->Solve();
-		}
-
-		if (GetGod()->GetTrainingCrowManager()->GetBonus() && m_pSolverGPU->GetInitFlag())
-		{
-			m_pSolverGPU->SetUse(TRUE);
-			m_pSolverGPU->SetInitFlag(FALSE);
-
-		}
-
-		if (!GetGod()->GetTrainingCrowManager()->GetBonus() && !m_pSolverGPU->GetInitFlag())
-		{
-			m_pSolverGPU->SetUse(FALSE);
-			m_pSolverGPU->Clear(GetDevice());
-			m_pSolverGPU->SetInitFlag(TRUE);
-		}
-	}
 
 }
 
