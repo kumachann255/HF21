@@ -4,6 +4,7 @@
 #include "input.h"
 #include "debugproc.h"
 #include "texManager.h"
+#include "sound.h"
 #include <time.h>
 
 
@@ -83,6 +84,8 @@ void SlotManager::Update()
 			telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME);
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 			telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+
+		PlaySound(SOUND_LABEL_SE_se_Roulette_high);
 	}
 	else if (m_rainbowStartWait > MAX_RAINBOW_STRAT_WAIT)
 	{

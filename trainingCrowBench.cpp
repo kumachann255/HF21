@@ -1,6 +1,7 @@
 #include "trainingCrowBench.h"
 #include "TrainingCrowManager.h"
 #include "texManager.h"
+#include "sound.h"
 
 void TrainingCrowBench::Update()
 {
@@ -38,6 +39,8 @@ void TrainingCrowBench::Update()
 		{
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
+
+			PlaySound(SOUND_LABEL_SE_se_chance);
 		}
 
 		if (m_waitCount == WAIT_SQUAT_TIME * 4 - TRANSITION_HALF_TIME)
@@ -67,6 +70,7 @@ void TrainingCrowBench::Update()
 
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_breast, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
+			PlaySound(SOUND_LABEL_SE_se_training_false);
 		}
 
 		if (m_waitCount > WAIT_SQUAT_TIME * 4)

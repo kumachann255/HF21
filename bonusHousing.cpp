@@ -2,6 +2,7 @@
 #include "input.h"
 #include <time.h>
 #include "texManager.h"
+#include "sound.h"
 
 #define MAX_BONUS_HOUSING_LOOP	(2)
 
@@ -129,6 +130,9 @@ void BonusHousing::Update()
 				{
 					m_time = 0.0f;
 					m_loopNum++;
+					PlaySound(SOUND_LABEL_SE_se_wing_x1);
+
+					if(m_loopNum == MAX_BONUS_HOUSING_LOOP) PlaySound(SOUND_LABEL_SE_se_pkieeen);
 				}
 			}
 		}
@@ -166,14 +170,20 @@ void BonusHousing::Update()
 
 void BonusHousing::SetGoMorphing()
 {
-	if(!m_isMove) m_isMove = TRUE;
+	if (!m_isMove) {
+		m_isMove = TRUE;
+		PlaySound(SOUND_LABEL_SE_se_wing_x1);
+	}
 	else if (m_isMove && !m_isVibration)
 	{
 		m_isVibration = TRUE;
+		PlaySound(SOUND_LABEL_SE_se_wing_x6);
+
 		if (m_MorphingType < m_MorphingTypeMax - 2)
 		{
 			m_MorphingType++;
 			m_time = 0.0f;
+			PlaySound(SOUND_LABEL_SE_se_wing_x1);
 		}
 	}
 	else

@@ -4,6 +4,7 @@
 #include "slotManager.h"
 #include "debugproc.h"
 #include "texManager.h"
+#include "sound.h"
 
 #define BONUS_COUNTDOWN_DESTANCE	(150)
 #define BONUS_COUNTDOWN_START		(60)
@@ -44,16 +45,24 @@ void BonusSlotManager::Update()
 				telop_3, texType_cutIn_up, m_telopPos, 2);
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_guidance, texType_cutIn_right, m_telopPos2, 10);
+			PlaySound(SOUND_LABEL_SE_se_se_countDown);
 		}
-		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE) this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_2, texType_cutIn_up, m_telopPos, 2);
-		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE * 2) this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_1, texType_cutIn_up, m_telopPos, 2);
+		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE) {
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				telop_2, texType_cutIn_up, m_telopPos, 2);
+			PlaySound(SOUND_LABEL_SE_se_se_countDown);
+		}
+		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE * 2) {
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				telop_1, texType_cutIn_up, m_telopPos, 2);
+			PlaySound(SOUND_LABEL_SE_se_se_countDown);
+		}
 		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE * 3)
 		{
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_3, texType_normal, m_telopPos, 2);
 			SetTime();
+			PlaySound(SOUND_LABEL_SE_se_bom4);
 		}
 
 		if (m_pSlot->GetHousing()->GetTimeStop())

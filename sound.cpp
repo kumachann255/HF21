@@ -52,6 +52,45 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/se_quest_clear.wav", 0 },		// クエスト達成
 	{ (char*)"data/SE/se_map_change.wav", 0 },		// マップ変化
 
+	{ (char*)"data/SE/se_bom0.wav", 0 },			// 爆破
+	{ (char*)"data/SE/se_bom1.wav", 0 },			// 爆破
+	{ (char*)"data/SE/se_bom2.wav", 0 },			// 爆破
+	{ (char*)"data/SE/se_bom4.wav", 0 },			// 爆破
+
+	{ (char*)"data/SE/se_countDown.wav", 0 },		// カウントダウン
+	{ (char*)"data/SE/se_timer.wav", 0 },			// カチカチ音
+	{ (char*)"data/SE/se_timer_speedup.wav", 0 },	// カチカチ音
+
+	{ (char*)"data/SE/se_crow_25s.wav", 0 },		// カラスの鳴き声
+	{ (char*)"data/SE/se_crow_x1.wav", 0 },			// カラスの鳴き声
+	{ (char*)"data/SE/se_crow_x3.wav", 0 },			// カラスの鳴き声
+
+	{ (char*)"data/SE/se_mens_hihi.wav", 0 },		// 男性の声
+	{ (char*)"data/SE/se_mens_ou.wav", 0 },			// 男性の声
+	{ (char*)"data/SE/se_mens_yei.wav", 0 },		// 男性の声
+	{ (char*)"data/SE/se_women_ou.wav", 0 },		// 女性の声
+	{ (char*)"data/SE/se_women_kya.wav", 0 },		// 女性の声
+
+	{ (char*)"data/SE/se_slot_stop.wav", 0 },		// スロットの止める音
+
+	{ (char*)"data/SE/se_chance.wav", 0 },			// チャンス音
+	{ (char*)"data/SE/se_pkieeen.wav", 0 },			// ぴきーーん！
+	{ (char*)"data/SE/se_Roulette_high.wav", 0 },	// ちゃーーーじ！
+
+	{ (char*)"data/SE/se_spotlight.wav", 0 },			// スポットライト
+	{ (char*)"data/SE/se_syakin.wav", 0 },			// シャキーン！
+	{ (char*)"data/SE/se_zyan.wav", 0 },			// ジャン！
+	{ (char*)"data/SE/se_shock.wav", 0 },			// ガーン！
+	{ (char*)"data/SE/se_doom.wav", 0 },			// ドーン！
+	{ (char*)"data/SE/se_gong.wav", 0 },			// カン！！
+
+	{ (char*)"data/SE/se_training_false.wav", 0 },	// 筋トレ失敗
+	{ (char*)"data/SE/se_training_hart.wav", 0 },	// 筋トレドキドキ
+	{ (char*)"data/SE/se_transition.wav", 0 },		// ブオン
+	{ (char*)"data/SE/se_wing_x1.wav", 0 },			// 羽ばたき1回
+	{ (char*)"data/SE/se_wing_x6.wav", 0 },			// 羽ばたき6回
+													
+	{ (char*)"data/SE/se_title_bu.wav", 0 },		// 開幕ブザー
 };
 
 //=============================================================================

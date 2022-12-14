@@ -1,6 +1,7 @@
 #include "bonusSlot.h"
 #include "input.h"
 #include "GodObject.h"
+#include "sound.h"
 
 BonusSlot::BonusSlot()
 {
@@ -57,10 +58,13 @@ void BonusSlot::Update(void)
 		{
 			pDrumR->Stop();
 			m_move = false;
+
+			PlaySound(SOUND_LABEL_SE_se_mens_ou);
 		}
 		else if (pDrumC->GetMove())
 		{
 			pDrumC->Stop();
+			PlaySound(SOUND_LABEL_SE_se_mens_ou);
 		}
 		else if (pDrumL->GetMove())
 		{
@@ -96,7 +100,7 @@ void BonusSlot::Update(void)
 				}
 			}
 
-			//m_shot = true;
+			PlaySound(SOUND_LABEL_SE_se_mens_ou);
 		}
 	}
 
@@ -106,6 +110,7 @@ void BonusSlot::Update(void)
 		pDrumR->SpinStart();
 		if (!m_move) m_count = 0;
 		m_move = true;
+		PlaySound(SOUND_LABEL_SE_se_slot_lever_01);
 	}
 
 	if (m_move)

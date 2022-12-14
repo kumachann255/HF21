@@ -1,6 +1,7 @@
 #include "trainingCrowDumbbell.h"
 #include "TrainingCrowManager.h"
 #include "texManager.h"
+#include "sound.h"
 
 void TrainingCrowDumbbell::Update()
 {
@@ -78,6 +79,7 @@ void TrainingCrowDumbbell::Update()
 
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_wing, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
+			PlaySound(SOUND_LABEL_SE_se_training_false);
 		}
 
 		if (m_waitCount > WAIT_SQUAT_TIME * 4)
