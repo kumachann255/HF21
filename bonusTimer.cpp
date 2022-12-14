@@ -49,8 +49,8 @@ void BonusTimer::Update(void)
 void BonusTimer::Draw(void)
 {
 	// 2Dの物を描画する処理
-	// Z比較なし
-	SetDepthEnable(FALSE);
+	// Z比較あり（炎とかぶってしまうから）
+	SetDepthEnable(TRUE);
 
 	// ライティングを無効
 	SetLightEnable(FALSE);
