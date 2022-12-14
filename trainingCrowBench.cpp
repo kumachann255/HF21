@@ -33,7 +33,12 @@ void TrainingCrowBench::Update()
 		m_wing_Pos.y = GetPos().y;
 		m_barbell_Pos.y = GetPos().y;
 		m_waitCount++;
-		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
+
+		if (m_waitCount == 1)
+		{
+			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
+		}
 
 		if (m_waitCount == WAIT_SQUAT_TIME * 4 - TRANSITION_HALF_TIME)
 		{

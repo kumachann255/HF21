@@ -11,7 +11,7 @@
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
-#define CROWS_MAX (50)
+#define CROWS_MAX (100)
 
 
 //*****************************************************************************
@@ -32,6 +32,5 @@ public:
 	void Update(void);
 	void Draw(void);
 	void SetShotCrows(XMFLOAT4 color, int colorType, int num);
-	void FlyingCrowManager::SetCrows(XMFLOAT3 pos, XMFLOAT3 rot);
 	void SetRainbowColor(int i);
 };

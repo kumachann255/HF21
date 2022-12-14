@@ -23,6 +23,9 @@
 #define TRANSITION_HALF_TIME	(TRANSITION_TIME / 2)
 #define UI_TRANSITION_SPEED	(TRANSITION_WIDTH * 2 / TRANSITION_TIME)
 
+#define UI_UPDATE_ZOOM_SPEED	(0.04f)
+#define UI_UPDATE_SWITCH		(2)
+
 
 class UITexData
 {
@@ -66,6 +69,7 @@ private:
 
 	int m_actionTime = UI_ACTION_TIME;
 	int m_count = 0;
+	float m_updateVec = 1.0f;
 
 
 protected:
@@ -114,4 +118,5 @@ public:
 	void UpdateCutIn(void);
 	void UpdateZoomIn(void);
 	void UpdateTransition(void);
+	void UpdateZoomInOut(void);
 };

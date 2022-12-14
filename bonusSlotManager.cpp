@@ -73,8 +73,11 @@ void BonusSlotManager::Update()
 				m_timeUpWait++;
 				m_now = 0.0f;
 
-				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-					telop_bonusChance, texType_cutIn_up, m_telopPos4, 6);
+				if (m_timeUpWait == 1)
+				{
+					this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+						telop_bonusChanceFalse, texType_cutIn_up, m_telopPos4, 6);
+				}
 			}
 
 			if (m_timeUpWait == MAX_TIMEUP_WAIT - TRANSITION_HALF_TIME)
@@ -83,6 +86,7 @@ void BonusSlotManager::Update()
 					trandition_crow, texType_tansition, m_transitionPos, TRANSITION_TIME_SEC);
 			}
 
+			// 失敗して通常シーンに戻る際の処理
 			if (m_timeUpWait > MAX_TIMEUP_WAIT)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
@@ -107,6 +111,7 @@ void BonusSlotManager::Update()
 		m_pSlot->GetHousing()->SetTransition(FALSE);
 	}
 
+	// 成功して通常シーンに戻る際の処理
 	if (m_pSlot->GetHousing()->GetEnd())
 	{
 		this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
@@ -121,7 +126,7 @@ void BonusSlotManager::Update()
 			trandition_white, texType_fade, m_telopPos3, 4);
 
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_bonusChance, texType_cutIn_up, m_telopPos, 4);
+			telop_bonusChance, texType_zoomIn_Update, m_telopPos, 4);
 
 	}
 

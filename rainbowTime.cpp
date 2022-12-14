@@ -52,6 +52,7 @@ void RainbowTimer::Draw()
 		a -= 0.01f;
 		if (a < 0.0f) a = 0.0f;
 	}
+
 	// 2D‚Ì•¨‚ð•`‰æ‚·‚éˆ—
 	// Z”äŠr‚È‚µ
 	SetDepthEnable(FALSE);

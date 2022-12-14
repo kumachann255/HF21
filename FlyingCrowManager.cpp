@@ -12,6 +12,9 @@
 #include "slotManager.h"
 #include "sound.h"
 
+#define MAX_CROW_NORMAL		(20)
+#define MAX_CROW_RAINBOW	(30)
+
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -51,7 +54,15 @@ void FlyingCrowManager::Update(void)
 	// 空飛ぶカラスの更新
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
-		if (i % 10 == 0) count++;
+		if (this->GetGod()->GetSlotManager()->GetRainbow())
+		{
+			if (i % MAX_CROW_RAINBOW == 0) count++;
+		}
+		else
+		{
+			if (i % MAX_CROW_NORMAL == 0) count++;
+		}
+
 		if (m_pFlyingCrow[i].GetIsUse())
 		{
 			if (m_targetNo[count] == LAMP_TYPE_NONE)
@@ -111,10 +122,13 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType, int num)
 
 	int count = 1;
 
+	PlaySound(SOUND_LABEL_SE_se_crow_flap_04); // カラース発射
+	PlaySound(SOUND_LABEL_SE_se_crow_cry_01);  // カラースの鳴き声
+
+	XMFLOAT3 targetPos;
+
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
-		PlaySound(SOUND_LABEL_SE_se_crow_flap_04); // カラース発射
-		PlaySound(SOUND_LABEL_SE_se_crow_cry_01);  // カラースの鳴き声
 		m_targetNo[num] = colorType;
 
 		if (!m_pFlyingCrow[i].GetIsUse())
@@ -134,7 +148,7 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType, int num)
 			}
 			else
 			{
-				XMFLOAT3 targetPos = pQuestBoardArray[m_targetNo[num]]->GetPos();
+				targetPos = pQuestBoardArray[m_targetNo[num]]->GetPos();
 			}
 
 			m_pFlyingCrow[i].SetColor(color);
@@ -142,11 +156,17 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType, int num)
 			m_pFlyingCrow[i].SetTime(0.0f);
 			m_pFlyingCrow[i].GetPrefab()->SetColor(color);
 
-			if(this->GetGod()->GetSlotManager()->GetRainbow()) SetRainbowColor(i);
-
 			count++;
 
-			if (count > 10) return;
+			if (this->GetGod()->GetSlotManager()->GetRainbow())
+			{
+				SetRainbowColor(i);
+				if (count > MAX_CROW_RAINBOW) return;
+			}
+			else
+			{
+				if (count > MAX_CROW_NORMAL) return;
+			}
 		}
 	}
 }
@@ -158,31 +178,31 @@ void FlyingCrowManager::SetRainbowColor(int i)
 	switch (i % LAMP_TYPE_MAX)
 	{
 	case LAMP_TYPE_RED:
-		color = { 0.7f, 0.2f,0.2f,1.0f };
+		color = { 1.0f, 0.282f, 0.333f, 1.0f };
 		break;
 
 	case LAMP_TYPE_BLUE:
-		color = { 0.2f, 0.2f,0.7f,1.0f };
+		color = { 0.0f, 0.282f, 0.666f, 1.0f };
 		break;
 
 	case LAMP_TYPE_GREEN:
-		color = { 0.2f, 0.7f,0.2f,1.0f };
+		color = { 0.427f, 0.713f, 0.0f, 1.0f };
 		break;
 
 	case LAMP_TYPE_YELLOW:
-		color = { 0.7f, 0.7f,0.2f,1.0f };
+		color = { 0.854f, 0.854f, 0.2f, 1.0f };
 		break;
 
 	case LAMP_TYPE_PINK:
-		color = { 0.2f, 0.7f,0.7f,1.0f };
+		color = { 0.2f, 0.7f,0.7f, 1.0f };
 		break;
 
 	case LAMP_TYPE_PURPLE:
-		color = { 0.7f, 0.2f,0.7f,1.0f };
+		color = { 0.427f, 0.427f, 0.666f, 1.0f };
 		break;
 
 	case LAMP_TYPE_ORANGE:
-		color = { 0.2f, 0.2f,0.2f,1.0f };
+		color = { 1.0f, 0.568f,0.2f, 1.0f };
 		break;
 
 	}

@@ -7,8 +7,9 @@
 #include "UI.h"
 
 #define BONUS_TIMER_TEXTURE_MAX		(1)		// テクスチャの数
-#define BONUS_TIMER_TEXTURE_WIDTH	(80)	// キャラサイズ
-#define BONUS_TIMER_TEXTURE_HEIGHT	(160)	// 
+#define BONUS_TIMER_TEXTURE_WIDTH	(80.0f)	// キャラサイズ
+#define BONUS_TIMER_TEXTURE_HEIGHT	(160.0f)	// 
+
 
 
 class BonusTimer

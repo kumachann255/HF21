@@ -53,4 +53,6 @@ public:
 
 	void SetTransition(BOOL data) { m_isTransition = data; };
 	BOOL GetTransition(void) { return m_isTransition; };
+
+	int GetResultNum(void) { return m_resultNum; };
 };

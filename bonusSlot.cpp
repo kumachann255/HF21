@@ -74,23 +74,23 @@ void BonusSlot::Update(void)
 				switch (pDrumR->GetColor())
 				{
 				case bonus_drum3D_red:
-					pHousing->SetColor(XMFLOAT4(1.0f, 0.2f, 0.2f, 1.0f));
+					pHousing->SetColor(XMFLOAT4(1.0f, 0.282f, 0.333f, 1.0f));
 					break;
 
 				case bonus_drum3D_blue:
-					pHousing->SetColor(XMFLOAT4(0.2f, 0.2f, 1.0f, 1.0f));
+					pHousing->SetColor(XMFLOAT4(0.0f, 0.282f, 0.666f, 1.0f));
 					break;
 
 				case bonus_drum3D_yellow:
-					pHousing->SetColor(XMFLOAT4(0.7f, 0.7f, 0.2f, 1.0f));
+					pHousing->SetColor(XMFLOAT4(0.854f, 0.854f, 0.2f, 1.0f));
 					break;
 
 				case bonus_drum3D_green:
-					pHousing->SetColor(XMFLOAT4(0.2f, 1.0f, 0.2f, 1.0f));
+					pHousing->SetColor(XMFLOAT4(0.427f, 0.713f, 0.0f, 1.0f));
 					break;
 
 				case bonus_drum3D_purple:
-					pHousing->SetColor(XMFLOAT4(0.7f, 0.2f, 0.7f, 1.0f));
+					pHousing->SetColor(XMFLOAT4(0.427f, 0.427f, 0.666f, 1.0f));
 					break;
 
 				}
@@ -101,7 +101,7 @@ void BonusSlot::Update(void)
 	}
 
 	// ‰ñ‚·
-	if ((GetKeyboardTrigger(DIK_RETURN)))
+	if ((GetKeyboardTrigger(DIK_RETURN)) && (pHousing->GetResultNum() < 3))
 	{
 		pDrumR->SpinStart();
 		if (!m_move) m_count = 0;

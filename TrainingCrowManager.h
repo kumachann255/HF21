@@ -5,6 +5,7 @@
 #include "trainingCrowBench.h"
 #include "trainingCrowDumbbell.h"
 #include "room.h"
+#include "proteinIcon.h"
 
 #define BONUS_START_TIME		(60)
 
@@ -22,6 +23,7 @@ private:
 	TrainingCrowSquat *m_pTrainingCrowSquat = nullptr;
 	TrainingCrowBench *m_pTrainingCrowBench = nullptr;
 	TrainingCrowDumbbell *m_pTrainingCrowDumbbell = nullptr;
+	ProteinIcon *m_pProteinIcon = nullptr;
 
 	Room *m_pRoom = nullptr;
 
@@ -39,6 +41,7 @@ private:
 
 public:
 	TrainingCrowManager(God *god);
+	~TrainingCrowManager();
 
 	void Update();
 	void Draw();
@@ -55,6 +58,7 @@ public:
 	
 	BOOL UseStock(void);
 	void AddStock(void) { m_stock++; };
+	int GetStock(void) { return m_stock; }
 
 	void SetTrainingTypeRandom(void) { m_Type = rand() % No_TrainingMax; };
 	
