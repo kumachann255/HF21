@@ -36,6 +36,8 @@ Slot::Slot()
 	pDrumC->GetPrefab()->SetPos(posDrumC);
 	pDrumR->GetPrefab()->SetPos(posDrumR);
 
+	m_pSwitch = new Switch();
+
 }
 
 Slot::~Slot()
@@ -44,6 +46,7 @@ Slot::~Slot()
 	delete pDrumC;
 	delete pDrumR;
 	delete pHousing;
+	delete m_pSwitch;
 }
 
 
@@ -54,6 +57,7 @@ void Slot::Update(void)
 	pDrumC->Update();
 	pDrumR->Update();
 	pHousing->Update();
+	m_pSwitch->Update();
 
 	// ŽžŠÔ‚ði‚ß‚é
 	if (m_move)
@@ -69,12 +73,14 @@ void Slot::Update(void)
 		{
 			pDrumR->Stop();
 			m_move = false;
+			m_pSwitch->SwitchON(0);
 
 			PlaySound(SOUND_LABEL_SE_se_slot_stop);
 		}
 		else if (pDrumC->GetMove())
 		{
 			pDrumC->Stop();
+			m_pSwitch->SwitchON(1);
 
 			PlaySound(SOUND_LABEL_SE_se_slot_stop);
 		}
@@ -82,6 +88,7 @@ void Slot::Update(void)
 		{
 			pDrumL->Stop();
 			m_shot = true;
+			m_pSwitch->SwitchON(2);
 
 			if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_RED;
 			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_PURPLE;
@@ -129,6 +136,9 @@ void Slot::Update(void)
 		pDrumR->SpinStart();
 		if(!m_move) m_count = 0;
 		m_move = true;
+
+		m_pSwitch->SwitchOFF();
+
 	}
 
 	if (m_move)
@@ -150,6 +160,7 @@ void Slot::Draw()
 	pDrumC->Draw();
 	pDrumR->Draw();
 	pHousing->Draw();
+	m_pSwitch->Draw();
 }
 
 

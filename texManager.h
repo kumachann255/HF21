@@ -52,6 +52,7 @@ enum {
 	texType_endless,
 	texType_line0,
 	texType_line1,
+	texType_spring,
 };
 
 

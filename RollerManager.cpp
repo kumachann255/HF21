@@ -4,6 +4,7 @@
 #include "sound.h"
 #include "texManager.h"
 #include "QuestBoardManager.h"
+#include "slotManager.h"
 
 #define	SWICH_TIME		(30)
 #define	CALENDAR_SWITCH_TIME		(SWICH_TIME / 3 * 60)
@@ -66,6 +67,7 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
 		this->GetGod()->GetTexManager()->AddSeason();
+		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 	}
 
 	if (SwichCnt == (60 * SWICH_TIME *1) - PARTICLE_TIME)
@@ -85,6 +87,7 @@ void RollerManager::Update()
 
 		this->GetGod()->GetTexManager()->AddSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
+		this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 	}
 
 	if (SwichCnt == (60 * SWICH_TIME *2) - PARTICLE_TIME)
@@ -102,6 +105,7 @@ void RollerManager::Update()
 		CallParticle(pos, 200.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
 		this->GetGod()->GetTexManager()->AddSeason();
+		this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
 
@@ -120,6 +124,7 @@ void RollerManager::Update()
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
 		this->GetGod()->GetTexManager()->AddSeason();
+		this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
 

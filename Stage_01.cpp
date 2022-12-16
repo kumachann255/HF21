@@ -220,7 +220,7 @@ void Stage_01::Draw(void)
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_right, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_spring, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{

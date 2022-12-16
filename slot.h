@@ -8,6 +8,7 @@
 #include "FlyingCrowManager.h"
 #include "bonusHousing.h"
 #include "Lamp.h"
+#include "switch.h"
 
 
 #define SLOT_SIZE	(1.0f)
@@ -19,6 +20,8 @@ private:
 	Drum3Dx1050* pDrumL = nullptr;
 	Drum3D* pDrumC = nullptr;
 	Drum3D* pDrumR = nullptr;
+
+	Switch *m_pSwitch = nullptr;
 
 	bool m_shot = false;
 	int m_count = 0;
@@ -47,6 +50,7 @@ public:
 	Drum3D* GetDrumL(void) { return pDrumL; }
 	Drum3D* GetDrumC(void) { return pDrumC; }
 	Drum3D* GetDrumR(void) { return pDrumR; }
+	Switch *GetSwitch(void) { return m_pSwitch; };
 
 	void Update(void);
 	void Draw(void);

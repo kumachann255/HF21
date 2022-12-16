@@ -176,6 +176,10 @@ void UIObject::Update(void)
 	case texType_line1:
 		UpdateLine(concentration_line1);
 		break;
+
+	case texType_spring:
+		UpdateSpring();
+		break;
 	}
 }
 
@@ -388,6 +392,20 @@ void UIObject::UpdateLine(int type)
 
 		break;
 	}
+}
+
+void UIObject::UpdateSpring(void)
+{
+	if(m_time < 1.0f) m_time += 0.1f;
+
+	if (m_springStartY < m_pos.y)
+	{
+		m_springSpeed = -UI_UPDATE_SPRING_MAX_SPEED;
+	}
+
+	m_springSpeed += UI_UPDATE_SPRING_DOWN_SPEED;
+	m_pos.y += m_springSpeed;
+
 }
 
 
