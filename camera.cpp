@@ -17,11 +17,11 @@
 #define	POS_Y_CAM			(150.0f)		// カメラの初期位置(Y座標)
 #define	POS_Z_CAM			(-500.0f)		// カメラの初期位置(Z座標)
 
-#define	FULL_POS_Y_CAM		(7.0f)		// カメラの初期位置(Y座標)
+#define	FULL_POS_Y_CAM		(7.0f)			// カメラの初期位置(Y座標)
 #define	FULL_POS_Z_CAM		(-130.0f)		// カメラの初期位置(Z座標)
 
-#define	SLOT_POS_Y_CAM		(5.0f)			// カメラの初期位置(Y座標)
-#define	SLOT_POS_Z_CAM		(-30.0f)		// カメラの初期位置(Z座標)
+#define	SLOT_POS_Y_CAM		(2.0f)			// カメラの初期位置(Y座標)
+#define	SLOT_POS_Z_CAM		(-25.0f)		// カメラの初期位置(Z座標)
 
 #define	IVENT_POS_X_CAM		(20.0f)			// カメラの初期位置(X座標)
 #define	IVENT_POS_Y_CAM		(30.0f)			// カメラの初期位置(Y座標)
@@ -373,6 +373,7 @@ void SetCameraAT(XMFLOAT3 pos)
 	{
 	case TYPE_DOWN_RIGHT_HALF_SCREEN:
 		g_Camera.pos = { POS_X_CAM, SLOT_POS_Y_CAM, SLOT_POS_Z_CAM };
+		g_Camera.at.y = 1.0f;
 		vx = g_Camera.pos.x - g_Camera.at.x;
 		vz = g_Camera.pos.z - g_Camera.at.z;
 		g_Camera.len = sqrtf(vx * vx + vz * vz);

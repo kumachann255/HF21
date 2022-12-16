@@ -85,7 +85,7 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/se_gong.wav", 0 },			// カン！！
 
 	{ (char*)"data/SE/se_training_false.wav", 0 },	// 筋トレ失敗
-	{ (char*)"data/SE/se_training_hart.wav", 0 },	// 筋トレドキドキ
+	{ (char*)"data/SE/se_training_hart.wav", -1 },	// 筋トレドキドキ
 	{ (char*)"data/SE/se_transition.wav", 0 },		// ブオン
 	{ (char*)"data/SE/se_wing_x1.wav", 0 },			// 羽ばたき1回
 	{ (char*)"data/SE/se_wing_x6.wav", 0 },			// 羽ばたき6回

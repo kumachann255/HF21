@@ -35,18 +35,21 @@ void TrainingCrowBench::Update()
 		m_barbell_Pos.y = GetPos().y;
 		m_waitCount++;
 
+		StopSound(SOUND_LABEL_SE_se_training_hart);
+
 		if (m_waitCount == 1)
 		{
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
 
-			PlaySound(SOUND_LABEL_SE_se_chance);
+			PlaySound(SOUND_LABEL_SE_se_zyan);
 		}
 
 		if (m_waitCount == WAIT_SQUAT_TIME * 4 - TRANSITION_HALF_TIME)
 		{
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				trandition_crow, texType_tansition, XMFLOAT3(-TRANSITION_WIDTH, 270.0f, 0.0f), 4);
+			PlaySound(SOUND_LABEL_SE_se_crow_25s);
 		}
 
 		if (m_waitCount > WAIT_SQUAT_TIME * 4)
@@ -63,6 +66,8 @@ void TrainingCrowBench::Update()
 		m_wing_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
 		m_barbell_Pos.y = GetPos().y - BENCH_MAX_HEIGHT;
 		m_waitCount++;
+
+		StopSound(SOUND_LABEL_SE_se_training_hart);
 
 		if (!GetGod()->GetTrainingCrowManager()->GetFalseTelop())
 		{

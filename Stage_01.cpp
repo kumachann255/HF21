@@ -104,7 +104,7 @@ void Stage_01::Update(void)
 void Stage_01::Draw(void)
 {
 	XMFLOAT3 pos = { 0.0f,0.0f,0.0f };
-	SetShader(SHADER_MODE_PHONG);
+	SetShader(SHADER_MODE_DEFAULT);
 	
 #ifdef _DEBUG
 	// デバッグ表示
@@ -155,6 +155,8 @@ void Stage_01::Draw(void)
 
 	//左画面=====================================
 
+		SetShader(SHADER_MODE_PHONG);
+
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
 		SetCameraAT(pos);
 		SetCamera();
@@ -162,13 +164,22 @@ void Stage_01::Draw(void)
 		XMFLOAT3 lightPos2 = { -500.0f, 50.0f, -100.0f };
 		SetLightPos(0, lightPos2);
 
+
 		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
+
+		SetShader(SHADER_MODE_DEFAULT);
+		SetViewPort(TYPE_LEFT_HALF_SCREEN);
+		SetCameraAT(pos);
+		SetCamera();
+
 		GetGod()->GetRollerManager()->Draw();
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
 		DrawParticle();
 		GetGod()->GetQuestBoardManager()->Draw();
 
 	//右上画面===================================
+
+		SetShader(SHADER_MODE_PHONG);
 
 		SetViewPort(TYPE_RIGHT_HALF_SCREEN);
 		SetCameraAT(pos);

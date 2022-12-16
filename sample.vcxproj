@@ -140,6 +140,7 @@
     <ClInclude Include="bonusSlot.h" />
     <ClInclude Include="bonusSlotManager.h" />
     <ClInclude Include="bonusTimer.h" />
+    <ClInclude Include="calendar_num.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="debugproc.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="bonusSlot.cpp" />
     <ClCompile Include="bonusSlotManager.cpp" />
     <ClCompile Include="bonusTimer.cpp" />
+    <ClCompile Include="calendar_num.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="debugproc.cpp" />

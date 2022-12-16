@@ -168,6 +168,14 @@ void UIObject::Update(void)
 	case texType_tansition:
 		UpdateTransition();
 		break;
+
+	case texType_line0:
+		UpdateLine(concentration_line0);
+		break;
+
+	case texType_line1:
+		UpdateLine(concentration_line1);
+		break;
 	}
 }
 
@@ -361,6 +369,24 @@ void UIObject::UpdateZoomInOut(void)
 
 		m_fWidth += m_updateVec * (UI_UPDATE_ZOOM_SPEED * m_fWidthMax);
 		m_fHeight += m_updateVec * (UI_UPDATE_ZOOM_SPEED * m_fHeightMax);
+	}
+}
+
+void UIObject::UpdateLine(int type)
+{
+	switch (type)
+	{
+	case concentration_line0:
+		if ((m_timeCnt % 6) > 3) m_color.w = 1.0f;
+		else m_color.w = 0.0f;
+
+		break;
+
+	case concentration_line1:
+		if ((m_timeCnt % 6) > 3) m_color.w = 0.0f;
+		else m_color.w = 1.0f;
+
+		break;
 	}
 }
 

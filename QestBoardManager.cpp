@@ -17,7 +17,7 @@
 //*****************************************************************************
 #define	BOARD_ROTATE_SPEED	(0.001f)		// 回転速度
 #define	BOARD_SCL			(5.0f)			// 大きさ
-#define	MODEL_NAME01		"model_quest_questboard.obj"	// 読み込むモデル名
+#define	MODEL_NAME01		"model_questboard_garbage02.obj"	// 読み込むモデル名
 #define BOARD_OFFSET_Y		(70.0f)							// ボードの足元をあわせる
 #define BOARD_MAKETIME		(810)							// ボードの出現時間
 
@@ -50,6 +50,7 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 	}
 
 	m_pGarbageIcon = new GarbageIcon();
+	m_pCalendarNum = new CalendarNum();
 }
 
 //=============================================================================
@@ -76,6 +77,8 @@ QuestBoardManager::~QuestBoardManager()
 		}
 	}
 
+	delete m_pGarbageIcon;
+	delete m_pCalendarNum;
 }
 
 //=============================================================================
@@ -99,7 +102,7 @@ void QuestBoardManager::Update(void)
 		m_StartPos = { -200.0f + (rand() % 280),BOARD_OFFSET_Y,0.0f };
 
 		// 動的に生成
-		XMFLOAT3 rot = { 0.0f,0.0f, 0.0f };
+		XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
 		BoardArray.push_back(new QuestBoard(MODEL_NAME01, m_StartPos , rot));
 
 		PlaySound(SOUND_LABEL_SE_se_quest_appear); // クエスト出現
@@ -165,6 +168,8 @@ void QuestBoardManager::Update(void)
 	m_pGarbageIcon->SetIconNum(m_MissionPoint);
 	m_pGarbageIcon->Update();
 
+	m_pCalendarNum->Update();
+
 	// 消す処理	(時間切れ)
 	if (!BoardArray.empty()){
 		// 210度回転したら消す
@@ -220,7 +225,8 @@ void QuestBoardManager::Draw(void)
 		mtxWorld = GetWorldMatrix(
 			GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetPos(),
 			rot,
-			GetGod()->GetRollerManager()->GetRoller()->GetScl());
+			//GetGod()->GetRollerManager()->GetRoller()->GetScl());
+			XMFLOAT3(1.0f, 1.0f, 1.0f));
 
 		// ボードの描画
 		(*board)->Draw(mtxWorld);
@@ -233,13 +239,21 @@ void QuestBoardManager::Draw(void)
 		mtxWorld = GetWorldMatrix(
 			(*board)->GetPos(),
 			rot,
-			(*board)->GetPrefab()->GetScl());
+			XMFLOAT3(1.0f,1.0f,1.0f));
+
+		// フォンシェーダーへ変更
+		//SetShader(SHADER_MODE_PHONG);
+		//SetViewPort(TYPE_LEFT_HALF_SCREEN);
+		//SetCameraAT(XMFLOAT3(0.0f,0.0f,0.0f));
+		//SetCamera();
+
 
 		// ランプの描画
 		(*board)->GetLampManager()->Draw(mtxWorld);
 	}
 
 	m_pGarbageIcon->Draw();
+	m_pCalendarNum->Draw();
 }
 
 int QuestBoardManager::GetSerchBoard(int colorType)

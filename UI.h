@@ -104,6 +104,7 @@ public:
 	void SetTexType(int type) { m_texType = type; }
 	void SetUse(BOOL data) { m_isUse = data; }
 
+	void AddTex(void) { m_TexNo++; };
 	void ResetTex(void) { m_timeCnt = 0; 
 	m_fHeight = m_fHeightMax;
 	m_fWidth = m_fWidthMax;
@@ -119,4 +120,5 @@ public:
 	void UpdateZoomIn(void);
 	void UpdateTransition(void);
 	void UpdateZoomInOut(void);
+	void UpdateLine(int type);
 };

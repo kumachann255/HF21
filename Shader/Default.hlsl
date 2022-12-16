@@ -167,7 +167,24 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 					light = dot(lightDir, inNormal.xyz);
 
 					light = 0.5 - 0.5 * light;
-					tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
+
+					// なんちゃってトゥーンシェーダー
+					if (light < 0.3f)
+					{
+						//float4 c = float4(-0.2f, -0.2f, -0.2f, 0.0f);
+						tempColor = color * Material.Diffuse * 0.25f * Light.Diffuse[i];
+					}
+					if (light < 0.5f)
+					{
+						//float4 c = float4(-0.2f, -0.2f, -0.2f, 0.0f);
+						tempColor = color * Material.Diffuse * 0.45f * Light.Diffuse[i];
+					}
+					else
+					{
+						light += (1.0f - light) * 0.7f;
+						//tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
+						tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
+					}
 				}
 				else if (Light.Flags[i].x == 2)
 				{
@@ -179,7 +196,7 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 					float distance = length(inWorldPos - Light.Position[i]);
 
 					float att = saturate((Light.Attenuation[i].x - distance) / Light.Attenuation[i].x);
-					tempColor *= att;
+					//tempColor *= att;
 				}
 				else
 				{

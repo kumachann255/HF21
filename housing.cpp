@@ -9,6 +9,8 @@ Housing::Housing()
 	XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 scl = { 1.0f, 1.0f, 1.0f };
 
+	this->GetPrefab()->SetColor(m_resetColor);
+
 	SetPos(pos);
 	SetRot(rot);
 	SetScl(scl);
@@ -46,5 +48,4 @@ void Housing::Update(void)
 
 		this->GetPrefab()->SetColor(m_ansColor);
 	}
-
 }

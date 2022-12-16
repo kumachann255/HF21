@@ -5,7 +5,10 @@
 
 enum {
 	trandition_white,
-	ui_waku_full,
+	ui_waku_full_spring,
+	ui_waku_full_summer,
+	ui_waku_full_autumn,
+	ui_waku_full_winter,
 
 	telop_bonusChance,
 	telop_bonusChanceFalse,
@@ -27,6 +30,9 @@ enum {
 	trandition_whiteFull,
 	trandition_crow,
 
+	concentration_line0,
+	concentration_line1,
+
 	telop_max,
 };
 
@@ -44,6 +50,8 @@ enum {
 	texType_zoomIn_rot,
 	texType_tansition,
 	texType_endless,
+	texType_line0,
+	texType_line1,
 };
 
 
@@ -51,7 +59,11 @@ enum {
 
 static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_whiteBox.png",
-	"data/TEXTURE/tex_waku_full.png",
+	"data/TEXTURE/tex_waku_full_spring.png",
+	"data/TEXTURE/tex_waku_full_summer.png",
+	"data/TEXTURE/tex_waku_full_autumn.png",
+	"data/TEXTURE/tex_waku_full_winter.png",
+
 	"data/TEXTURE/telop_bonusChance.png",
 	"data/TEXTURE/tex_bonusFalse.png",
 
@@ -71,6 +83,9 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 
 	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_transition_crow.png",
+
+	"data/TEXTURE/tex_concentrationLine0.png",
+	"data/TEXTURE/tex_concentrationLine1.png",
 };
 
 
@@ -78,6 +93,7 @@ class TexManager : public GodObject
 {
 private:
 	UIManager *m_pUiManager = nullptr;
+	int m_wakuType = ui_waku_full_winter;
 
 public:
 	TexManager(God *god);
@@ -85,6 +101,11 @@ public:
 
 	void Update();
 	void Draw();
+
+	void AddSeason(void) { 
+		m_wakuType++;
+		if (m_wakuType > ui_waku_full_winter) m_wakuType = ui_waku_full_spring;
+	};
 
 	UIManager *GetUIManager() { return m_pUiManager; }
 };

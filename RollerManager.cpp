@@ -2,8 +2,12 @@
 #include "input.h"
 #include "particle.h"
 #include "sound.h"
+#include "texManager.h"
+#include "QuestBoardManager.h"
 
-#define	SWICH_TIME		(30)	
+#define	SWICH_TIME		(30)
+#define	CALENDAR_SWITCH_TIME		(SWICH_TIME / 3 * 60)
+
 #define	PARTICLE_TIME	(40)	
 
 static char *g_TextureName[ROLLER_MAX] =
@@ -47,28 +51,31 @@ void RollerManager::Update()
 
 	XMFLOAT3 pos = { 0.0f,30.0f,-50.0f };
 
+	if (SwichCnt % CALENDAR_SWITCH_TIME == 0)
+	{
+		this->GetGod()->GetQuestBoardManager()->GetCalendarNum()->AddMonth();
+	}
 
 
 	// 春になる
-	if (SwichCnt == 60 * SWICH_TIME)
+	if (SwichCnt == 1)
 	{
 		pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(FALSE);
 		pRoller[ROLLER_AUTOM]->SetIsUse(FALSE);
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
-		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
-
+		this->GetGod()->GetTexManager()->AddSeason();
 	}
 
-	if (SwichCnt == (60 * SWICH_TIME *2) - PARTICLE_TIME)
+	if (SwichCnt == (60 * SWICH_TIME *1) - PARTICLE_TIME)
 	{
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
 
 
 	// 夏になる
-	if (SwichCnt == 60 * SWICH_TIME *2)
+	if (SwichCnt == 60 * SWICH_TIME *1)
 	{
 		pRoller[ROLLER_SPRING]->SetIsUse(FALSE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(TRUE);
@@ -76,15 +83,17 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
+		this->GetGod()->GetTexManager()->AddSeason();
+		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
 
-	if (SwichCnt == (60 * SWICH_TIME *3) - PARTICLE_TIME)
+	if (SwichCnt == (60 * SWICH_TIME *2) - PARTICLE_TIME)
 	{
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
 
 	// 秋になる
-	if (SwichCnt == 60 * SWICH_TIME * 3)
+	if (SwichCnt == 60 * SWICH_TIME * 2)
 	{
 		pRoller[ROLLER_SPRING]->SetIsUse(FALSE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(FALSE);
@@ -92,15 +101,17 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 		CallParticle(pos, 200.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
+		this->GetGod()->GetTexManager()->AddSeason();
+		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
 
-	if (SwichCnt == (60 * SWICH_TIME *4) - PARTICLE_TIME)
+	if (SwichCnt == (60 * SWICH_TIME *3) - PARTICLE_TIME)
 	{
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
 
 	// 冬になる
-	if (SwichCnt == 60 * SWICH_TIME * 4)
+	if (SwichCnt == 60 * SWICH_TIME * 3)
 	{
 		pRoller[ROLLER_SPRING]->SetIsUse(FALSE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(FALSE);
@@ -108,10 +119,12 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(TRUE);
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
+		this->GetGod()->GetTexManager()->AddSeason();
+		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
 
 
-	if (SwichCnt == (60 * SWICH_TIME * 5) - PARTICLE_TIME)
+	if (SwichCnt == (60 * SWICH_TIME * 4) - PARTICLE_TIME)
 	{
 		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
