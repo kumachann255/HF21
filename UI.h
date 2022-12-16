@@ -26,6 +26,9 @@
 #define UI_UPDATE_ZOOM_SPEED	(0.04f)
 #define UI_UPDATE_SWITCH		(2)
 
+#define UI_UPDATE_SPRING_MAX_SPEED	(5.0f)
+#define UI_UPDATE_SPRING_DOWN_SPEED	(0.2f)
+
 
 class UITexData
 {
@@ -71,6 +74,10 @@ private:
 	int m_count = 0;
 	float m_updateVec = 1.0f;
 
+	float m_springStartY = 0.0f;
+	float m_springSpeed = 0.0f;
+	float m_time = 0.0f;
+
 
 protected:
 	UITexData  *m_UITexData;
@@ -95,7 +102,8 @@ public:
 	UITexData *GetUITexData(void) { return m_UITexData; }
 	BOOL GetUse(void) { return m_isUse; }
 
-	void SetPos(XMFLOAT3 pos) {  m_pos = pos; }
+	void SetPos(XMFLOAT3 pos) {  m_pos = pos; 
+		m_springStartY = pos.y;	}
 	void SetRot(float rot) {  m_rot = rot; }
 	void SetWidth(float width) { m_fWidth = m_fWidthMax = width; }
 	void SetHeight(float height) { m_fHeight = m_fHeightMax = height; }
@@ -121,4 +129,5 @@ public:
 	void UpdateTransition(void);
 	void UpdateZoomInOut(void);
 	void UpdateLine(int type);
+	void UpdateSpring(void);
 };

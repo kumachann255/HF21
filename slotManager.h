@@ -45,6 +45,8 @@ public:
 
 	void SetRainbowMode(void);
 	void ResetRainbowMode(void);
+
+	Slot *GetSlot(void) { return m_pSlot; };
 };
 
 
