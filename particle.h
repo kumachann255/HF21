@@ -45,6 +45,7 @@ private:
 	float		m_tx;			// 表示するテクスチャの位置
 	float		m_ty;			// 表示するテクスチャの位置
 	BOOL		m_use;			// 使用しているかどうか
+
 public:
 
 	SPRITE_ANIMATION() {
@@ -57,7 +58,6 @@ public:
 		m_tx = 0.0f;
 		m_ty = 0.0f;
 		m_use = FALSE;
-	
 	};
 
 	~SPRITE_ANIMATION() {};
@@ -73,7 +73,7 @@ public:
 		m_use = FALSE;
 	}
 
-	void Update(void);   
+	void Update(int time);   
 	XMFLOAT2 GetTexPos(void) { return XMFLOAT2{ m_tx,m_ty }; }   // テクスチャー座標の取得
 	XMFLOAT2 GetTexWidth(void) { return XMFLOAT2{ m_tw,m_th }; }   // テクスチャー座標の取得
 	void SetUse(BOOL flag) {  m_use = flag; };  
@@ -96,6 +96,7 @@ private:
 	BOOL			m_bSwich;		// ON,OFF
 	int			    m_nTexno;		// テクスチャーナンバー
 	int			    m_Pattern;		// パターンナンバー
+	int				m_nextAnime;	// 次のアニメーションに行くまでの時間
 
 public:
 
@@ -115,6 +116,7 @@ public:
 	XMFLOAT3 GetMove(void) { return m_move; };		    // パーティクルの移動量の取得
 	BOOL	 GetUse(void)  { return m_bUse; };		    // パーティクルの使用情報の取得
 	BOOL	 GetSwich(void) { return m_bSwich; };		// パーティクルバッファのON OFF
+	int		 GetAnimeTime(void) { return m_nextAnime; }
 	void	 SetPosBase(XMFLOAT3 pos) { m_posBase = pos; };
 	void	 SetPos(XMFLOAT3 pos)	  { m_pos = pos; };
 	void	 SetSize(float size)      { m_fSizeX = size; m_fSizeY = size;};
@@ -123,6 +125,7 @@ public:
 	void	 SetTexno(int no)         { m_nTexno = no; };
 	void	 SetPattern(int pattern)         { m_Pattern = pattern; };
 	void	 SetParticle(/*XMFLOAT3 pos,*/ XMFLOAT3 move, XMFLOAT4 col, float fSizeX, float fSizeY, int nLife);
+	void	 SetAnimeTime(int time)   { m_nextAnime = time; };
 
 	void Update(void);       // 更新処理
 	void Draw(void);         // 描画処理

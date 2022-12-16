@@ -3,6 +3,7 @@
 #include "debugproc.h"
 #include "bonusSlotManager.h"
 #include "texManager.h"
+#include "sound.h"
 
 TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 {
@@ -127,6 +128,7 @@ BOOL TrainingCrowManager::UseStock(void)
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 			telop_evolution, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
 
+		PlaySound(SOUND_LABEL_SE_se_training_hart);
 	}
 
 	return ans;

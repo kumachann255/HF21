@@ -62,6 +62,7 @@ void FlyingCrowManager::Update(void)
 		{
 			if (i % MAX_CROW_NORMAL == 0) count++;
 		}
+		if (count >= 3) count = 2;
 
 		if (m_pFlyingCrow[i].GetIsUse())
 		{

@@ -19,13 +19,13 @@
 
 #define	PARTICLE_SIZE_X		(30.0f)		// 頂点サイズ
 #define	PARTICLE_SIZE_Y		(30.0f)		// 頂点サイズ
-#define	VALUE_MOVE_PARTICLE	(5.0f)		// 移動速度
+#define	VALUE_MOVE_PARTICLE	(10.0f)		// 移動速度
 
 
 #define TEXTURE_PATTERN_DIVIDE_X	    (10)		                                            // アニメパターンのテクスチャ内分割数（X)
 #define TEXTURE_PATTERN_DIVIDE_Y	    (1)		                                                // アニメパターンのテクスチャ内分割数（Y)
 #define ANIM_PATTERN_NUM			    (TEXTURE_PATTERN_DIVIDE_X*TEXTURE_PATTERN_DIVIDE_Y) 	// アニメーションパターン数
-#define ANIM_WAIT					    (8)													   // アニメーションの切り替わるWait値
+#define ANIM_WAIT					    (5)													   // アニメーションの切り替わるWait値
 
 
 //*****************************************************************************
@@ -45,7 +45,7 @@ static int							g_TexNo;					// テクスチャ番号
 static PARTICLE						*g_pParticle[PARTICLE_BUFFER];			//画面上に発生できるエフェクトの上限			
 
 static XMFLOAT3					g_posBase;						// ビルボード発生位置
-static float					g_fWidthBase = 5.0f;			// 基準の幅
+static float					g_fWidthBase = 10.0f;			// 基準の幅
 static float					g_fHeightBase = 1.0f;			// 基準の高さ
 
 static char *g_TextureName[TEXTURE_MAX] =
@@ -144,7 +144,7 @@ void UpdateParticle(void)
 			for (int j = 0; j < MAX_PARTICLE; j++)
 			{
 				g_pParticle[i][j].Update();
-				g_pParticle[i][j].SpriteAnim.Update();
+				g_pParticle[i][j].SpriteAnim.Update(g_pParticle[i][j].GetAnimeTime());
 
 			}
 		}
@@ -265,6 +265,7 @@ PARTICLE::PARTICLE()
 	m_bSwich = FALSE;
 	m_nTexno = EFFECT_KEMURI;
 	m_Pattern = MOVE_PATTERN_UP;
+	m_nextAnime = 0;
 }
 
 void PARTICLE::Update(void)
@@ -286,7 +287,7 @@ void PARTICLE::Update(void)
 		move.y = rand() % 300 / 200.0f;
 		move.z = cosf(fAngle) * fLength;
 
-		nLife = rand() % 100 + 100;
+		nLife = rand() % 100 + 50;
 
 		// ビルボードの設定
 		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -297,12 +298,12 @@ void PARTICLE::Update(void)
 
 
 		fAngle = (float)(rand() % 628 - 314) / 100.0f;
-		fLength = rand() % (int)(200) / 100.0f;
+		fLength = rand() % (int)(300) / 100.0f;
 		move.x = sinf(fAngle) * fLength;
-		move.y = rand() % 300 / 200.0f;
+		move.y = (float)(rand() % 300 - 150) / 100.0f;
 		move.z = cosf(fAngle) * fLength;
 
-		nLife = rand() % 100 + 150;
+		nLife = rand() % 50 + 50;
 
 		// ビルボードの設定
 		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -317,7 +318,7 @@ void PARTICLE::Update(void)
 		move.y = 3.0f;
 		move.z = cosf(fAngle) * fLength * 1.2f;
 
-		nLife = rand() % 100 + 150;
+		nLife = rand() % 100 + 50;
 
 		// ビルボードの設定
 		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -460,7 +461,7 @@ void PARTICLE::SetParticle(/*XMFLOAT3 pos,*/ XMFLOAT3 move, XMFLOAT4 col, float 
 	}
 }
 
-void SPRITE_ANIMATION::Update(void)
+void SPRITE_ANIMATION::Update(int time)
 {
 
 	if (m_use == TRUE)
@@ -472,7 +473,7 @@ void SPRITE_ANIMATION::Update(void)
 
 		m_countAnim++;
 
-		if (m_countAnim > ANIM_WAIT - 1)
+		if (m_countAnim > time)
 		{
 			m_countAnim = 0.0f;
 
@@ -526,6 +527,7 @@ void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
 				g_pParticle[i][j].SetSize(size);
 				g_pParticle[i][j].SetPattern(pattern);
 				g_pParticle[i][j].SpriteAnim.SetUse(TRUE);
+				g_pParticle[i][j].SetAnimeTime(rand() % 5 + 3);
 			}
 
 			break;

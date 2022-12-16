@@ -64,15 +64,19 @@ void Slot::Update(void)
 	// Ž~‚ß‚é
 	if ((GetKeyboardTrigger(DIK_SPACE)) && (m_count > 40))
 	{
-		PlaySound(SOUND_LABEL_SE_se_slot_button_01); // ƒXƒƒbƒg‚ðŽ~‚ß‚é
+		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumR->GetMove())
 		{
 			pDrumR->Stop();
 			m_move = false;
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
 		}
 		else if (pDrumC->GetMove())
 		{
 			pDrumC->Stop();
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
 		}
 		else if (pDrumL->GetMove())
 		{
@@ -103,6 +107,8 @@ void Slot::Update(void)
 				m_crowNum = 3;
 				break;
 			}
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
 		}
 	}
 

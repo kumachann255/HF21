@@ -61,6 +61,7 @@
     <ClCompile Include="rainbowTime.cpp" />
     <ClCompile Include="proteinIcon.cpp" />
     <ClCompile Include="garbageIcon.cpp" />
+    <ClCompile Include="calendar_num.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -127,5 +128,6 @@
     <ClInclude Include="rainbowTime.h" />
     <ClInclude Include="proteinIcon.h" />
     <ClInclude Include="garbageIcon.h" />
+    <ClInclude Include="calendar_num.h" />
   </ItemGroup>
 </Project>

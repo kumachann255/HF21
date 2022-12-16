@@ -30,8 +30,11 @@ GarbageIcon::GarbageIcon()
 	// プレイヤーの初期化
 	m_w = GARBAGE_TEXTURE_WIDTH;
 	m_h = GARBAGE_TEXTURE_HEIGHT;
-	m_Pos = { 120.0f, 480.0f, 0.0f };
+	m_Pos = { 95.0f, 493.0f, 0.0f };
 	m_TexNo = 0;
+
+	m_startColor = { 0.854f, 0.854f, 0.0f, 1.0f };
+	m_endColor = { 1.0f, 0.282f, 0.333f, 1.0f };
 }
 
 GarbageIcon::~GarbageIcon()
@@ -68,18 +71,43 @@ void GarbageIcon::Draw()
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+	XMFLOAT4 color;
+	float p;
+	float sclValue = 1.0f;
+
 	// テクスチャ設定
-	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[m_TexNo]);
+	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[0]);
 
 	for (int i = 0; i < m_iconNum; i++)
 	{
+		p = (float)i / (float)MAX_GARBAGE;
+		color.x = m_startColor.x + (m_endColor.x - m_startColor.x) * p;
+		color.y = m_startColor.y + (m_endColor.y - m_startColor.y) * p;
+		color.z = m_startColor.z + (m_endColor.z - m_startColor.z) * p;
+		color.w = 1.0f;
+
+		if (i > 12)
+		{
+			sclValue *= SCL_VALUE_GARBAGE;
+		}
 		// １枚のポリゴンの頂点とテクスチャ座標を設定
-		SetSpriteColor(m_VertexBuffer, m_Pos.x + i * GARBAGE_TEXTURE_DISTANCE, m_Pos.y, m_w, m_h, 0.0f, 0.0f, 1.0f, 1.0f,
-			XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+		SetSpriteColor(m_VertexBuffer, m_Pos.x + i * GARBAGE_TEXTURE_DISTANCE, m_Pos.y - (m_h * sclValue - m_h) / 2.0f, m_w, m_h * sclValue, 0.0f, 0.0f, 1.0f, 1.0f,
+			color);
 
 		// ポリゴン描画
 		GetDeviceContext()->Draw(4, 0);
 	}
+
+	// テクスチャ設定
+	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[1]);
+
+	// １枚のポリゴンの頂点とテクスチャ座標を設定
+	SetSpriteColor(m_VertexBuffer, 350.0f, 485.0f, 670.0f, 100.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	// ポリゴン描画
+	GetDeviceContext()->Draw(4, 0);
+
 
 	// ライティングを有効に
 	SetLightEnable(TRUE);

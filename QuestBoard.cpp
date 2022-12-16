@@ -12,7 +12,7 @@
 // マクロ定義
 //*****************************************************************************
 #define	BOARD_ROTATE_SPEED	(0.001f)		// 回転速度
-#define	BOARD_SCL			(1.0f)			// 大きさ
+#define	BOARD_SCL			(3.0f)			// 大きさ
 #define	ROLLER_RADIUS		(85.0f)			// ローラーの半径
 
 

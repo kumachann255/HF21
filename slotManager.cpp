@@ -4,6 +4,7 @@
 #include "input.h"
 #include "debugproc.h"
 #include "texManager.h"
+#include "sound.h"
 #include <time.h>
 
 
@@ -80,11 +81,19 @@ void SlotManager::Update()
 		m_start = clock();
 
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+			telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME + (MAX_RAINBOW_TIMEUP_WAIT / 60));
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+			telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME + (MAX_RAINBOW_TIMEUP_WAIT / 60));
+
+		PlaySound(SOUND_LABEL_SE_se_Roulette_high);
+
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			concentration_line0, texType_line0, XMFLOAT3(480, 270.0f, 0.0f), (int)MAX_RAINBOW_TIME + (MAX_RAINBOW_TIMEUP_WAIT / 60));
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			concentration_line1, texType_line1, XMFLOAT3(480, 270.0f, 0.0f), (int)MAX_RAINBOW_TIME + (MAX_RAINBOW_TIMEUP_WAIT / 60));
+
 	}
-	else if (m_rainbowStartWait > MAX_RAINBOW_STRAT_WAIT)
+	else if (m_rainbowStartWait > MAX_RAINBOW_STRAT_WAIT * 2)
 	{
 		// ŽžŠÔŒv‘ª
 		clock_t time = clock();
@@ -97,25 +106,27 @@ void SlotManager::Update()
 			m_now = 0.0f;
 			m_isRainbow = FALSE;
 
+			StopSound(SOUND_LABEL_SE_se_Roulette_high);
+
 			if (m_now == 1)
 			{
 				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-					telop_rainbowEnd, texType_zoomIn, XMFLOAT3(480.0f, 400.0f, 0.0f), 6);
+					telop_rainbowEnd, texType_zoomIn, XMFLOAT3(480.0f, 400.0f, 0.0f), 4);
 			}
 
-			if (m_timeUpWait > MAX_RAINBOW_TIMEUP_WAIT)
+			if (m_timeUpWait == MAX_RAINBOW_TIMEUP_WAIT)
 			{
-				m_pRainbowTimer->SetUse(FALSE);
+				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+					trandition_white, texType_fade, XMFLOAT3(744.0f, 350.0f, 0.0f), MAX_RAINBOW_TIMEUP_WAIT / 60);
 			}
 
 			if (m_timeUpWait == MAX_RAINBOW_TIMEUP_WAIT + MAX_RAINBOW_TIMEUP_WAIT / 2)
 			{
+				m_pRainbowTimer->SetUse(FALSE);
 				m_timeUpWait = 0;
 				m_rainbowStartWait = 0;
 				ResetRainbowMode();
-
-				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-					trandition_white, texType_fade, XMFLOAT3(744.0f, 350.0f, 0.0f), 4);
+				m_pSlot->GetHousing()->ResetColor();
 			}
 		}
 

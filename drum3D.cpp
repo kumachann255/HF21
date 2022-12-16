@@ -5,7 +5,7 @@
 Drum3D::Drum3D()
 {
 	m_prefab = new Prefab;
-	m_prefab->SetModel("model_slot_gemdrum.obj");
+	m_prefab->SetModel("model_slot_paintdrum.obj");
 
 	XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
@@ -88,17 +88,17 @@ void Drum3D::SetRainbowModel(void)
 
 void Drum3D::SetRainbowModelL(void)
 {
-	m_prefab->SetModel("model_slot_x100drum.obj");
+	m_prefab->SetModel("model_slot_rainbowdrum_x5.obj");
 }
 
 void Drum3D::ResetRainbowModel(void)
 {
-	m_prefab->SetModel("model_slot_gemdrum.obj");
+	m_prefab->SetModel("model_slot_paintdrum.obj");
 }
 
 void Drum3D::ResetRainbowModelL(void)
 {
-	m_prefab->SetModel("model_slot_x10-50drum.obj");
+	m_prefab->SetModel("model_slot_x1-2-3drum.obj");
 }
 
 void Drum3D::SetNormal(void)

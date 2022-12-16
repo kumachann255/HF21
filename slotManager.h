@@ -14,9 +14,9 @@ enum
 	No_FlyingCrow,
 };
 
-#define MAX_RAINBOW_TIME			(15.0f)
-#define MAX_RAINBOW_TIMEUP_WAIT		(240)
-#define MAX_RAINBOW_STRAT_WAIT		(240)
+#define MAX_RAINBOW_TIME			(20.0f)
+#define MAX_RAINBOW_TIMEUP_WAIT		(120)
+#define MAX_RAINBOW_STRAT_WAIT		(120)
 
 class SlotManager : GodObject
 {

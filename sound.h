@@ -33,6 +33,48 @@ enum
 	SOUND_LABEL_SE_se_quest_clear,		// クエスト達成
 	SOUND_LABEL_SE_se_map_change,		// マップ変化
 
+	SOUND_LABEL_SE_se_bom0,				// 爆破
+	SOUND_LABEL_SE_se_bom1,				// 爆破
+	SOUND_LABEL_SE_se_bom2,				// 爆破
+	SOUND_LABEL_SE_se_bom4,				// 爆破
+
+	SOUND_LABEL_SE_se_se_countDown,		// カウントダウン
+	SOUND_LABEL_SE_se_timer,			// カチカチ音
+	SOUND_LABEL_SE_se_timer_speedup,	// カチカチ音
+
+	SOUND_LABEL_SE_se_crow_25s,			// カラスの鳴き声
+	SOUND_LABEL_SE_se_crow_x1,			// カラスの鳴き声
+	SOUND_LABEL_SE_se_crow_x3,			// カラスの鳴き声
+
+	SOUND_LABEL_SE_se_mens_hihi,		// 男性の声
+	SOUND_LABEL_SE_se_mens_ou,			// 男性の声
+	SOUND_LABEL_SE_se_mens_yei,			// 男性の声
+	SOUND_LABEL_SE_se_women_ou,			// 男性の声
+	SOUND_LABEL_SE_se_women_kya,		// 女性の声
+
+
+	SOUND_LABEL_SE_se_slot_stop,		// スロットの止める音
+
+	SOUND_LABEL_SE_se_chance,		// スロットの止める音
+	SOUND_LABEL_SE_se_pkieeen,		// スロットの止める音
+	SOUND_LABEL_SE_se_Roulette_high,		// スロットの止める音
+
+	SOUND_LABEL_SE_se_spotlight,		// スポットライト
+	SOUND_LABEL_SE_se_syakin,			// シャキーン！
+	SOUND_LABEL_SE_se_zyan,				// ジャン！
+	SOUND_LABEL_SE_se_shock,			// ガーン！
+	SOUND_LABEL_SE_se_doom,				// ドーン！
+	SOUND_LABEL_se_gong,				// カン！！
+
+
+	SOUND_LABEL_SE_se_training_false,	// 筋トレ失敗
+	SOUND_LABEL_SE_se_training_hart,	// 筋トレドキドキ
+	SOUND_LABEL_SE_se_transition,		// ブオン
+	SOUND_LABEL_SE_se_wing_x1,			// 羽ばたき1回
+	SOUND_LABEL_SE_se_wing_x6,			// 羽ばたき6回
+
+	SOUND_LABEL_SE_se_title_bu,			// 開幕ブザー
+
 	SOUND_LABEL_MAX,
 };
 

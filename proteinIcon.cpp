@@ -30,7 +30,7 @@ ProteinIcon::ProteinIcon()
 	// ƒvƒŒƒCƒ„[‚Ì‰Šú‰»
 	m_w = PROTEIN_TEXTURE_WIDTH;
 	m_h = PROTEIN_TEXTURE_HEIGHT;
-	m_Pos = { 150.0f, 80.0f, 0.0f };
+	m_Pos = { 50.0f, 100.0f, 0.0f };
 	m_TexNo = 0;
 }
 

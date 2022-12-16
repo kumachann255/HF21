@@ -19,10 +19,11 @@ private:
 	BOOL m_isTimeMove = FALSE;
 	clock_t m_start;
 	float m_now = 0.0f;
-	XMFLOAT3 m_telopPos  = { 480.0f, 270.0f, 0.0f };
+	XMFLOAT3 m_telopPos  = { 480.0f, 200.0f, 0.0f };
 	XMFLOAT3 m_telopPos2 = { 400.0f, 460.0f, 0.0f };
 	XMFLOAT3 m_telopPos3 = { 744.0f, 350.0f, 0.0f };
 	XMFLOAT3 m_telopPos4 = { 480.0f, 300.0f, 0.0f };
+	XMFLOAT3 m_telopPos5 = { 480.0f, 270.0f, 0.0f };
 	XMFLOAT3 m_transitionPos = { -TRANSITION_WIDTH , 270.0f, 0.0f };
 	XMFLOAT3 m_transitionPos2 = { SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2, 0.0f };
 	BonusTimer *m_timer = nullptr;

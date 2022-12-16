@@ -1,6 +1,8 @@
 #include "texManager.h"
 #include "GodObject.h"
 #include "TrainingCrowManager.h"
+#include "input.h"
+
 TexManager::TexManager(God * god):GodObject(god)
 {
 	m_pUiManager = new UIManager();
@@ -12,6 +14,9 @@ TexManager::TexManager(God * god):GodObject(god)
 	int time0 = 0;
 
 	m_pUiManager->Register(new UIObject(pos0, 432.0f, 380.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 
 	m_pUiManager->Register(new UIObject(pos0, 600.0f, 200.0f, time0));
@@ -34,14 +39,15 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos0, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 2700, 540.0f, time0));
 
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 
 	for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
 	{
 		m_pUiManager->GetUIObject(i)->GetUITexData()->Create(g_TexturName[i]);
 	}
 
-	m_pUiManager->GetUIObject(ui_waku_full)->SetTexType(texType_endless);
-	m_pUiManager->GetUIObject(ui_waku_full)->SetTexNo(ui_waku_full);
+	m_pUiManager->GetUIObject(m_wakuType)->SetTexType(texType_endless);
 }
 
 void TexManager::Update()
@@ -51,11 +57,29 @@ void TexManager::Update()
 		m_pUiManager->GetUIObject(i)->Update();
 	}
 
+	// 一旦すべての枠をFALSEに
+	for (int i = ui_waku_full_spring; i <= ui_waku_full_winter; i++)
+	{
+		m_pUiManager->GetUIObject(i)->SetUse(FALSE);
+	}
+
+	// 今表示したい枠だけTRUEに
 	if (GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
-		m_pUiManager->GetUIObject(ui_waku_full)->SetUse(FALSE);
+		m_pUiManager->GetUIObject(m_wakuType)->SetUse(FALSE);
 	}
-	else m_pUiManager->GetUIObject(ui_waku_full)->SetUse(TRUE);
+	else m_pUiManager->GetUIObject(m_wakuType)->SetUse(TRUE);
+
+#ifdef _DEBUG	// デバッグ情報を表示する
+
+	if (GetKeyboardTrigger(DIK_W))
+	{
+		m_wakuType++;
+		if (m_wakuType > ui_waku_full_winter) m_wakuType = ui_waku_full_spring;
+	}
+#endif
+
+
 
 }
 
