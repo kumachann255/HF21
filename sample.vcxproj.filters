@@ -65,6 +65,7 @@
     <ClCompile Include="switch.cpp" />
     <ClCompile Include="bonusBGh.cpp" />
     <ClCompile Include="bonusGuidanceY.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -135,5 +136,6 @@
     <ClInclude Include="switch.h" />
     <ClInclude Include="bonusBGh.h" />
     <ClInclude Include="bonusGuidanceY.h" />
+    <ClInclude Include="ParticleManager.h" />
   </ItemGroup>
 </Project>

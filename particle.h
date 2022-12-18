@@ -5,7 +5,8 @@
 //
 //=============================================================================
 #pragma once
-
+#include "main.h"
+#include "renderer.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -14,6 +15,10 @@
 
 enum
 {  //テクスチャーの種類
+	EFFECT_SAKURA,
+	EFFECT_LEAF,
+	EFFECT_MOMIJI,
+	EFFECT_SNOW,
 	EFFECT_BOM,
 	EFFECT_KEMURI,
 	EFFECT_KEMURI2,
@@ -27,6 +32,7 @@ enum
 	MOVE_PATTERN_UP,
 	MOVE_PATTERN_UP_SMALL,
 	MOVE_PATTERN_UPLEFT,
+	MOVE_PATTERN_DOWNRIGHT,
 	MOVE_PATTERN_MAX,
 };
 
@@ -98,6 +104,8 @@ private:
 	int			    m_Pattern;		// パターンナンバー
 	int				m_nextAnime;	// 次のアニメーションに行くまでの時間
 
+	float			m_windtime = 0.0f;
+	XMFLOAT3		m_wind = { 0.0f, 0.0f, 0.0f };
 public:
 
 	SPRITE_ANIMATION SpriteAnim;
@@ -131,6 +139,7 @@ public:
 	void Draw(void);         // 描画処理
 
 };
+
 
 
 //*****************************************************************************

@@ -15,7 +15,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_MAX			(5)			// テクスチャの数
+#define TEXTURE_MAX			(9)			// テクスチャの数
 
 #define	PARTICLE_SIZE_X		(30.0f)		// 頂点サイズ
 #define	PARTICLE_SIZE_Y		(30.0f)		// 頂点サイズ
@@ -27,6 +27,11 @@
 #define ANIM_PATTERN_NUM			    (TEXTURE_PATTERN_DIVIDE_X*TEXTURE_PATTERN_DIVIDE_Y) 	// アニメーションパターン数
 #define ANIM_WAIT					    (5)													   // アニメーションの切り替わるWait値
 
+#define WIND_SPD				(1.0f)
+#define WIND_SPD_Y				(0.5f)
+#define FALL_SPD				(2.0f)
+#define	PARTICLE_RANGE			(800)		// 頂点サイズ
+#define	PARTICLE_RANGE_HALF		(400)		// 頂点サイズ
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -50,6 +55,10 @@ static float					g_fHeightBase = 1.0f;			// 基準の高さ
 
 static char *g_TextureName[TEXTURE_MAX] =
 {
+	"data/TEXTURE/EFFECT/sakura.png",
+	"data/TEXTURE/EFFECT/leaf.png",
+	"data/TEXTURE/EFFECT/momiji.png",
+	"data/TEXTURE/EFFECT/snow.png",
 	"data/TEXTURE/EFFECT/effect_bom.png",
 	"data/TEXTURE/EFFECT/effect_kemuri.png",
 	"data/TEXTURE/EFFECT/effect_kemuri2.png",
@@ -260,12 +269,13 @@ PARTICLE::PARTICLE()
 
 	m_fSizeX = PARTICLE_SIZE_X;
 	m_fSizeY = PARTICLE_SIZE_Y;
-	m_nLife = 0;
+	m_nLife = 100;
 	m_bUse = FALSE;
 	m_bSwich = FALSE;
-	m_nTexno = EFFECT_KEMURI;
+	m_nTexno = EFFECT_REFLECTION;
 	m_Pattern = MOVE_PATTERN_UP;
-	m_nextAnime = 0;
+	m_nextAnime = 10;
+
 }
 
 void PARTICLE::Update(void)
@@ -325,6 +335,27 @@ void PARTICLE::Update(void)
 
 		break;
 
+	case MOVE_PATTERN_DOWNRIGHT:
+
+		m_windtime += 0.001f;
+		if (m_windtime > XM_2PI) m_windtime -= XM_2PI;	// m_windtimeがオーバーフローしないようにループさせる
+
+		m_wind = { WIND_SPD * cosf(m_windtime), WIND_SPD_Y * sinf(m_windtime * 10.0f), WIND_SPD * sinf(m_windtime) };
+
+		fLength = (float)(rand() % 200) * 0.01f;
+
+		move.x = m_wind.x + fLength;
+		move.y = m_wind.y - FALL_SPD + fLength;
+		move.z = m_wind.z ;
+
+
+		nLife = rand() % 1000 + 50;
+
+		// ビルボードの設定
+		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
+
+		break;
+
 	}
 
 
@@ -342,6 +373,10 @@ void PARTICLE::Update(void)
 			SetUse(FALSE);
 			SetSwich(FALSE);
 			SpriteAnim.Init();
+			m_move.x = 0.0f;
+			m_move.y = 0.0f;
+			m_move.z = 0.0f;
+
 		}
 	}
 
@@ -449,7 +484,7 @@ void PARTICLE::SetParticle(/*XMFLOAT3 pos,*/ XMFLOAT3 move, XMFLOAT4 col, float 
 {
 	if (!m_bUse)
 	{
-		//m_pos = pos;
+		m_pos = { rand() % PARTICLE_RANGE - PARTICLE_RANGE_HALF + 0.0f , 300.0f, rand() % PARTICLE_RANGE - PARTICLE_RANGE_HALF + 0.0f };
 		m_rot = { 0.0f, 0.0f, 0.0f };
 		m_scale = { 1.0f, 1.0f, 1.0f };
 		m_move = move;
@@ -483,8 +518,7 @@ void SPRITE_ANIMATION::Update(int time)
 			}
 			else
 			{
-				//m_use = FALSE;
-				SetUse(FALSE);
+				//SetUse(FALSE);
 				m_uwnum = 0;
 
 			}
@@ -520,6 +554,9 @@ void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
 		{
 			for (int j = 0; j < num; j++)
 			{
+
+				//float fSize = (float)(rand() % 6 + 1) * 0.05f * size;	// 0.05f~0.30f
+
 				g_pParticle[i][j].SetSwich(TRUE);
 				g_pParticle[i][j].SetPosBase(pos);
 				g_pParticle[i][j].SetPos(pos);
@@ -527,7 +564,7 @@ void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
 				g_pParticle[i][j].SetSize(size);
 				g_pParticle[i][j].SetPattern(pattern);
 				g_pParticle[i][j].SpriteAnim.SetUse(TRUE);
-				g_pParticle[i][j].SetAnimeTime(rand() % 5 + 3);
+				g_pParticle[i][j].SetAnimeTime(rand() % 5 + 10);
 			}
 
 			break;
