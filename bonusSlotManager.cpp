@@ -13,22 +13,23 @@ BonusSlotManager::BonusSlotManager(God * god) :GodObject(god)
 {
 	m_pSlot = new BonusSlot();
 	m_timer = new BonusTimer();
+	m_pBG = new BonusBG();
 
-	//炎初期化
-	{
-		m_pSolverGPU = new FLUID3D_GPU;
+	////炎初期化
+	//{
+	//	m_pSolverGPU = new FLUID3D_GPU;
 
-		m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
-			, GetRenderTargetView(), GetDepthStencilView());
+	//	m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
+	//		, GetRenderTargetView(), GetDepthStencilView());
 
-		m_pSolverGPU->SetInitFlag(TRUE);
+	//	m_pSolverGPU->SetInitFlag(TRUE);
 
-		XMFLOAT3 pos = { -55.0f,-15.0f,30.0f };
-		XMFLOAT3 scl = { 110.0f,50.0f,100.0f };
+	//	XMFLOAT3 pos = { -55.0f,-15.0f,30.0f };
+	//	XMFLOAT3 scl = { 110.0f,50.0f,100.0f };
 
-		m_pSolverGPU->SetPos(pos);
-		m_pSolverGPU->SetScl(scl);
-	}
+	//	m_pSolverGPU->SetPos(pos);
+	//	m_pSolverGPU->SetScl(scl);
+	//}
 
 }
 
@@ -37,6 +38,7 @@ void BonusSlotManager::Update()
 	if (this->GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		m_pSlot->Update();
+		m_pBG->Update();
 
 		m_countDownCount++;
 		if (m_countDownCount == BONUS_COUNTDOWN_START)
@@ -110,14 +112,14 @@ void BonusSlotManager::Update()
 				m_countDownCount = 0;
 				m_timeUpWait = 0;
 
-				// 炎関連
-				// 初期化していなかったら
-				if (!m_pSolverGPU->GetInitFlag())
-				{
-					m_pSolverGPU->SetUse(FALSE);	 // 使用しない
-					m_pSolverGPU->Clear(GetDevice());// 初期化
-					m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
-				}
+				//// 炎関連
+				//// 初期化していなかったら
+				//if (!m_pSolverGPU->GetInitFlag())
+				//{
+				//	m_pSolverGPU->SetUse(FALSE);	 // 使用しない
+				//	m_pSolverGPU->Clear(GetDevice());// 初期化
+				//	m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
+				//}
 
 			}
 		}
@@ -127,24 +129,24 @@ void BonusSlotManager::Update()
 #endif
 
 
-		//炎関連
-		{
-			if (m_pSolverGPU->GetUseFlag())
-			{
-				m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
-				m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
-				m_pSolverGPU->Solve();
-			}
+		////炎関連
+		//{
+		//	if (m_pSolverGPU->GetUseFlag())
+		//	{
+		//		m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
+		//		m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
+		//		m_pSolverGPU->Solve();
+		//	}
 
-			// 初期化されていたら
-			if (m_pSolverGPU->GetInitFlag())
-			{
-				m_pSolverGPU->SetUse(TRUE);		  // 使用する
-				m_pSolverGPU->SetInitFlag(FALSE); // 初期化フラグOFF
+		//	// 初期化されていたら
+		//	if (m_pSolverGPU->GetInitFlag())
+		//	{
+		//		m_pSolverGPU->SetUse(TRUE);		  // 使用する
+		//		m_pSolverGPU->SetInitFlag(FALSE); // 初期化フラグOFF
 
-			}
+		//	}
 
-		}
+		//}
 
 	}
 
@@ -176,12 +178,12 @@ void BonusSlotManager::Update()
 
 		// 炎関連
 		// 初期化していなかったら
-		if (!m_pSolverGPU->GetInitFlag())
-		{
-			m_pSolverGPU->SetUse(FALSE);	 // 使用しない
-			m_pSolverGPU->Clear(GetDevice());// 初期化
-			m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
-		}
+		//if (!m_pSolverGPU->GetInitFlag())
+		//{
+		//	m_pSolverGPU->SetUse(FALSE);	 // 使用しない
+		//	m_pSolverGPU->Clear(GetDevice());// 初期化
+		//	m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
+		//}
 
 	}
 
@@ -192,11 +194,12 @@ void BonusSlotManager::Update()
 
 void BonusSlotManager::Draw()
 {
+	m_pBG->Draw();
 	m_pSlot->Draw();
 	m_timer->Draw();
 
 	// 炎描画
-	m_pSolverGPU->DrawFluid();
+	//m_pSolverGPU->DrawFluid();
 
 	// シェーダーを戻す
 	SetShader(SHADER_MODE_PHONG);

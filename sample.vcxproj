@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="bonusBGh.h" />
     <ClInclude Include="bonusDrumh.h" />
     <ClInclude Include="bonusHousing.h" />
     <ClInclude Include="bonusSlot.h" />
@@ -203,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="bonusBGh.cpp" />
     <ClCompile Include="bonusDrumh.cpp" />
     <ClCompile Include="bonusHousing.cpp" />
     <ClCompile Include="bonusSlot.cpp" />

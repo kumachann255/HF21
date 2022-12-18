@@ -50,7 +50,7 @@ void BonusTimer::Draw(void)
 {
 	// 2Dの物を描画する処理
 	// Z比較あり（炎とかぶってしまうから）
-	SetDepthEnable(TRUE);
+	SetDepthEnable(FALSE);
 
 	// ライティングを無効
 	SetLightEnable(FALSE);
@@ -107,6 +107,18 @@ void BonusTimer::Draw(void)
 		// 次の桁へ
 		number /= 10;
 	}
+
+	// ピリオドの描画
+	// テクスチャ設定
+	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[1]);
+
+	// １枚のポリゴンの頂点とテクスチャ座標を設定
+	SetSpriteColor(m_VertexBuffer, 470.0f, 195.0f, 30.0f, 30.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	// ポリゴン描画
+	GetDeviceContext()->Draw(4, 0);
+
 
 	// ライティングを有効に
 	SetLightEnable(TRUE);

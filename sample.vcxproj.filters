@@ -63,6 +63,7 @@
     <ClCompile Include="garbageIcon.cpp" />
     <ClCompile Include="calendar_num.cpp" />
     <ClCompile Include="switch.cpp" />
+    <ClCompile Include="bonusBGh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -131,5 +132,6 @@
     <ClInclude Include="garbageIcon.h" />
     <ClInclude Include="calendar_num.h" />
     <ClInclude Include="switch.h" />
+    <ClInclude Include="bonusBGh.h" />
   </ItemGroup>
 </Project>
