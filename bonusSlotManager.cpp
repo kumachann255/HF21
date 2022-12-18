@@ -13,22 +13,24 @@ BonusSlotManager::BonusSlotManager(God * god) :GodObject(god)
 {
 	m_pSlot = new BonusSlot();
 	m_timer = new BonusTimer();
+	m_pBG = new BonusBG();
+	m_pGuidance = new BonusGuidance();
 
-	//炎初期化
-	{
-		m_pSolverGPU = new FLUID3D_GPU;
+	////炎初期化
+	//{
+	//	m_pSolverGPU = new FLUID3D_GPU;
 
-		m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
-			, GetRenderTargetView(), GetDepthStencilView());
+	//	m_pSolverGPU->Init(GetDevice(), GetDeviceContext(), SCREEN_WIDTH, SCREEN_HEIGHT
+	//		, GetRenderTargetView(), GetDepthStencilView());
 
-		m_pSolverGPU->SetInitFlag(TRUE);
+	//	m_pSolverGPU->SetInitFlag(TRUE);
 
-		XMFLOAT3 pos = { -55.0f,-15.0f,30.0f };
-		XMFLOAT3 scl = { 110.0f,50.0f,100.0f };
+	//	XMFLOAT3 pos = { -55.0f,-15.0f,30.0f };
+	//	XMFLOAT3 scl = { 110.0f,50.0f,100.0f };
 
-		m_pSolverGPU->SetPos(pos);
-		m_pSolverGPU->SetScl(scl);
-	}
+	//	m_pSolverGPU->SetPos(pos);
+	//	m_pSolverGPU->SetScl(scl);
+	//}
 
 }
 
@@ -37,6 +39,8 @@ void BonusSlotManager::Update()
 	if (this->GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		m_pSlot->Update();
+		m_pBG->Update();
+		m_pGuidance->Update();
 
 		m_countDownCount++;
 		if (m_countDownCount == BONUS_COUNTDOWN_START)
@@ -44,7 +48,7 @@ void BonusSlotManager::Update()
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_3, texType_cutIn_up, m_telopPos, 2);
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_guidance, texType_cutIn_right, m_telopPos2, 10);
+				telop_guidance, texType_cutIn_right, m_telopPos2, 7);
 			
 			StopSound(SOUND_LABEL_SE_se_crow_25s);
 
@@ -60,7 +64,7 @@ void BonusSlotManager::Update()
 		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE * 3)
 		{
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_3, texType_normal, m_telopPos5, 2);
+				telop_start, texType_normal, m_telopPos5, 1);
 			SetTime();
 		}
 
@@ -104,20 +108,20 @@ void BonusSlotManager::Update()
 			if (m_timeUpWait > MAX_TIMEUP_WAIT)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
-				m_pSlot->GetHousing()->SetEnt(FALSE);
 				m_pSlot->GetHousing()->ResetColor();
+				m_pSlot->GetHousing()->SetEnt(FALSE);
 				m_isTimeMove = FALSE;
 				m_countDownCount = 0;
 				m_timeUpWait = 0;
 
-				// 炎関連
-				// 初期化していなかったら
-				if (!m_pSolverGPU->GetInitFlag())
-				{
-					m_pSolverGPU->SetUse(FALSE);	 // 使用しない
-					m_pSolverGPU->Clear(GetDevice());// 初期化
-					m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
-				}
+				//// 炎関連
+				//// 初期化していなかったら
+				//if (!m_pSolverGPU->GetInitFlag())
+				//{
+				//	m_pSolverGPU->SetUse(FALSE);	 // 使用しない
+				//	m_pSolverGPU->Clear(GetDevice());// 初期化
+				//	m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
+				//}
 
 			}
 		}
@@ -127,25 +131,32 @@ void BonusSlotManager::Update()
 #endif
 
 
-		//炎関連
-		{
-			if (m_pSolverGPU->GetUseFlag())
-			{
-				m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
-				m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
-				m_pSolverGPU->Solve();
-			}
+		////炎関連
+		//{
+		//	if (m_pSolverGPU->GetUseFlag())
+		//	{
+		//		m_pSolverGPU->AddDensitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(0.10f, 0.10f, 0.10f, 0.0f));
+		//		m_pSolverGPU->AddVelocitySource(XMFLOAT4(2, 99, 2, 5.0f), XMFLOAT4(3.0f, -3.0f, 3.0f, 0.0f));
+		//		m_pSolverGPU->Solve();
+		//	}
 
-			// 初期化されていたら
-			if (m_pSolverGPU->GetInitFlag())
-			{
-				m_pSolverGPU->SetUse(TRUE);		  // 使用する
-				m_pSolverGPU->SetInitFlag(FALSE); // 初期化フラグOFF
+		//	// 初期化されていたら
+		//	if (m_pSolverGPU->GetInitFlag())
+		//	{
+		//		m_pSolverGPU->SetUse(TRUE);		  // 使用する
+		//		m_pSolverGPU->SetInitFlag(FALSE); // 初期化フラグOFF
 
-			}
+		//	}
 
-		}
+		//}
 
+	}
+
+	if (m_pSlot->GetHousing()->GetHit())
+	{
+		m_pSlot->GetHousing()->SetHit(FALSE);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_rainbowHit, texType_zoomIn_Update, m_telopPos5, MAX_HOUSING_CLEAR_WAIT / 60);
 	}
 
 	if (m_pSlot->GetHousing()->GetTransition())
@@ -161,27 +172,28 @@ void BonusSlotManager::Update()
 	   this->GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
-		m_pSlot->GetHousing()->SetEnt(FALSE);
 		m_pSlot->GetHousing()->ResetColor();
+		m_pSlot->GetHousing()->SetEnt(FALSE);
 		m_isTimeMove = FALSE;
 		m_countDownCount = 0;
+		m_timeUpWait = 0;
 
 		this->GetGod()->GetSlotManager()->SetRainbowMode();
 
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			trandition_white, texType_fade, m_telopPos3, 4);
+			trandition_white, texType_fade, m_telopPos3, TRANSITION_TIME_SEC);
 
-		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_bonusChance, texType_zoomIn_Update, m_telopPos, 4);
+		//this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+		//	telop_bonusChance, texType_zoomIn_Update, m_telopPos, 4);
 
 		// 炎関連
 		// 初期化していなかったら
-		if (!m_pSolverGPU->GetInitFlag())
-		{
-			m_pSolverGPU->SetUse(FALSE);	 // 使用しない
-			m_pSolverGPU->Clear(GetDevice());// 初期化
-			m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
-		}
+		//if (!m_pSolverGPU->GetInitFlag())
+		//{
+		//	m_pSolverGPU->SetUse(FALSE);	 // 使用しない
+		//	m_pSolverGPU->Clear(GetDevice());// 初期化
+		//	m_pSolverGPU->SetInitFlag(TRUE); //　初期化した
+		//}
 
 	}
 
@@ -192,11 +204,13 @@ void BonusSlotManager::Update()
 
 void BonusSlotManager::Draw()
 {
+	m_pBG->Draw();
 	m_pSlot->Draw();
 	m_timer->Draw();
+	m_pGuidance->Draw();
 
 	// 炎描画
-	m_pSolverGPU->DrawFluid();
+	//m_pSolverGPU->DrawFluid();
 
 	// シェーダーを戻す
 	SetShader(SHADER_MODE_PHONG);

@@ -17,7 +17,7 @@ private:
 	float m_colorTime = 0.0f;
 	int m_resultNum = MAX_COLOR;
 	int m_colorType = 0;
-	float m_time = 1.0f;
+	float m_time = 0.0f;
 	int m_nowSeason = 0;
 	XMFLOAT4 m_resetColorTemp;
 

@@ -132,7 +132,7 @@ void Slot::Update(void)
 	// 回す
 	if ((GetKeyboardTrigger(DIK_RETURN)))
 	{
-		PlaySound(SOUND_LABEL_SE_se_slot_lever_01); // スロットを動かす
+		PlaySound(SOUND_LABEL_SE_se_slot_lever_nomal); // スロットを動かす
 		pDrumR->SpinStart();
 		if(!m_move) m_count = 0;
 		m_move = true;

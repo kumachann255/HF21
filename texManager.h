@@ -16,6 +16,7 @@ enum {
 	telop_1,
 	telop_2,
 	telop_3,
+	telop_start,
 
 	telop_evolution,
 	telop_wing,
@@ -23,6 +24,7 @@ enum {
 	telop_thigh,
 
 	telop_guidance,
+	telop_rainbowHit,
 	telop_rainbowTime,
 	telop_rainbowEnd,
 	telop_rainbowTimeMakure,
@@ -71,6 +73,7 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_num_1.png",
 	"data/TEXTURE/tex_num_2.png",
 	"data/TEXTURE/tex_num_3.png",
+	"data/TEXTURE/tex_start.png",
 
 	"data/TEXTURE/tex_evolution.png",
 	"data/TEXTURE/tex_chicken_wings_false.png",
@@ -78,6 +81,7 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_chicken_thigh_false.png",
 
 	"data/TEXTURE/tex_guidance.png",
+	"data/TEXTURE/tex_bonusHit.png",
 	"data/TEXTURE/tex_rainbowTime.png",
 	"data/TEXTURE/tex_rainbowEnd.png",
 	"data/TEXTURE/tex_rainbowTimeMakure.png",

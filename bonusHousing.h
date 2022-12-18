@@ -5,7 +5,7 @@
 #include "housing.h"
 
 #define MAX_HOUSING_MOVE	(3)	
-#define MAX_HOUSING_CLEAR_WAIT	(180)
+#define MAX_HOUSING_CLEAR_WAIT	(8 * 60)
 #define HOUSING_COLOR_SPEED	(0.01f)
 #define MAX_HOUSING_COLOR_SPEED	(0.1f)
 
@@ -30,6 +30,7 @@ private:
 	int m_waitTime = 0;
 
 	BOOL m_isTimeStop = FALSE;
+	BOOL m_isHit = FALSE;
 	BOOL m_isTransition = FALSE;
 
 public:
@@ -53,6 +54,9 @@ public:
 
 	void SetTransition(BOOL data) { m_isTransition = data; };
 	BOOL GetTransition(void) { return m_isTransition; };
+
+	void SetHit(BOOL data) { m_isHit = data; };
+	BOOL GetHit(void) { return m_isHit; };
 
 	int GetResultNum(void) { return m_resultNum; };
 };

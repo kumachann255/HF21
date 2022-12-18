@@ -4,7 +4,7 @@
 Room::Room()
 {
 	m_prefab = new Prefab;
-	m_prefab->SetModel("model_trainingroom_all.obj");
+	m_prefab->SetModel("model_trainingroom_item02.obj");
 	//m_prefab->SetModel("cone.obj");
 	
 	XMFLOAT3 pos = { 0.0f, -100.0f, 0.0f };

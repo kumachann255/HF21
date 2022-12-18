@@ -142,6 +142,9 @@ void UIObject::Update(void)
 		UpdateNomal();
 		break;
 
+	case texType_spring:
+		UpdateSpring();
+
 	case texType_fade:
 		UpdateFade();
 		break;
@@ -175,10 +178,6 @@ void UIObject::Update(void)
 
 	case texType_line1:
 		UpdateLine(concentration_line1);
-		break;
-
-	case texType_spring:
-		UpdateSpring();
 		break;
 	}
 }
@@ -351,7 +350,7 @@ void UIObject::UpdateZoomIn(void)
 			m_isUse = FALSE;
 		}
 	}
-	else
+	else if(m_timeCnt == UI_ACTION_TIME)
 	{
 		m_fWidth = m_fWidthMax;
 		m_fHeight = m_fHeightMax;
@@ -371,8 +370,8 @@ void UIObject::UpdateZoomInOut(void)
 	{
 		if (m_timeCnt % UI_UPDATE_SWITCH == 0) m_updateVec *= -1.0f;
 
-		m_fWidth += m_updateVec * (UI_UPDATE_ZOOM_SPEED * m_fWidthMax);
-		m_fHeight += m_updateVec * (UI_UPDATE_ZOOM_SPEED * m_fHeightMax);
+		m_fWidth += m_updateVec * (UI_UPDATE_ZOOM_SPEED * (m_fWidthMax));
+		m_fHeight += m_updateVec * (UI_UPDATE_ZOOM_SPEED * (m_fHeightMax));
 	}
 }
 

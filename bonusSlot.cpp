@@ -59,12 +59,12 @@ void BonusSlot::Update(void)
 			pDrumR->Stop();
 			m_move = false;
 
-			PlaySound(SOUND_LABEL_SE_se_mens_ou);
+			PlaySound(SOUND_LABEL_SE_se_slot_stop_bonus);
 		}
 		else if (pDrumC->GetMove())
 		{
 			pDrumC->Stop();
-			PlaySound(SOUND_LABEL_SE_se_mens_ou);
+			PlaySound(SOUND_LABEL_SE_se_slot_stop_bonus);
 		}
 		else if (pDrumL->GetMove())
 		{
@@ -100,7 +100,7 @@ void BonusSlot::Update(void)
 				}
 			}
 
-			PlaySound(SOUND_LABEL_SE_se_mens_ou);
+			PlaySound(SOUND_LABEL_SE_se_slot_stop_bonus);
 		}
 	}
 
@@ -110,7 +110,7 @@ void BonusSlot::Update(void)
 		pDrumR->SpinStart();
 		if (!m_move) m_count = 0;
 		m_move = true;
-		PlaySound(SOUND_LABEL_SE_se_slot_lever_01);
+		PlaySound(SOUND_LABEL_SE_se_slot_lever_bonus);
 	}
 
 	if (m_move)

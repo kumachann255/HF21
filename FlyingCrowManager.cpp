@@ -24,10 +24,11 @@ FlyingCrowManager::FlyingCrowManager(God *god):GodObject(god)
 
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
-		m_pFlyingCrow[i].GetPrefab()->SetModel("model_crow.obj");
 		m_pFlyingCrow[i].SetIsUse(FALSE);
 	}
 
+	m_pFlyingCrow[0].CreateCrow();
+	m_pFlyingCrow[0].GetPrefab()->SetModel("model_crow.obj");
 }
 
 //=============================================================================
@@ -103,15 +104,31 @@ void FlyingCrowManager::Update(void)
 //=============================================================================
 void FlyingCrowManager::Draw(void)
 {
+	SetDepthEnable(TRUE);
+	// ラスタライザ設定
+	SetCullingMode(CULL_MODE_NONE);
+	//SetBlendState(BLEND_MODE_ADD);
+
 	// 空飛ぶカラスの描画処理
 	for (int i = 0; i < CROWS_MAX; i++)
 	{
 		if (m_pFlyingCrow[i].GetIsUse())
 		{
-			m_pFlyingCrow[i].Draw();
+			// ワールドマトリクス生成
+			XMMATRIX mtxWorld = GetWorldMatrix(m_pFlyingCrow[i].GetPos(), m_pFlyingCrow[i].GetRot(), m_pFlyingCrow[i].GetScl());
+
+			// プレハブ(ローカル座標)にワールドマトリクスをかける
+			mtxWorld = XMMatrixMultiply(m_pFlyingCrow[0].GetPrefab()->GetMtxWorld(), mtxWorld);
+
+			SetWorldMatrix(&mtxWorld);	// シェーダーにデータを送る
+
+			// 0番目のモデルに色データを毎回上書き
+			m_pFlyingCrow[0].GetPrefab()->SetColor(m_pFlyingCrow[i].GetColor());
+			
+			// 描画するモデルは0番目のモデルを元に描画
+			DrawModel(m_pFlyingCrow[0].GetPrefab()->GetModel());
 		}
 	}
-
 }
 
 //=============================================================================
@@ -155,7 +172,6 @@ void FlyingCrowManager::SetShotCrows(XMFLOAT4 color ,int colorType, int num)
 			m_pFlyingCrow[i].SetColor(color);
 			m_pFlyingCrow[i].SetSpeed(speed);
 			m_pFlyingCrow[i].SetTime(0.0f);
-			m_pFlyingCrow[i].GetPrefab()->SetColor(color);
 
 			count++;
 
@@ -208,7 +224,7 @@ void FlyingCrowManager::SetRainbowColor(int i)
 
 	}
 
-	m_pFlyingCrow[i].GetPrefab()->SetColor(color);
+	m_pFlyingCrow[i].SetColor(color);
 }
 
 

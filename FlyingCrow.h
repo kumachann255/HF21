@@ -27,12 +27,13 @@ private:
 
 	XMFLOAT2 m_offset = { 0.0f, 0.0f };
 
+	BOOL m_isModelLoad = FALSE;
+
 public:
-	FlyingCrow() { 
-		m_prefab = new Prefab;
+	FlyingCrow() {
 		m_offset.x = (float)(rand() % 10 - 5);
 		m_offset.y = (float)(rand() % 15 - 5) + 40.0f;
-	}
+	};
 	FlyingCrow(XMFLOAT4 color, XMFLOAT3 targetPos) : m_color(color) , m_targetPos(targetPos) {
 		// Ç±Ç±Ç≈êßå‰ì_ÇÃÉâÉìÉ_ÉÄâªÇçsÇ§
 		//m_controlPosA.x += (float)(rand() % RAND_CONTROLPOS_X_MAX - RAND_CONTROLPOS_X_MAX);
@@ -43,7 +44,12 @@ public:
 		m_prefab = new Prefab;
 	}
 
-	~FlyingCrow() { delete m_prefab; }
+	~FlyingCrow() { if(m_isModelLoad) delete m_prefab; }
+
+	void CreateCrow(void) {
+		m_isModelLoad = TRUE;
+		m_prefab = new Prefab;
+	}
 
 	void SetColor(XMFLOAT4 color) { m_color = color; }
 	void SetTargetPos(XMFLOAT3 targetPos) { m_targetPos = targetPos; }
