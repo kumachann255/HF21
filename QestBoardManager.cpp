@@ -50,7 +50,6 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 	}
 
 	m_pGarbageIcon = new GarbageIcon();
-	m_pCalendarNum = new CalendarNum();
 
 	XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
 	pQuestBoard = new QuestBoard(MODEL_NAME01, m_StartPos, rot);
@@ -80,7 +79,6 @@ QuestBoardManager::~QuestBoardManager()
 	}
 
 	delete m_pGarbageIcon;
-	delete m_pCalendarNum;
 	delete pQuestBoard;
 }
 
@@ -173,8 +171,6 @@ void QuestBoardManager::Update(void)
 	m_pGarbageIcon->SetIconNum(m_MissionPoint);
 	m_pGarbageIcon->Update();
 
-	m_pCalendarNum->Update();
-
 	// 消す処理	(時間切れ)
 	if (!BoardArray.empty()){
 		// 210度回転したら消す
@@ -195,11 +191,6 @@ void QuestBoardManager::Update(void)
 		BoardArray[i]->Update();
 
 	}
-
-//#ifdef _DEBUG	// デバッグ情報を表示する
-//	PrintDebugProc("ローラーの回転角度 %f \n", rotX);
-//	PrintDebugProc("ローラーの回転角度/45.0f =  %d \n", AppearRot);
-//#endif
 
 }
 
@@ -258,7 +249,6 @@ void QuestBoardManager::Draw(void)
 	}
 
 	m_pGarbageIcon->Draw();
-	m_pCalendarNum->Draw();
 }
 
 int QuestBoardManager::GetSerchBoard(int colorType)

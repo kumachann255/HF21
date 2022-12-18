@@ -38,8 +38,6 @@ private:
 	GarbageIcon *m_pGarbageIcon = nullptr;
 	int m_MissionPoint = MAX_MISSION_POINT;
 
-	CalendarNum *m_pCalendarNum = nullptr;
-
 	// ランプのテクスチャー
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };
 
@@ -48,7 +46,6 @@ public:
 	~QuestBoardManager();
 
 	QuestBoardArray *GetBoardArray(void) { return &BoardArray; }
-	CalendarNum *GetCalendarNum(void) { return m_pCalendarNum; };
 
 	int GetRampColor(void) { BoardArray.size(); }
 

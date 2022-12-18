@@ -57,6 +57,7 @@ God::God()
 
 	m_pAnimationManager = new AnimationManager(this);
 	m_pRollerManager = new RollerManager(this);
+	m_pCalendarNum = new CalendarNum(this);
 
 }
 
@@ -78,6 +79,8 @@ God::~God()
 	delete m_pAnimationManager;
 	delete m_pTexManager;
 	delete m_pRollerManager;
+	delete m_pCalendarNum;
+
 }
 
 //=============================================================================

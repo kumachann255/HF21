@@ -24,6 +24,7 @@
 #include "texManager.h"
 #include "UI.h"
 #include "particle.h"
+#include "calendar_num.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -69,6 +70,9 @@ void Stage_01::Update(void)
 
 	// パーティクル更新
 	UpdateParticle();
+
+	// カレンダー更新
+	GetGod()->GetCalendarNum()->Update();
 
 	GetGod()->GetSkyManager()->Update();
 	GetGod()->GetRollerManager()->Update();
@@ -165,7 +169,7 @@ void Stage_01::Draw(void)
 		SetLightPos(0, lightPos2);
 
 
-		GetGod()->GetSkyManager()->Draw(SKYBG_MODE_Aozora);
+		GetGod()->GetSkyManager()->Draw();
 
 		SetShader(SHADER_MODE_DEFAULT);
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
@@ -176,6 +180,10 @@ void Stage_01::Draw(void)
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
 		DrawParticle();
 		GetGod()->GetQuestBoardManager()->Draw();
+
+		// カレンダー描画
+		GetGod()->GetCalendarNum()->Draw();
+
 
 	//右上画面===================================
 
