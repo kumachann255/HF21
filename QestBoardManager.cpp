@@ -51,6 +51,10 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 
 	m_pGarbageIcon = new GarbageIcon();
 	m_pCalendarNum = new CalendarNum();
+
+	XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
+	pQuestBoard = new QuestBoard(MODEL_NAME01, m_StartPos, rot);
+
 }
 
 //=============================================================================
@@ -58,14 +62,12 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 //=============================================================================
 QuestBoardManager::~QuestBoardManager()
 {
-	const QuestBoardArray::iterator itEnd = BoardArray.end();
-
-	for (QuestBoardArray::iterator it = BoardArray.begin(); it != itEnd; ++it) {
-		delete *it;
-	}
-
 	BoardArray.clear();
 
+	for (size_t i = 0; i < BoardArray.size(); i++)
+	{
+		delete BoardArray[i];
+	}
 
 	// ランプテクスチャーの開放
 	for (int i = 0; i < LAMP_TYPE_MAX; i++)
@@ -79,6 +81,7 @@ QuestBoardManager::~QuestBoardManager()
 
 	delete m_pGarbageIcon;
 	delete m_pCalendarNum;
+	delete pQuestBoard;
 }
 
 //=============================================================================
@@ -103,13 +106,9 @@ void QuestBoardManager::Update(void)
 
 		// 動的に生成
 		XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
-		BoardArray.push_back(new QuestBoard(MODEL_NAME01, m_StartPos , rot));
+		BoardArray.push_back(new QuestBoard( m_StartPos , rot));
 
 		PlaySound(SOUND_LABEL_SE_se_quest_appear); // クエスト出現
-
-		//=============================================
-		/*ここにサウンド入れて!!クエストボード出現音*/
-		//=============================================
 
 		 //ランプのテクスチャーをセット
 		Lamp *pLamp = BoardArray.back()->GetLampManager()->GetLamp();
@@ -123,6 +122,16 @@ void QuestBoardManager::Update(void)
 			pLamp[i].GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[colorId];
 		}
 	}
+
+	// モデルをセット
+	for (int i = 0; i < BoardArray.size(); i++)
+	{
+		if (BoardArray.empty()) return;
+
+		DX11_MODEL model = pQuestBoard->GetPrefab()->GetModelDate();
+		BoardArray[i]->GetPrefab()->SetModelDate(model);
+	}
+
 
 	// 消す処理	(成功)
 	if (!BoardArray.empty()) {
@@ -157,10 +166,6 @@ void QuestBoardManager::Update(void)
 			}
 
 			m_MissionPoint--;
-
-			//=============================================
-			/*ここにサウンド入れて!!クエストボード消滅音(成功)*/
-			//=============================================
 
 		}
 	}
@@ -207,21 +212,21 @@ void QuestBoardManager::Draw(void)
 	// ワールドマトリックスの初期化
 	XMMATRIX mtxWorld = XMMatrixIdentity();
 
-	const QuestBoardArray::iterator itEnd = BoardArray.end();
-
-	for (QuestBoardArray::iterator board = BoardArray.begin(); board != itEnd; ++board)
+	for (size_t i = 0; i < BoardArray.size(); i++)
 	{
+		if (BoardArray.empty()) return;
+
 		XMFLOAT3 rot = { 0.0f, 0.0f, 0.0f };
-		rot.x = (*board)->GetRot().x;	// 自分自身の回転(0度から始めたいから)
+		rot.x = BoardArray[i]->GetRot().x;	// 自分自身の回転(0度から始めたいから)
 		rot.y = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().y;
 		rot.z = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().z;
 
 
-//================================
-// ボードの描画(ローラーが親)
-//================================
+		//================================
+		// ボードの描画(ローラーが親)
+		//================================
 
-		// 親（ローラー）のワールドマトリクス生成
+				// 親（ローラー）のワールドマトリクス生成
 		mtxWorld = GetWorldMatrix(
 			GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetPos(),
 			rot,
@@ -229,17 +234,17 @@ void QuestBoardManager::Draw(void)
 			XMFLOAT3(1.0f, 1.0f, 1.0f));
 
 		// ボードの描画
-		(*board)->Draw(mtxWorld);
+		BoardArray[i]->Draw(mtxWorld);
 
-//================================
-// ランプの描画処理(ボードが親)
-//================================
+		//================================
+		// ランプの描画処理(ボードが親)
+		//================================
 
-		// 親(ボード)のワールドマトリクス生成
+				// 親(ボード)のワールドマトリクス生成
 		mtxWorld = GetWorldMatrix(
-			(*board)->GetPos(),
+			BoardArray[i]->GetPos(),
 			rot,
-			XMFLOAT3(1.0f,1.0f,1.0f));
+			XMFLOAT3(1.0f, 1.0f, 1.0f));
 
 		// フォンシェーダーへ変更
 		//SetShader(SHADER_MODE_PHONG);
@@ -249,7 +254,7 @@ void QuestBoardManager::Draw(void)
 
 
 		// ランプの描画
-		(*board)->GetLampManager()->Draw(mtxWorld);
+		BoardArray[i]->GetLampManager()->Draw(mtxWorld);
 	}
 
 	m_pGarbageIcon->Draw();
@@ -298,49 +303,3 @@ int QuestBoardManager::GetSerchBoardRainbow(void)
 
 	return LAMP_TYPE_NONE;
 }
-
-
-
-//=============================================================================
-// <vector>のfor文記述方式
-//=============================================================================
-/*
-
-std::vector<QuestBoard>::iterator itr;     // vector<QuestBoard> の要素へのイテレータ
-std::vector<QuestBoard>::iterator itr = BoardArray.begin();   // 最初の要素を指すイテレータ
-auto itr = BoardArray.begin();   // 最初の要素を指すイテレータ
-
-[1]
-for (auto itr = BoardArray.begin(); itr != BoardArray.end(); ++itr) 
-{
-
-	(*itr).Draw();
-
-}
-
-[2]
-for (int i=0; i < BoardArray.size(); i++)
-{
-	BoardArray[i].Draw();
-
-}
-
-[3]
-for (QuestBoard& Board : BoardArray)
-{
-	Board.Draw();
-}																		
-
-*/
-
-//=============================================================================
-// <vector>の使い方
-//=============================================================================
-//末尾の要素を取り除くには、pop_back関数を使います。
-//back関数を使うと、末尾の要素にアクセスすることができます
-//任意の要素を取り除くには、erase関数を使います。
-// v.erase(std::cbegin(v) + 1);で要素１を削除
-
-//【連続している複数の要素をまとめて取り除く】
-//終了位置をあらわすには「１つ後ろ」を指すよう
-//v.erase(std::cbegin(v), std::cbegin(v) + 2);にすることに注意してください。0と1を削除

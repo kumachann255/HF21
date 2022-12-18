@@ -17,8 +17,8 @@ private:
 	XMFLOAT3 m_rot = { 0.0f, 0.0f, 0.0f };
 
 public:
-	QuestBoard() {}
-	QuestBoard(const std::string name , const XMFLOAT3 pos, const XMFLOAT3 rot);
+	QuestBoard(XMFLOAT3 pos, XMFLOAT3 rot);
+	QuestBoard(const std::string name, const XMFLOAT3 pos, const XMFLOAT3 rot);
 	~QuestBoard();
 
 	// ÉÅÉìÉoä÷êî
