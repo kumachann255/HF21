@@ -157,6 +157,13 @@ void BonusSlotManager::Update()
 		m_pSlot->GetHousing()->SetHit(FALSE);
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 			telop_rainbowHit, texType_zoomIn_Update, m_telopPos5, MAX_HOUSING_CLEAR_WAIT / 60);
+
+		m_pSlot->GetHousing()->SetHit(FALSE);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			hit_effect_red, texType_spin_clockwise, m_telopPos5, MAX_HOUSING_CLEAR_WAIT / 60);
+		m_pSlot->GetHousing()->SetHit(FALSE);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			hit_effect_orange, texType_spin_anticlockwise, m_telopPos5, MAX_HOUSING_CLEAR_WAIT / 60);
 	}
 
 	if (m_pSlot->GetHousing()->GetTransition())

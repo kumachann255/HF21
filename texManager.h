@@ -4,7 +4,9 @@
 #include "UIManager.h"
 
 enum {
-	trandition_white,
+	hit_effect_red,
+	hit_effect_orange,
+
 	ui_waku_full_spring,
 	ui_waku_full_summer,
 	ui_waku_full_autumn,
@@ -29,6 +31,7 @@ enum {
 	telop_rainbowEnd,
 	telop_rainbowTimeMakure,
 
+	trandition_white,
 	trandition_whiteFull,
 	trandition_crow,
 
@@ -55,13 +58,17 @@ enum {
 	texType_line0,
 	texType_line1,
 	texType_spring,
+	texType_spin_clockwise,
+	texType_spin_anticlockwise
 };
 
 
 #define TELOP_TEXTURE_MAX	(telop_max)
 
 static char *g_TexturName[TELOP_TEXTURE_MAX] = {
-	"data/TEXTURE/tex_whiteBox.png",
+	"data/TEXTURE/tex_hit_effect_red.png",
+	"data/TEXTURE/tex_hit_effect_orange.png",
+
 	"data/TEXTURE/tex_waku_full_spring.png",
 	"data/TEXTURE/tex_waku_full_summer.png",
 	"data/TEXTURE/tex_waku_full_autumn.png",
@@ -87,10 +94,13 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_rainbowTimeMakure.png",
 
 	"data/TEXTURE/tex_whiteBox.png",
+	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_transition_crow.png",
 
 	"data/TEXTURE/tex_concentrationLine0.png",
 	"data/TEXTURE/tex_concentrationLine1.png",
+
+
 };
 
 

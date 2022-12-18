@@ -29,6 +29,8 @@
 #define UI_UPDATE_SPRING_MAX_SPEED	(5.0f)
 #define UI_UPDATE_SPRING_DOWN_SPEED	(0.2f)
 
+#define UI_UPDATE_SPIN_MAX_SPEED	(0.01f)
+
 
 class UITexData
 {
@@ -130,4 +132,5 @@ public:
 	void UpdateZoomInOut(void);
 	void UpdateLine(int type);
 	void UpdateSpring(void);
+	void UpdateSpin(int type);
 };
