@@ -179,6 +179,14 @@ void UIObject::Update(void)
 	case texType_line1:
 		UpdateLine(concentration_line1);
 		break;
+
+	case texType_spin_clockwise:
+		UpdateSpin(texType_spin_clockwise);
+		break;
+
+	case texType_spin_anticlockwise:
+		UpdateSpin(texType_spin_anticlockwise);
+		break;
 	}
 }
 
@@ -405,6 +413,20 @@ void UIObject::UpdateSpring(void)
 	m_springSpeed += UI_UPDATE_SPRING_DOWN_SPEED;
 	m_pos.y += m_springSpeed;
 
+}
+
+void UIObject::UpdateSpin(int type)
+{
+	switch (type)
+	{
+	case texType_spin_clockwise:
+		m_rot += UI_UPDATE_SPIN_MAX_SPEED;
+		break;
+
+	case texType_spin_anticlockwise:
+		m_rot -= UI_UPDATE_SPIN_MAX_SPEED;
+		break;
+	}
 }
 
 

@@ -13,7 +13,9 @@ TexManager::TexManager(God * god):GodObject(god)
 	float h0 = 100.0f;
 	int time0 = 0;
 
-	m_pUiManager->Register(new UIObject(pos0, 432.0f, 380.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 1300.0f, 1300.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 1300.0f, 1300.0f, time0));
+
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
@@ -38,11 +40,12 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos0, 600.0f, 140.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 450.0f, 50.0f, time0));
 
-	m_pUiManager->Register(new UIObject(pos0, 960, 540.0f, time0));
-	m_pUiManager->Register(new UIObject(pos0, 2700, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 432.0f, 380.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 960.0f, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos0, 2700.0f, 540.0f, time0));
 
-	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
-	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960.0f, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960.0f, 540.0f, time0));
 
 	for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
 	{
