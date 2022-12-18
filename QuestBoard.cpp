@@ -19,6 +19,25 @@
 //=============================================================================
 // コンストラクター
 //=============================================================================
+QuestBoard::QuestBoard(XMFLOAT3 pos, XMFLOAT3 rot)
+{
+	pLampManager = new LampManager;
+	m_prefab = new Prefab;
+
+	XMFLOAT3 scl = { BOARD_SCL, BOARD_SCL, BOARD_SCL };
+
+	m_prefab->SetPos(pos);
+	m_prefab->SetRot(rot);
+	m_prefab->SetScl(scl);
+
+	SetIsUse(TRUE);
+
+}
+
+//=============================================================================
+// 引数付きコンストラクター
+
+//=============================================================================
 QuestBoard::QuestBoard(std::string name , XMFLOAT3 pos, XMFLOAT3 rot)
 {
 

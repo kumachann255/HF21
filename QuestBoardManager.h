@@ -28,6 +28,7 @@ class QuestBoardManager :public GodObject
 {
 private:
 	QuestBoardArray BoardArray;
+	QuestBoard *pQuestBoard = nullptr;
 	XMFLOAT3 m_StartPos{ 0.0f ,0.0f,0.0f };
 	int m_MakeCnt = 0;		// 出現カウント
 	int m_colorId[5][3];	// ボード５個分
