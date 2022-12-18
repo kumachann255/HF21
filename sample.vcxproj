@@ -137,6 +137,7 @@
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="bonusBGh.h" />
     <ClInclude Include="bonusDrumh.h" />
+    <ClInclude Include="bonusGuidanceY.h" />
     <ClInclude Include="bonusHousing.h" />
     <ClInclude Include="bonusSlot.h" />
     <ClInclude Include="bonusSlotManager.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="bonusBGh.cpp" />
     <ClCompile Include="bonusDrumh.cpp" />
+    <ClCompile Include="bonusGuidanceY.cpp" />
     <ClCompile Include="bonusHousing.cpp" />
     <ClCompile Include="bonusSlot.cpp" />
     <ClCompile Include="bonusSlotManager.cpp" />

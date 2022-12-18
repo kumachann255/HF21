@@ -77,19 +77,19 @@ void TrainingCrowSquat::Update()
 			if (m_waitCount == 1)
 			{
 				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-					telop_bonusChance, texType_zoomIn_rot, XMFLOAT3(480.0f, 400.0f, 0.0f), 5);
+					telop_bonusChance, texType_zoomIn_Update, XMFLOAT3(480.0f, 400.0f, 0.0f), 6);
 
 				PlaySound(SOUND_LABEL_SE_se_zyan);
 			}
 
-			if (m_waitCount == WAIT_SQUAT_TIME * 4 - TRANSITION_HALF_TIME)
+			if (m_waitCount == WAIT_SQUAT_TIME * 6 - TRANSITION_HALF_TIME)
 			{
 				this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-					trandition_crow, texType_tansition, XMFLOAT3( -TRANSITION_WIDTH, 270.0f, 0.0f), 4);
+					trandition_crow, texType_tansition, XMFLOAT3( -TRANSITION_WIDTH, 270.0f, 0.0f), TRANSITION_TIME_SEC);
 				PlaySound(SOUND_LABEL_SE_se_crow_25s);
 			}
 
-			if (m_waitCount > WAIT_SQUAT_TIME * 4)
+			if (m_waitCount > WAIT_SQUAT_TIME * 6)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetIsSpeedUp(FALSE);
 				this->GetGod()->GetTrainingCrowManager()->SetBonusStart();

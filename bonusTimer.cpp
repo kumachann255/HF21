@@ -31,7 +31,7 @@ BonusTimer::BonusTimer()
 	m_Use = TRUE;
 	m_w = BONUS_TIMER_TEXTURE_WIDTH;
 	m_h = BONUS_TIMER_TEXTURE_HEIGHT;
-	m_Pos = { 600.0f, 130.0f, 0.0f };
+	m_Pos = { 575.0f, 100.0f, 0.0f };
 	m_TexNo = 0;
 
 	m_time = 0;	// スコアの初期化
@@ -86,7 +86,7 @@ void BonusTimer::Draw(void)
 
 		// スコアの位置やテクスチャー座標を反映
 		float px = m_Pos.x - m_w * i;	// スコアの表示位置X
-		if (i >= 2) px -= 20.0f;
+		if (i >= 2) px -= 15.0f;
 
 		float py = m_Pos.y;			// スコアの表示位置Y
 		float pw = m_w;				// スコアの表示幅
@@ -113,7 +113,7 @@ void BonusTimer::Draw(void)
 	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[1]);
 
 	// １枚のポリゴンの頂点とテクスチャ座標を設定
-	SetSpriteColor(m_VertexBuffer, 470.0f, 195.0f, 30.0f, 30.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+	SetSpriteColor(m_VertexBuffer, 480.0f, 155.0f, 20.0f, 20.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	// ポリゴン描画

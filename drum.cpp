@@ -202,20 +202,6 @@ void UpdateDrum(void)
 		}
 	}
 
-	// 動かす
-	if (GetKeyboardTrigger(DIK_K))
-	{
-
-		PlaySound(SOUND_LABEL_SE_se_slot_lever_01);				// スロットを動かす
-
-		for (int i = 0; i < 3; i++)
-		{
-			drumMove[i] = true;
-		}
-
-		//g_Color = { 0.2f,0.2f,0.2f,1.0f };
-	}
-
 	if (drumMove[0]) g_count++;
 	else g_count = 0;
 

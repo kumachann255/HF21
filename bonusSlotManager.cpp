@@ -14,6 +14,7 @@ BonusSlotManager::BonusSlotManager(God * god) :GodObject(god)
 	m_pSlot = new BonusSlot();
 	m_timer = new BonusTimer();
 	m_pBG = new BonusBG();
+	m_pGuidance = new BonusGuidance();
 
 	////‰Š‰Šú‰»
 	//{
@@ -39,6 +40,7 @@ void BonusSlotManager::Update()
 	{
 		m_pSlot->Update();
 		m_pBG->Update();
+		m_pGuidance->Update();
 
 		m_countDownCount++;
 		if (m_countDownCount == BONUS_COUNTDOWN_START)
@@ -46,7 +48,7 @@ void BonusSlotManager::Update()
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
 				telop_3, texType_cutIn_up, m_telopPos, 2);
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_guidance, texType_cutIn_right, m_telopPos2, 10);
+				telop_guidance, texType_cutIn_right, m_telopPos2, 7);
 			
 			StopSound(SOUND_LABEL_SE_se_crow_25s);
 
@@ -62,7 +64,7 @@ void BonusSlotManager::Update()
 		else if (m_countDownCount == BONUS_COUNTDOWN_START + BONUS_COUNTDOWN_DESTANCE * 3)
 		{
 			this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_3, texType_normal, m_telopPos5, 2);
+				telop_start, texType_normal, m_telopPos5, 1);
 			SetTime();
 		}
 
@@ -106,8 +108,8 @@ void BonusSlotManager::Update()
 			if (m_timeUpWait > MAX_TIMEUP_WAIT)
 			{
 				this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
-				m_pSlot->GetHousing()->SetEnt(FALSE);
 				m_pSlot->GetHousing()->ResetColor();
+				m_pSlot->GetHousing()->SetEnt(FALSE);
 				m_isTimeMove = FALSE;
 				m_countDownCount = 0;
 				m_timeUpWait = 0;
@@ -150,6 +152,13 @@ void BonusSlotManager::Update()
 
 	}
 
+	if (m_pSlot->GetHousing()->GetHit())
+	{
+		m_pSlot->GetHousing()->SetHit(FALSE);
+		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			telop_rainbowHit, texType_zoomIn_Update, m_telopPos5, MAX_HOUSING_CLEAR_WAIT / 60);
+	}
+
 	if (m_pSlot->GetHousing()->GetTransition())
 	{
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
@@ -163,18 +172,19 @@ void BonusSlotManager::Update()
 	   this->GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		this->GetGod()->GetTrainingCrowManager()->SetBonus(FALSE);
-		m_pSlot->GetHousing()->SetEnt(FALSE);
 		m_pSlot->GetHousing()->ResetColor();
+		m_pSlot->GetHousing()->SetEnt(FALSE);
 		m_isTimeMove = FALSE;
 		m_countDownCount = 0;
+		m_timeUpWait = 0;
 
 		this->GetGod()->GetSlotManager()->SetRainbowMode();
 
 		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			trandition_white, texType_fade, m_telopPos3, 4);
+			trandition_white, texType_fade, m_telopPos3, TRANSITION_TIME_SEC);
 
-		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_bonusChance, texType_zoomIn_Update, m_telopPos, 4);
+		//this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+		//	telop_bonusChance, texType_zoomIn_Update, m_telopPos, 4);
 
 		// ‰ŠŠÖ˜A
 		// ‰Šú‰»‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç
@@ -197,6 +207,7 @@ void BonusSlotManager::Draw()
 	m_pBG->Draw();
 	m_pSlot->Draw();
 	m_timer->Draw();
+	m_pGuidance->Draw();
 
 	// ‰Š•`‰æ
 	//m_pSolverGPU->DrawFluid();

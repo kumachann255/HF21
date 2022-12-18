@@ -108,7 +108,16 @@ void QuestBoardManager::Update(void)
 		XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
 		BoardArray.push_back(new QuestBoard( m_StartPos , rot));
 
-		PlaySound(SOUND_LABEL_SE_se_quest_appear); // クエスト出現
+		switch (rand() % 2)
+		{
+		case 0:
+			PlaySound(SOUND_LABEL_SE_se_quest_pop_0); // クエスト出現
+			break;
+
+		case 1:
+			PlaySound(SOUND_LABEL_SE_se_quest_pop_1); // クエスト出現
+			break;
+		}
 
 		 //ランプのテクスチャーをセット
 		Lamp *pLamp = BoardArray.back()->GetLampManager()->GetLamp();
@@ -146,7 +155,25 @@ void QuestBoardManager::Update(void)
 			!pLamp[2].GetIsUse() )
 		{
 			BoardArray.erase(std::cbegin(BoardArray));
-			PlaySound(SOUND_LABEL_SE_se_quest_clear); // クエスト達成
+
+			switch (rand() % 4)
+			{
+			case 0:
+				PlaySound(SOUND_LABEL_SE_se_mens_hihi); // クエスト達成
+				break;
+
+			case 1:
+				PlaySound(SOUND_LABEL_SE_se_mens_ou); // クエスト達成
+				break;
+
+			case 2:
+				PlaySound(SOUND_LABEL_SE_se_mens_yei); // クエスト達成
+				break;
+
+			case 3:
+				PlaySound(SOUND_LABEL_SE_se_women_ou); // クエスト達成
+				break;
+			}
 
 			if (!this->GetGod()->GetSlotManager()->GetRainbow())
 			{
@@ -276,6 +303,8 @@ int QuestBoardManager::GetSerchBoard(int colorType)
 			if ((lamp[p].GetColorTypeId() == colorType) && (lamp[p].GetIsUse()) && (!lamp[p].GetDelete()))
 			{
 				lamp[p].SetDelete(TRUE);
+				PlaySound(SOUND_LABEL_SE_se_lamp_clear);
+				
 				return i;
 			}
 		}

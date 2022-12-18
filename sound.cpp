@@ -45,10 +45,13 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/shot001.wav", 0 },		// ヒット音
 
 	{ (char*)"data/SE/se_slot_button_01.wav", 0 },	// スロットを止める
-	{ (char*)"data/SE/se_slot_lever_01.wav", 0 },	// スロットを動かす
+	{ (char*)"data/SE/se_drumStart1.wav", 0 },		// スロットを動かす
+	{ (char*)"data/SE/se_drumStart0.wav", 0 },		// スロットを動かす
 	{ (char*)"data/SE/se_crow_cry_01.wav", 0 },		// カラースの鳴き声
 	{ (char*)"data/SE/se_crow_flap_04.wav", 0 },	// カラース発射
-	{ (char*)"data/SE/se_quest_appear.wav", 0 },	// クエスト出現
+	{ (char*)"data/SE/se_gomiPop_0.wav", 0 },		// クエスト出現
+	{ (char*)"data/SE/se_gomiPop_1.wav", 0 },		// クエスト出現
+	{ (char*)"data/SE/se_lamp_clear.wav", 0 },		// クエスト達成
 	{ (char*)"data/SE/se_quest_clear.wav", 0 },		// クエスト達成
 	{ (char*)"data/SE/se_map_change.wav", 0 },		// マップ変化
 
@@ -72,10 +75,12 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/se_women_kya.wav", 0 },		// 女性の声
 
 	{ (char*)"data/SE/se_slot_stop.wav", 0 },		// スロットの止める音
+	{ (char*)"data/SE/se_bonusStop.wav", 0 },		// スロットの止める音
 
 	{ (char*)"data/SE/se_chance.wav", 0 },			// チャンス音
 	{ (char*)"data/SE/se_pkieeen.wav", 0 },			// ぴきーーん！
 	{ (char*)"data/SE/se_Roulette_high.wav", 0 },	// ちゃーーーじ！
+	{ (char*)"data/SE/se_hit.wav", 0 },				// 当たり音
 
 	{ (char*)"data/SE/se_spotlight.wav", 0 },			// スポットライト
 	{ (char*)"data/SE/se_syakin.wav", 0 },			// シャキーン！

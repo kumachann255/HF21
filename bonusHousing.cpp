@@ -142,6 +142,12 @@ void BonusHousing::Update()
 			m_waitTime++;
 		}
 
+		if (m_waitTime == 1)
+		{
+			m_isHit = TRUE;
+			PlaySound(SOUND_LABEL_SE_se_BonusHit);
+		}
+
 		if (m_waitTime == MAX_HOUSING_CLEAR_WAIT - TRANSITION_HALF_TIME)
 		{
 			m_isTransition = TRUE;

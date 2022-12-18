@@ -26,10 +26,13 @@ enum
 	SOUND_LABEL_SE_shot001,		// 
 
 	SOUND_LABEL_SE_se_slot_button_01,	// スロットを止める
-	SOUND_LABEL_SE_se_slot_lever_01,	// スロットを動かす
+	SOUND_LABEL_SE_se_slot_lever_nomal,	// スロットを動かす
+	SOUND_LABEL_SE_se_slot_lever_bonus,	// スロットを動かす
 	SOUND_LABEL_SE_se_crow_cry_01,		// カラースの鳴き声
 	SOUND_LABEL_SE_se_crow_flap_04,		// カラース発射
-	SOUND_LABEL_SE_se_quest_appear,		// クエスト出現
+	SOUND_LABEL_SE_se_quest_pop_0,		// クエスト出現
+	SOUND_LABEL_SE_se_quest_pop_1,		// クエスト出現
+	SOUND_LABEL_SE_se_lamp_clear,		// クエスト達成
 	SOUND_LABEL_SE_se_quest_clear,		// クエスト達成
 	SOUND_LABEL_SE_se_map_change,		// マップ変化
 
@@ -54,10 +57,12 @@ enum
 
 
 	SOUND_LABEL_SE_se_slot_stop,		// スロットの止める音
+	SOUND_LABEL_SE_se_slot_stop_bonus,	// スロットの止める音
 
-	SOUND_LABEL_SE_se_chance,		// スロットの止める音
-	SOUND_LABEL_SE_se_pkieeen,		// スロットの止める音
-	SOUND_LABEL_SE_se_Roulette_high,		// スロットの止める音
+	SOUND_LABEL_SE_se_chance,			// スロットの止める音
+	SOUND_LABEL_SE_se_pkieeen,			// ぴかーん！
+	SOUND_LABEL_SE_se_Roulette_high,	// スロットの止める音
+	SOUND_LABEL_SE_se_BonusHit,			// 当たり音
 
 	SOUND_LABEL_SE_se_spotlight,		// スポットライト
 	SOUND_LABEL_SE_se_syakin,			// シャキーン！
