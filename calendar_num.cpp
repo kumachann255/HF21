@@ -1,6 +1,6 @@
 #include "calendar_num.h"
 
-CalendarNum::CalendarNum()
+CalendarNum::CalendarNum(God *god) :GodObject(god)
 {
 	ID3D11Device *pDevice = GetDevice();
 
@@ -43,10 +43,35 @@ CalendarNum::~CalendarNum()
 
 void CalendarNum::Update()
 {
+	//if (m_month <= month_max) 
+	{
+		m_count += SOEED_CALENDAR;
+	}
+
+	// ŒŽ‚ðXV
+	if (m_count >= DIStANCE_CALENDAR)
+	{
+		AddMonth();
+		m_count = 0.0f;
+
+		if (m_month % 3 == 0)
+		{
+			m_swichfFlag = TRUE;
+
+		}
+	}
+	else
+	{
+		m_swichfFlag = FALSE;
+
+	}
+
 	if (m_uvStartY < m_month * DIStANCE_CALENDAR)
 	{
 		m_uvStartY += SOEED_CALENDAR;
 		//m_uvEndY += SOEED_CALENDAR;
+
+
 	}
 }
 

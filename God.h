@@ -10,7 +10,6 @@
 // マクロ定義
 //*****************************************************************************
 class SkyManager;
-//class Roller;
 class QuestBoardManager;
 class Slot;
 class FlyingCrowManager;
@@ -22,7 +21,7 @@ class BonusSlotManager;
 class AnimationManager;
 class TexManager;
 class RollerManager;
-
+class CalendarNum;
 
 enum SCENE_ID {
 	TITLE_ID,
@@ -42,7 +41,6 @@ private:
 
 	// 神に持たせる
 	 SkyManager *m_pSkymanager = nullptr;
-	 //Roller *m_pRoller = nullptr;
 	 QuestBoardManager *m_pQuestBoardManager = nullptr;
 	 //Slot *m_pSlot = nullptr;
 	 //FlyingCrowManager *m_pFlyingCrowManager = nullptr;
@@ -54,7 +52,7 @@ private:
 	 AnimationManager *m_pAnimationManager = nullptr;
 	 TexManager *m_pTexManager = nullptr;
 	 RollerManager *m_pRollerManager = nullptr;
-
+	 CalendarNum *m_pCalendarNum = nullptr;
 
 public:
 	God();
@@ -80,6 +78,7 @@ public:
 	TexManager *GetTexManager() { return m_pTexManager; }
 	AnimationManager *GetAnimationManager() { return m_pAnimationManager; }
 	RollerManager *GetRollerManager() { return m_pRollerManager; }
+	CalendarNum *GetCalendarNum() { return m_pCalendarNum; }
 };
 
 //*****************************************************************************

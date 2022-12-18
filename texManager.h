@@ -98,7 +98,7 @@ class TexManager : public GodObject
 {
 private:
 	UIManager *m_pUiManager = nullptr;
-	int m_wakuType = ui_waku_full_winter;
+	int m_wakuType = ui_waku_full_spring;
 
 public:
 	TexManager(God *god);

@@ -5,7 +5,7 @@
 #include "camera.h"
 #include "sprite.h"
 #include "UI.h"
-
+#include "GodObject.h"
 
 #define CALENDAR_TEXTURE_MAX		(2)		// テクスチャの数
 #define CALENDAR_TEXTURE_WIDTH		(120.0f)	// キャラサイズ
@@ -35,7 +35,7 @@ enum {
 };
 
 
-class CalendarNum
+class CalendarNum :public GodObject
 {
 private:
 	ID3D11Buffer				*m_VertexBuffer = nullptr;		// 頂点情報
@@ -52,14 +52,19 @@ private:
 	int m_month = month_4;
 	float m_uvStartY = 0.0f;
 	float m_uvEndY = 1.0f / MAX_CALENDAR_NUM;
-
+	float m_count = 0.0f;
+	BOOL m_swichfFlag = FALSE;
 
 public:
-	CalendarNum();
+	CalendarNum(God *god);
 	~CalendarNum();
 
 	void Update();
 	void Draw();
 
-	void AddMonth(void) { m_month = (m_month + 1) % month_max; };
+	void AddMonth(void) { m_month = (m_month + 1) % month_max; }
+	int GetMonth(void) { return m_month; }
+	BOOL GetSwichfFlag(void) { return m_swichfFlag; }
+	float GetCount(void) { return m_count; }
+
 };

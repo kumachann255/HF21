@@ -5,6 +5,9 @@
 #include "texManager.h"
 #include "QuestBoardManager.h"
 #include "slotManager.h"
+#include "calendar_num.h"
+#include "debugproc.h"
+#include "SkyManager.h"
 
 #define	SWICH_TIME		(30)
 #define	CALENDAR_SWITCH_TIME		(SWICH_TIME / 3 * 60)
@@ -31,6 +34,7 @@ RollerManager::RollerManager(God *god) :GodObject(god)
 	}
 
 	pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
+
 }
 
 RollerManager::~RollerManager()
@@ -48,98 +52,80 @@ void RollerManager::Update()
 		pRoller[i]->Update();
 	}
 
-	SwichCnt++;
+	//SwichCnt++;
 
-	XMFLOAT3 pos = { 0.0f,30.0f,-50.0f };
+	//if (SwichCnt % CALENDAR_SWITCH_TIME == 0)
+	//{
+	//	GetGod()->GetCalendarNum()->AddMonth();
+	//}
 
-	if (SwichCnt % CALENDAR_SWITCH_TIME == 0)
+
+	int seasonNum = GetGod()->GetCalendarNum()->GetMonth();
+	BOOL fadeOut_EndFlag = GetGod()->GetSkyManager()->GetFadeOut_EndFlag();
+	BOOL fadeOut_StartFlag = GetGod()->GetSkyManager()->GetFadeOut_StartFlag();
+	XMFLOAT3 pos = { 0.0f,30.0f,0.0f };
+
+	if (fadeOut_StartFlag)
 	{
-		this->GetGod()->GetQuestBoardManager()->GetCalendarNum()->AddMonth();
+		CallParticle(pos, 80.0f, 30, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
 
 
 	// 春になる
-	if (SwichCnt == 1)
+	if (seasonNum >= month_4 && seasonNum <= month_6 && fadeOut_EndFlag)
 	{
+
 		pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(FALSE);
 		pRoller[ROLLER_AUTOM]->SetIsUse(FALSE);
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
-		this->GetGod()->GetTexManager()->AddSeason();
+		GetGod()->GetTexManager()->AddSeason();
 		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
-	}
 
-	if (SwichCnt == (60 * SWICH_TIME *1) - PARTICLE_TIME)
-	{
-		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
-
 
 	// 夏になる
-	if (SwichCnt == 60 * SWICH_TIME *1)
+	if (seasonNum >= month_7 && seasonNum <= month_9 && fadeOut_EndFlag)
 	{
+
 		pRoller[ROLLER_SPRING]->SetIsUse(FALSE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(TRUE);
 		pRoller[ROLLER_AUTOM]->SetIsUse(FALSE);
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
-		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
-		this->GetGod()->GetTexManager()->AddSeason();
+		GetGod()->GetTexManager()->AddSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
-		this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
-	}
-
-	if (SwichCnt == (60 * SWICH_TIME *2) - PARTICLE_TIME)
-	{
-		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
+		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 	}
 
 	// 秋になる
-	if (SwichCnt == 60 * SWICH_TIME * 2)
+	if (seasonNum >= month_10 && seasonNum <= month_12 && fadeOut_EndFlag)
 	{
+
 		pRoller[ROLLER_SPRING]->SetIsUse(FALSE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(FALSE);
 		pRoller[ROLLER_AUTOM]->SetIsUse(TRUE);
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
-		CallParticle(pos, 200.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
-		this->GetGod()->GetTexManager()->AddSeason();
-		this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		GetGod()->GetTexManager()->AddSeason();
+		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
 
-	if (SwichCnt == (60 * SWICH_TIME *3) - PARTICLE_TIME)
-	{
-		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
-	}
-
 	// 冬になる
-	if (SwichCnt == 60 * SWICH_TIME * 3)
+	if (seasonNum >= month_1 && seasonNum <= month_3 && fadeOut_EndFlag)
 	{
+
 		pRoller[ROLLER_SPRING]->SetIsUse(FALSE);
 		pRoller[ROLLER_SUMMER]->SetIsUse(FALSE);
 		pRoller[ROLLER_AUTOM]->SetIsUse(FALSE);
 		pRoller[ROLLER_WINTER]->SetIsUse(TRUE);
-		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 
-		this->GetGod()->GetTexManager()->AddSeason();
-		this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		GetGod()->GetTexManager()->AddSeason();
+		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 	}
-
-
-	if (SwichCnt == (60 * SWICH_TIME * 4) - PARTICLE_TIME)
-	{
-		CallParticle(pos, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
-	}
-
-
-	if (SwichCnt == 60 * SWICH_TIME * 5)
-	{
-		SwichCnt = 0;
-	}
-
 
 }
 
