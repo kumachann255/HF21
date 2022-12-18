@@ -171,6 +171,7 @@
     <ClInclude Include="Morphing.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="prefab.h" />
     <ClInclude Include="proteinIcon.h" />
     <ClInclude Include="puzzleBG.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="Morphing.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="particle.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="pizzleBG.cpp" />
     <ClCompile Include="prefab.cpp" />
     <ClCompile Include="proteinIcon.cpp" />

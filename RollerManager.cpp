@@ -35,6 +35,7 @@ RollerManager::RollerManager(God *god) :GodObject(god)
 
 	pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
 
+	pParticlManager = new ParticlManager();
 }
 
 RollerManager::~RollerManager()
@@ -43,31 +44,42 @@ RollerManager::~RollerManager()
 	{
 		delete pRoller[i];
 	}
+
+	delete pParticlManager;
 }
 
 void RollerManager::Update()
 {
+
 	for (int i = 0; i < ROLLER_MAX; i++)
 	{
 		pRoller[i]->Update();
 	}
 
-	//SwichCnt++;
+	SwichCnt++;
 
 	//if (SwichCnt % CALENDAR_SWITCH_TIME == 0)
 	//{
 	//	GetGod()->GetCalendarNum()->AddMonth();
 	//}
 
+	XMFLOAT3 pos = { -150.0f,150.0f,-50.0f };
+
+	texNum %= 4;
+
+	if (SwichCnt == 200) {
+		SwichCnt = 0;
+		pParticlManager->CallParticle(pos, 10.0f, 50, texNum, MOVE_PATTERN_DOWNRIGHT);
+	}
 
 	int seasonNum = GetGod()->GetCalendarNum()->GetMonth();
 	BOOL fadeOut_EndFlag = GetGod()->GetSkyManager()->GetFadeOut_EndFlag();
 	BOOL fadeOut_StartFlag = GetGod()->GetSkyManager()->GetFadeOut_StartFlag();
-	XMFLOAT3 pos = { 0.0f,30.0f,0.0f };
+	XMFLOAT3 pos2 = { 0.0f,30.0f,0.0f };
 
 	if (fadeOut_StartFlag)
 	{
-		CallParticle(pos, 80.0f, 30, EFFECT_REFLECTION, MOVE_PATTERN_UP);
+		CallParticle(pos2, 80.0f, 30, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
 
 
@@ -82,7 +94,7 @@ void RollerManager::Update()
 
 		GetGod()->GetTexManager()->AddSeason();
 		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
-
+		texNum++;
 	}
 
 	// 夏になる
@@ -97,6 +109,7 @@ void RollerManager::Update()
 		GetGod()->GetTexManager()->AddSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		texNum++;
 	}
 
 	// 秋になる
@@ -111,6 +124,7 @@ void RollerManager::Update()
 		GetGod()->GetTexManager()->AddSeason();
 		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
+		texNum++;
 	}
 
 	// 冬になる
@@ -125,7 +139,11 @@ void RollerManager::Update()
 		GetGod()->GetTexManager()->AddSeason();
 		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
+		texNum++;
 	}
+
+
+	pParticlManager->Update();
 
 }
 
@@ -135,4 +153,6 @@ void RollerManager::Draw()
 	{
 		pRoller[i]->Draw();
 	}
+
+	pParticlManager->Draw();
 }
