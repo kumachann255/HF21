@@ -61,4 +61,6 @@ public:
 	void Update();
 
 	~TrainingCrowSquat() { delete m_prefab; };
+
+	void Init();
 };

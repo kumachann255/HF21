@@ -20,6 +20,7 @@ private:
 	BonusSlot *m_pSlot = nullptr;
 	BonusBG *m_pBG = nullptr;
 	BonusGuidance *m_pGuidance = nullptr;
+	BonusTimer *m_timer = nullptr;
 
 	BOOL m_isTimeMove = FALSE;
 	clock_t m_start;
@@ -31,7 +32,6 @@ private:
 	XMFLOAT3 m_telopPos5 = { 480.0f, 270.0f, 0.0f };
 	XMFLOAT3 m_transitionPos = { -TRANSITION_WIDTH , 270.0f, 0.0f };
 	XMFLOAT3 m_transitionPos2 = { SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2, 0.0f };
-	BonusTimer *m_timer = nullptr;
 	//FLUID3D_GPU* m_pSolverGPU;
 
 	int m_timeUpWait = 0;
@@ -55,4 +55,6 @@ public:
 
 	void SetTime(void);
 	void StopTime(void) { m_isTimeMove = FALSE; };
+
+	void Init();
 };

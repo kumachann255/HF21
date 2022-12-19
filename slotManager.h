@@ -26,7 +26,6 @@ private:
 	RainbowTimer *m_pRainbowTimer = nullptr;
 
 	BOOL m_isRainbow = FALSE;
-	//QuestBoardManager *
 	clock_t m_start;
 	float m_now = 0.0f;
 	int m_timeUpWait = 0;
@@ -47,6 +46,8 @@ public:
 	void ResetRainbowMode(void);
 
 	Slot *GetSlot(void) { return m_pSlot; };
+
+	void Init();
 };
 
 

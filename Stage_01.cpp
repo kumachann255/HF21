@@ -65,6 +65,9 @@ void Stage_01::Init(void)
 //=============================================================================
 void Stage_01::Update(void)
 {
+	// 初期化処理をしていない場合、メンバ変数などを一括初期化
+	if (!m_isInit) InitDate();
+
 	// シーン切り替えチェック
 	NextScene();
 
@@ -271,6 +274,19 @@ void Stage_01::NextScene(void)
 	if (GetFadeOut_EndFlag())
 	{
 		GetGod()->ChangeScene(ENDROLL_ID);
-
+		m_isInit = FALSE;
 	}
+}
+
+void Stage_01::InitDate()
+{
+	m_isInit = TRUE;
+
+	GetGod()->GetCalendarNum()->Init();
+	GetGod()->GetRollerManager()->Init();
+	GetGod()->GetQuestBoardManager()->Init();
+	GetGod()->GetSlotManager()->Init();
+	GetGod()->GetTrainingCrowManager()->Init();
+	GetGod()->GetBonusSlotManager()->Init();
+
 }

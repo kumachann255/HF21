@@ -34,4 +34,6 @@ public:
 
 	void SetShot(bool data) { m_shot = data; }
 	bool GetShot(void) { return m_shot; }
+
+	void Init();
 };

@@ -33,4 +33,6 @@ public:
 
 	void ResetColor(void) { m_prefab->SetColor(m_resetColorTemp); }
 	void NestSeason(void);
+
+	void Init();
 };

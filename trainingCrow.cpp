@@ -140,3 +140,12 @@ void TrainingCrowSquat::Update()
 
 	}
 }
+
+void TrainingCrowSquat::Init()
+{
+	m_speed = 0.03f;
+	m_isSpeedUp = FALSE;
+	m_count = 0;
+
+	m_waitCount = 0;
+}

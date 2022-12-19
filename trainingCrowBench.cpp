@@ -154,3 +154,11 @@ void TrainingCrowBench::Draw()
 		DrawModel(m_prefabBench->GetModel());
 	}
 }
+
+void TrainingCrowBench::Init()
+{
+	m_vec = 1.0f;
+	m_speed = BENCH_SPEED;
+	m_count = 0;
+	m_waitCount = 0;
+}

@@ -235,3 +235,22 @@ void Slot::ResetRainbowModel(void)
 	pDrumC->ResetRainbowModel();
 	pDrumR->ResetRainbowModel();
 }
+
+void Slot::Init()
+{
+	m_shot = false;
+	m_count = 0;
+	m_move = false;
+
+	m_colorType = 0;
+	m_crowNum = 0;
+
+	m_debug = 0;
+	m_debugR = 0;
+	m_debugC = 0;
+	m_debugL = 0;
+
+	ResetRainbowModel();
+
+	pHousing->Init();
+}

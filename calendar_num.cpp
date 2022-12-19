@@ -1,4 +1,5 @@
 #include "calendar_num.h"
+#include "RollerManager.h"
 
 CalendarNum::CalendarNum(God *god) :GodObject(god)
 {
@@ -45,33 +46,30 @@ void CalendarNum::Update()
 {
 	//if (m_month <= month_max) 
 	{
-		m_count += SOEED_CALENDAR;
+		m_count++;
+		//m_count += SOEED_CALENDAR;
 	}
 
 	// 月を更新
-	if (m_count >= DIStANCE_CALENDAR)
+	if (m_count >= CALENDAR_SWITCH_TIME)
 	{
 		AddMonth();
-		m_count = 0.0f;
+		m_count = 0;
 
 		if (m_month % 3 == 0)
 		{
 			m_swichfFlag = TRUE;
-
 		}
 	}
 	else
 	{
 		m_swichfFlag = FALSE;
-
 	}
 
 	if (m_uvStartY < m_month * DIStANCE_CALENDAR)
 	{
 		m_uvStartY += SOEED_CALENDAR;
 		//m_uvEndY += SOEED_CALENDAR;
-
-
 	}
 }
 
@@ -130,4 +128,22 @@ void CalendarNum::Draw()
 
 	// Z比較あり
 	SetDepthEnable(TRUE);
+}
+
+void CalendarNum::Init()
+{
+	m_month = month_4;
+	m_uvStartY = 0.0f;
+	m_uvEndY = 1.0f / MAX_CALENDAR_NUM;
+	m_count = 0;
+	m_swichfFlag = FALSE;
+
+	// プレイヤーの初期化
+	m_w[0] = CALENDAR_WAKU_TEXTURE_WIDTH;
+	m_h[0] = CALENDAR_WAKU_TEXTURE_HEIGHT;
+	m_Pos[0] = { 850.0f, 80.0f, 0.0f };
+
+	m_w[1] = CALENDAR_TEXTURE_WIDTH;
+	m_h[1] = CALENDAR_TEXTURE_HEIGHT;
+	m_Pos[1] = { 850.0f, 85.0f, 0.0f };
 }

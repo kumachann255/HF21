@@ -52,7 +52,7 @@ private:
 	int m_month = month_4;
 	float m_uvStartY = 0.0f;
 	float m_uvEndY = 1.0f / MAX_CALENDAR_NUM;
-	float m_count = 0.0f;
+	int m_count = 0;
 	BOOL m_swichfFlag = FALSE;
 
 public:
@@ -65,6 +65,6 @@ public:
 	void AddMonth(void) { m_month = (m_month + 1) % month_max; }
 	int GetMonth(void) { return m_month; }
 	BOOL GetSwichfFlag(void) { return m_swichfFlag; }
-	float GetCount(void) { return m_count; }
-
+	int GetCount(void) { return m_count; }
+	void Init();
 };

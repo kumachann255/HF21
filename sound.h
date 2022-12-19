@@ -92,3 +92,4 @@ void PlaySound(int label);
 void StopSound(int label);
 void StopSound(void);
 
+void SetSourceVolume(int label, float volume);

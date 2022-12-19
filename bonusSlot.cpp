@@ -199,3 +199,12 @@ XMFLOAT4 BonusSlot::GetColor(void)
 
 	return color;
 }
+
+void BonusSlot::Init()
+{
+	m_shot = false;
+	m_count = 0;
+	m_move = false;
+
+	pHousing->Init();
+}

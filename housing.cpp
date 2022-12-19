@@ -76,3 +76,32 @@ void Housing::NestSeason(void)
 	m_time = 0.0f;
 	m_nowSeason = (m_nowSeason + 1) % 4;
 }
+
+void Housing::Init()
+{
+	m_ansColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_colorTime = 0.0f;
+	m_resultNum = MAX_COLOR;
+	m_colorType = 0;
+	m_time = 0.0f;
+	m_nowSeason = 0;
+
+	m_isRainbow = FALSE;
+
+	m_resultColor[0] = { 0.7f, 0.2f, 0.2f, 1.0f };
+	m_resultColor[1] = { 0.2f, 0.2f, 0.7f, 1.0f };
+	m_resultColor[2] = { 0.2f, 0.7f, 0.2f, 1.0f };
+	m_resultColor[3] = { 0.7f, 0.7f, 0.2f, 1.0f };
+	m_resultColor[4] = { 0.2f, 0.7f, 0.7f, 1.0f };
+	m_resultColor[5] = { 0.7f, 0.2f, 0.7f, 1.0f };
+
+	m_resetColor[0] = { 0.753f, 0.753f, 0.878f, 1.0f };
+	m_resetColor[1] = { 1.0f, 0.6f, 0.8f, 1.0f };
+	m_resetColor[2] = { 0.458f, 0.819f, 1.0f, 1.0f };
+	m_resetColor[3] = { 1.0f, 0.568f, 0.0f, 1.0f };
+
+	m_resetColorTemp = { 1.0f, 0.6f, 0.8f, 1.0f };
+
+	this->GetPrefab()->SetColor(m_resetColor[0]);
+
+}

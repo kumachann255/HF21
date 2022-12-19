@@ -16,6 +16,7 @@
 class Stage_01 : public Scene
 {
 private:
+	BOOL m_isInit = FALSE;
 
 public:
 	Stage_01(God * god);
@@ -24,5 +25,6 @@ public:
 	void Update();
 	void Draw();
 	void NextScene();
+	void InitDate();
 };
 

@@ -36,7 +36,7 @@ private:
 	int m_failureCount = 0;
 
 	GarbageIcon *m_pGarbageIcon = nullptr;
-	int m_MissionPoint = MAX_MISSION_POINT;
+	int m_MissionPoint = 0;
 
 	// ランプのテクスチャー
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };
@@ -54,5 +54,7 @@ public:
 
 	int GetSerchBoard(int colorType);
 	int GetSerchBoardRainbow(void);
+
+	void Init();
 };
 

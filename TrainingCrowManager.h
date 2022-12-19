@@ -64,4 +64,6 @@ public:
 	
 	void SetFalseTelop(BOOL data) { m_isFalseTelop = data; };
 	BOOL GetFalseTelop(void) { return m_isFalseTelop; };
+
+	void Init();
 };

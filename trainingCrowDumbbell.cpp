@@ -148,3 +148,12 @@ void TrainingCrowDumbbell::Draw()
 		DrawModel(m_prefabBench->GetModel());
 	}
 }
+
+void TrainingCrowDumbbell::Init()
+{
+	m_vec = 1.0f;
+	m_speed = DUMBBELL_SPEED;
+	m_count = 0;
+	m_isUp = FALSE;
+	m_waitCount = 0;
+}
