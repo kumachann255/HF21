@@ -259,4 +259,30 @@ void BonusHousing::ResetColor(void)
 	this->GetPrefab()->SetColor(m_ansColor);
 }
 
+void BonusHousing::Init()
+{
+	m_isMove = FALSE;
+	m_isVibration = FALSE;
+	m_isEnd = FALSE;
+	m_vec = 1.0f;
+
+	m_colorTime = 0.0f;
+	m_resultNum = 0;
+	m_colorType = 0;
+
+	m_loopNum = 0;
+
+	m_waitTime = 0;
+
+	m_isTimeStop = FALSE;
+	m_isHit = FALSE;
+	m_isTransition = FALSE;
+
+	for (int i = 0; i < 3; i++)
+	{
+		m_resultColor[i] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	}
+	m_ansColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+}
+
 

@@ -68,7 +68,7 @@ void Drum3D::SetResult(void)
 
 	for (int i = 0; i < m_resultMax; i++)
 	{
-		if ((rot.x < temp + m_resultRadian / 2) && (rot.x > temp - m_resultRadian / 2))
+		if ((rot.x < temp + m_resultRadianOffset / 2) && (rot.x > temp - m_resultRadianOffset / 2))
 		{
 			m_color = i % m_colorMax;
 			m_result = i * m_resultRadian;
@@ -105,6 +105,7 @@ void Drum3D::SetNormal(void)
 {
 	m_resultMax = MAX_RESULT_NORMAL;
 	m_resultRadian = RADIAN9;
+	m_resultRadianOffset = RADIAN9;
 	m_offset = OFFSET;
 	m_speedUpValue = SPEED_UP_VALUE;
 }
@@ -113,6 +114,7 @@ void Drum3D::SetBonus(void)
 {
 	m_resultMax = MAX_RESULT_BONUS;
 	m_resultRadian = RADIAN10;
+	m_resultRadianOffset = RADIAN10 * 2.0f;
 	m_offset = OFFSET * 2.0f;
 	m_speedUpValue = SPEED_UP_VALUE * 2.0f;
 }

@@ -68,4 +68,5 @@ public:
 	void SetRainbowModel(void);
 	void ResetRainbowModel(void);
 
+	void Init();
 };

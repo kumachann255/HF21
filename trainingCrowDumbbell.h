@@ -64,5 +64,5 @@ public:
 
 	~TrainingCrowDumbbell() { delete m_prefab; };
 
-
+	void Init();
 };

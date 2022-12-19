@@ -1,6 +1,7 @@
 #include "texManager.h"
 #include "GodObject.h"
 #include "TrainingCrowManager.h"
+#include "slotManager.h"
 #include "input.h"
 
 TexManager::TexManager(God * god):GodObject(god)
@@ -16,6 +17,10 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos1, 1300.0f, 1300.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 1300.0f, 1300.0f, time0));
 
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960, 540.0f, time0));
@@ -72,6 +77,10 @@ void TexManager::Update()
 	if (GetGod()->GetTrainingCrowManager()->GetBonus())
 	{
 		m_pUiManager->GetUIObject(m_wakuType)->SetUse(FALSE);
+	}
+	else if (GetGod()->GetSlotManager()->GetRainbow())
+	{
+		m_pUiManager->GetUIObject(m_wakuType + 1)->SetUse(TRUE);
 	}
 	else m_pUiManager->GetUIObject(m_wakuType)->SetUse(TRUE);
 

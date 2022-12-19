@@ -9,8 +9,6 @@
 #include "debugproc.h"
 #include "SkyManager.h"
 
-#define	SWICH_TIME		(30)
-#define	CALENDAR_SWITCH_TIME		(SWICH_TIME / 3 * 60)
 
 #define	PARTICLE_TIME	(40)	
 
@@ -93,7 +91,8 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
 		GetGod()->GetTexManager()->AddSeason();
-		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		
 		texNum++;
 	}
 
@@ -107,8 +106,9 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
 		GetGod()->GetTexManager()->AddSeason();
+		GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
-		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
 		texNum++;
 	}
 
@@ -122,7 +122,8 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(FALSE);
 
 		GetGod()->GetTexManager()->AddSeason();
-		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 		texNum++;
 	}
@@ -137,7 +138,8 @@ void RollerManager::Update()
 		pRoller[ROLLER_WINTER]->SetIsUse(TRUE);
 
 		GetGod()->GetTexManager()->AddSeason();
-		//this->GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		GetGod()->GetSlotManager()->GetSlot()->GetHousing()->NestSeason();
+		
 		PlaySound(SOUND_LABEL_SE_se_map_change); // マップ変化
 		texNum++;
 	}
@@ -155,4 +157,17 @@ void RollerManager::Draw()
 	}
 
 	pParticlManager->Draw();
+}
+
+void RollerManager::Init()
+{
+	SwichCnt = 0;
+	texNum = 0;
+
+	for (int i = 0; i < ROLLER_MAX; i++)
+	{
+		pRoller[i]->SetIsUse(FALSE);
+	}
+
+	pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
 }

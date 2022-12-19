@@ -59,4 +59,6 @@ public:
 	BOOL GetHit(void) { return m_isHit; };
 
 	int GetResultNum(void) { return m_resultNum; };
+
+	void Init();
 };

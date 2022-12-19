@@ -233,6 +233,10 @@ BOOL InitSound(HWND hWnd)
 		g_apSourceVoice[nCntSound]->SubmitSourceBuffer(&buffer);
 	}
 
+	// 各音源の音量調節
+	SetSourceVolume(SOUND_LABEL_SE_se_slot_button_01, 0.5f);
+	SetSourceVolume(SOUND_LABEL_SE_se_slot_stop, 0.5f);
+	
 	return TRUE;
 }
 
@@ -431,3 +435,9 @@ HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwB
 	return S_OK;
 }
 
+// ソースボイスの音量調整(0.0f ~ 1.0fで調整)
+void SetSourceVolume(int label, float volume)
+{
+	g_apSourceVoice[label]->SetVolume(volume);
+	return;
+}

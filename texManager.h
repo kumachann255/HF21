@@ -8,9 +8,13 @@ enum {
 	hit_effect_orange,
 
 	ui_waku_full_spring,
+	ui_waku_full_spring_bonus,
 	ui_waku_full_summer,
+	ui_waku_full_summer_bonus,
 	ui_waku_full_autumn,
+	ui_waku_full_autumn_bonus,
 	ui_waku_full_winter,
+	ui_waku_full_winter_bonus,
 
 	telop_bonusChance,
 	telop_bonusChanceFalse,
@@ -70,9 +74,13 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_hit_effect_orange.png",
 
 	"data/TEXTURE/tex_waku_full_spring.png",
+	"data/TEXTURE/tex_waku_full_spring_bonus.png",
 	"data/TEXTURE/tex_waku_full_summer.png",
+	"data/TEXTURE/tex_waku_full_summer_bonus.png",
 	"data/TEXTURE/tex_waku_full_autumn.png",
+	"data/TEXTURE/tex_waku_full_autumn_bonus.png",
 	"data/TEXTURE/tex_waku_full_winter.png",
+	"data/TEXTURE/tex_waku_full_winter_bonus.png",
 
 	"data/TEXTURE/telop_bonusChance.png",
 	"data/TEXTURE/tex_bonusFalse.png",
@@ -118,8 +126,8 @@ public:
 	void Draw();
 
 	void AddSeason(void) { 
-		m_wakuType++;
-		if (m_wakuType > ui_waku_full_winter) m_wakuType = ui_waku_full_spring;
+		m_wakuType += 2;
+		if (m_wakuType > ui_waku_full_winter_bonus) m_wakuType = ui_waku_full_spring;
 	};
 
 	UIManager *GetUIManager() { return m_pUiManager; }

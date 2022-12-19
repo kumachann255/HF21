@@ -190,7 +190,7 @@ void QuestBoardManager::Update(void)
 				m_failureCount++;
 			}
 
-			m_MissionPoint--;
+			m_MissionPoint++;
 
 		}
 	}
@@ -321,4 +321,13 @@ int QuestBoardManager::GetSerchBoardRainbow(void)
 	}
 
 	return LAMP_TYPE_NONE;
+}
+
+void QuestBoardManager::Init()
+{
+	m_StartPos = { 0.0f ,0.0f,0.0f };
+	m_MakeCnt = 0;		// 出現カウント
+	m_failureCount = 0;
+	m_MissionPoint = 0;
+
 }

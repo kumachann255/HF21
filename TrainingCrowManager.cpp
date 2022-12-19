@@ -4,6 +4,7 @@
 #include "bonusSlotManager.h"
 #include "texManager.h"
 #include "sound.h"
+#include "slotManager.h"
 
 TrainingCrowManager::TrainingCrowManager(God * god) :GodObject(god)
 {
@@ -81,7 +82,7 @@ void TrainingCrowManager::Update()
 		m_isSuccess = FALSE;
 	}
 
-	if (!m_isSpeedUp && !m_isTrainingSuccess && !m_isBonus)
+	if (!m_isSpeedUp && !m_isTrainingSuccess && !m_isBonus && !GetGod()->GetSlotManager()->GetRainbow())
 	{
 		if (UseStock())
 		{
@@ -132,4 +133,23 @@ BOOL TrainingCrowManager::UseStock(void)
 	}
 
 	return ans;
+}
+
+void TrainingCrowManager::Init()
+{
+	m_Type = No_Bench;
+
+	m_isBonus = FALSE;
+	m_isSpeedUp = FALSE;
+	m_isTrainingSuccess = FALSE;
+	m_count = 0;
+
+	m_isSuccess = FALSE;
+	m_isFalseTelop = FALSE;
+
+	m_stock = 0;
+
+	m_pTrainingCrowSquat->Init();
+	m_pTrainingCrowBench->Init();
+	m_pTrainingCrowDumbbell->Init();
 }

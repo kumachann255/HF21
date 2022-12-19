@@ -56,7 +56,7 @@ private:
 	int m_color = 0;
 	float m_result = 0.0f;
 	float m_resultRadian = RADIAN9;
-//	float m_resultRadianOffset = RADIAN9;
+	float m_resultRadianOffset = RADIAN9;
 
 protected:
 	int m_resultMax = MAX_RESULT_NORMAL;

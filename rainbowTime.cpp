@@ -31,7 +31,7 @@ RainbowTimer::RainbowTimer()
 	m_Use = TRUE;
 	m_w = RAINBOE_TIMER_TEXTURE_WIDTH;
 	m_h = RAINBOE_TIMER_TEXTURE_HEIGHT;
-	m_Pos = { 620.0f, 110.0f, 0.0f };
+	m_Pos = { 650.0f, 85.0f, 0.0f };
 	m_TexNo = 0;
 
 	m_time = 0;	// スコアの初期化
@@ -81,15 +81,15 @@ void RainbowTimer::Draw()
 	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[m_TexNo]);
 
 	// 桁数分処理する
-	int number = (int)(m_time * 100.0f);
+	int number = (int)(m_time * 90.0f);
 	for (int i = 0; i < 4; i++)
 	{
 		// 今回表示する桁の数字
 		float x = (float)(number % 10);
 
 		// スコアの位置やテクスチャー座標を反映
-		float px = m_Pos.x - m_w * i;	// スコアの表示位置X
-		if (i == 2) px -= 20.0f;
+		float px = m_Pos.x - (m_w + 5.0f) * i;	// スコアの表示位置X
+		if (i >= 2) px -= 30.0f;
 
 		float py = m_Pos.y;			// スコアの表示位置Y
 		float pw = m_w;				// スコアの表示幅
@@ -110,6 +110,18 @@ void RainbowTimer::Draw()
 		// 次の桁へ
 		number /= 10;
 	}
+
+	// ピリオドの描画
+	// テクスチャ設定
+	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[1]);
+
+	// １枚のポリゴンの頂点とテクスチャ座標を設定
+	SetSpriteColor(m_VertexBuffer, 480.0f, 90.0f, 30.0f, 60.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	// ポリゴン描画
+	GetDeviceContext()->Draw(4, 0);
+
 
 	// ライティングを有効に
 	SetLightEnable(TRUE);

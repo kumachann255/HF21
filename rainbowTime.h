@@ -12,6 +12,7 @@ private:
 
 	char *m_TexturName[BONUS_TIMER_TEXTURE_MAX] = {
 		"data/TEXTURE/tex_rainbow_slotfont16x32.png",
+		"data/TEXTURE/tex_num_priod.png",
 	};
 
 	BOOL m_Use;					// TRUE:Žg‚Á‚Ä‚¢‚é  FALSE:–¢Žg—p

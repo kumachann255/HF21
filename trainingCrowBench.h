@@ -60,5 +60,5 @@ public:
 
 	~TrainingCrowBench() { delete m_prefab; };
 
-
+	void Init();
 };

@@ -229,4 +229,16 @@ void BonusSlotManager::SetTime(void)
 	m_isTimeMove = TRUE;
 }
 
+void BonusSlotManager::Init()
+{
+	m_isTimeMove = FALSE;
+	m_now = 0.0f;
+	m_timeUpWait = 0;
+
+	m_countDownCount = 0;
+
+	m_pSlot->Init();
+
+}
+
 

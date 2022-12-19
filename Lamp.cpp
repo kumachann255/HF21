@@ -7,6 +7,7 @@
 #include"Lamp.h"
 #include "Roller.h"
 #include "particle.h"
+#include "sound.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -72,7 +73,7 @@ void Lamp::Update(void)
 			XMFLOAT3 pos = GetPos();
 			//pos.y -= 20.0f;
 			CallParticle(pos, 3.0f, 150, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL);
-
+			PlaySound(SOUND_LABEL_SE_se_lamp_clear);
 		}
 	}
 }
