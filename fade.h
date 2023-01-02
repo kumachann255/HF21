@@ -31,7 +31,7 @@ void UpdateFade(void);
 void DrawFade(void);
 
 //void SetFade(FADE fade, int modeNext);
-void SetFade(FADE fade);
+void SetFade(FADE fade, int modeNext);
 FADE GetFade(void);
 BOOL GetFadeOut_EndFlag(void);
 

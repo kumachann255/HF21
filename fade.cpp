@@ -81,13 +81,13 @@ HRESULT InitFade(void)
 
 
 	// プレイヤーの初期化
-	g_Use   = TRUE;
-	g_w     = TEXTURE_WIDTH;
-	g_h     = TEXTURE_HEIGHT;
-	g_Pos   = { 0.0f, 0.0f, 0.0f };
+	g_Use = TRUE;
+	g_w = TEXTURE_WIDTH;
+	g_h = TEXTURE_HEIGHT;
+	g_Pos = { 0.0f, 0.0f, 0.0f };
 	g_TexNo = 0;
 
-	g_Fade  = FADE_IN;
+	g_Fade = FADE_IN;
 	g_Color = { 1.0, 0.0, 0.0, 1.0 };
 
 	g_FadeOut_EndFlag = FALSE;
@@ -131,28 +131,32 @@ void UpdateFade(void)
 		if (g_Fade == FADE_OUT)
 		{// フェードアウト処理
 			g_Color.w += FADE_RATE;		// α値を加算して画面を消していく
-			if (g_Color.w >= 1.0f)
+
+			if (g_Color.w >= 0.90f)
 			{
 				g_FadeOut_EndFlag = TRUE;
+			}
+
+			if (g_Color.w >= 1.0f)
+			{
 
 				// 鳴っている曲を全部止める
 				StopSound();
 
 				// フェードイン処理に切り替え
 				g_Color.w = 1.0f;
-				SetFade(FADE_IN);
+
+				SetFade(FADE_IN, g_ModeNext);
 
 				// モードを設定
-				//SetMode(g_ModeNext);
-
-				//SetSceneID(STAGE_01ID);
+				SetSceneID((SCENE_ID)g_ModeNext);
 
 			}
 
 		}
 		else if (g_Fade == FADE_IN)
 		{// フェードイン処理
-			g_Color.w -= FADE_RATE ;		// α値を減算して画面を浮き上がらせる
+			g_Color.w -= FADE_RATE;		// α値を減算して画面を浮き上がらせる
 
 			g_FadeOut_EndFlag = FALSE;
 
@@ -160,9 +164,8 @@ void UpdateFade(void)
 			{
 				// フェード処理終了
 				g_Color.w = 0.0f;
-				SetFade(FADE_NONE);
 
-
+				SetFade(FADE_NONE, g_ModeNext);
 			}
 
 		}
@@ -192,7 +195,7 @@ void DrawFade(void)
 	UINT offset = 0;
 	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 
-	// マトリクス設定!!!!!!!!!!!!!!!!!!!!!!!!!忘れないように!!!
+	// マトリクス設定
 	SetWorldViewProjection2D();
 
 
@@ -213,7 +216,7 @@ void DrawFade(void)
 
 		// １枚のポリゴンの頂点とテクスチャ座標を設定
 		//SetVertex(0.0f, 0.0f, SCREEN_WIDTH, TEXTURE_WIDTH, 0.0f, 0.0f, 1.0f, 1.0f);
-		SetSpriteColor(g_VertexBuffer, SCREEN_WIDTH/2, TEXTURE_WIDTH/2, SCREEN_WIDTH, TEXTURE_WIDTH, 0.0f, 0.0f, 1.0f, 1.0f,
+		SetSpriteColor(g_VertexBuffer, SCREEN_WIDTH / 2, TEXTURE_WIDTH / 2, SCREEN_WIDTH, TEXTURE_WIDTH, 0.0f, 0.0f, 1.0f, 1.0f,
 			g_Color);
 
 		// ポリゴン描画
@@ -230,20 +233,16 @@ void DrawFade(void)
 }
 
 
-////=============================================================================
-//// フェードの状態設定
-////=============================================================================
-//void SetFade(FADE fade, int modeNext)
-//{
-//	g_Fade = fade;
-//	g_ModeNext = modeNext;
-//}
 //=============================================================================
 // フェードの状態設定
 //=============================================================================
-void SetFade(FADE fade)
+void SetFade(FADE fade, int modeNext)
 {
+	if (g_ModeNext == modeNext && g_Fade == fade) return;
+
 	g_Fade = fade;
+	g_ModeNext = modeNext;
+
 }
 
 //=============================================================================
@@ -261,6 +260,3 @@ BOOL GetFadeOut_EndFlag(void)
 {
 	return g_FadeOut_EndFlag;
 }
-
-
-

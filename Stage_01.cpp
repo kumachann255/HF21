@@ -266,14 +266,14 @@ void Stage_01::NextScene(void)
 	// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		SetFade(FADE_OUT);
+		SetFade(FADE_OUT, TITLE_ID);
 	}
 #endif
 
 	// フェードアウトが終わったらシーンを切り替える
 	if (GetFadeOut_EndFlag())
 	{
-		GetGod()->ChangeScene(ENDROLL_ID);
+
 		m_isInit = FALSE;
 	}
 }
