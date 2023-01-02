@@ -67,7 +67,7 @@ void RollerManager::Update()
 
 	if (SwichCnt == 200) {
 		SwichCnt = 0;
-		pParticlManager->CallParticle(pos, 10.0f, 50, texNum, MOVE_PATTERN_DOWNRIGHT);
+		pParticlManager->CallParticle(pos, 10.0f, 20, texNum, MOVE_PATTERN_DOWNRIGHT);
 	}
 
 	int seasonNum = GetGod()->GetCalendarNum()->GetMonth();
@@ -77,7 +77,7 @@ void RollerManager::Update()
 
 	if (fadeOut_StartFlag)
 	{
-		CallParticle(pos2, 80.0f, 30, EFFECT_REFLECTION, MOVE_PATTERN_UP);
+		CallParticle(pos2, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
 	}
 
 

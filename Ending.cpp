@@ -82,13 +82,11 @@ void Ending::NextScene()
 	// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		SetFade(FADE_OUT);
+		SetFade(FADE_OUT, TITLE_ID);
 	}
 
-	// フェードアウトが終わったらシーンを切り替える
+	// フェードアウトが終わったら
 	if (GetFadeOut_EndFlag())
 	{
-		GetGod()->ChangeScene(TITLE_ID);
-
 	}
 }

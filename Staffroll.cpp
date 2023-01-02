@@ -103,14 +103,14 @@ void StaffRoll::NextScene(void)
 	// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		SetFade(FADE_OUT);
+		SetFade(FADE_OUT, TITLE_ID);
 	}
 
-	// フェードアウトが終わったらシーンを切り替える
-	if (GetFadeOut_EndFlag())
-	{
-		GetGod()->ChangeScene(STAGE_01ID);
-	}
+	//// フェードアウトが終わったら
+	//if (GetFadeOut_EndFlag())
+	//{
+
+	//}
 
 }
 
@@ -120,7 +120,7 @@ void StaffRoll::Scroll(float *posY)
 	if (*posY < -1460.0f)
 	{
 		*posY = -1460.0f;
-		SetFade(FADE_OUT);
+		SetFade(FADE_OUT, TITLE_ID);
 	}
 }
 
