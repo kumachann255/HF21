@@ -8,6 +8,7 @@
 #include "debugproc.h"
 #include "input.h"
 #include "Title.h"
+#include "tutorial.h"
 #include "Stage_01.h"
 #include "SkyManager.h"
 #include "Roller.h"
@@ -42,6 +43,7 @@ God::God()
 
 	//　管理するシーンを登場させる
 	Scenes[TITLE_ID] = new Title(this);
+	Scenes[TUTORIAL_ID] = new Tutorial(this);
 	Scenes[STAGE_01ID] = new Stage_01(this);
 	Scenes[ENDROLL_ID] = new StaffRoll(this);
 
@@ -116,6 +118,11 @@ void God::ChangeScene(SCENE_ID sceneId)
 {
 	g_curSceneId = sceneId;
 	Scenes[g_curSceneId]->Init();
+}
+
+SCENE_ID God::GetScene(void)
+{
+	return g_curSceneId;
 }
 
 

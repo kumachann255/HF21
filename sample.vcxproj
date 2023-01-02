@@ -201,6 +201,7 @@
     <ClInclude Include="trainingCrowBench.h" />
     <ClInclude Include="trainingCrowDumbbell.h" />
     <ClInclude Include="TrainingCrowManager.h" />
+    <ClInclude Include="tutorial.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
@@ -268,6 +269,7 @@
     <ClCompile Include="trainingCrowBench.cpp" />
     <ClCompile Include="trainingCrowDumbbell.cpp" />
     <ClCompile Include="TrainingCrowManager.cpp" />
+    <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>

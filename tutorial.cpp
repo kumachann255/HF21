@@ -4,7 +4,7 @@
 // Author : 柏村大地
 //
 //=============================================================================
-#include "Stage_01.h"
+#include "tutorial.h"
 #include "SkyManager.h"
 #include "rollerManager.h"
 #include "input.h"
@@ -35,7 +35,7 @@
 //=============================================================================
 // コンストラクター ※シーンのコンストラクターに渡してあげる
 //=============================================================================
-Stage_01::Stage_01(God *god):Scene(god)
+Tutorial::Tutorial(God *god) :Scene(god)
 {
 	// パーティクル初期化
 	InitParticle();
@@ -44,7 +44,7 @@ Stage_01::Stage_01(God *god):Scene(god)
 //=============================================================================
 // デストラクター
 //=============================================================================
-Stage_01::~Stage_01()
+Tutorial::~Tutorial()
 {
 	// パーティクル終了
 	UninitParticle();
@@ -53,7 +53,7 @@ Stage_01::~Stage_01()
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void Stage_01::Init(void)
+void Tutorial::Init(void)
 {
 	// ビューポートの切り換え
 	SetViewPort(TYPE_LEFT_HALF_SCREEN);
@@ -63,7 +63,7 @@ void Stage_01::Init(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Stage_01::Update(void)
+void Tutorial::Update(void)
 {
 	// 初期化処理をしていない場合、メンバ変数などを一括初期化
 	if (!m_isInit) InitDate();
@@ -108,11 +108,11 @@ void Stage_01::Update(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Stage_01::Draw(void)
+void Tutorial::Draw(void)
 {
 	XMFLOAT3 pos = { 0.0f,0.0f,0.0f };
 	SetShader(SHADER_MODE_DEFAULT);
-	
+
 #ifdef _DEBUG
 	// デバッグ表示
 	PrintDebugProc("GetViewPortType():%d\n", GetViewPortType());
@@ -128,7 +128,7 @@ void Stage_01::Draw(void)
 	switch (GetViewPortType())
 	{
 	case TYPE_FULL_SCREEN:
-	//フルスクリーン=============================
+		//フルスクリーン=============================
 
 		SetViewPort(TYPE_FULL_SCREEN);
 		SetCameraAT(pos);
@@ -147,7 +147,7 @@ void Stage_01::Draw(void)
 	case TYPE_LEFT_HALF_SCREEN:
 	case TYPE_RIGHT_HALF_SCREEN:
 
-	//右下画面=====================================
+		//右下画面=====================================
 
 		SetViewPort(TYPE_DOWN_RIGHT_HALF_SCREEN);
 		SetCameraAT(pos);
@@ -160,7 +160,7 @@ void Stage_01::Draw(void)
 		GetGod()->GetSlotManager()->Draw(No_slot);
 
 
-	//左画面=====================================
+		//左画面=====================================
 
 		SetShader(SHADER_MODE_PHONG);
 
@@ -188,7 +188,7 @@ void Stage_01::Draw(void)
 		GetGod()->GetCalendarNum()->Draw();
 
 
-	//右上画面===================================
+		//右上画面===================================
 
 		SetShader(SHADER_MODE_PHONG);
 
@@ -260,7 +260,7 @@ void Stage_01::Draw(void)
 //=============================================================================
 // シーン遷移処理
 //=============================================================================
-void Stage_01::NextScene(void)
+void Tutorial::NextScene(void)
 {
 #ifdef _DEBUG	// デバッグ情報を表示する
 	// フェードアウトを開始させる
@@ -273,13 +273,12 @@ void Stage_01::NextScene(void)
 	// フェードアウトが終わったらシーンを切り替える
 	if (GetFadeOut_EndFlag())
 	{
-		//GetGod()->ChangeScene(ENDROLL_ID);
-		GetGod()->ChangeScene(TITLE_ID);
+		GetGod()->ChangeScene(TUTORIAL_ID);
 		m_isInit = FALSE;
 	}
 }
 
-void Stage_01::InitDate()
+void Tutorial::InitDate()
 {
 	m_isInit = TRUE;
 

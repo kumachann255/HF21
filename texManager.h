@@ -35,6 +35,8 @@ enum {
 	telop_rainbowEnd,
 	telop_rainbowTimeMakure,
 
+	telop_timeUp,
+
 	trandition_white,
 	trandition_whiteFull,
 	trandition_crow,
@@ -100,6 +102,8 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_rainbowTime.png",
 	"data/TEXTURE/tex_rainbowEnd.png",
 	"data/TEXTURE/tex_rainbowTimeMakure.png",
+
+	"data/TEXTURE/tex_timeUp.png",
 
 	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_whiteBox.png",

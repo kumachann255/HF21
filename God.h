@@ -25,6 +25,7 @@ class CalendarNum;
 
 enum SCENE_ID {
 	TITLE_ID,
+	TUTORIAL_ID,
 	STAGE_01ID,
 	GAME_CLEAR_ID,
 	GAME_OVER_ID,
@@ -62,6 +63,7 @@ public:
 	void Update();
 	void Draw();
 	void ChangeScene(SCENE_ID sceneId);
+	SCENE_ID GetScene(void);
 
 	// ÉQÉbÉ^Å[
 	SkyManager *GetSkyManager() { return m_pSkymanager; }

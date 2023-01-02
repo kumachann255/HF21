@@ -1,5 +1,7 @@
 #include "calendar_num.h"
 #include "RollerManager.h"
+#include "fade.h"
+#include "texManager.h"
 
 CalendarNum::CalendarNum(God *god) :GodObject(god)
 {
@@ -60,6 +62,15 @@ void CalendarNum::Update()
 		{
 			m_swichfFlag = TRUE;
 		}
+
+		// 3月から4月に変わろうとすると時間切れ
+		if (m_month == month_3)
+		{
+			m_isTimeUp = TRUE;
+
+			GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+				telop_timeUp, texType_cutIn_up, XMFLOAT3(480.f, 240.0f, 0.0f), TIMEUP_COUNT_MAX);
+		}
 	}
 	else
 	{
@@ -70,6 +81,18 @@ void CalendarNum::Update()
 	{
 		m_uvStartY += SOEED_CALENDAR;
 		//m_uvEndY += SOEED_CALENDAR;
+	}
+
+	if (m_isTimeUp)
+	{
+		m_timeUpCount++;
+
+		if (m_timeUpCount == TIMEUP_COUNT_MAX)
+		{
+			m_isTimeUp = FALSE;
+			// シーン変更
+			SetFade(FADE_OUT);
+		}
 	}
 }
 
@@ -137,6 +160,8 @@ void CalendarNum::Init()
 	m_uvEndY = 1.0f / MAX_CALENDAR_NUM;
 	m_count = 0;
 	m_swichfFlag = FALSE;
+	m_isTimeUp = FALSE;
+	m_timeUpCount = 0;
 
 	// プレイヤーの初期化
 	m_w[0] = CALENDAR_WAKU_TEXTURE_WIDTH;
