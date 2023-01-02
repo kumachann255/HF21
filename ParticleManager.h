@@ -5,12 +5,12 @@
 class ParticlManager
 {
 private:
-	PARTICLE	*m_pParticle[PARTICLE_BUFFER];
+	PARTICLE	*m_pParticle = nullptr;
 public:
 	ParticlManager();
 	~ParticlManager();
 	void Update();
-	void Draw();
-	void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern);
+	void Draw(int vNum);
+	void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern,int time);
 };
 

@@ -13,6 +13,8 @@
 //*****************************************************************************
 #define STAGE_01_TEX_MAX			(3)				// テクスチャの数
 
+class ParticlManager;
+
 class Stage_01 : public Scene
 {
 private:
@@ -26,5 +28,7 @@ public:
 	void Draw();
 	void NextScene();
 	void InitDate();
+
 };
 
+ParticlManager *GetParticlManager(void);

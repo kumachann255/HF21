@@ -8,6 +8,7 @@
 #pragma once
 #include "object.h"
 
+
 enum LAMP_TYPE
 {
 	LAMP_TYPE_RED,

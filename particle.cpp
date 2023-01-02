@@ -16,6 +16,7 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE_MAX			(9)			// テクスチャの数
+#define VERTEX_MAX			(3)			
 
 #define	PARTICLE_SIZE_X		(30.0f)		// 頂点サイズ
 #define	PARTICLE_SIZE_Y		(30.0f)		// 頂点サイズ
@@ -38,22 +39,14 @@
 //*****************************************************************************
 HRESULT MakeVertexParticle(void);
 
-
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-static ID3D11Buffer					*g_VertexBuffer = NULL;		// 頂点バッファ
+static ID3D11Buffer				*g_VertexBuffer[VERTEX_MAX] = { NULL };
+static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };
+static int g_VertexCount;
 
-static ID3D11ShaderResourceView		*g_Texture[TEXTURE_MAX] = { NULL };	// テクスチャ情報
-static int							g_TexNo;					// テクスチャ番号
-
-static PARTICLE						*g_pParticle[PARTICLE_BUFFER];			//画面上に発生できるエフェクトの上限			
-
-static XMFLOAT3					g_posBase;						// ビルボード発生位置
-static float					g_fWidthBase = 10.0f;			// 基準の幅
-static float					g_fHeightBase = 1.0f;			// 基準の高さ
-
-static char *g_TextureName[TEXTURE_MAX] =
+static char *m_TextureName[TEXTURE_MAX] =
 {
 	"data/TEXTURE/EFFECT/sakura.png",
 	"data/TEXTURE/EFFECT/leaf.png",
@@ -66,40 +59,31 @@ static char *g_TextureName[TEXTURE_MAX] =
 	"data/TEXTURE/EFFECT/effect_reflection.png",
 };
 
-static BOOL						g_Load = FALSE;
-
 //=============================================================================
 // 初期化処理
 //=============================================================================
 HRESULT InitParticle(void)
 {
+	g_VertexCount = 0;
+
 	// 頂点情報の作成
 	MakeVertexParticle();
 
-
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		g_pParticle[i] = new PARTICLE[MAX_PARTICLE];
-	}
 
 	// テクスチャ生成
 	for (int i = 0; i < TEXTURE_MAX; i++)
 	{
 		g_Texture[i] = NULL;
 		D3DX11CreateShaderResourceViewFromFile(GetDevice(),
-			g_TextureName[i],
+			m_TextureName[i],
 			NULL,
 			NULL,
 			&g_Texture[i],
 			NULL);
 	}
 
-	g_TexNo = 0;
-
-	g_posBase = XMFLOAT3(0.0f, 0.0f, 0.0f);
-
-	g_Load = TRUE;
 	return S_OK;
+
 }
 
 //=============================================================================
@@ -107,94 +91,28 @@ HRESULT InitParticle(void)
 //=============================================================================
 void UninitParticle(void)
 {
-	if (g_Load == FALSE) return;
-
 	//テクスチャの解放
-	for (int nCntTex = 0; nCntTex < TEXTURE_MAX; nCntTex++)
+	for (int i = 0; i < TEXTURE_MAX; i++)
 	{
-		if (g_Texture[nCntTex] != NULL)
+		if (g_Texture[i] != NULL)
 		{
-			g_Texture[nCntTex]->Release();
-			g_Texture[nCntTex] = NULL;
+			g_Texture[i]->Release();
+			g_Texture[i] = NULL;
 		}
 	}
 
-	// 頂点バッファの解放
-	if (g_VertexBuffer != NULL)
+	for (int i = 0; i < VERTEX_MAX; i++)
 	{
-		g_VertexBuffer->Release();
-		g_VertexBuffer = NULL;
-	}
-
-
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		if (g_pParticle[i])
+		// 頂点バッファの解放
+		if (g_VertexBuffer[i] != NULL)
 		{
-			delete[] g_pParticle[i];
-			g_pParticle[i] = NULL;
+			g_VertexBuffer[i]->Release();
+			g_VertexBuffer[i] = NULL;
 		}
-
 	}
 
-
-	g_Load = FALSE;
 }
 
-//=============================================================================
-// 更新処理
-//=============================================================================
-void UpdateParticle(void)
-{
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		if (g_pParticle[i]->GetSwich())
-		{
-			for (int j = 0; j < MAX_PARTICLE; j++)
-			{
-				g_pParticle[i][j].Update();
-				g_pParticle[i][j].SpriteAnim.Update(g_pParticle[i][j].GetAnimeTime());
-
-			}
-		}
-
-	}
-}
-
-//=============================================================================
-// 描画処理
-//=============================================================================
-void DrawParticle(void)
-{
-	// ライティングを無効に
-	SetLightEnable(FALSE);
-
-	// Z比較無し
-	SetDepthEnable(FALSE);
-
-	// 通常ブレンドに戻す
-	SetBlendState(BLEND_MODE_ALPHABLEND);
-
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		if (g_pParticle[i]->GetSwich())
-		{
-			for (int j = 0; j < MAX_PARTICLE; j++)
-			{
-				g_pParticle[i][j].Draw();
-
-			}
-		}
-	}
-
-
-	// Z比較有効
-	SetDepthEnable(TRUE);
-
-	// ライティングを有効に
-	SetLightEnable(TRUE);
-
-}
 
 //=============================================================================
 // 頂点情報の作成
@@ -209,45 +127,49 @@ HRESULT MakeVertexParticle(void)
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
 
-	{//頂点バッファの中身を埋める
-		D3D11_MAPPED_SUBRESOURCE msr;
-		GetDeviceContext()->Map(g_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+	for (int i = 0; i < VERTEX_MAX; i++)
+	{
+		GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer[i]);
 
-		// 頂点座標の設定
-		vertex[0].Position = XMFLOAT3(-PARTICLE_SIZE_X, PARTICLE_SIZE_Y, 0.0f);
-		vertex[1].Position = XMFLOAT3(PARTICLE_SIZE_X, PARTICLE_SIZE_Y, 0.0f);
-		vertex[2].Position = XMFLOAT3(-PARTICLE_SIZE_X, -PARTICLE_SIZE_Y, 0.0f);
-		vertex[3].Position = XMFLOAT3(PARTICLE_SIZE_X, -PARTICLE_SIZE_Y, 0.0f);
+		{//頂点バッファの中身を埋める
+			D3D11_MAPPED_SUBRESOURCE msr;
+			GetDeviceContext()->Map(g_VertexBuffer[i], 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-		// 法線の設定
-		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
-		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
-		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
-		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+			VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		// 反射光の設定
-		vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			// 頂点座標の設定
+			vertex[0].Position = XMFLOAT3(-PARTICLE_SIZE_X, PARTICLE_SIZE_Y, 0.0f);
+			vertex[1].Position = XMFLOAT3(PARTICLE_SIZE_X, PARTICLE_SIZE_Y, 0.0f);
+			vertex[2].Position = XMFLOAT3(-PARTICLE_SIZE_X, -PARTICLE_SIZE_Y, 0.0f);
+			vertex[3].Position = XMFLOAT3(PARTICLE_SIZE_X, -PARTICLE_SIZE_Y, 0.0f);
 
-		// テクスチャ座標の設定
-		vertex[0].TexCoord = { 0.0f, 0.0f };
-		vertex[1].TexCoord = { 1.0f, 0.0f };
-		vertex[2].TexCoord = { 0.0f, 1.0f };
-		vertex[3].TexCoord = { 1.0f, 1.0f };
+			// 法線の設定
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
-		GetDeviceContext()->Unmap(g_VertexBuffer, 0);
+			// 反射光の設定
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+
+			// テクスチャ座標の設定
+			vertex[0].TexCoord = { 0.0f, 0.0f };
+			vertex[1].TexCoord = { 1.0f, 0.0f };
+			vertex[2].TexCoord = { 0.0f, 1.0f };
+			vertex[3].TexCoord = { 1.0f, 1.0f };
+
+			GetDeviceContext()->Unmap(g_VertexBuffer[i], 0);
+		}
 	}
+
 
 	return S_OK;
 }
-
-
 
 
 //=============================================================================
@@ -276,15 +198,24 @@ PARTICLE::PARTICLE()
 	m_Pattern = MOVE_PATTERN_UP;
 	m_nextAnime = 10;
 
+	m_pSpriteAnim = new SPRITE_ANIMATION();
+
+}
+
+// デストラクター
+PARTICLE::~PARTICLE()
+{
+	delete m_pSpriteAnim;
+
 }
 
 void PARTICLE::Update(void)
 {
 
-
 	XMFLOAT3 move;
 	float fAngle, fLength;
 	int nLife;
+	float fWidthBase = 10.0f;
 
 	switch (m_Pattern)
 	{
@@ -292,7 +223,7 @@ void PARTICLE::Update(void)
 
 
 		fAngle = (float)(rand() % 628 - 314) / 100.0f;
-		fLength = rand() % (int)(g_fWidthBase * 200) / 100.0f - g_fWidthBase;
+		fLength = rand() % (int)(10.0f * 200) / 100.0f - 10.0f;
 		move.x = sinf(fAngle) * fLength;
 		move.y = rand() % 300 / 200.0f;
 		move.z = cosf(fAngle) * fLength;
@@ -300,23 +231,23 @@ void PARTICLE::Update(void)
 		nLife = rand() % 100 + 50;
 
 		// ビルボードの設定
-		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
+		SetParticle(m_posBase, move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
 
 		break;
 
 	case MOVE_PATTERN_UP_SMALL:
 
 
-		fAngle = (float)(rand() % 628 - 314) / 100.0f;
-		fLength = rand() % (int)(300) / 100.0f;
+		fAngle = (float)(rand() % 628 - 314) * 0.01f;
+		fLength = rand() % (int)(300) * 0.01f;
 		move.x = sinf(fAngle) * fLength;
-		move.y = (float)(rand() % 300 - 150) / 100.0f;
+		move.y = (float)(rand() % 300 - 150) * 0.01f;
 		move.z = cosf(fAngle) * fLength;
 
-		nLife = rand() % 50 + 50;
+		nLife = rand() % 100 + 50;
 
 		// ビルボードの設定
-		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
+		SetParticle(m_posBase, move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
 
 		break;
 
@@ -325,13 +256,13 @@ void PARTICLE::Update(void)
 		fAngle = (float)(rand() % 314) / 100.0f;
 		fLength = (float)(rand() % 200) ;
 		move.x = -fLength * 0.4f;
-		move.y = 3.0f;
+		move.y = 0.3f;
 		move.z = cosf(fAngle) * fLength * 1.2f;
 
-		nLife = rand() % 100 + 50;
+		nLife = rand() % 300 + 50;
 
 		// ビルボードの設定
-		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
+		SetParticle(m_posBase, move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
 
 		break;
 
@@ -352,7 +283,7 @@ void PARTICLE::Update(void)
 		nLife = rand() % 1000 + 50;
 
 		// ビルボードの設定
-		SetParticle(/*m_posBase,*/ move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
+		SetParticle(m_posBase, move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
 
 		break;
 
@@ -366,23 +297,24 @@ void PARTICLE::Update(void)
 
 		m_nLife--;
 
-		if (m_nLife <= 0 || SpriteAnim.GetUse() == FALSE)
+		if (m_nLife <= 0 || m_pSpriteAnim->GetUse() == FALSE)
 		{
 			m_bUse = FALSE;
-			SpriteAnim.SetUse(FALSE);
+			m_pSpriteAnim->SetUse(FALSE);
 			SetUse(FALSE);
 			SetSwich(FALSE);
-			SpriteAnim.Init();
+			m_pSpriteAnim->Init();
 			m_move.x = 0.0f;
 			m_move.y = 0.0f;
 			m_move.z = 0.0f;
+			m_pos = m_posBase;
 
 		}
 	}
 
 }
 
-void PARTICLE::Draw(void)
+void PARTICLE::Draw(int vNum)
 {
 
 	if (m_bUse)
@@ -394,7 +326,7 @@ void PARTICLE::Draw(void)
 		// 頂点バッファ設定
 		UINT stride = sizeof(VERTEX_3D);
 		UINT offset = 0;
-		GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
+		GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer[vNum], &stride, &offset);
 
 		// プリミティブトポロジ設定
 		GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -404,7 +336,7 @@ void PARTICLE::Draw(void)
 
 		{//頂点バッファの中身を埋める
 			D3D11_MAPPED_SUBRESOURCE msr;
-			GetDeviceContext()->Map(g_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+			GetDeviceContext()->Map(g_VertexBuffer[vNum], 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
 			VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
@@ -427,8 +359,8 @@ void PARTICLE::Draw(void)
 			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 
-			XMFLOAT2 tpos = SpriteAnim.GetTexPos();
-			XMFLOAT2 twidth = SpriteAnim.GetTexWidth();
+			XMFLOAT2 tpos = m_pSpriteAnim->GetTexPos();
+			XMFLOAT2 twidth = m_pSpriteAnim->GetTexWidth();
 
 			// テクスチャ座標の設定
 			vertex[0].TexCoord = XMFLOAT2(tpos.x, tpos.y);
@@ -436,7 +368,7 @@ void PARTICLE::Draw(void)
 			vertex[2].TexCoord = XMFLOAT2(tpos.x, tpos.y + twidth.y);
 			vertex[3].TexCoord = XMFLOAT2(tpos.x + twidth.x, tpos.y + twidth.y);
 
-			GetDeviceContext()->Unmap(g_VertexBuffer, 0);
+			GetDeviceContext()->Unmap(g_VertexBuffer[vNum], 0);
 		}
 
 
@@ -480,19 +412,71 @@ void PARTICLE::Draw(void)
 }
 
 
-void PARTICLE::SetParticle(/*XMFLOAT3 pos,*/ XMFLOAT3 move, XMFLOAT4 col, float fSizeX, float fSizeY, int nLife)
+void PARTICLE::SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSizeX, float fSizeY, int nLife)
 {
 	if (!m_bUse)
 	{
-		m_pos = { rand() % PARTICLE_RANGE - PARTICLE_RANGE_HALF + 0.0f , 300.0f, rand() % PARTICLE_RANGE - PARTICLE_RANGE_HALF + 0.0f };
-		m_rot = { 0.0f, 0.0f, 0.0f };
-		m_scale = { 1.0f, 1.0f, 1.0f };
-		m_move = move;
-		m_material.Diffuse = col;
-		m_fSizeX = fSizeX;
-		m_fSizeY = fSizeY;
-		m_nLife = nLife;
-		m_bUse = TRUE;
+
+		switch (m_Pattern)
+		{
+		case MOVE_PATTERN_UP:
+
+			m_pos = pos;
+			m_rot = { 0.0f, 0.0f, 0.0f };
+			m_scale = { 1.0f, 1.0f, 1.0f };
+			m_move = move;
+			m_material.Diffuse = col;
+			m_fSizeX = fSizeX;
+			m_fSizeY = fSizeY;
+			m_nLife = nLife;
+			m_bUse = TRUE;
+			break;
+
+		case MOVE_PATTERN_UP_SMALL:
+
+
+			m_pos = pos;
+			m_rot = { 0.0f, 0.0f, 0.0f };
+			m_scale = { 1.0f, 1.0f, 1.0f };
+			m_move = move;
+			m_material.Diffuse = col;
+			m_fSizeX = fSizeX;
+			m_fSizeY = fSizeY;
+			m_nLife = nLife;
+			m_bUse = TRUE;
+
+			break;
+
+		case MOVE_PATTERN_UPLEFT:
+
+			m_pos = pos;
+			m_rot = { 0.0f, 0.0f, 0.0f };
+			m_scale = { 1.0f, 1.0f, 1.0f };
+			m_move = move;
+			m_material.Diffuse = col;
+			m_fSizeX = fSizeX;
+			m_fSizeY = fSizeY;
+			m_nLife = nLife;
+			m_bUse = TRUE;
+
+			break;
+
+		case MOVE_PATTERN_DOWNRIGHT:
+
+			m_pos = { rand() % PARTICLE_RANGE - PARTICLE_RANGE_HALF + 0.0f , 300.0f, rand() % PARTICLE_RANGE - PARTICLE_RANGE_HALF + 0.0f };
+			m_rot = { 0.0f, 0.0f, 0.0f };
+			m_scale = { 1.0f, 1.0f, 1.0f };
+			m_move = move;
+			m_material.Diffuse = col;
+			m_fSizeX = fSizeX;
+			m_fSizeY = fSizeY;
+			m_nLife = nLife;
+			m_bUse = TRUE;
+
+			break;
+
+		}
+
 	}
 }
 
@@ -518,7 +502,7 @@ void SPRITE_ANIMATION::Update(int time)
 			}
 			else
 			{
-				//SetUse(FALSE);
+				SetUse(FALSE);
 				m_uwnum = 0;
 
 			}
@@ -535,41 +519,41 @@ void SPRITE_ANIMATION::Update(int time)
 
 
 
-//=============================================================================
-// パーティクルの呼び出し
-// <引数>
-// XMFLOAT3 pos   : 発生座標 
-// float    size  : 大きさ
-// int      num   : 発生させるパーティクルの数　※マクロ定義 MAX_PARTICLE を超えないように！
-// int      texID : テクスチャーID
+////=============================================================================
+//// パーティクルの呼び出し
+//// <引数>
+//// XMFLOAT3 pos   : 発生座標 
+//// float    size  : 大きさ
+//// int      num   : 発生させるパーティクルの数　※マクロ定義 MAX_PARTICLE を超えないように！
+//// int      texID : テクスチャーID
+////
+//// 
+////=============================================================================
+//void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
+//{
 //
-// 
-//=============================================================================
-void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
-{
-
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		if (!g_pParticle[i]->GetSwich())
-		{
-			for (int j = 0; j < num; j++)
-			{
-
-				//float fSize = (float)(rand() % 6 + 1) * 0.05f * size;	// 0.05f~0.30f
-
-				g_pParticle[i][j].SetSwich(TRUE);
-				g_pParticle[i][j].SetPosBase(pos);
-				g_pParticle[i][j].SetPos(pos);
-				g_pParticle[i][j].SetTexno(texID);
-				g_pParticle[i][j].SetSize(size);
-				g_pParticle[i][j].SetPattern(pattern);
-				g_pParticle[i][j].SpriteAnim.SetUse(TRUE);
-				g_pParticle[i][j].SetAnimeTime(rand() % 5 + 10);
-			}
-
-			break;
-		}
-
-	}
-
-}
+//	for (int i = 0; i < PARTICLE_BUFFER; i++)
+//	{
+//		if (!g_pParticle[i]->GetSwich())
+//		{
+//			for (int j = 0; j < num; j++)
+//			{
+//
+//				//float fSize = (float)(rand() % 6 + 1) * 0.05f * size;	// 0.05f~0.30f
+//
+//				g_pParticle[i][j].SetSwich(TRUE);
+//				g_pParticle[i][j].SetPosBase(pos);
+//				g_pParticle[i][j].SetPos(pos);
+//				g_pParticle[i][j].SetTexno(texID);
+//				g_pParticle[i][j].SetSize(size);
+//				g_pParticle[i][j].SetPattern(pattern);
+//				g_pParticle[i][j].SpriteAnim.SetUse(TRUE);
+//				g_pParticle[i][j].SetAnimeTime(rand() % 5 + 10);
+//			}
+//
+//			break;
+//		}
+//
+//	}
+//
+//}

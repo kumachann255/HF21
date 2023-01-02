@@ -89,6 +89,8 @@ public:
 class PARTICLE
 {
 private:
+
+
 	XMFLOAT3		m_posBase;		// 発生位置
 	XMFLOAT3		m_pos;			// 位置
 	XMFLOAT3		m_rot;			// 回転
@@ -108,10 +110,10 @@ private:
 	XMFLOAT3		m_wind = { 0.0f, 0.0f, 0.0f };
 public:
 
-	SPRITE_ANIMATION SpriteAnim;
+	SPRITE_ANIMATION *m_pSpriteAnim = nullptr;
 
 	PARTICLE();
-	~PARTICLE() {};
+	~PARTICLE();
 
 	void AddPos(XMFLOAT3 move) { 
 		m_pos.x += move.x;
@@ -132,23 +134,18 @@ public:
 	void	 SetSwich(BOOL flag)      { m_bSwich = flag; };
 	void	 SetTexno(int no)         { m_nTexno = no; };
 	void	 SetPattern(int pattern)         { m_Pattern = pattern; };
-	void	 SetParticle(/*XMFLOAT3 pos,*/ XMFLOAT3 move, XMFLOAT4 col, float fSizeX, float fSizeY, int nLife);
+	void	 SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSizeX, float fSizeY, int nLife);
 	void	 SetAnimeTime(int time)   { m_nextAnime = time; };
 
 	void Update(void);       // 更新処理
-	void Draw(void);         // 描画処理
+	void Draw(int vNum);     // 描画処理
 
 };
-
-
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
+//void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern);
 HRESULT InitParticle(void);
 void UninitParticle(void);
-void UpdateParticle(void);
-void DrawParticle(void);
-
-void CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern);
 
