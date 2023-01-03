@@ -2,45 +2,25 @@
 
 ParticlManager::ParticlManager()
 {
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		m_pParticle[i] = new PARTICLE[MAX_PARTICLE];
-	}
-
+	m_pParticle = new PARTICLE[MAX_PARTICLE];
 }
 
 ParticlManager::~ParticlManager()
 {
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
-	{
-		if (m_pParticle[i])
-		{
-			delete[] m_pParticle[i];
-		}
-
-	}
-
+	delete[] m_pParticle;
 }
 
 void ParticlManager::Update()
 {
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
+	for (int j = 0; j < MAX_PARTICLE; j++)
 	{
-		if (m_pParticle[i]->GetSwich())
-		{
-			for (int j = 0; j < MAX_PARTICLE; j++)
-			{
-				m_pParticle[i][j].Update();
-				m_pParticle[i][j].SpriteAnim.Update(m_pParticle[i][j].GetAnimeTime());
-
-			}
-		}
+		m_pParticle[j].Update();
+		m_pParticle[j].m_pSpriteAnim->Update(m_pParticle[j].GetAnimeTime());
 
 	}
-
 }
 
-void ParticlManager::Draw()
+void ParticlManager::Draw(int vNum)
 {
 	// ライティングを無効に
 	SetLightEnable(FALSE);
@@ -51,18 +31,10 @@ void ParticlManager::Draw()
 	// 通常ブレンドに戻す
 	SetBlendState(BLEND_MODE_ALPHABLEND);
 
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
+	for (int j = 0; j < MAX_PARTICLE; j++)
 	{
-		if (m_pParticle[i]->GetSwich())
-		{
-			for (int j = 0; j < MAX_PARTICLE; j++)
-			{
-				m_pParticle[i][j].Draw();
-
-			}
-		}
+		m_pParticle[j].Draw(vNum);
 	}
-
 
 	// Z比較有効
 	SetDepthEnable(TRUE);
@@ -72,26 +44,20 @@ void ParticlManager::Draw()
 
 }
 
-void ParticlManager::CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern)
+void ParticlManager::CallParticle(XMFLOAT3 pos, float size, int num, int texID, int pattern,int time)
 {
-	for (int i = 0; i < PARTICLE_BUFFER; i++)
+	for (int i = 0; i < num; i++)
 	{
-		if (!m_pParticle[i]->GetSwich())
+		if (!m_pParticle[i].GetSwich())
 		{
-			for (int j = 0; j < num; j++)
-			{
+			m_pParticle[i].SetSwich(TRUE);
+			m_pParticle[i].SetPosBase(pos);
+			m_pParticle[i].SetTexno(texID);
+			m_pParticle[i].SetSize(size);
+			m_pParticle[i].SetPattern(pattern);
+			m_pParticle[i].m_pSpriteAnim->SetUse(TRUE);
+			m_pParticle[i].SetAnimeTime(rand() % 5 + time);
 
-				m_pParticle[i][j].SetSwich(TRUE);
-				m_pParticle[i][j].SetPosBase(pos);
-				//g_pParticle[i][j].SetPos(pos);
-				m_pParticle[i][j].SetTexno(texID);
-				m_pParticle[i][j].SetSize(size);
-				m_pParticle[i][j].SetPattern(pattern);
-				m_pParticle[i][j].SpriteAnim.SetUse(TRUE);
-				m_pParticle[i][j].SetAnimeTime(rand() % 5 + 20);
-			}
-
-			break;
 		}
 
 	}

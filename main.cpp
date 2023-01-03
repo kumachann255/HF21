@@ -13,6 +13,7 @@
 #include "sound.h"
 #include "fade.h"
 #include "game.h"
+#include "particle.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -227,6 +228,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// フェードの初期化
 	InitFade();
 
+	// パーティクル
+	InitParticle();
+
 	// ゲームの初期化
 	InitGame();
 
@@ -253,6 +257,12 @@ void Uninit(void)
 
 	// レンダラーの終了処理
 	UninitRenderer();
+
+	// フェードの終了処理
+	UninitFade();
+
+	// パーティクルの終了処理
+	UninitParticle();
 
 	// ゲームの終了
 	UninitGame();

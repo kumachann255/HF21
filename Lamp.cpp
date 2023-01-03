@@ -8,6 +8,8 @@
 #include "Roller.h"
 #include "particle.h"
 #include "sound.h"
+#include "ParticleManager.h"
+#include "Stage_01.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -42,6 +44,7 @@ Lamp::~Lamp()
 	if (m_prefab) {
 		delete m_prefab; 
 	}
+
 }
 
 //=============================================================================
@@ -72,10 +75,11 @@ void Lamp::Update(void)
 
 			XMFLOAT3 pos = GetPos();
 			//pos.y -= 20.0f;
-			CallParticle(pos, 3.0f, 150, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL);
+			GetParticlManager()->CallParticle(pos, 3.0f, 120, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL,4);
 			PlaySound(SOUND_LABEL_SE_se_lamp_clear);
 		}
 	}
+
 }
 
 
@@ -111,4 +115,5 @@ void Lamp::Draw(XMMATRIX WorldMatrix)
 	DrawModel(m_prefab->GetModel());
 
 	SetBlendState(BLEND_MODE_ALPHABLEND);
+
 }

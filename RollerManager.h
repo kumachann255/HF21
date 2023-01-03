@@ -19,6 +19,7 @@ class RollerManager :public GodObject
 private:
 	Roller *pRoller[ROLLER_MAX] = { nullptr,nullptr,nullptr,nullptr };
 	ParticlManager *pParticlManager = nullptr;
+	ParticlManager *pParticlManager2 = nullptr;
 	int SwichCnt = 0;
 	int texNum = 0;
 
