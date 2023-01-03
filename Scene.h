@@ -5,6 +5,7 @@
 //
 //=============================================================================
 #pragma once
+#include "main.h"
 #include "GodObject.h"
 
 //*****************************************************************************
@@ -21,5 +22,6 @@ public:
 	virtual void Update();
 	virtual void Draw();
 	virtual void NextScene();
+	virtual void SetInit(BOOL data);
 };
 

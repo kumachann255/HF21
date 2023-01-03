@@ -67,6 +67,7 @@
     <ClCompile Include="bonusGuidanceY.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="tutorial.cpp" />
+    <ClCompile Include="tutorialManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -139,5 +140,6 @@
     <ClInclude Include="bonusGuidanceY.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="tutorial.h" />
+    <ClInclude Include="tutorialManager.h" />
   </ItemGroup>
 </Project>

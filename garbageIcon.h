@@ -41,5 +41,7 @@ public:
 	void Draw();
 
 	void AddIconNum(void) { m_iconNum++; };
+	void SubIconNum(void) { m_iconNum--; };
 	void SetIconNum(int num) { m_iconNum = num; };
+	int GetIconNum(void) { return m_iconNum; };
 };

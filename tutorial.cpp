@@ -266,16 +266,16 @@ void Tutorial::NextScene(void)
 	// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		SetFade(FADE_OUT);
+		SetFade(FADE_OUT, STAGE_01ID);
 	}
 #endif
 
-	// フェードアウトが終わったらシーンを切り替える
-	if (GetFadeOut_EndFlag())
-	{
-		GetGod()->ChangeScene(TUTORIAL_ID);
-		m_isInit = FALSE;
-	}
+	//// フェードアウトが終わったらシーンを切り替える
+	//if (GetFadeOut_EndFlag())
+	//{
+	//	GetGod()->ChangeScene(TUTORIAL_ID);
+	//	m_isInit = FALSE;
+	//}
 }
 
 void Tutorial::InitDate()

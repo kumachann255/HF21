@@ -91,7 +91,7 @@ void CalendarNum::Update()
 		{
 			m_isTimeUp = FALSE;
 			// ƒV[ƒ“•ÏX
-			SetFade(FADE_OUT);
+			SetFade(FADE_OUT, ENDROLL_ID);
 		}
 	}
 }

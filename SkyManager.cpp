@@ -86,7 +86,7 @@ void SkyManager::Update(void)
 
 	}
 
-	float calendarCnt = GetGod()->GetCalendarNum()->GetCount();
+	float calendarCnt = (float)GetGod()->GetCalendarNum()->GetCount();
 	int seasonNum = GetGod()->GetCalendarNum()->GetMonth();
 	BOOL swichfFlag = GetGod()->GetCalendarNum()->GetSwichfFlag();
 

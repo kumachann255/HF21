@@ -81,8 +81,6 @@ void ParticlManager::CallParticle(XMFLOAT3 pos, float size, int num, int texID, 
 			for (int j = 0; j < num; j++)
 			{
 
-				//float fSize = (float)(rand() % 6 + 1) * 0.05f * size;	// 0.05f~0.30f
-
 				m_pParticle[i][j].SetSwich(TRUE);
 				m_pParticle[i][j].SetPosBase(pos);
 				//g_pParticle[i][j].SetPos(pos);
