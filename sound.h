@@ -25,6 +25,14 @@ enum
 	SOUND_LABEL_SE_shot000,		// 
 	SOUND_LABEL_SE_shot001,		// 
 
+	SOUND_LABEL_BGM_tutorial,	// チュートリアル
+	SOUND_LABEL_BGM_stage01,	// ステージ01
+
+	SOUND_LABEL_SE_se_modeSelect_trance,	// モードセレクト時のカーソル移動
+	SOUND_LABEL_SE_se_modeSelect_enter,		// モードセレクト時の決定
+	SOUND_LABEL_SE_se_tutorial_telop,		// チュートリアルのテロップ音
+
+
 	SOUND_LABEL_SE_se_slot_button_01,	// スロットを止める
 	SOUND_LABEL_SE_se_slot_lever_nomal,	// スロットを動かす
 	SOUND_LABEL_SE_se_slot_lever_bonus,	// スロットを動かす

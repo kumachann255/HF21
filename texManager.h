@@ -180,6 +180,7 @@ public:
 
 	void Update();
 	void Draw();
+	void Init(int type);
 
 	void AddSeason(void) { 
 		m_wakuType += 2;

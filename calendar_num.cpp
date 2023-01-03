@@ -2,6 +2,7 @@
 #include "RollerManager.h"
 #include "fade.h"
 #include "texManager.h"
+#include "sound.h"
 
 CalendarNum::CalendarNum(God *god) :GodObject(god)
 {
@@ -46,7 +47,8 @@ CalendarNum::~CalendarNum()
 
 void CalendarNum::Update()
 {
-	//if (m_month <= month_max) 
+	// チュートリアル以外は時間を進める
+	if (GetSceneID() != TUTORIAL_ID)
 	{
 		m_count++;
 		//m_count += SOEED_CALENDAR;
@@ -92,6 +94,7 @@ void CalendarNum::Update()
 			m_isTimeUp = FALSE;
 			// シーン変更
 			SetFade(FADE_OUT, ENDROLL_ID);
+			StopSound(SOUND_LABEL_BGM_stage01);
 		}
 	}
 }

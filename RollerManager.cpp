@@ -34,6 +34,7 @@ RollerManager::RollerManager(God *god) :GodObject(god)
 	pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
 
 	pParticlManager = new ParticlManager();
+	pParticlManager2 = new ParticlManager();
 }
 
 RollerManager::~RollerManager()
@@ -44,6 +45,7 @@ RollerManager::~RollerManager()
 	}
 
 	delete pParticlManager;
+	delete pParticlManager2;
 }
 
 void RollerManager::Update()
@@ -68,17 +70,19 @@ void RollerManager::Update()
 
 	if (SwichCnt == 200) {
 		SwichCnt = 0;
-		pParticlManager->CallParticle(pos, 10.0f, 20, texNum, MOVE_PATTERN_DOWNRIGHT);
+		pParticlManager->CallParticle(pos, 10.0f, 70, texNum, MOVE_PATTERN_DOWNRIGHT,20);
 	}
 
 	int seasonNum = GetGod()->GetCalendarNum()->GetMonth();
 	BOOL fadeOut_EndFlag = GetGod()->GetSkyManager()->GetFadeOut_EndFlag();
 	BOOL fadeOut_StartFlag = GetGod()->GetSkyManager()->GetFadeOut_StartFlag();
-	XMFLOAT3 pos2 = { 0.0f,30.0f,0.0f };
+	XMFLOAT3 pos2 = { 0.0f,20.0f,0.0f };
 
+	//if (GetKeyboardTrigger(DIK_F7)) 
 	if (fadeOut_StartFlag)
 	{
-		CallParticle(pos2, 80.0f, 20, EFFECT_REFLECTION, MOVE_PATTERN_UP);
+		pParticlManager2->CallParticle(pos2, 80.0f, 50, EFFECT_REFLECTION, MOVE_PATTERN_UP,10);
+
 	}
 
 
@@ -147,6 +151,7 @@ void RollerManager::Update()
 
 
 	pParticlManager->Update();
+	pParticlManager2->Update();
 
 }
 
@@ -157,7 +162,8 @@ void RollerManager::Draw()
 		pRoller[i]->Draw();
 	}
 
-	pParticlManager->Draw();
+	pParticlManager->Draw(0);
+	pParticlManager2->Draw(1);
 }
 
 void RollerManager::Init()

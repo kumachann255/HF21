@@ -13,6 +13,8 @@
 //*****************************************************************************
 #define STAGE_01_TEX_MAX			(3)				// テクスチャの数
 
+class ParticlManager;
+
 class Stage_01 : public Scene
 {
 private:
@@ -30,3 +32,4 @@ public:
 	void SetInit(BOOL data) { m_isInit = data; };
 };
 
+ParticlManager *GetParticlManager(void);

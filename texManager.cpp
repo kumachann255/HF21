@@ -86,6 +86,7 @@ TexManager::TexManager(God * god):GodObject(god)
 	}
 
 	m_pUiManager->GetUIObject(m_wakuType)->SetTexType(texType_endless);
+
 }
 
 void TexManager::Update()
@@ -131,4 +132,9 @@ void TexManager::Draw()
 	{
 		m_pUiManager->GetUIObject(i)->Draw();
 	}
+}
+
+void TexManager::Init(int type)
+{
+	m_wakuType = type;
 }

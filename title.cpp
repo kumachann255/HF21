@@ -411,7 +411,7 @@ void Title::Draw(void)
 void Title::NextScene(void)
 {
 	// シーンを切り替える
-	SetFade(FADE_OUT, STAGE_01ID);
+	SetFade(FADE_OUT, MODESELECT_ID);
 
 }
 

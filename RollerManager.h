@@ -11,7 +11,7 @@ enum
 	ROLLER_MAX,
 };
 
-#define	SWICH_TIME		(10)
+#define	SWICH_TIME		(60)
 #define	CALENDAR_SWITCH_TIME		(SWICH_TIME / 3 * 60)
 
 class RollerManager :public GodObject
@@ -19,6 +19,7 @@ class RollerManager :public GodObject
 private:
 	Roller *pRoller[ROLLER_MAX] = { nullptr,nullptr,nullptr,nullptr };
 	ParticlManager *pParticlManager = nullptr;
+	ParticlManager *pParticlManager2 = nullptr;
 	int SwichCnt = 0;
 	int texNum = 0;
 

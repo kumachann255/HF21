@@ -26,11 +26,13 @@
 #include "UI.h"
 #include "particle.h"
 #include "calendar_num.h"
+#include "sound.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 
+static ParticlManager *pParticlManager = nullptr;
 
 
 //=============================================================================
@@ -38,8 +40,7 @@
 //=============================================================================
 Stage_01::Stage_01(God *god):Scene(god)
 {
-	// パーティクル初期化
-	InitParticle();
+	pParticlManager = new ParticlManager();
 }
 
 //=============================================================================
@@ -47,8 +48,7 @@ Stage_01::Stage_01(God *god):Scene(god)
 //=============================================================================
 Stage_01::~Stage_01()
 {
-	// パーティクル終了
-	UninitParticle();
+	delete pParticlManager;
 }
 
 //=============================================================================
@@ -70,14 +70,12 @@ void Stage_01::Update(void)
 	if (!m_isInit)
 	{
 		InitDate();
-
+		PlaySound(SOUND_LABEL_BGM_stage01);
 	}
 
 	// シーン切り替えチェック
 	NextScene();
 
-	// パーティクル更新
-	UpdateParticle();
 
 	// カレンダー更新
 	GetGod()->GetCalendarNum()->Update();
@@ -108,6 +106,8 @@ void Stage_01::Update(void)
 		//	GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Update();
 		//}
 	}
+
+	pParticlManager->Update();
 }
 
 //=============================================================================
@@ -179,6 +179,9 @@ void Stage_01::Draw(void)
 
 		GetGod()->GetSkyManager()->Draw();
 
+		// パーティクル
+		pParticlManager->Draw(0);
+
 		SetShader(SHADER_MODE_DEFAULT);
 		SetViewPort(TYPE_LEFT_HALF_SCREEN);
 		SetCameraAT(pos);
@@ -186,11 +189,11 @@ void Stage_01::Draw(void)
 
 		GetGod()->GetRollerManager()->Draw();
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
-		DrawParticle();
 		GetGod()->GetQuestBoardManager()->Draw();
 
 		// カレンダー描画
 		GetGod()->GetCalendarNum()->Draw();
+
 
 
 	//右上画面===================================
@@ -293,5 +296,13 @@ void Stage_01::InitDate()
 	GetGod()->GetSlotManager()->Init();
 	GetGod()->GetTrainingCrowManager()->Init();
 	GetGod()->GetBonusSlotManager()->Init();
+	GetGod()->GetTexManager()->Init(ui_waku_full_spring);
 
+}
+
+
+
+ParticlManager *GetParticlManager(void) 
+{ 
+	return pParticlManager; 
 }

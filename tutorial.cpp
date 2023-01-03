@@ -25,6 +25,8 @@
 #include "UI.h"
 #include "particle.h"
 #include "calendar_num.h"
+#include "tutorialManager.h"
+#include "sound.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -66,13 +68,16 @@ void Tutorial::Init(void)
 void Tutorial::Update(void)
 {
 	// 初期化処理をしていない場合、メンバ変数などを一括初期化
-	if (!m_isInit) InitDate();
-
+	if (!m_isInit)
+	{
+		InitDate();
+		PlaySound(SOUND_LABEL_BGM_tutorial);
+	}
 	// シーン切り替えチェック
 	NextScene();
 
 	// パーティクル更新
-	UpdateParticle();
+	//UpdateParticle();
 
 	// カレンダー更新
 	GetGod()->GetCalendarNum()->Update();
@@ -103,6 +108,9 @@ void Tutorial::Update(void)
 		//	GetGod()->GetTexManager()->GetUIManager()->GetUIObject(i)->Update();
 		//}
 	}
+
+	// チュートリアル更新
+	GetGod()->GetTutorialManager()->Update();
 }
 
 //=============================================================================
@@ -181,7 +189,7 @@ void Tutorial::Draw(void)
 
 		GetGod()->GetRollerManager()->Draw();
 		GetGod()->GetSlotManager()->Draw(No_FlyingCrow);
-		DrawParticle();
+		//DrawParticle();
 		GetGod()->GetQuestBoardManager()->Draw();
 
 		// カレンダー描画
@@ -200,6 +208,15 @@ void Tutorial::Draw(void)
 		//GetGod()->GetRoom()->Draw();
 		//GetGod()->GetTrainingCrowSquat()->Draw();
 		GetGod()->GetTrainingCrowManager()->Draw();
+
+		//フル画面===================================
+
+		SetViewPort(TYPE_FULL_SCREEN);
+		SetCameraAT(pos);
+		SetCamera();
+
+		// チュートリアルの描画処理
+		GetGod()->GetTutorialManager()->Draw();
 
 		// テクスチャの描画処理
 		{
@@ -288,5 +305,6 @@ void Tutorial::InitDate()
 	GetGod()->GetSlotManager()->Init();
 	GetGod()->GetTrainingCrowManager()->Init();
 	GetGod()->GetBonusSlotManager()->Init();
-
+	GetGod()->GetTexManager()->Init(ui_waku_full_spring_bonus);
+	GetGod()->GetTutorialManager()->Init();
 }
