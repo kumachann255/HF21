@@ -22,9 +22,12 @@ class AnimationManager;
 class TexManager;
 class RollerManager;
 class CalendarNum;
+class TutorialManager;
 
 enum SCENE_ID {
 	TITLE_ID,
+	MODESELECT_ID,
+	TUTORIAL_ID,
 	STAGE_01ID,
 	GAME_CLEAR_ID,
 	GAME_OVER_ID,
@@ -53,6 +56,7 @@ private:
 	 TexManager *m_pTexManager = nullptr;
 	 RollerManager *m_pRollerManager = nullptr;
 	 CalendarNum *m_pCalendarNum = nullptr;
+	 TutorialManager *m_pTutorialManager = nullptr;
 
 public:
 	God();
@@ -62,6 +66,7 @@ public:
 	void Update();
 	void Draw();
 	void ChangeScene(SCENE_ID sceneId);
+	SCENE_ID GetScene(void);
 
 	// ÉQÉbÉ^Å[
 	SkyManager *GetSkyManager() { return m_pSkymanager; }
@@ -79,6 +84,7 @@ public:
 	AnimationManager *GetAnimationManager() { return m_pAnimationManager; }
 	RollerManager *GetRollerManager() { return m_pRollerManager; }
 	CalendarNum *GetCalendarNum() { return m_pCalendarNum; }
+	TutorialManager *GetTutorialManager() { return m_pTutorialManager; }
 };
 
 //*****************************************************************************

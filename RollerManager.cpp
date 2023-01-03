@@ -56,7 +56,8 @@ void RollerManager::Update()
 		pRoller[i]->Update();
 	}
 
-	SwichCnt++;
+	// チュートリアルは時間が進まない
+	if(GetGod()->GetScene() != TUTORIAL_ID) SwichCnt++;
 
 	//if (SwichCnt % CALENDAR_SWITCH_TIME == 0)
 	//{

@@ -18,6 +18,8 @@
 #define SOEED_CALENDAR				(0.0003f)
 #define DIStANCE_CALENDAR			(1.0f / MAX_CALENDAR_NUM)
 
+#define TIMEUP_COUNT_MAX			(120)
+
 enum {
 	month_4,
 	month_5,
@@ -32,6 +34,7 @@ enum {
 	month_2,
 	month_3,
 	month_max,
+	month_end,
 };
 
 
@@ -54,6 +57,8 @@ private:
 	float m_uvEndY = 1.0f / MAX_CALENDAR_NUM;
 	int m_count = 0;
 	BOOL m_swichfFlag = FALSE;
+	BOOL m_isTimeUp = FALSE;
+	int m_timeUpCount = 0;
 
 public:
 	CalendarNum(God *god);

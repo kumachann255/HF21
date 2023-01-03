@@ -45,6 +45,8 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos0, 600.0f, 140.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 450.0f, 50.0f, time0));
 
+	m_pUiManager->Register(new UIObject(pos0, 500.0f, 90.0f, time0));
+
 	m_pUiManager->Register(new UIObject(pos0, 432.0f, 380.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 960.0f, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos0, 2700.0f, 540.0f, time0));
@@ -52,12 +54,39 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos1, 960.0f, 540.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 960.0f, 540.0f, time0));
 
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
+
 	for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
 	{
 		m_pUiManager->GetUIObject(i)->GetUITexData()->Create(g_TexturName[i]);
 	}
 
 	m_pUiManager->GetUIObject(m_wakuType)->SetTexType(texType_endless);
+
 }
 
 void TexManager::Update()
@@ -103,4 +132,9 @@ void TexManager::Draw()
 	{
 		m_pUiManager->GetUIObject(i)->Draw();
 	}
+}
+
+void TexManager::Init(int type)
+{
+	m_wakuType = type;
 }

@@ -66,6 +66,10 @@
     <ClCompile Include="bonusBGh.cpp" />
     <ClCompile Include="bonusGuidanceY.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="tutorial.cpp" />
+    <ClCompile Include="tutorialManager.cpp" />
+    <ClCompile Include="tutorialBG.cpp" />
+    <ClCompile Include="modeSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
@@ -137,5 +141,9 @@
     <ClInclude Include="bonusBGh.h" />
     <ClInclude Include="bonusGuidanceY.h" />
     <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="tutorial.h" />
+    <ClInclude Include="tutorialManager.h" />
+    <ClInclude Include="tutorialBG.h" />
+    <ClInclude Include="modeSelect.h" />
   </ItemGroup>
 </Project>

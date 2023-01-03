@@ -11,6 +11,7 @@
 #include "sprite.h"
 #include "UI.h"
 #include "texManager.h"
+#include "God.h"
 
 
 //*****************************************************************************
@@ -136,6 +137,18 @@ void UIObject::Update(void)
 		m_isUse = FALSE;
 	}
 
+	// チュートリアルの場合テロップをスキップ機能追加
+	if (GetSceneID() == TUTORIAL_ID)
+	{
+		if (GetKeyboardTrigger(DIK_SPACE))
+		{
+			if (m_timeCnt < m_timeLimit - UI_ACTION_TIME)
+			{
+				m_timeCnt = m_timeLimit - UI_ACTION_TIME;
+			}
+		}
+	}
+
 	switch (m_texType)
 	{
 	case texType_normal:
@@ -207,7 +220,8 @@ void UIObject::Draw(void)
 	// ライティングを無効
 	SetLightEnable(FALSE);
 
-	SetAlphaTestEnable(TRUE);
+	// FALSEが透明化
+	SetAlphaTestEnable(FALSE);
 
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -241,6 +255,9 @@ void UIObject::Draw(void)
 		GetDeviceContext()->Draw(4, 0);
 	}
 
+	// FALSEが透明化
+	SetAlphaTestEnable(TRUE);
+
 	// ライティングを有効に
 	SetLightEnable(TRUE);
 
@@ -261,7 +278,7 @@ void UIObject::UpdateFade(void)
 	else if ((m_timeCnt > m_timeLimit - UI_ACTION_TIME) &&
 		(m_timeCnt < m_timeLimit))
 	{
-		m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+		m_color.w = 1.0f - (((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / ((float)UI_ACTION_TIME));
 	}
 }
 
@@ -302,7 +319,7 @@ void UIObject::UpdateCutIn(void)
 		{
 			t = (float)(m_timeCnt - (m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
 			m_pos.x += (t * t) * m_vec * UI_CUTIN_SPEED;
-			m_color.w = 1.0f - ((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME;
+			m_color.w = 1.0f - (((float)m_timeCnt - (float)(m_timeLimit - UI_ACTION_TIME)) / (float)UI_ACTION_TIME);
 		}
 
 		break;

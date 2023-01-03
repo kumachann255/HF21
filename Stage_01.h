@@ -29,6 +29,7 @@ public:
 	void NextScene();
 	void InitDate();
 
+	void SetInit(BOOL data) { m_isInit = data; };
 };
 
 ParticlManager *GetParticlManager(void);

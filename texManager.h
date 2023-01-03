@@ -35,6 +35,8 @@ enum {
 	telop_rainbowEnd,
 	telop_rainbowTimeMakure,
 
+	telop_timeUp,
+
 	trandition_white,
 	trandition_whiteFull,
 	trandition_crow,
@@ -42,6 +44,33 @@ enum {
 	concentration_line0,
 	concentration_line1,
 
+
+	tutorial_00,
+	tutorial_01,
+	tutorial_02,
+	tutorial_03,
+	tutorial_04,
+	tutorial_05,
+	tutorial_06,
+	tutorial_07,
+	tutorial_08,
+	tutorial_09,
+	tutorial_10,
+	tutorial_11,
+	tutorial_12,
+	tutorial_13,
+	tutorial_14,
+	tutorial_15,
+	tutorial_16,
+	tutorial_17,
+	tutorial_18,
+	tutorial_19,
+	tutorial_20,
+	tutorial_21,
+	tutorial_22,
+	tutorial_23,
+	tutorial_24,
+	
 	telop_max,
 };
 
@@ -101,6 +130,8 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_rainbowEnd.png",
 	"data/TEXTURE/tex_rainbowTimeMakure.png",
 
+	"data/TEXTURE/tex_timeUp.png",
+
 	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_whiteBox.png",
 	"data/TEXTURE/tex_transition_crow.png",
@@ -108,6 +139,31 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_concentrationLine0.png",
 	"data/TEXTURE/tex_concentrationLine1.png",
 
+	"data/TEXTURE/tex_tutorial_00.png",
+	"data/TEXTURE/tex_tutorial_01.png",
+	"data/TEXTURE/tex_tutorial_02.png",
+	"data/TEXTURE/tex_tutorial_03.png",
+	"data/TEXTURE/tex_tutorial_04.png",
+	"data/TEXTURE/tex_tutorial_05.png",
+	"data/TEXTURE/tex_tutorial_06.png",
+	"data/TEXTURE/tex_tutorial_07.png",
+	"data/TEXTURE/tex_tutorial_08.png",
+	"data/TEXTURE/tex_tutorial_09.png",
+	"data/TEXTURE/tex_tutorial_10.png",
+	"data/TEXTURE/tex_tutorial_11.png",
+	"data/TEXTURE/tex_tutorial_12.png",
+	"data/TEXTURE/tex_tutorial_13.png",
+	"data/TEXTURE/tex_tutorial_14.png",
+	"data/TEXTURE/tex_tutorial_15.png",
+	"data/TEXTURE/tex_tutorial_16.png",
+	"data/TEXTURE/tex_tutorial_17.png",
+	"data/TEXTURE/tex_tutorial_18.png",
+	"data/TEXTURE/tex_tutorial_19.png",
+	"data/TEXTURE/tex_tutorial_20.png",
+	"data/TEXTURE/tex_tutorial_21.png",
+	"data/TEXTURE/tex_tutorial_22.png",
+	"data/TEXTURE/tex_tutorial_23.png",
+	"data/TEXTURE/tex_tutorial_24.png",
 
 };
 
@@ -124,6 +180,7 @@ public:
 
 	void Update();
 	void Draw();
+	void Init(int type);
 
 	void AddSeason(void) { 
 		m_wakuType += 2;

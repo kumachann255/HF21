@@ -58,3 +58,7 @@ void Scene::NextScene(void)
 {
 
 }
+
+void Scene::SetInit(BOOL data)
+{
+}

@@ -168,6 +168,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="modeSelect.h" />
     <ClInclude Include="Morphing.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="particle.h" />
@@ -201,6 +202,9 @@
     <ClInclude Include="trainingCrowBench.h" />
     <ClInclude Include="trainingCrowDumbbell.h" />
     <ClInclude Include="TrainingCrowManager.h" />
+    <ClInclude Include="tutorial.h" />
+    <ClInclude Include="tutorialBG.h" />
+    <ClInclude Include="tutorialManager.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
@@ -237,6 +241,7 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="modeSelect.cpp" />
     <ClCompile Include="Morphing.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="particle.cpp" />
@@ -268,6 +273,9 @@
     <ClCompile Include="trainingCrowBench.cpp" />
     <ClCompile Include="trainingCrowDumbbell.cpp" />
     <ClCompile Include="TrainingCrowManager.cpp" />
+    <ClCompile Include="tutorial.cpp" />
+    <ClCompile Include="tutorialBG.cpp" />
+    <ClCompile Include="tutorialManager.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>

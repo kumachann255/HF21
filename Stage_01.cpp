@@ -5,6 +5,7 @@
 //
 //=============================================================================
 #include "Stage_01.h"
+#include "Scene.h"
 #include "SkyManager.h"
 #include "rollerManager.h"
 #include "input.h"
@@ -25,6 +26,7 @@
 #include "UI.h"
 #include "particle.h"
 #include "calendar_num.h"
+#include "sound.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -65,7 +67,11 @@ void Stage_01::Init(void)
 void Stage_01::Update(void)
 {
 	// 初期化処理をしていない場合、メンバ変数などを一括初期化
-	if (!m_isInit) InitDate();
+	if (!m_isInit)
+	{
+		InitDate();
+		PlaySound(SOUND_LABEL_BGM_stage01);
+	}
 
 	// シーン切り替えチェック
 	NextScene();
@@ -268,16 +274,16 @@ void Stage_01::NextScene(void)
 	// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		SetFade(FADE_OUT, TITLE_ID);
+		SetFade(FADE_OUT, ENDROLL_ID);
 	}
 #endif
 
-	// フェードアウトが終わったらシーンを切り替える
-	if (GetFadeOut_EndFlag())
-	{
-
-		m_isInit = FALSE;
-	}
+	//// フェードアウトが終わったらシーンを切り替える
+	//if (GetFadeOut_EndFlag())
+	//{
+	//	GetGod()->ChangeScene(ENDROLL_ID);
+	//	m_isInit = FALSE;
+	//}
 }
 
 void Stage_01::InitDate()
@@ -290,6 +296,7 @@ void Stage_01::InitDate()
 	GetGod()->GetSlotManager()->Init();
 	GetGod()->GetTrainingCrowManager()->Init();
 	GetGod()->GetBonusSlotManager()->Init();
+	GetGod()->GetTexManager()->Init(ui_waku_full_spring);
 
 }
 

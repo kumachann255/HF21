@@ -93,7 +93,6 @@ public:
 		m_isUse = TRUE;
 	}
 
-
 	virtual ~UIObject();
 
 	XMFLOAT3 GetPos(void) { return m_pos; }
@@ -107,6 +106,7 @@ public:
 	void SetPos(XMFLOAT3 pos) {  m_pos = pos; 
 		m_springStartY = pos.y;	}
 	void SetRot(float rot) {  m_rot = rot; }
+	void SetColor(XMFLOAT4 color) { m_color = color; }
 	void SetWidth(float width) { m_fWidth = m_fWidthMax = width; }
 	void SetHeight(float height) { m_fHeight = m_fHeightMax = height; }
 	void SetTexNo(int texNo) { m_TexNo = texNo; }

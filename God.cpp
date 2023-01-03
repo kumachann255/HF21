@@ -8,6 +8,8 @@
 #include "debugproc.h"
 #include "input.h"
 #include "Title.h"
+#include "tutorial.h"
+#include "modeSelect.h"
 #include "Stage_01.h"
 #include "SkyManager.h"
 #include "Roller.h"
@@ -24,6 +26,7 @@
 #include "texManager.h"
 #include "Staffroll.h"
 #include "RollerManager.h"
+#include "tutorialManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -42,6 +45,8 @@ God::God()
 
 	//　管理するシーンを登場させる
 	Scenes[TITLE_ID] = new Title(this);
+	Scenes[MODESELECT_ID] = new ModeSelect(this);
+	Scenes[TUTORIAL_ID] = new Tutorial(this);
 	Scenes[STAGE_01ID] = new Stage_01(this);
 	Scenes[ENDROLL_ID] = new StaffRoll(this);
 
@@ -58,7 +63,7 @@ God::God()
 	m_pAnimationManager = new AnimationManager(this);
 	m_pRollerManager = new RollerManager(this);
 	m_pCalendarNum = new CalendarNum(this);
-
+	m_pTutorialManager = new TutorialManager(this);
 }
 
 //=============================================================================
@@ -80,7 +85,7 @@ God::~God()
 	delete m_pTexManager;
 	delete m_pRollerManager;
 	delete m_pCalendarNum;
-
+	delete m_pTutorialManager;
 }
 
 //=============================================================================
@@ -90,6 +95,11 @@ void God::Update(void)
 {
 	// 現在のシーンを更新
 	Scenes[g_curSceneId]->Update();
+
+	// そのモードに再度入った際に初期化処理が行われるようにする
+	if (g_curSceneId != TUTORIAL_ID) Scenes[TUTORIAL_ID]->SetInit(FALSE);
+	else if (g_curSceneId != STAGE_01ID) Scenes[STAGE_01ID]->SetInit(FALSE);
+
 
 	//if (GetKeyboardTrigger(DIK_F1))
 	//{
@@ -116,6 +126,11 @@ void God::ChangeScene(SCENE_ID sceneId)
 {
 	g_curSceneId = sceneId;
 	Scenes[g_curSceneId]->Init();
+}
+
+SCENE_ID God::GetScene(void)
+{
+	return g_curSceneId;
 }
 
 

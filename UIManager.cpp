@@ -43,4 +43,21 @@ void UIManager::SetTexture(int texNo, int texType, XMFLOAT3 pos, int time)
 	m_pUIObject[texNo]->SetTexType(texType);
 	m_pUIObject[texNo]->SetTime(time * 60);
 	m_pUIObject[texNo]->ResetTex();
+
+	// Å‰‚ª“§–¾‚È‚â‚Â‚Ícase‚É“ü‚ê‚é
+	switch (texType)
+	{
+	case texType_fade:
+	case texType_cutIn_right:
+	case texType_cutIn_left:
+	case texType_cutIn_up:
+	case texType_cutIn_up_Update:
+	case texType_cutIn_under:
+	case texType_cutIn_under_Update:
+		m_pUIObject[texNo]->SetColor(XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f));
+		break;
+
+	default:
+		break;
+	}
 }

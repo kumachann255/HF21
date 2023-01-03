@@ -44,6 +44,13 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/shot000.wav", 0 },		// 弾発射音
 	{ (char*)"data/SE/shot001.wav", 0 },		// ヒット音
 
+	{ (char*)"data/BGM/BGM_tutorial.wav", -1 },	// チュートリアル
+	{ (char*)"data/BGM/BGM_stage01.wav", -1 },	// ステージ01
+
+	{ (char*)"data/SE/se_modeSelect_trance.wav", 0 },	// モードセレクト時のカーソル移動
+	{ (char*)"data/SE/se_modeSelect_enter.wav", 0 },	// モードセレクト時の決定
+	{ (char*)"data/SE/se_tutorial_telop.wav", 0 },		// チュートリアルのテロップ音
+
 	{ (char*)"data/SE/se_slot_button_01.wav", 0 },	// スロットを止める
 	{ (char*)"data/SE/se_drumStart1.wav", 0 },		// スロットを動かす
 	{ (char*)"data/SE/se_drumStart0.wav", 0 },		// スロットを動かす
@@ -236,7 +243,10 @@ BOOL InitSound(HWND hWnd)
 	// 各音源の音量調節
 	SetSourceVolume(SOUND_LABEL_SE_se_slot_button_01, 0.5f);
 	SetSourceVolume(SOUND_LABEL_SE_se_slot_stop, 0.5f);
-	
+
+	SetSourceVolume(SOUND_LABEL_BGM_tutorial, 0.5f);
+	SetSourceVolume(SOUND_LABEL_BGM_stage01, 0.5f);
+
 	return TRUE;
 }
 
