@@ -44,6 +44,10 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/shot000.wav", 0 },		// 弾発射音
 	{ (char*)"data/SE/shot001.wav", 0 },		// ヒット音
 
+	{ (char*)"data/BGM/BGM_title.wav", -1 },	// タイトル
+	{ (char*)"data/SE/se_title_start.wav", 0 },	// タイトルゲームスタート音
+	{ (char*)"data/SE/se_title_quit.wav", 0 },	// タイトルゲーム終了音
+
 	{ (char*)"data/BGM/BGM_tutorial.wav", -1 },	// チュートリアル
 	{ (char*)"data/BGM/BGM_stage01.wav", -1 },	// ステージ01
 
@@ -89,7 +93,7 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/se_Roulette_high.wav", 0 },	// ちゃーーーじ！
 	{ (char*)"data/SE/se_hit.wav", 0 },				// 当たり音
 
-	{ (char*)"data/SE/se_spotlight.wav", 0 },			// スポットライト
+	{ (char*)"data/SE/se_spotlight.wav", 0 },		// スポットライト
 	{ (char*)"data/SE/se_syakin.wav", 0 },			// シャキーン！
 	{ (char*)"data/SE/se_zyan.wav", 0 },			// ジャン！
 	{ (char*)"data/SE/se_shock.wav", 0 },			// ガーン！

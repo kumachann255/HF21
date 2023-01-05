@@ -325,6 +325,7 @@ void Title::Init(void)
 	titleObj[22].g_Rot = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	titleObj[22].g_TexNo = 21;
 
+	PlaySound(SOUND_LABEL_BGM_title);
 }
 
 //=============================================================================
@@ -339,6 +340,7 @@ void Title::Update(void)
 	switch (m_modeSw)
 	{
 	case CHOICE:
+
 		Choice(&titleObj[3].g_Pos.x, &titleObj[4].g_Pos.x, &titleObj[5].g_Pos.x);
 		Rot(&titleObj[1].g_Rot.z, -0.001f);
 		UpDown(&titleObj[16].g_UD_Change, &titleObj[16].g_Pos.y, 1.3f);
@@ -351,6 +353,7 @@ void Title::Update(void)
 		break;
 
 	case GAME_START:
+
 		UpDown(&titleObj[16].g_UD_Change, &titleObj[16].g_Pos.y, 1.3f);
 		UpDown(&titleObj[17].g_UD_Change, &titleObj[17].g_Pos.y, 1.1f);
 		UpDown(&titleObj[18].g_UD_Change, &titleObj[18].g_Pos.y, 1.4f);
@@ -368,6 +371,7 @@ void Title::Update(void)
 		break;
 
 	case EXIT:
+
 		SetFade(FADE_OUT, TITLE_ID);
 		m_modeSw = CHOICE;
 
@@ -439,10 +443,12 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 	{
 		if (GetKeyboardTrigger(DIK_RIGHT))
 		{
+			PlaySound(SOUND_LABEL_SE_se_modeSelect_trance); // モードセレクト時のカーソル移動
 			*posChoiceX = *posGameX + 20.0f;
 		}
 		if (GetKeyboardTrigger(DIK_RETURN))
 		{
+			PlaySound(SOUND_LABEL_SE_se_title_quit); // タイトルゲーム終了
 			m_modeSw = SetMode(EXIT); // 2 == EXIT
 		}
 	}
@@ -451,10 +457,12 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 	{
 		if (GetKeyboardTrigger(DIK_LEFT))
 		{
+			PlaySound(SOUND_LABEL_SE_se_modeSelect_trance); // モードセレクト時のカーソル移動
 			*posChoiceX = *posExitX + 20.0f;
 		}
 		if (GetKeyboardTrigger(DIK_RETURN))
 		{
+			PlaySound(SOUND_LABEL_SE_se_title_start); // タイトルゲームスタート
 			m_modeSw = SetMode(GAME_START); // 1 == GAME_START
 		}
 	}
