@@ -17,10 +17,10 @@
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
 //*****************************************************************************
-#define TEXTURE_MAX				(1)		// ƒeƒNƒXƒ`ƒƒ‚Ì”
+#define TEXTURE_MAX				(14)		// ƒeƒNƒXƒ`ƒƒ‚Ì”
 #define DEBUGPOS_PRESS_ADD		(5.0f)	// ƒfƒoƒbƒO—pPOS‚Ì‰ÁŒ¸Z—pPRESS
 #define DEBUGPOS_TRIGGER_ADD	(1.0f)	// ƒfƒoƒbƒO—pPOS‚Ì‰ÁŒ¸Z—pTRIGGER
-#define SCROLL_VALUE			(2.5f)	// ƒXƒNƒ[ƒ‹—p‘Œ¸’l
+#define SCROLL_VALUE			(2.0f)	// ƒXƒNƒ[ƒ‹—p‘Œ¸’l
 
 //*****************************************************************************
 // ƒOƒ[ƒoƒ‹•Ï”
@@ -28,13 +28,30 @@ static ID3D11Buffer				*g_VertexBuffer = NULL;		// ’¸“_î•ñ
 static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// ƒeƒNƒXƒ`ƒƒî•ñ
 
 static char *g_TexturName[TEXTURE_MAX] = {
-	"data/TEXTURE/scroll.png",
+	"data/TEXTURE/STAFFROLL/endScroll.png",
+	"data/TEXTURE/STAFFROLL/resultBG.png",
+	"data/TEXTURE/STAFFROLL/seika.png",
+	"data/TEXTURE/STAFFROLL/goldBar.png",
+	"data/TEXTURE/STAFFROLL/silverBar.png",
+	"data/TEXTURE/STAFFROLL/bronzeBar.png",
+	"data/TEXTURE/STAFFROLL/blueBar.png",
+	"data/TEXTURE/STAFFROLL/greenBar.png",
+	"data/TEXTURE/STAFFROLL/goldRunk.png",
+	"data/TEXTURE/STAFFROLL/silverRunk.png",
+	"data/TEXTURE/STAFFROLL/bronzeRunk.png",
+	"data/TEXTURE/STAFFROLL/blueRunk.png",
+	"data/TEXTURE/STAFFROLL/greenRunk.png",
+	"data/TEXTURE/STAFFROLL/factcheck_mark.png"
+
 };
 
 static BOOL						g_Load = FALSE;
 
 // ƒXƒ^ƒbƒtƒ[ƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-s_StaffRoll staffRoll;
+s_StaffRoll staffRoll[STAFFROLL_MAX];
+// ƒ`ƒFƒbƒNƒ}[ƒNƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+s_Check check[CHECK_MAX];
+
 
 //=============================================================================
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^[ ¦ƒV[ƒ“‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^[‚É“n‚µ‚Ä‚ ‚°‚é
@@ -65,17 +82,103 @@ void StaffRoll::Init(void)
 //=============================================================================
 void StaffRoll::Update(void)
 {
-	UpdateStaffRoll();
-	Scroll(&staffRoll.g_Pos.y);
+	switch (m_Mode)
+	{
+	case RESULT:
+		// ˆø”•”•ª(–{—ˆ‚ÍÅI“I‚Èm_IconNum‚ğ“ü‚ê‚½‚¢)
+		int sample_iconNum;
+		sample_iconNum = 15;
+
+		CheckIcon(&sample_iconNum);
+		break;
+
+	case GREEN:
+		CheckMark(&check[0].checkTime, &check[0].g_Use);
+		if (check[0].checkTime == 0)
+		{
+			Slide(&staffRoll[7].g_Pos.x);
+		}
+		break;
+
+	case BLUE:
+		for (int i = 0; i < 2; i++)
+		{
+			CheckMark(&check[i].checkTime, &check[i].g_Use);
+			// ƒPƒc‚Ìƒ`ƒFƒbƒN‚É‡‚í‚¹‚é
+			if (check[1].checkTime == 0)
+			{
+				Slide(&staffRoll[6].g_Pos.x);
+			}
+		}
+		break;
+
+	case BRONSE:
+		for (int i = 0; i < 3; i++)
+		{
+			CheckMark(&check[i].checkTime, &check[i].g_Use);
+			// ƒPƒc‚Ìƒ`ƒFƒbƒN‚É‡‚í‚¹‚é
+			if (check[2].checkTime == 0)
+			{
+				Slide(&staffRoll[5].g_Pos.x);
+			}
+		}
+
+		break;
+
+	case SILVER:
+		for (int i = 0; i < 4; i++)
+		{
+			CheckMark(&check[i].checkTime, &check[i].g_Use);
+			// ƒPƒc‚Ìƒ`ƒFƒbƒN‚É‡‚í‚¹‚é
+			if (check[3].checkTime == 0)
+			{
+				Slide(&staffRoll[4].g_Pos.x);
+			}
+		}
+
+		break;
+
+	case GOLD:
+		for (int i = 0; i < 5; i++)
+		{
+			CheckMark(&check[i].checkTime, &check[i].g_Use);
+			// ƒPƒc‚Ìƒ`ƒFƒbƒN‚É‡‚í‚¹‚é
+			if (check[4].checkTime == 0)
+			{
+				Slide(&staffRoll[3].g_Pos.x);
+			}
+		}
+
+		break;
+
+	case ENDROLL:
+		switch (m_ScrollSw)
+		{
+		case true:
+			Scroll(&staffRoll[0].g_Pos.y);
+			break;
+
+		case false:
+			Stop();
+		}
+		break;
+	}
+
 
 #ifdef _DEBUG	// ƒfƒoƒbƒOî•ñ‚ğ•\¦‚·‚é
 
 
-	// 2D‰æ‘œˆÊ’uŠm”F
-	DebugPrint(staffRoll.g_Pos.y);
+	// ‡@ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦
+	ChangeNum(&m_DebugNum);
 
-	// 2D‰æ‘œˆÊ’u•ÏX
-	PosCustom(&staffRoll.g_Pos.y); // ”z—ñ‚Ì—v‘f”‚ÉƒfƒoƒbƒN”Ô†‚ğ“ü‚ê‚é–‚ÅiƒfƒoƒbƒN‘ÎÛ==ƒfƒoƒbƒN”Ô†j‚Æ‚·‚é
+	// ‡A2D‰æ‘œˆÊ’uŠm”F
+	DebugPrint(staffRoll[m_DebugNum].g_Pos.x, staffRoll[m_DebugNum].g_Pos.y, staffRoll[m_DebugNum].g_w, staffRoll[m_DebugNum].g_h);
+
+	// ‡B2D‰æ‘œˆÊ’u•ÏX
+	PosCustom(&staffRoll[m_DebugNum].g_Pos.x, &staffRoll[m_DebugNum].g_Pos.y); // ”z—ñ‚Ì—v‘f”‚ÉƒfƒoƒbƒN”Ô†‚ğ“ü‚ê‚é–‚ÅiƒfƒoƒbƒN‘ÎÛ==ƒfƒoƒbƒN”Ô†j‚Æ‚·‚é
+
+	// ‡C2D‰æ‘œƒTƒCƒY•ÏX
+	SizeCustom(&staffRoll[m_DebugNum].g_w, &staffRoll[m_DebugNum].g_h); // ”z—ñ‚Ì—v‘f”‚ÉƒfƒoƒbƒN”Ô†‚ğ“ü‚ê‚é–‚ÅiƒfƒoƒbƒN‘ÎÛ==ƒfƒoƒbƒN”Ô†j‚Æ‚·‚é
 
 	/* ‚±‚Ì—¬‚ê‚ªd—vIChangeNum()ŠÖ”‚Åƒƒ“ƒo•Ï”‚Ìm_DebugNum‚ÉƒAƒNƒZƒX‚µ‚ÄƒfƒoƒbƒN‘ÎÛ‚ğŒˆ‚ß‚ÄA‚»‚ê‚ğ”½‰f‚³‚¹‚Ä‚©‚çˆÊ’uŠm”FAˆÊ’uŠm”F‚ğ‚µ‚Ä‚¢‚é*/
 
@@ -92,7 +195,503 @@ void StaffRoll::Update(void)
 //=============================================================================
 void StaffRoll::Draw(void)
 {
-	DrawStaffRoll();
+	SetViewPort(TYPE_FULL_SCREEN);
+
+	// ƒ‰ƒCƒg‚ğ—LŒø‰»
+	SetLightEnable(FALSE);
+
+	// ’¸“_ƒoƒbƒtƒ@İ’è
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
+
+	// ƒ}ƒgƒŠƒNƒXİ’è
+	SetWorldViewProjection2D();
+
+	// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	// ƒ}ƒeƒŠƒAƒ‹İ’è
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	SetMaterial(material);
+
+	switch (m_Mode)
+	{
+	case RESULT:
+		/* ”wŒi */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[1].g_Pos.x, staffRoll[1].g_Pos.y, staffRoll[1].g_w, staffRoll[1].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ¬‰ÊBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[2].g_Pos.x, staffRoll[2].g_Pos.y, staffRoll[2].g_w, staffRoll[2].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGold */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[8]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[8].g_Pos.x, staffRoll[8].g_Pos.y, staffRoll[8].g_w, staffRoll[8].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNSilver */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[9]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[9].g_Pos.x, staffRoll[9].g_Pos.y, staffRoll[9].g_w, staffRoll[9].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlonze */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[10]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[10].g_Pos.x, staffRoll[10].g_Pos.y, staffRoll[10].g_w, staffRoll[10].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlue */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[11]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[11].g_Pos.x, staffRoll[11].g_Pos.y, staffRoll[11].g_w, staffRoll[11].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGreen */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[12]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[12].g_Pos.x, staffRoll[12].g_Pos.y, staffRoll[12].g_w, staffRoll[12].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		break;
+
+	case GREEN:
+		/* ”wŒi */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[1].g_Pos.x, staffRoll[1].g_Pos.y, staffRoll[1].g_w, staffRoll[1].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ¬‰ÊBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[2].g_Pos.x, staffRoll[2].g_Pos.y, staffRoll[2].g_w, staffRoll[2].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGold */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[8]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[8].g_Pos.x, staffRoll[8].g_Pos.y, staffRoll[8].g_w, staffRoll[8].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNSilver */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[9]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[9].g_Pos.x, staffRoll[9].g_Pos.y, staffRoll[9].g_w, staffRoll[9].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlonze */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[10]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[10].g_Pos.x, staffRoll[10].g_Pos.y, staffRoll[10].g_w, staffRoll[10].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlue */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[11]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[11].g_Pos.x, staffRoll[11].g_Pos.y, staffRoll[11].g_w, staffRoll[11].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGreen */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[12]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[12].g_Pos.x, staffRoll[12].g_Pos.y, staffRoll[12].g_w, staffRoll[12].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		if (check[0].g_Use == TRUE)
+		{
+			/* ƒ`ƒFƒbƒNƒ}[ƒN */
+			// ƒeƒNƒXƒ`ƒƒİ’è
+			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[13]);
+			// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+			SetSprite(g_VertexBuffer, check[0].g_Pos.x, check[0].g_Pos.y, check[0].g_w, check[0].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+			// ƒ|ƒŠƒSƒ“•`‰æ
+			GetDeviceContext()->Draw(4, 0);
+		}
+
+		/* ƒ‰ƒ“ƒNBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[7]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[7].g_Pos.x, staffRoll[7].g_Pos.y, staffRoll[7].g_w, staffRoll[7].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		break;
+
+	case BLUE:
+		/* ”wŒi */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[1].g_Pos.x, staffRoll[1].g_Pos.y, staffRoll[1].g_w, staffRoll[1].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ¬‰ÊBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[2].g_Pos.x, staffRoll[2].g_Pos.y, staffRoll[2].g_w, staffRoll[2].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGold */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[8]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[8].g_Pos.x, staffRoll[8].g_Pos.y, staffRoll[8].g_w, staffRoll[8].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNSilver */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[9]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[9].g_Pos.x, staffRoll[9].g_Pos.y, staffRoll[9].g_w, staffRoll[9].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlonze */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[10]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[10].g_Pos.x, staffRoll[10].g_Pos.y, staffRoll[10].g_w, staffRoll[10].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlue */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[11]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[11].g_Pos.x, staffRoll[11].g_Pos.y, staffRoll[11].g_w, staffRoll[11].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGreen */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[12]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[12].g_Pos.x, staffRoll[12].g_Pos.y, staffRoll[12].g_w, staffRoll[12].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		for (int i = 0; i < 2; i++)
+		{
+			if (check[i].g_Use == TRUE)
+			{
+				/* ƒ`ƒFƒbƒNƒ}[ƒN */
+				// ƒeƒNƒXƒ`ƒƒİ’è
+				GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[13]);
+				// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+				SetSprite(g_VertexBuffer, check[i].g_Pos.x, check[i].g_Pos.y, check[i].g_w, check[i].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+				// ƒ|ƒŠƒSƒ“•`‰æ
+				GetDeviceContext()->Draw(4, 0);
+			}
+		}
+
+		/* ƒ‰ƒ“ƒNBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[6]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[6].g_Pos.x, staffRoll[6].g_Pos.y, staffRoll[6].g_w, staffRoll[6].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		break;
+
+	case BRONSE:
+		/* ”wŒi */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[1].g_Pos.x, staffRoll[1].g_Pos.y, staffRoll[1].g_w, staffRoll[1].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ¬‰ÊBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[2].g_Pos.x, staffRoll[2].g_Pos.y, staffRoll[2].g_w, staffRoll[2].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGold */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[8]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[8].g_Pos.x, staffRoll[8].g_Pos.y, staffRoll[8].g_w, staffRoll[8].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNSilver */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[9]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[9].g_Pos.x, staffRoll[9].g_Pos.y, staffRoll[9].g_w, staffRoll[9].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlonze */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[10]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[10].g_Pos.x, staffRoll[10].g_Pos.y, staffRoll[10].g_w, staffRoll[10].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlue */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[11]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[11].g_Pos.x, staffRoll[11].g_Pos.y, staffRoll[11].g_w, staffRoll[11].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGreen */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[12]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[12].g_Pos.x, staffRoll[12].g_Pos.y, staffRoll[12].g_w, staffRoll[12].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		for (int i = 0; i < 3; i++)
+		{
+			if (check[i].g_Use == TRUE)
+			{
+				/* ƒ`ƒFƒbƒNƒ}[ƒN */
+				// ƒeƒNƒXƒ`ƒƒİ’è
+				GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[13]);
+				// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+				SetSprite(g_VertexBuffer, check[i].g_Pos.x, check[i].g_Pos.y, check[i].g_w, check[i].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+				// ƒ|ƒŠƒSƒ“•`‰æ
+				GetDeviceContext()->Draw(4, 0);
+			}
+		}
+
+		/* ƒ‰ƒ“ƒNBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[5]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[5].g_Pos.x, staffRoll[5].g_Pos.y, staffRoll[5].g_w, staffRoll[5].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+
+		break;
+
+	case SILVER:
+		/* ”wŒi */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[1].g_Pos.x, staffRoll[1].g_Pos.y, staffRoll[1].g_w, staffRoll[1].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ¬‰ÊBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[2].g_Pos.x, staffRoll[2].g_Pos.y, staffRoll[2].g_w, staffRoll[2].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGold */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[8]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[8].g_Pos.x, staffRoll[8].g_Pos.y, staffRoll[8].g_w, staffRoll[8].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNSilver */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[9]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[9].g_Pos.x, staffRoll[9].g_Pos.y, staffRoll[9].g_w, staffRoll[9].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlonze */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[10]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[10].g_Pos.x, staffRoll[10].g_Pos.y, staffRoll[10].g_w, staffRoll[10].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlue */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[11]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[11].g_Pos.x, staffRoll[11].g_Pos.y, staffRoll[11].g_w, staffRoll[11].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGreen */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[12]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[12].g_Pos.x, staffRoll[12].g_Pos.y, staffRoll[12].g_w, staffRoll[12].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (check[i].g_Use == TRUE)
+			{
+				/* ƒ`ƒFƒbƒNƒ}[ƒN */
+				// ƒeƒNƒXƒ`ƒƒİ’è
+				GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[13]);
+				// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+				SetSprite(g_VertexBuffer, check[i].g_Pos.x, check[i].g_Pos.y, check[i].g_w, check[i].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+				// ƒ|ƒŠƒSƒ“•`‰æ
+				GetDeviceContext()->Draw(4, 0);
+			}
+		}
+
+		/* ƒ‰ƒ“ƒNBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[4]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[4].g_Pos.x, staffRoll[4].g_Pos.y, staffRoll[4].g_w, staffRoll[4].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		break;
+
+	case GOLD:
+		/* ”wŒi */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[1].g_Pos.x, staffRoll[1].g_Pos.y, staffRoll[1].g_w, staffRoll[1].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ¬‰ÊBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[2]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[2].g_Pos.x, staffRoll[2].g_Pos.y, staffRoll[2].g_w, staffRoll[2].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGold */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[8]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[8].g_Pos.x, staffRoll[8].g_Pos.y, staffRoll[8].g_w, staffRoll[8].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNSilver */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[9]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[9].g_Pos.x, staffRoll[9].g_Pos.y, staffRoll[9].g_w, staffRoll[9].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlonze */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[10]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[10].g_Pos.x, staffRoll[10].g_Pos.y, staffRoll[10].g_w, staffRoll[10].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNBlue */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[11]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[11].g_Pos.x, staffRoll[11].g_Pos.y, staffRoll[11].g_w, staffRoll[11].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		/* ƒ‰ƒ“ƒNGreen */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[12]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[12].g_Pos.x, staffRoll[12].g_Pos.y, staffRoll[12].g_w, staffRoll[12].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		for (int i = 0; i < 5; i++)
+		{
+			if (check[i].g_Use == TRUE)
+			{
+				/* ƒ`ƒFƒbƒNƒ}[ƒN */
+				// ƒeƒNƒXƒ`ƒƒİ’è
+				GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[13]);
+				// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+				SetSprite(g_VertexBuffer, check[i].g_Pos.x, check[i].g_Pos.y, check[i].g_w, check[i].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+				// ƒ|ƒŠƒSƒ“•`‰æ
+				GetDeviceContext()->Draw(4, 0);
+			}
+		}
+
+		/* ƒ‰ƒ“ƒNBar */
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[3]);
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[3].g_Pos.x, staffRoll[3].g_Pos.y, staffRoll[3].g_w, staffRoll[3].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+
+		break;
+
+	case ENDROLL:
+		// ƒeƒNƒXƒ`ƒƒİ’è
+		GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[0]);
+
+		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+		SetSprite(g_VertexBuffer, staffRoll[0].g_Pos.x, staffRoll[0].g_Pos.y, staffRoll[0].g_w, staffRoll[0].g_h, 0.0f, 0.0f, 1.0f, 1.0f);
+
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		GetDeviceContext()->Draw(4, 0);
+		break;
+	}
 }
 
 //=============================================================================
@@ -111,7 +710,16 @@ void StaffRoll::NextScene(void)
 	//{
 
 	//}
+}
 
+void StaffRoll::Stop(void)
+{
+	m_StopTime++;
+	if (m_StopTime == MAX_STOPTIME)
+	{
+		m_ScrollSw = true;
+		m_StopTime = 0;
+	}
 }
 
 void StaffRoll::Scroll(float *posY)
@@ -128,15 +736,45 @@ void StaffRoll::Scroll(float *posY)
 // ƒfƒoƒbƒN‹@\‘S”Ê(n‚Ü‚è)
 //=============================================================================
 
-// ƒfƒoƒbƒO‚Ìî•ñ‚Ì•\¦
-void StaffRoll::DebugPrint(float posY) // •\¦‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚Â“ü‚ê‚é
+int StaffRoll::ChangeNum(int * Num)
 {
+	int r;
+
+	r = *Num;
+
+	if (GetKeyboardTrigger(DIK_SPACE))
+	{
+		r += 1;
+
+		if (r > STAFFROLL_MAX - 1)
+		{
+			r = 0;
+		}
+	}
+
+	*Num = r;
+
+	return *Num;
+}
+
+// ƒfƒoƒbƒO‚Ìî•ñ‚Ì•\¦
+void StaffRoll::DebugPrint(float posX, float posY, float w, float h) // •\¦‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚Â“ü‚ê‚é
+{
+	PrintDebugProc("checkTime : %d\n", check[0].checkTime);
+	PrintDebugProc("m_Mode : %d\n", m_Mode);
+	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌØ‚è‘Ö‚¦ : SPACEƒL[\n");
 	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌãˆÚ“® : ªƒL[ , ƒfƒoƒbƒO‘ÎÛ‚Ì‰ºˆÚ“® : «ƒL[\n");
-	PrintDebugProc("ƒfƒoƒbƒNƒ|ƒWƒVƒ‡ƒ“ DebugPosY : %f\n", posY);
+	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚Ì‰EˆÚ“® : ¨ƒL[ , ƒfƒoƒbƒO‘ÎÛ‚Ì¶ˆÚ“® : ©ƒL[\n");
+	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌX•ûŒüŠg‘å : DƒL[ , ƒfƒoƒbƒO‘ÎÛ‚ÌX•ûŒüûk : AƒL[\n");
+	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌY•ûŒüŠg‘å : WƒL[ , ƒfƒoƒbƒO‘ÎÛ‚ÌY•ûŒüûk : SƒL[\n");
+	PrintDebugProc("ƒfƒoƒbƒO‘ÎÛ‚ÌˆÚ“®—Ê•ÏXƒ{ƒ^ƒ“ : CƒL[\n");
+	PrintDebugProc("ƒfƒoƒbƒN‘ÎÛ : staffRoll[%d] \n", m_DebugNum);
+	PrintDebugProc("ƒfƒoƒbƒNƒ|ƒWƒVƒ‡ƒ“ : PosX : %f, DebugPosY : %f\n", posX, posY);
+	PrintDebugProc("ƒfƒoƒbƒNƒTƒCƒY : SizeWidth : %f, SizeHeight : %f\n", w, h);
 }
 
 // ƒfƒoƒbƒO‘ÎÛ‚ÌˆÊ’u•ÏX
-void StaffRoll::PosCustom(float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚Âiƒ|ƒCƒ“ƒ^j“ü‚ê‚é
+void StaffRoll::PosCustom(float *posX, float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚Âiƒ|ƒCƒ“ƒ^j“ü‚ê‚é
 {
 	if (GetKeyboardTrigger(DIK_C))
 	{
@@ -163,6 +801,16 @@ void StaffRoll::PosCustom(float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚
 		{
 			*posY += DEBUGPOS_TRIGGER_ADD;
 		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX‰E•ûŒü‚É‰ÁZ
+		if (GetKeyboardTrigger(DIK_RIGHT))
+		{
+			*posX += DEBUGPOS_TRIGGER_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX¶•ûŒü‚É‰ÁZ
+		if (GetKeyboardTrigger(DIK_LEFT))
+		{
+			*posX -= DEBUGPOS_TRIGGER_ADD;
+		}
 		break;
 
 	case false:
@@ -176,8 +824,152 @@ void StaffRoll::PosCustom(float *posY) // ˆÚ“®‚µ‚½‚¢ƒfƒoƒbƒO‘ÎÛ‚ÌÀ•W‚Ìˆø”‚ğ2‚
 		{
 			*posY += DEBUGPOS_PRESS_ADD;
 		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX‰E•ûŒü‚É‰ÁZ
+		if (GetKeyboardPress(DIK_RIGHT))
+		{
+			*posX += DEBUGPOS_PRESS_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX¶•ûŒü‚É‰ÁZ
+		if (GetKeyboardPress(DIK_LEFT))
+		{
+			*posX -= DEBUGPOS_TRIGGER_ADD;
+		}
+	}
+}
+
+void StaffRoll::SizeCustom(float *width, float *height)
+{
+	switch (m_DebugSwich)
+	{
+	case true:
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAY•ûŒü‚Éûk
+		if (GetKeyboardTrigger(DIK_S))
+		{
+			*height -= DEBUGPOS_TRIGGER_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAY•ûŒü‚ÉŠg‘å
+		if (GetKeyboardTrigger(DIK_W))
+		{
+			*height += DEBUGPOS_TRIGGER_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX•ûŒü‚ÉŠg‘å
+		if (GetKeyboardTrigger(DIK_D))
+		{
+			*width += DEBUGPOS_TRIGGER_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX•ûŒü‚Éûk
+		if (GetKeyboardTrigger(DIK_A))
+		{
+			*width -= DEBUGPOS_TRIGGER_ADD;
+		}
+		break;
+
+	case false:
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAY•ûŒü‚Éûk
+		if (GetKeyboardPress(DIK_S))
+		{
+			*height -= DEBUGPOS_PRESS_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAY•ûŒü‚ÉŠg‘å
+		if (GetKeyboardPress(DIK_W))
+		{
+			*height += DEBUGPOS_PRESS_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX•ûŒü‚ÉŠg‘å
+		if (GetKeyboardPress(DIK_D))
+		{
+			*width += DEBUGPOS_PRESS_ADD;
+		}
+		// ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔAX•ûŒü‚Éûk
+		if (GetKeyboardPress(DIK_A))
+		{
+			*width -= DEBUGPOS_PRESS_ADD;
+		}
+	}
+
+}
+
+void StaffRoll::CheckIcon(int *m_icon)
+{
+	switch (*m_icon)
+	{
+	case 0:
+		SetRank(GREEN);
+		break;
+	case 1:
+		SetRank(GREEN);
+		break;
+	case 2:
+		SetRank(GREEN);
+		break;
+	case 3:
+		SetRank(GREEN);
+		break;
+	case 4:
+		SetRank(GREEN);
+		break;
+	case 5:
+		SetRank(GREEN);
+		break;
+	case 6:
+		SetRank(BLUE);
+		break;
+	case 7:
+		SetRank(BLUE);
+		break;
+	case 8:
+		SetRank(BLUE);
+		break;
+	case 9:
+		SetRank(BLUE);
+		break;
+	case 10:
+		SetRank(BRONSE);
+		break;
+	case 11:
+		SetRank(BRONSE);
+		break;
+	case 12:
+		SetRank(BRONSE);
+		break;
+	case 13:
+		SetRank(SILVER);
+		break;
+	case 14:
+		SetRank(SILVER);
+		break;
+	case 15:
+		SetRank(GOLD);
 		break;
 	}
+}
+
+void StaffRoll::CheckMark(int *time, BOOL *use)
+{
+	if (*time > 0)
+	{
+		*time = *time - 1;
+		if (*time == 0)
+		{
+			*use = TRUE;
+			*time = 0;
+		}
+	}
+}
+
+void StaffRoll::Slide(float *posX)
+{
+	*posX -= SCROLL_VALUE;
+	if (*posX < SCREEN_CENTER_X)
+	{
+		*posX = SCREEN_CENTER_X;
+		m_Mode = ENDROLL;
+	}
+}
+
+void StaffRoll::SetRank(int mode)
+{
+	m_Mode = mode;
 }
 
 
@@ -214,12 +1006,117 @@ HRESULT InitStaffRoll(void)
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
 
-	// •Ï”‚Ì‰Šú‰»(EXITƒo[)
-	staffRoll.g_Use = TRUE;
-	staffRoll.g_w = SCREEN_WIDTH;
-	staffRoll.g_h = 4000;
-	staffRoll.g_Pos = XMFLOAT3(SCREEN_CENTER_X, 2000.0f, 0.0f); // END‚Í-1460.0f
-	staffRoll.g_TexNo = 0;
+	// •Ï”‚Ì‰Šú‰»(SCROLL)
+	staffRoll[0].g_Use = TRUE;
+	staffRoll[0].g_w = SCREEN_WIDTH;
+	staffRoll[0].g_h = 4000;
+	staffRoll[0].g_Pos = XMFLOAT3(SCREEN_CENTER_X, 2000.0f, 0.0f); // END‚Í-1460.0f
+	staffRoll[0].g_TexNo = 0;
+
+	// •Ï”‚Ì‰Šú‰»i”wŒij
+	staffRoll[1].g_Use = TRUE;
+	staffRoll[1].g_w = 980;
+	staffRoll[1].g_h = 555;
+	staffRoll[1].g_Pos = XMFLOAT3(SCREEN_CENTER_X, SCREEN_CENTER_Y, 0.0f);
+	staffRoll[1].g_TexNo = 1;
+
+	// •Ï”‚Ì‰Šú‰»i¬‰ÊBarj
+	staffRoll[2].g_Use = TRUE;
+	staffRoll[2].g_w = 310;
+	staffRoll[2].g_h = 125;
+	staffRoll[2].g_Pos = XMFLOAT3(770.0f, 90.0f, 0.0f);
+	staffRoll[2].g_TexNo = 2;
+
+	// •Ï”‚Ì‰Šú‰»iƒ‰ƒ“ƒNBarƒS[ƒ‹ƒhj
+	staffRoll[3].g_Use = TRUE;
+	staffRoll[3].g_w = 510;
+	staffRoll[3].g_h = 130;
+	staffRoll[3].g_Pos = XMFLOAT3(1500.0f, 235.0f, 0.0f);
+	staffRoll[3].g_TexNo = 3;
+
+	// •Ï”‚Ì‰Šú‰»iƒ‰ƒ“ƒNBarƒVƒ‹ƒo[j
+	staffRoll[4].g_Use = TRUE;
+	staffRoll[4].g_w = 510;
+	staffRoll[4].g_h = 130;
+	staffRoll[4].g_Pos = XMFLOAT3(1500.0f, 235.0f, 0.0f);
+	staffRoll[4].g_TexNo = 4;
+
+	// •Ï”‚Ì‰Šú‰»iƒ‰ƒ“ƒNBarƒuƒƒ“ƒYj
+	staffRoll[5].g_Use = TRUE;
+	staffRoll[5].g_w = 510;
+	staffRoll[5].g_h = 130;
+	staffRoll[5].g_Pos = XMFLOAT3(1500.0f, 235.0f, 0.0f);
+	staffRoll[5].g_TexNo = 5;
+
+	// •Ï”‚Ì‰Šú‰»iƒ‰ƒ“ƒNBarƒuƒ‹[j
+	staffRoll[6].g_Use = TRUE;
+	staffRoll[6].g_w = 510;
+	staffRoll[6].g_h = 130;
+	staffRoll[6].g_Pos = XMFLOAT3(1500.0f, 235.0f, 0.0f);
+	staffRoll[6].g_TexNo = 6;
+
+	// •Ï”‚Ì‰Šú‰»iƒ‰ƒ“ƒNBarƒOƒŠ[ƒ“j
+	staffRoll[7].g_Use = TRUE;
+	staffRoll[7].g_w = 510;
+	staffRoll[7].g_h = 130;
+	staffRoll[7].g_Pos = XMFLOAT3(1500.0f, 235.0f, 0.0f);
+	staffRoll[7].g_TexNo = 7;
+
+	// •Ï”‚Ì‰Šú‰»iƒS[ƒ‹ƒhRunkj
+	staffRoll[8].g_Use = TRUE;
+	staffRoll[8].g_w = 180;
+	staffRoll[8].g_h = 130;
+	staffRoll[8].g_Pos = XMFLOAT3(810.0f, 445.0f, 0.0f);
+	staffRoll[8].g_TexNo = 8;
+
+	// •Ï”‚Ì‰Šú‰»iƒVƒ‹ƒo[Runkj
+	staffRoll[9].g_Use = TRUE;
+	staffRoll[9].g_w = 180;
+	staffRoll[9].g_h = 130;
+	staffRoll[9].g_Pos = XMFLOAT3(630.0f, 385.0f, 0.0f);
+	staffRoll[9].g_TexNo = 9;
+
+	// •Ï”‚Ì‰Šú‰»iƒuƒƒ“ƒYRunkj
+	staffRoll[10].g_Use = TRUE;
+	staffRoll[10].g_w = 180;
+	staffRoll[10].g_h = 130;
+	staffRoll[10].g_Pos = XMFLOAT3(SCREEN_CENTER_X, 465.0f, 0.0f);
+	staffRoll[10].g_TexNo = 10;
+
+	// •Ï”‚Ì‰Šú‰»iƒuƒ‹[Runkj
+	staffRoll[11].g_Use = TRUE;
+	staffRoll[11].g_w = 180;
+	staffRoll[11].g_h = 130;
+	staffRoll[11].g_Pos = XMFLOAT3(330.0f, 385.0f, 0.0f);
+	staffRoll[11].g_TexNo = 11;
+
+	// •Ï”‚Ì‰Šú‰»iƒOƒŠ[ƒ“Runkj
+	staffRoll[12].g_Use = TRUE;
+	staffRoll[12].g_w = 180;
+	staffRoll[12].g_h = 130;
+	staffRoll[12].g_Pos = XMFLOAT3(150.0f, 445.0f, 0.0f);
+	staffRoll[12].g_TexNo = 12;
+
+	// •Ï”‚Ì‰Šú‰»iƒ`ƒFƒbƒNƒ}[ƒNj
+	for (int i = 0; i < CHECK_MAX; i++)
+	{
+		check[i].g_Use = FALSE;
+		check[i].g_w = 180;
+		check[i].g_h = 130;
+		check[i].g_TexNo = 13;
+	}
+
+	check[0].g_Pos = XMFLOAT3(150.0f, 445.0f, 0.0f);
+	check[1].g_Pos = XMFLOAT3(330.0f, 385.0f, 0.0f);
+	check[2].g_Pos = XMFLOAT3(SCREEN_CENTER_X, 465.0f, 0.0f);
+	check[3].g_Pos = XMFLOAT3(630.0f, 385.0f, 0.0f);
+	check[4].g_Pos = XMFLOAT3(810.0f, 445.0f, 0.0f);
+
+	check[0].checkTime = 75;
+	check[1].checkTime = 150;
+	check[2].checkTime = 225;
+	check[3].checkTime = 300;
+	check[4].checkTime = 375;
 
 	// BGMÄ¶
 	//PlaySound(SOUND_LABEL_BGM_sample000);
@@ -251,50 +1148,4 @@ void UninitStaffRoll(void)
 	}
 
 	g_Load = FALSE;
-}
-
-//=============================================================================
-// XVˆ—
-//=============================================================================
-void UpdateStaffRoll(void)
-{
-
-}
-
-//=============================================================================
-// •`‰æˆ—
-//=============================================================================
-void DrawStaffRoll(void)
-{
-	SetViewPort(TYPE_FULL_SCREEN);
-
-	// ƒ‰ƒCƒg‚ğ—LŒø‰»
-	SetLightEnable(FALSE);
-
-	// ’¸“_ƒoƒbƒtƒ@İ’è
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
-
-	// ƒ}ƒgƒŠƒNƒXİ’è
-	SetWorldViewProjection2D();
-
-	// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
-	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	// ƒ}ƒeƒŠƒAƒ‹İ’è
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	SetMaterial(material);
-
-	// ƒeƒNƒXƒ`ƒƒİ’è
-	GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[0]);
-
-	// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
-	SetSprite(g_VertexBuffer, staffRoll.g_Pos.x, staffRoll.g_Pos.y, staffRoll.g_w, staffRoll.g_h, 0.0f, 0.0f, 1.0f, 1.0f);
-
-	// ƒ|ƒŠƒSƒ“•`‰æ
-	GetDeviceContext()->Draw(4, 0);
-
 }

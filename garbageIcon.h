@@ -5,6 +5,8 @@
 #include "camera.h"
 #include "sprite.h"
 #include "UI.h"
+#include "debugproc.h"
+
 
 
 #define GARBAGE_TEXTURE_MAX		(2)		// テクスチャの数
