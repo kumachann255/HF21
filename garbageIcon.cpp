@@ -43,6 +43,12 @@ GarbageIcon::~GarbageIcon()
 
 void GarbageIcon::Update()
 {
+#ifdef _DEBUG
+	// デバッグ表示
+	PrintDebugProc("m_iconNum:%d\n", m_iconNum);
+
+#endif
+
 }
 
 void GarbageIcon::Draw()
