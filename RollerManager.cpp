@@ -20,6 +20,7 @@ static char *g_TextureName[ROLLER_MAX] =
 	"model_map&obj_winter.obj",
 };
 
+float RollerRotX = 0.0f;
 
 RollerManager::RollerManager(God *god) :GodObject(god)
 {
@@ -50,14 +51,14 @@ RollerManager::~RollerManager()
 
 void RollerManager::Update()
 {
+	RollerRotX = pRoller[0]->GetRot().x;
 
 	for (int i = 0; i < ROLLER_MAX; i++)
 	{
 		pRoller[i]->Update();
 	}
 
-	// チュートリアルは時間が進まない
-	if(GetGod()->GetScene() != TUTORIAL_ID) SwichCnt++;
+	SwichCnt++;
 
 	//if (SwichCnt % CALENDAR_SWITCH_TIME == 0)
 	//{
@@ -70,7 +71,7 @@ void RollerManager::Update()
 
 	if (SwichCnt == 200) {
 		SwichCnt = 0;
-		pParticlManager->CallParticle(pos, 10.0f, 70, texNum, MOVE_PATTERN_DOWNRIGHT,20);
+		pParticlManager->CallParticle(pos, 10.0f, 25, texNum, MOVE_PATTERN_DOWNRIGHT,20);
 	}
 
 	int seasonNum = GetGod()->GetCalendarNum()->GetMonth();
@@ -81,7 +82,7 @@ void RollerManager::Update()
 	//if (GetKeyboardTrigger(DIK_F7)) 
 	if (fadeOut_StartFlag)
 	{
-		pParticlManager2->CallParticle(pos2, 80.0f, 50, EFFECT_REFLECTION, MOVE_PATTERN_UP,10);
+		pParticlManager2->CallParticle(pos2, 60.0f, 10, EFFECT_REFLECTION, MOVE_PATTERN_UP,10);
 
 	}
 
@@ -177,4 +178,10 @@ void RollerManager::Init()
 	}
 
 	pRoller[ROLLER_SPRING]->SetIsUse(TRUE);
+}
+
+float GetRollerRotX(void)
+{
+	return RollerRotX;
+
 }

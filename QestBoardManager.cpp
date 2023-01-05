@@ -6,11 +6,12 @@
 //=============================================================================
 #include "QuestBoardManager.h"
 #include "input.h"
-//#include "debugproc.h"
+#include "debugproc.h"
 #include "RollerManager.h"
 #include "TrainingCrowManager.h"
 #include "slotManager.h"
 #include "sound.h"
+#include "Stage_01.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -18,6 +19,7 @@
 #define	BOARD_ROTATE_SPEED	(0.001f)		// 回転速度
 #define	BOARD_SCL			(5.0f)			// 大きさ
 #define	MODEL_NAME01		"model_questboard_garbage02.obj"	// 読み込むモデル名
+#define	MODEL_NAME02		"model_human.obj"					// 読み込むモデル名
 #define BOARD_OFFSET_Y		(70.0f)							// ボードの足元をあわせる
 #define BOARD_MAKETIME		(810)							// ボードの出現時間
 
@@ -54,6 +56,10 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 	XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
 	pQuestBoard = new QuestBoard(MODEL_NAME01, m_StartPos, rot);
 
+	m_pHumanPrefab = new Prefab;
+	m_pHumanPrefab->SetModel(MODEL_NAME02);
+	pParticlManager = new ParticlManager();
+
 }
 
 //=============================================================================
@@ -80,6 +86,8 @@ QuestBoardManager::~QuestBoardManager()
 
 	delete m_pGarbageIcon;
 	delete pQuestBoard;
+	delete m_pHumanPrefab;
+	delete pParticlManager;
 }
 
 //=============================================================================
@@ -87,6 +95,84 @@ QuestBoardManager::~QuestBoardManager()
 //=============================================================================
 void QuestBoardManager::Update(void)
 {
+	// 消す処理	(成功)
+	if (!BoardArray.empty()) {
+
+		for (int i = 0; i < BoardArray.size(); i++)
+		{
+			Lamp *pLamp = BoardArray[i]->GetLampManager()->GetLamp();
+
+			// ランプの使用フラグを取得
+			// ３つのランプが消えていたらボードを消滅させる
+			if (!pLamp[0].GetIsUse() &&
+				!pLamp[1].GetIsUse() &&
+				!pLamp[2].GetIsUse() && !BoardArray[i]->GetChangeModelFlag())
+			{
+				//BoardArray.erase(std::cbegin(BoardArray));
+
+				BoardArray[i]->SetDeleteFlag(TRUE);
+
+
+				switch (rand() % 4)
+				{
+				case 0:
+					PlaySound(SOUND_LABEL_SE_se_mens_hihi); // クエスト達成
+					break;
+
+				case 1:
+					PlaySound(SOUND_LABEL_SE_se_mens_ou); // クエスト達成
+					break;
+
+				case 2:
+					PlaySound(SOUND_LABEL_SE_se_mens_yei); // クエスト達成
+					break;
+
+				case 3:
+					PlaySound(SOUND_LABEL_SE_se_women_ou); // クエスト達成
+					break;
+				}
+
+				if (!this->GetGod()->GetSlotManager()->GetRainbow())
+				{
+					this->GetGod()->GetTrainingCrowManager()->AddStock();
+				}
+
+				int probability = rand() % 10;
+
+				if (probability - m_failureCount < 2)
+				{
+					m_failureCount = 0;
+					this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
+				}
+				else
+				{
+					m_failureCount++;
+				}
+
+				m_MissionPoint++;
+
+			}
+		}
+	}
+
+	// 消す処理	(時間切れ)
+	if (!BoardArray.empty()) {
+		// 210度回転したら消す
+		if (BoardArray[0]->GetRot().x > XMConvertToRadians(210.0f))
+		{
+			BoardArray.erase(std::cbegin(BoardArray));
+		}
+	}
+
+	m_pGarbageIcon->SetIconNum(m_MissionPoint);
+	m_pGarbageIcon->Update();
+	pParticlManager->Update();
+
+	for (int i = 0; i < BoardArray.size(); i++)
+	{
+		BoardArray[i]->Update();
+	}
+
 	float rotX = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().x;
 	rotX = XMConvertToDegrees(rotX);
 	int AppearRot = (int)(rotX / 45.0f);
@@ -95,10 +181,12 @@ void QuestBoardManager::Update(void)
 	m_MakeCnt += 1;
 	if (m_MakeCnt > BOARD_MAKETIME) m_MakeCnt = 0;
 
+	auto arraySize = BoardArray.size();
 
 	// カウント値に達したらボードを出現させる
-	if (m_MakeCnt == BOARD_MAKETIME){
-
+	if (m_MakeCnt == BOARD_MAKETIME && 
+		m_MaxGarbageCnt >= arraySize)
+	{
 		// 出現する座標をセット
 		m_StartPos = { -200.0f + (rand() % 280),BOARD_OFFSET_Y,0.0f };
 
@@ -119,105 +207,113 @@ void QuestBoardManager::Update(void)
 
 		 //ランプのテクスチャーをセット
 		Lamp *pLamp = BoardArray.back()->GetLampManager()->GetLamp();
-		int colorId = rand() % 4;	// 今は４種類にしている
 
 		// ランプのテクスチャーとColorTypeIdの設定
 		for (int i = 0; i < LAMP_MAX; i++)
 		{
-			int colorId = rand() % 4;
+			int colorId = rand() % 4;	// 今は４種類にしている
 			pLamp[i].SetColorTypeId(colorId);
 			pLamp[i].GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[colorId];
 		}
 	}
+
+	arraySize = BoardArray.size();
+	int changeCnt = 0;
+	int deleteCnt = 0;
+
+	// ゴミの数をカウント
+	if (arraySize >= 2 &&			  // ２つ以上ある
+		m_MaxGarbageCnt >= arraySize) // 上限値よりも小さいとき
+	{
+		for (int i = 0; i < BoardArray.size(); i++)
+		{
+			if (BoardArray[i]->GetDeleteFlag()) {
+
+				deleteCnt++;
+			}
+		}
+
+		// ゴミ2個以下の時出現させる
+		if ((arraySize - deleteCnt) <= 1)
+		{
+			// 出現する座標をセット
+			m_StartPos = { -200.0f + (rand() % 280),BOARD_OFFSET_Y,0.0f };
+
+			// 動的に生成
+			XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
+			BoardArray.push_back(new QuestBoard(m_StartPos, rot));
+
+			switch (rand() % 2)
+			{
+			case 0:
+				PlaySound(SOUND_LABEL_SE_se_quest_pop_0); // クエスト出現
+				break;
+
+			case 1:
+				PlaySound(SOUND_LABEL_SE_se_quest_pop_1); // クエスト出現
+				break;
+			}
+
+			//ランプのテクスチャーをセット
+			Lamp *pLamp = BoardArray.back()->GetLampManager()->GetLamp();
+
+			// ランプのテクスチャーとColorTypeIdの設定
+			for (int i = 0; i < LAMP_MAX; i++)
+			{
+				int colorId = rand() % 4;	// 今は４種類にしている
+				pLamp[i].SetColorTypeId(colorId);
+				pLamp[i].GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[colorId];
+			}
+
+		}
+
+	}
+
 
 	// モデルをセット
 	for (int i = 0; i < BoardArray.size(); i++)
 	{
 		if (BoardArray.empty()) return;
 
-		DX11_MODEL model = pQuestBoard->GetPrefab()->GetModelDate();
-		BoardArray[i]->GetPrefab()->SetModelDate(model);
-	}
+		if (BoardArray[i]->GetDeleteFlag()&& !BoardArray[i]->GetChangeModelFlag())
+		{// 破壊フラグがたったら人のモデルに変える
+			DX11_MODEL model = m_pHumanPrefab->GetModelDate();
 
-
-	// 消す処理	(成功)
-	if (!BoardArray.empty()) {
-
-		// ボード一番前の要素を取得
-		Lamp *pLamp = BoardArray.front()->GetLampManager()->GetLamp();
-
-		// ランプの使用フラグを取得
-		// ３つのランプが消えていたらボードを消滅させる
-		if (!pLamp[0].GetIsUse() &&
-			!pLamp[1].GetIsUse() &&
-			!pLamp[2].GetIsUse() )
-		{
-			BoardArray.erase(std::cbegin(BoardArray));
-
-			switch (rand() % 4)
-			{
-			case 0:
-				PlaySound(SOUND_LABEL_SE_se_mens_hihi); // クエスト達成
-				break;
-
-			case 1:
-				PlaySound(SOUND_LABEL_SE_se_mens_ou); // クエスト達成
-				break;
-
-			case 2:
-				PlaySound(SOUND_LABEL_SE_se_mens_yei); // クエスト達成
-				break;
-
-			case 3:
-				PlaySound(SOUND_LABEL_SE_se_women_ou); // クエスト達成
-				break;
-			}
-
-			if (!this->GetGod()->GetSlotManager()->GetRainbow())
-			{
-				this->GetGod()->GetTrainingCrowManager()->AddStock();
-			}
-
-			int probability = rand() % 10;
-
-			if (probability - m_failureCount < 2)
-			{
-				m_failureCount = 0;
-				this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
-			}
-			else
-			{
-				m_failureCount++;
-			}
-
-			m_MissionPoint++;
+			BoardArray[i]->GetPrefab()->SetModelDate(model);
+			BoardArray[i]->SetChangeModelFlag(TRUE);
 
 		}
-	}
-
-	m_pGarbageIcon->SetIconNum(m_MissionPoint);
-	m_pGarbageIcon->Update();
-
-	// 消す処理	(時間切れ)
-	if (!BoardArray.empty()){
-		// 210度回転したら消す
-		if(BoardArray[0]->GetRot().x > XMConvertToRadians(210.0f))
+		else if(!BoardArray[i]->GetDeleteFlag())
 		{
-			BoardArray.erase(std::cbegin(BoardArray));
-
-			//=============================================
-			/*ここにサウンド入れて!!クエストボード消滅音(時間切れ)*/
-			//=============================================
-
+			DX11_MODEL model = pQuestBoard->GetPrefab()->GetModelDate();
+			BoardArray[i]->GetPrefab()->SetModelDate(model);
 		}
+
 	}
 
-
-	for (int i = 0; i < BoardArray.size(); i++)
+	// 賑わいエッフェクト
+	m_EffectCnt++;
+	if (m_EffectCnt == 100)
 	{
-		BoardArray[i]->Update();
+		for (int i = 0; i < BoardArray.size(); i++)
+		{
+			if (BoardArray.empty()) return;
 
+			if (BoardArray[i]->GetChangeModelFlag())
+			{
+				Lamp *pLamp = BoardArray[i]->GetLampManager()->GetLamp();
+
+				XMFLOAT3 pos = pLamp[0].GetPos();
+
+				pParticlManager->CallParticle(pos, 15.0f, 1, EFFECT_NIGIWAI, MOVE_PATTERN_STOP, 3);
+
+			}
+		}
+
+		m_EffectCnt = 0;
 	}
+
+
 
 }
 
@@ -244,7 +340,7 @@ void QuestBoardManager::Draw(void)
 		// ボードの描画(ローラーが親)
 		//================================
 
-				// 親（ローラー）のワールドマトリクス生成
+		// 親（ローラー）のワールドマトリクス生成
 		mtxWorld = GetWorldMatrix(
 			GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetPos(),
 			rot,
@@ -254,11 +350,12 @@ void QuestBoardManager::Draw(void)
 		// ボードの描画
 		BoardArray[i]->Draw(mtxWorld);
 
+
 		//================================
 		// ランプの描画処理(ボードが親)
 		//================================
 
-				// 親(ボード)のワールドマトリクス生成
+		// 親(ボード)のワールドマトリクス生成
 		mtxWorld = GetWorldMatrix(
 			BoardArray[i]->GetPos(),
 			rot,
@@ -270,11 +367,11 @@ void QuestBoardManager::Draw(void)
 		//SetCameraAT(XMFLOAT3(0.0f,0.0f,0.0f));
 		//SetCamera();
 
-
 		// ランプの描画
 		BoardArray[i]->GetLampManager()->Draw(mtxWorld);
 	}
 
+	pParticlManager->Draw(0);
 	m_pGarbageIcon->Draw();
 }
 
@@ -329,5 +426,6 @@ void QuestBoardManager::Init()
 	m_MakeCnt = 0;		// 出現カウント
 	m_failureCount = 0;
 	m_MissionPoint = 0;
+	BoardArray.clear();
 
 }

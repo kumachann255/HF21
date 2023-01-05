@@ -11,7 +11,7 @@ enum
 	ROLLER_MAX,
 };
 
-#define	SWICH_TIME		(60)
+#define	SWICH_TIME		(30)
 #define	CALENDAR_SWITCH_TIME		(SWICH_TIME / 3 * 60)
 
 class RollerManager :public GodObject
@@ -35,4 +35,7 @@ public:
 
 	void Init();
 };
+
+float GetRollerRotX(void);
+
 

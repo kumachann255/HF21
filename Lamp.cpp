@@ -74,7 +74,6 @@ void Lamp::Update(void)
 			this->SetIsUse(FALSE);
 
 			XMFLOAT3 pos = GetPos();
-			//pos.y -= 20.0f;
 			GetParticlManager()->CallParticle(pos, 3.0f, 120, EFFECT_REFLECTION, MOVE_PATTERN_UP_SMALL,4);
 			PlaySound(SOUND_LABEL_SE_se_lamp_clear);
 		}
@@ -88,16 +87,10 @@ void Lamp::Update(void)
 //=============================================================================
 void Lamp::Draw(XMMATRIX WorldMatrix)
 {
-	if (!this->GetIsUse()) return;
-
-	SetCullingMode(CULL_MODE_BACK);
-
-	SetDepthEnable(TRUE);
-
-	SetBlendState(BLEND_MODE_NONE);
 
 	// ワールドマトリクス生成
 	XMMATRIX mtxWorld = GetWorldMatrix(m_prefab->GetPos(), m_prefab->GetRot(), m_prefab->GetScl());
+
 
 	// プレハブ(ローカル座標)にワールドマトリクスをかける
 	mtxWorld = XMMatrixMultiply(mtxWorld, WorldMatrix);
@@ -109,6 +102,13 @@ void Lamp::Draw(XMMATRIX WorldMatrix)
 
 	SetPos(pos);
 
+	if (!this->GetIsUse()) return;
+
+	SetCullingMode(CULL_MODE_BACK);
+
+	SetDepthEnable(TRUE);
+
+	SetBlendState(BLEND_MODE_NONE);
 
 	SetWorldMatrix(&mtxWorld);	// シェーダーにデータを送る
 

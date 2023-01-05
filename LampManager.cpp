@@ -68,6 +68,14 @@ void LampManager::Update(void)
 {
 	for (int i = 0; i < LAMP_MAX; i++)
 	{
+		if (m_DeleteFlag)
+		{
+			XMFLOAT3 pos = m_lamps[i].GetPrefab()->GetPos();
+			pos.z += 30.0f;
+			pos.y -= 30.0f;
+			m_lamps[i].GetPrefab()->SetPos(pos);
+		}
+
 		m_lamps[i].Update();
 	}
 }
@@ -80,7 +88,7 @@ void LampManager::Draw(XMMATRIX WorldMatrix)
 {
 	for (int i = 0; i < LAMP_MAX; i++)
 	{
-		if (m_lamps[i].GetIsUse())
+		//if (m_lamps[i].GetIsUse())
 		{
 			m_lamps[i].Draw(WorldMatrix);
 		}

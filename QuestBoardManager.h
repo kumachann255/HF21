@@ -16,10 +16,13 @@
 // マクロ定義
 //*****************************************************************************
 #define MAX_MISSION_POINT	(20)
+#define MAX_GARBAGE_NUM		(5)
 
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
+class Prefab;
+class ParticlManager;
 
 // クラスを格納する配列の定義（STL）
 typedef std::vector<QuestBoard*> QuestBoardArray;
@@ -29,9 +32,12 @@ class QuestBoardManager :public GodObject
 private:
 	QuestBoardArray BoardArray;
 	QuestBoard *pQuestBoard = nullptr;
+	Prefab *m_pHumanPrefab = nullptr;
 	XMFLOAT3 m_StartPos{ 0.0f ,0.0f,0.0f };
-	int m_MakeCnt = 0;		// 出現カウント
-	int m_colorId[5][3];	// ボード５個分
+	int m_MakeCnt = 0;			// 出現カウント
+	int m_EffectCnt = 0;		// エッフェクト発生カウント
+	int m_colorId[5][3];		// ボード５個分
+	int m_MaxGarbageCnt = MAX_GARBAGE_NUM;	// ゴミの上限
 
 	int m_failureCount = 0;
 
@@ -40,6 +46,7 @@ private:
 
 	// ランプのテクスチャー
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };
+	ParticlManager *pParticlManager = nullptr;
 
 public:
 	QuestBoardManager(God *god);
