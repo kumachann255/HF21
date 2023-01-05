@@ -26,6 +26,7 @@ private:
 	int m_swich = 0;
 	float m_time = 0;
 	XMFLOAT4 m_color = { 1.0f,1.0f,1.0f,1.0f };
+	BOOL m_DeleteFlag = FALSE;
 public:
 	LampManager();
 	~LampManager();

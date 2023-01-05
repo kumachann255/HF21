@@ -36,7 +36,6 @@ QuestBoard::QuestBoard(XMFLOAT3 pos, XMFLOAT3 rot)
 
 //=============================================================================
 // 引数付きコンストラクター
-
 //=============================================================================
 QuestBoard::QuestBoard(std::string name , XMFLOAT3 pos, XMFLOAT3 rot)
 {
@@ -88,7 +87,6 @@ void QuestBoard::Update(void)
 void QuestBoard::Draw(XMMATRIX WorldMatrix)
 {
 
-	if (!GetIsUse())	return;
 
 	SetCullingMode(CULL_MODE_BACK);
 
@@ -109,6 +107,7 @@ void QuestBoard::Draw(XMMATRIX WorldMatrix)
 
 	SetPos(pos);
 
+
 	//XMVECTOR r[4];
 	//struct
 	//{
@@ -119,6 +118,7 @@ void QuestBoard::Draw(XMMATRIX WorldMatrix)
 	//};
 	//float m[4][4];
 
+	if (!GetIsUse())	return;
 
 	SetWorldMatrix(&mtxWorld);	// シェーダーにデータを送る
 

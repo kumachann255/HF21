@@ -15,6 +15,8 @@ private:
 	float m_time = 0.0f;
 	XMFLOAT3 m_pos = { 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 m_rot = { 0.0f, 0.0f, 0.0f };
+	BOOL m_DeleteFlag = FALSE;
+	BOOL m_ChangeModelFlag = FALSE;
 
 public:
 	QuestBoard(XMFLOAT3 pos, XMFLOAT3 rot);
@@ -25,6 +27,9 @@ public:
 	void Update(void) override;
 	void Draw(XMMATRIX WorldMatrix);
 	LampManager *GetLampManager() { return pLampManager; }
-
+	BOOL GetDeleteFlag(void) { return m_DeleteFlag; }
+	void SetDeleteFlag(BOOL flag) {  m_DeleteFlag = flag; }
+	BOOL GetChangeModelFlag(void) { return m_ChangeModelFlag; }
+	void SetChangeModelFlag(BOOL flag) { m_ChangeModelFlag = flag; }
 
 };

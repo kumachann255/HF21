@@ -11,12 +11,13 @@
 #include "model.h"
 #include "particle.h"
 #include "debugproc.h"
+#include "RollerManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_MAX			(9)			// テクスチャの数
-#define VERTEX_MAX			(3)			
+#define TEXTURE_MAX			(10)			// テクスチャの数
+#define VERTEX_MAX			(5)			
 
 #define	PARTICLE_SIZE_X		(30.0f)		// 頂点サイズ
 #define	PARTICLE_SIZE_Y		(30.0f)		// 頂点サイズ
@@ -57,6 +58,7 @@ static char *m_TextureName[TEXTURE_MAX] =
 	"data/TEXTURE/EFFECT/effect_kemuri2.png",
 	"data/TEXTURE/EFFECT/effect_light.png",
 	"data/TEXTURE/EFFECT/effect_reflection.png",
+	"data/TEXTURE/EFFECT/effect_nigiwai.png",
 };
 
 //=============================================================================
@@ -211,6 +213,7 @@ PARTICLE::~PARTICLE()
 
 void PARTICLE::Update(void)
 {
+	if (!m_bSwich) return;
 
 	XMFLOAT3 move;
 	float fAngle, fLength;
@@ -251,15 +254,13 @@ void PARTICLE::Update(void)
 
 		break;
 
-	case MOVE_PATTERN_UPLEFT:
+	case MOVE_PATTERN_STOP:
 
-		fAngle = (float)(rand() % 314) / 100.0f;
-		fLength = (float)(rand() % 200) ;
-		move.x = -fLength * 0.4f;
-		move.y = 0.3f;
-		move.z = cosf(fAngle) * fLength * 1.2f;
+		move.x = 0.0f;
+		move.y = 0.0f;
+		move.z = 0.0f;
 
-		nLife = rand() % 300 + 50;
+		nLife = rand() % 100 + 50;
 
 		// ビルボードの設定
 		SetParticle(m_posBase, move, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), m_fSizeX, m_fSizeY, nLife);
@@ -300,9 +301,8 @@ void PARTICLE::Update(void)
 		if (m_nLife <= 0 || m_pSpriteAnim->GetUse() == FALSE)
 		{
 			m_bUse = FALSE;
+			m_bSwich = FALSE;
 			m_pSpriteAnim->SetUse(FALSE);
-			SetUse(FALSE);
-			SetSwich(FALSE);
 			m_pSpriteAnim->Init();
 			m_move.x = 0.0f;
 			m_move.y = 0.0f;
@@ -430,6 +430,7 @@ void PARTICLE::SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSiz
 			m_fSizeY = fSizeY;
 			m_nLife = nLife;
 			m_bUse = TRUE;
+			m_bSwich = TRUE;
 			break;
 
 		case MOVE_PATTERN_UP_SMALL:
@@ -444,13 +445,14 @@ void PARTICLE::SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSiz
 			m_fSizeY = fSizeY;
 			m_nLife = nLife;
 			m_bUse = TRUE;
+			m_bSwich = TRUE;
 
 			break;
 
-		case MOVE_PATTERN_UPLEFT:
+		case MOVE_PATTERN_STOP:
 
 			m_pos = pos;
-			m_rot = { 0.0f, 0.0f, 0.0f };
+			m_rot = { 0.0f, 0.0f, GetRollerRotX()};
 			m_scale = { 1.0f, 1.0f, 1.0f };
 			m_move = move;
 			m_material.Diffuse = col;
@@ -458,6 +460,7 @@ void PARTICLE::SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSiz
 			m_fSizeY = fSizeY;
 			m_nLife = nLife;
 			m_bUse = TRUE;
+			m_bSwich = TRUE;
 
 			break;
 
@@ -472,6 +475,7 @@ void PARTICLE::SetParticle(XMFLOAT3 pos, XMFLOAT3 move, XMFLOAT4 col, float fSiz
 			m_fSizeY = fSizeY;
 			m_nLife = nLife;
 			m_bUse = TRUE;
+			m_bSwich = TRUE;
 
 			break;
 
