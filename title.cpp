@@ -367,7 +367,7 @@ void Title::Update(void)
 		RotRocket(&titleObj[13].g_Pos.x, &titleObj[13].g_Pos.y, -1.0f, 0.0f, &titleObj[13].g_Rot.z, -0.1f, 1);
 		RotRocket(&titleObj[14].g_Pos.x, &titleObj[14].g_Pos.y, 1.0f, 0.0f, &titleObj[14].g_Rot.z, -0.1f, 1);
 		RotRocket(&titleObj[15].g_Pos.x, &titleObj[15].g_Pos.y, -1.0f, 1.0f, &titleObj[15].g_Rot.z, -0.1f, 1);
-		Transition(&titleObj[22].g_Pos.x, 50.0f, 3);
+		Transition(&titleObj[22].g_Pos.x, 17.0f, 3);
 		break;
 
 	case EXIT:
@@ -463,6 +463,7 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 		if (GetKeyboardTrigger(DIK_RETURN))
 		{
 			PlaySound(SOUND_LABEL_SE_se_title_start); // タイトルゲームスタート
+			PlaySound(SOUND_LABEL_SE_se_title_rot);			// カラースの回転音
 			m_modeSw = SetMode(GAME_START); // 1 == GAME_START
 		}
 	}

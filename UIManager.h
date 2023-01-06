@@ -1,7 +1,7 @@
 #pragma once
 #include "UI.h"
 
-#define UITEX_MAX	(60)
+#define UITEX_MAX	(62)
 
 
 class UIManager

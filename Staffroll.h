@@ -35,6 +35,7 @@ private:
 	bool m_DebugSwich = true;	// デバッグモード切り替え用SW
 	int m_DebugNum = 0;			// デバッグ用変数
 	int m_StopTime = 0;
+	bool m_isTelop = false;		// テロップを出したかどうか
 
 
 public:

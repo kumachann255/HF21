@@ -34,7 +34,9 @@ void Drum3D::Update(void)
 	}
 	else
 	{
-		rot.x += (m_result - rot.x) * 0.1f;
+		float rotX = (float)((int)(rot.x * 100.0f) % 614) / 100.0f;
+
+		rot.x += (m_result - rotX) * 0.1f;
 	}
 
 	this->SetRot(rot);
@@ -50,6 +52,41 @@ void Drum3D::Stop(void)
 	this->SetResult();
 }
 
+void Drum3D::StopPresen(int color)
+{
+	// Ç∆ÇËÇ†Ç¶Ç∏ÉrÉ^ÉbÇ∆é~ÇﬂÇÈ
+	m_move = false;
+	m_speed = 0.0f;
+
+	// èoñ⁄Çí≤êÆ
+	XMFLOAT3 rot = this->GetRot();
+
+	rot.x *= -1.0f;
+
+	// ê≥ãKâª
+	float rotX = (float)((int)(rot.x * 100.0f) % 614) / 100.0f;
+
+	float temp = 0.0f;
+	//int num = 0;
+
+	for (int i = 0; i < 3; i++)
+	{
+		if ((rotX < temp + color * m_resultRadian + m_resultRadian * 1.5f) && (rotX > temp + color * m_resultRadian - m_resultRadian * 1.5f))
+		{
+			m_color = color;
+			m_result = (i * 3 + color) * m_resultRadian;
+			m_result *= -1.0f;
+			m_result -= m_offset;
+			return;
+		}
+
+		temp += m_resultRadian * 3.0f;
+	}
+
+}
+
+
+
 void Drum3D::SpinStart(void)
 {
 	m_move = true;
@@ -59,16 +96,16 @@ void Drum3D::SetResult(void)
 {
 	XMFLOAT3 rot = this->GetRot();
 
-	rot.x *= -100.0f;
+	rot.x *= -1.0f;
 
 	// ê≥ãKâª
-	rot.x = (float)((int)(rot.x) % 614) / 100.0f;
+	float rotX = (float)((int)(rot.x * 100.0f) % 614) / 100.0f;
 
 	float temp = 0.0f;
 
 	for (int i = 0; i < m_resultMax; i++)
 	{
-		if ((rot.x < temp + m_resultRadianOffset / 2) && (rot.x > temp - m_resultRadianOffset / 2))
+		if ((rotX < temp + m_resultRadianOffset / 2) && (rotX > temp - m_resultRadianOffset / 2))
 		{
 			m_color = i % m_colorMax;
 			m_result = i * m_resultRadian;

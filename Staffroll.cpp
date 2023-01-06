@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "Staffroll.h"
 #include "debugproc.h"
+#include "texManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -27,7 +28,7 @@
 static ID3D11Buffer				*g_VertexBuffer = NULL;		// 頂点情報
 static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// テクスチャ情報
 
-static char *g_TexturName[TEXTURE_MAX] = {
+static char *g_TexturName2[TEXTURE_MAX] = {
 	"data/TEXTURE/STAFFROLL/endScroll.png",
 	"data/TEXTURE/STAFFROLL/resultBG.png",
 	"data/TEXTURE/STAFFROLL/seika.png",
@@ -82,6 +83,17 @@ void StaffRoll::Init(void)
 //=============================================================================
 void StaffRoll::Update(void)
 {
+	// ノルマのテロップ表示
+	if (!m_isTelop)
+	{
+		m_isTelop = true;
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			result_clear, texType_cutIn_left, XMFLOAT3(600.0f, 400.0f, 0.0f), 4);
+
+		GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+			result_false, texType_cutIn_left, XMFLOAT3(600.0f, 400.0f, 0.0f), 4);
+	}
+
 	switch (m_Mode)
 	{
 	case RESULT:
@@ -164,6 +176,7 @@ void StaffRoll::Update(void)
 		break;
 	}
 
+	GetGod()->GetTexManager()->Update();
 
 #ifdef _DEBUG	// デバッグ情報を表示する
 
@@ -679,6 +692,8 @@ void StaffRoll::Draw(void)
 		// ポリゴン描画
 		GetDeviceContext()->Draw(4, 0);
 
+		GetGod()->GetTexManager()->Draw();
+
 		break;
 
 	case ENDROLL:
@@ -699,12 +714,15 @@ void StaffRoll::Draw(void)
 //=============================================================================
 void StaffRoll::NextScene(void)
 {
-	// フェードアウトを開始させる
+	// プレゼン発表用
+	// #ifdef _DEBUG	// デバッグ情報を表示する
+		// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
 		SetFade(FADE_OUT, TITLE_ID);
 	}
-
+	// #endif
+		
 	//// フェードアウトが終わったら
 	//if (GetFadeOut_EndFlag())
 	//{
@@ -989,7 +1007,7 @@ HRESULT InitStaffRoll(void)
 	{
 		g_Texture[i] = NULL;
 		D3DX11CreateShaderResourceViewFromFile(GetDevice(),
-			g_TexturName[i],
+			g_TexturName2[i],
 			NULL,
 			NULL,
 			&g_Texture[i],

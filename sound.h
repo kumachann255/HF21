@@ -28,6 +28,7 @@ enum
 	SOUND_LABEL_BGM_title,			// タイトル
 	SOUND_LABEL_SE_se_title_start,	// タイトルゲームスタート音
 	SOUND_LABEL_SE_se_title_quit,	// タイトルゲーム終了音
+	SOUND_LABEL_SE_se_title_rot,	// カラースの回転音
 
 	SOUND_LABEL_BGM_tutorial,	// チュートリアル
 	SOUND_LABEL_BGM_stage01,	// ステージ01

@@ -8,6 +8,7 @@
 #include "calendar_num.h"
 #include "debugproc.h"
 #include "SkyManager.h"
+#include "TrainingCrowManager.h"
 
 
 #define	PARTICLE_TIME	(40)	
@@ -85,7 +86,6 @@ void RollerManager::Update()
 		pParticlManager2->CallParticle(pos2, 60.0f, 10, EFFECT_REFLECTION, MOVE_PATTERN_UP,10);
 
 	}
-
 
 	// t‚É‚È‚é
 	if (seasonNum >= month_4 && seasonNum <= month_6 && fadeOut_EndFlag)

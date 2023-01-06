@@ -50,6 +50,7 @@ void Roller::Update(void)
 	{
 		// ƒ[ƒJƒ‹‰ñ“]
 		static XMFLOAT3 rot = { 0.0f,XMConvertToRadians(225.0f), 0.0f };
+
 		rot.x += ROTATE_SPEED;
 
 		if (rot.x > XM_PI * 2)

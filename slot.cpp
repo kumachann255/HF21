@@ -119,6 +119,191 @@ void Slot::Update(void)
 		}
 	}
 
+
+	// プレゼン遥
+	// 止める
+	if ((GetKeyboardTrigger(DIK_4)) && (m_count > 40))
+	{
+		// スロットを止める
+		if (pDrumR->GetMove())
+		{
+			pDrumR->StopPresen(drum3D_red);
+			m_move = false;
+			m_pSwitch->SwitchON(0);
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+		else if (pDrumC->GetMove())
+		{
+			pDrumC->StopPresen(drum3D_red);
+			m_pSwitch->SwitchON(1);
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+	}
+
+	// 止める
+	if ((GetKeyboardTrigger(DIK_5)) && (m_count > 40))
+	{
+		// スロットを止める
+		if (pDrumR->GetMove())
+		{
+			pDrumR->StopPresen(drum3D_blue);
+			m_move = false;
+			m_pSwitch->SwitchON(0);
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+		else if (pDrumC->GetMove())
+		{
+			pDrumC->StopPresen(drum3D_blue);
+			m_pSwitch->SwitchON(1);
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+	}
+
+	// 止める
+	if ((GetKeyboardTrigger(DIK_6)) && (m_count > 40))
+	{
+		// スロットを止める
+		if (pDrumR->GetMove())
+		{
+			pDrumR->StopPresen(drum3D_yellow);
+			m_move = false;
+			m_pSwitch->SwitchON(0);
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+		else if (pDrumC->GetMove())
+		{
+			pDrumC->StopPresen(drum3D_yellow);
+			m_pSwitch->SwitchON(1);
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+	}
+
+	if ((GetKeyboardTrigger(DIK_7)) && (m_count > 40))
+	{
+		// スロットを止める
+		if (pDrumL->GetMove())
+		{
+			pDrumL->StopPresen(drum3D_red);
+			m_shot = true;
+			m_pSwitch->SwitchON(2);
+
+			if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_RED;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_BLUE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_YELLOW;
+
+			switch (pDrumL->GetColor())
+			{
+			case drum3D_x10:
+				m_crowNum = 1;
+				break;
+
+			case drum3D_x30:
+				m_crowNum = 2;
+				break;
+
+			case drum3D_x50:
+				m_crowNum = 3;
+				break;
+			}
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+	}
+
+	if ((GetKeyboardTrigger(DIK_9)) && (m_count > 40))
+	{
+		// スロットを止める
+		if (pDrumL->GetMove())
+		{
+			pDrumL->StopPresen(drum3D_blue);
+			m_shot = true;
+			m_pSwitch->SwitchON(2);
+
+			if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_RED;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_BLUE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_YELLOW;
+
+			switch (pDrumL->GetColor())
+			{
+			case drum3D_x10:
+				m_crowNum = 1;
+				break;
+
+			case drum3D_x30:
+				m_crowNum = 2;
+				break;
+
+			case drum3D_x50:
+				m_crowNum = 3;
+				break;
+			}
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+	}
+
+	if ((GetKeyboardTrigger(DIK_8)) && (m_count > 40))
+	{
+		// スロットを止める
+		if (pDrumL->GetMove())
+		{
+			pDrumL->StopPresen(drum3D_yellow);
+			m_shot = true;
+			m_pSwitch->SwitchON(2);
+
+			if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_RED;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_PURPLE;
+			else if ((pDrumR->GetColor() == drum3D_red) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_red)) m_colorType = LAMP_TYPE_ORANGE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_BLUE;
+			else if ((pDrumR->GetColor() == drum3D_blue) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_blue)) m_colorType = LAMP_TYPE_GREEN;
+			else if ((pDrumR->GetColor() == drum3D_yellow) && (pDrumC->GetColor() == drum3D_yellow)) m_colorType = LAMP_TYPE_YELLOW;
+
+			switch (pDrumL->GetColor())
+			{
+			case drum3D_x10:
+				m_crowNum = 1;
+				break;
+
+			case drum3D_x30:
+				m_crowNum = 2;
+				break;
+
+			case drum3D_x50:
+				m_crowNum = 3;
+				break;
+			}
+
+			PlaySound(SOUND_LABEL_SE_se_slot_stop);
+		}
+	}
+
+
+
+
+
+
+
 #ifdef _DEBUG	// デバッグ情報を表示する
 
 	//m_debug = m_colorType;

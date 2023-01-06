@@ -24,7 +24,8 @@ void TutorialManager::Update()
 	}
 
 	// 時間を進める（シーン遷移するまで）
-	if(m_telopType <= tutorial_24 + 1) m_count++;
+	// 発表は自動進行しない
+	//if(m_telopType <= tutorial_24 + 1) m_count++;
 
 	// 時間になるか次へボタンが押されたかでつぎのテロップへ
 	if ((m_count == TUTORIAL_TELOP_DISTANCE) || (GetKeyboardTrigger(DIK_SPACE)))
@@ -127,6 +128,7 @@ void TutorialManager::Draw()
 
 void TutorialManager::Init()
 {
+	StopSound(SOUND_LABEL_SE_se_title_rot);
 	m_count = 0;
 	m_telopType = tutorial_00;
 	m_pTutorialBG->Init();

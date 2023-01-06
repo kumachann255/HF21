@@ -47,6 +47,8 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/BGM/BGM_title.wav", -1 },	// タイトル
 	{ (char*)"data/SE/se_title_start.wav", 0 },	// タイトルゲームスタート音
 	{ (char*)"data/SE/se_title_quit.wav", 0 },	// タイトルゲーム終了音
+	{ (char*)"data/SE/se_title_rot.wav", 0 },	// タイトルゲーム終了音
+
 
 	{ (char*)"data/BGM/BGM_tutorial.wav", -1 },	// チュートリアル
 	{ (char*)"data/BGM/BGM_stage01.wav", -1 },	// ステージ01

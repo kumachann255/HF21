@@ -230,37 +230,37 @@ void Stage_01::Draw(void)
 
 #ifdef _DEBUG	// デバッグ情報を表示する
 
-	if (GetKeyboardTrigger(DIK_3))
-	{
-		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME);
-		this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-			telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME);
-	}
-	if (GetKeyboardTrigger(DIK_4))
-	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_spring, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
-	}
-	if (GetKeyboardTrigger(DIK_5))
-	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_left, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
-	}
-	if (GetKeyboardTrigger(DIK_6))
-	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_1, texType_cutIn_up, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
-	}
-	if (GetKeyboardTrigger(DIK_7))
-	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_under, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
-	}
-	if (GetKeyboardTrigger(DIK_8))
-	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
-	}
-	if (GetKeyboardTrigger(DIK_9))
-	{
-		GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
-	}
+	//if (GetKeyboardTrigger(DIK_3))
+	//{
+	//	this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+	//		telop_rainbowTime, texType_cutIn_up_Update, XMFLOAT3(350.0f, 350.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+	//	this->GetGod()->GetTexManager()->GetUIManager()->SetTexture(
+	//		telop_rainbowTimeMakure, texType_cutIn_under_Update, XMFLOAT3(744.0f, 580.0f, 0.0f), (int)MAX_RAINBOW_TIME);
+	//}
+	//if (GetKeyboardTrigger(DIK_4))
+	//{
+	//	GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_spring, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	//}
+	//if (GetKeyboardTrigger(DIK_5))
+	//{
+	//	GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_left, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	//}
+	//if (GetKeyboardTrigger(DIK_6))
+	//{
+	//	GetGod()->GetTexManager()->GetUIManager()->SetTexture(telop_1, texType_cutIn_up, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	//}
+	//if (GetKeyboardTrigger(DIK_7))
+	//{
+	//	GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_cutIn_under, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	//}
+	//if (GetKeyboardTrigger(DIK_8))
+	//{
+	//	GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	//}
+	//if (GetKeyboardTrigger(DIK_9))
+	//{
+	//	GetGod()->GetTexManager()->GetUIManager()->SetTexture(0, texType_zoomIn_rot, XMFLOAT3(500.0f, 200.0f, 0.0f), 5);
+	//}
 #endif
 
 }
@@ -270,13 +270,14 @@ void Stage_01::Draw(void)
 //=============================================================================
 void Stage_01::NextScene(void)
 {
-#ifdef _DEBUG	// デバッグ情報を表示する
-	// フェードアウトを開始させる
+// プレゼン発表用
+// #ifdef _DEBUG	// デバッグ情報を表示する
+		// フェードアウトを開始させる
 	if (GetKeyboardTrigger(DIK_1))
 	{
 		SetFade(FADE_OUT, ENDROLL_ID);
 	}
-#endif
+// #endif
 
 	//// フェードアウトが終わったらシーンを切り替える
 	//if (GetFadeOut_EndFlag())
