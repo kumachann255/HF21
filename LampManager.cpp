@@ -24,14 +24,10 @@ LampManager::LampManager(void)
 	for (int i = 0; i < LAMP_MAX; i++)
 	{
 
-		//m_lamps[i].GetPrefab()->SetModel(g_ModelName[LAMP_TYPE_RED]);
 		XMFLOAT3 pos = { -LAMP_OFSETX + (i*LAMP_OFSETX),LAMP_OFSETY,0.0f };
 		m_lamps[i].GetPrefab()->SetPos(pos);
 		m_lamps[i].SetIsUse(TRUE);
 		m_lamps[i].SetDelete(FALSE);
-		//int colorId = rand() % 4;
-		//m_lamps[i].SetColorTypeId(colorId);
-		//m_lamps[i].GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[colorId];
 
 	}
 
@@ -42,13 +38,6 @@ LampManager::LampManager(void)
 //=============================================================================
 LampManager::~LampManager()
 {
-	for (int i = 0; i < LAMP_MAX; i++)
-	{
-		//if (m_lamps[i])
-		//{
-		//	delete m_lamps[i];
-		//}
-	}
 
 	for (int i = 0; i < LAMP_TYPE_MAX; i++)
 	{
@@ -68,12 +57,17 @@ void LampManager::Update(void)
 {
 	for (int i = 0; i < LAMP_MAX; i++)
 	{
-		if (m_DeleteFlag)
+		if (!m_lamps[i].GetIsUse())
 		{
 			XMFLOAT3 pos = m_lamps[i].GetPrefab()->GetPos();
-			pos.z += 30.0f;
-			pos.y -= 30.0f;
+			XMFLOAT3 rot = m_lamps[i].GetPrefab()->GetRot();
+			pos.y = 40.0f;
+			pos.x = -5.0f;
+
+			rot.z += 0.06f;
+
 			m_lamps[i].GetPrefab()->SetPos(pos);
+			m_lamps[i].GetPrefab()->SetRot(rot);
 		}
 
 		m_lamps[i].Update();
