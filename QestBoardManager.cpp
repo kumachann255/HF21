@@ -21,7 +21,6 @@
 #define	MODEL_NAME01		"model_questboard_garbage02.obj"	// 読み込むモデル名
 #define	MODEL_NAME02		"model_human.obj"					// 読み込むモデル名
 #define BOARD_OFFSET_Y		(70.0f)							// ボードの足元をあわせる
-#define BOARD_MAKETIME		(810)							// ボードの出現時間
 
 static char *g_TextureName[LAMP_TYPE_MAX] =
 {
@@ -173,18 +172,14 @@ void QuestBoardManager::Update(void)
 		BoardArray[i]->Update();
 	}
 
-	float rotX = GetGod()->GetRollerManager()->GetRoller()->GetPrefab()->GetRot().x;
-	rotX = XMConvertToDegrees(rotX);
-	int AppearRot = (int)(rotX / 45.0f);
-
 	// カウントの更新とリセット
 	m_MakeCnt += 1;
-	if (m_MakeCnt > BOARD_MAKETIME) m_MakeCnt = 0;
+	if (m_MakeCnt > m_Speed) m_MakeCnt = 0;
 
 	auto arraySize = BoardArray.size();
 
 	// カウント値に達したらボードを出現させる
-	if (m_MakeCnt == BOARD_MAKETIME && 
+	if (m_MakeCnt == m_Speed &&
 		m_MaxGarbageCnt >= arraySize)
 	{
 		// 出現する座標をセット
@@ -305,12 +300,29 @@ void QuestBoardManager::Update(void)
 
 				XMFLOAT3 pos = pLamp[0].GetPos();
 
-				pParticlManager->CallParticle(pos, 15.0f, 1, EFFECT_NIGIWAI, MOVE_PATTERN_STOP, 3);
+				pParticlManager->CallParticle(pos, 15.0f, i+1, EFFECT_NIGIWAI, MOVE_PATTERN_STOP, 8);
 
 			}
 		}
 
 		m_EffectCnt = 0;
+	}
+
+
+	int count = 0;
+	// 観光客が増えると発生スピードアップ
+	for (int i = 0; i < BoardArray.size(); i++)
+	{
+		if (BoardArray[i]->GetChangeModelFlag())
+		{
+			count++;
+		}
+	}
+
+	if (count > 3)
+	{
+		m_Speed = 200;
+		m_MaxGarbageCnt = 8;
 	}
 
 
