@@ -7,7 +7,7 @@
 #define RADIAN9 (6.14f / MAX_RESULT_NORMAL)
 #define RADIAN10 (6.14f / MAX_RESULT_BONUS)
 #define MAX_SPEED_NORMAL	(0.07f)
-#define MAX_SPEED_BONUS		(0.02f)
+#define MAX_SPEED_BONUS		(0.05f)
 #define SPEED_UP_VALUE		(0.0015f)
 
 #define OFFSET	(0.25f)
@@ -83,6 +83,7 @@ public:
 	void Update(void);
 
 	void Stop(void);
+	void StopPresen(int color);
 
 	void SpinStart(void);
 

@@ -49,7 +49,7 @@ void ModeSelect::Init()
 
 void ModeSelect::Update()
 {
-	if ((GetKeyboardTrigger(DIK_RIGHT)) || (GetKeyboardTrigger(DIK_LEFT)))
+	if ((GetKeyboardTrigger(DIK_RIGHT)) || IsButtonTriggered(0, BUTTON_RIGHT) || (GetKeyboardTrigger(DIK_LEFT)) || IsButtonTriggered(0, BUTTON_LEFT))
 	{
 		if (m_isKeyBord) m_isKeyBord = FALSE;
 		else m_isKeyBord = TRUE;
@@ -58,7 +58,7 @@ void ModeSelect::Update()
 		PlaySound(SOUND_LABEL_SE_se_modeSelect_trance);
 	}
 
-	if (GetKeyboardTrigger(DIK_RETURN))
+	if (GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_B))
 	{
 		SetFade(FADE_OUT, TUTORIAL_ID);
 

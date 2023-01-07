@@ -367,7 +367,7 @@ void Title::Update(void)
 		RotRocket(&titleObj[13].g_Pos.x, &titleObj[13].g_Pos.y, -1.0f, 0.0f, &titleObj[13].g_Rot.z, -0.1f, 1);
 		RotRocket(&titleObj[14].g_Pos.x, &titleObj[14].g_Pos.y, 1.0f, 0.0f, &titleObj[14].g_Rot.z, -0.1f, 1);
 		RotRocket(&titleObj[15].g_Pos.x, &titleObj[15].g_Pos.y, -1.0f, 1.0f, &titleObj[15].g_Rot.z, -0.1f, 1);
-		Transition(&titleObj[22].g_Pos.x, 50.0f, 3);
+		Transition(&titleObj[22].g_Pos.x, 17.0f, 3);
 		break;
 
 	case EXIT:
@@ -441,12 +441,12 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 {
 	if (*posChoiceX == *posExitX + 20.0f)
 	{
-		if (GetKeyboardTrigger(DIK_RIGHT))
+		if (GetKeyboardTrigger(DIK_RIGHT) || IsButtonTriggered(0, BUTTON_RIGHT))
 		{
 			PlaySound(SOUND_LABEL_SE_se_modeSelect_trance); // モードセレクト時のカーソル移動
 			*posChoiceX = *posGameX + 20.0f;
 		}
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_B))
 		{
 			PlaySound(SOUND_LABEL_SE_se_title_quit); // タイトルゲーム終了
 			m_modeSw = SetMode(EXIT); // 2 == EXIT
@@ -455,14 +455,15 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 
 	if (*posChoiceX == *posGameX + 20.0f)
 	{
-		if (GetKeyboardTrigger(DIK_LEFT))
+		if (GetKeyboardTrigger(DIK_LEFT) || IsButtonTriggered(0, BUTTON_LEFT))
 		{
 			PlaySound(SOUND_LABEL_SE_se_modeSelect_trance); // モードセレクト時のカーソル移動
 			*posChoiceX = *posExitX + 20.0f;
 		}
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_B))
 		{
 			PlaySound(SOUND_LABEL_SE_se_title_start); // タイトルゲームスタート
+			PlaySound(SOUND_LABEL_SE_se_title_rot);			// カラースの回転音
 			m_modeSw = SetMode(GAME_START); // 1 == GAME_START
 		}
 	}

@@ -52,7 +52,7 @@ void BonusSlot::Update(void)
 	}
 
 	// Ž~‚ß‚é
-	if ((GetKeyboardTrigger(DIK_SPACE)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_SPACE) || IsButtonTriggered(0, BUTTON_B)) && (m_count > 40))
 	{
 		if (pDrumR->GetMove())
 		{
@@ -105,7 +105,7 @@ void BonusSlot::Update(void)
 	}
 
 	// ‰ñ‚·
-	if ((GetKeyboardTrigger(DIK_RETURN)) && (pHousing->GetResultNum() < 3))
+	if ((GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_DOWN)) && (pHousing->GetResultNum() < 3))
 	{
 		pDrumR->SpinStart();
 		if (!m_move) m_count = 0;

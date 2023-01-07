@@ -3,6 +3,7 @@
 #include "fade.h"
 #include "texManager.h"
 #include "sound.h"
+#include "TrainingCrowManager.h"
 
 CalendarNum::CalendarNum(God *god) :GodObject(god)
 {
@@ -48,7 +49,8 @@ CalendarNum::~CalendarNum()
 void CalendarNum::Update()
 {
 	// チュートリアル以外は時間を進める
-	if (GetSceneID() != TUTORIAL_ID)
+	// ボーナスチャンスの時には時間を進めない
+	if ((GetSceneID() != TUTORIAL_ID) || (!GetGod()->GetTrainingCrowManager()->GetBonus()))
 	{
 		m_count++;
 		//m_count += SOEED_CALENDAR;
@@ -66,12 +68,17 @@ void CalendarNum::Update()
 		}
 
 		// 3月から4月に変わろうとすると時間切れ
-		if (m_month == month_3)
+		if ((m_month % month_max == month_3) && (m_loopNum < 2))
+		{
+			m_loopNum++;
+		}
+		
+		if ((m_month % month_max == month_3) && (m_loopNum == 3))
 		{
 			m_isTimeUp = TRUE;
 
 			GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_timeUp, texType_cutIn_up, XMFLOAT3(480.f, 240.0f, 0.0f), TIMEUP_COUNT_MAX);
+				telop_timeUp, texType_cutIn_up, XMFLOAT3(480.f, 240.0f, 0.0f), TIMEUP_COUNT_MAX / 60);
 		}
 	}
 	else
@@ -165,6 +172,7 @@ void CalendarNum::Init()
 	m_swichfFlag = FALSE;
 	m_isTimeUp = FALSE;
 	m_timeUpCount = 0;
+	m_loopNum = 0;
 
 	// プレイヤーの初期化
 	m_w[0] = CALENDAR_WAKU_TEXTURE_WIDTH;

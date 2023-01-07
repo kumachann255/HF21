@@ -40,8 +40,6 @@ private:
 	int m_colorId[5][3];		// ボード５個分
 	int m_MaxGarbageCnt = MAX_GARBAGE_NUM;	// ゴミの上限
 
-	int m_failureCount = 0;
-
 	GarbageIcon *m_pGarbageIcon = nullptr;
 	int m_MissionPoint = 0;
 

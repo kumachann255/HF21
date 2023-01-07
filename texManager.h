@@ -71,6 +71,9 @@ enum {
 	tutorial_23,
 	tutorial_24,
 	
+	result_clear,
+	result_false,
+
 	telop_max,
 };
 
@@ -92,7 +95,7 @@ enum {
 	texType_line1,
 	texType_spring,
 	texType_spin_clockwise,
-	texType_spin_anticlockwise
+	texType_spin_anticlockwise,
 };
 
 
@@ -165,6 +168,8 @@ static char *g_TexturName[TELOP_TEXTURE_MAX] = {
 	"data/TEXTURE/tex_tutorial_23.png",
 	"data/TEXTURE/tex_tutorial_24.png",
 
+	"data/TEXTURE/tex_result_clear.png",
+	"data/TEXTURE/tex_result_false.png",
 };
 
 

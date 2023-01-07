@@ -80,6 +80,9 @@ TexManager::TexManager(God * god):GodObject(god)
 	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
 	m_pUiManager->Register(new UIObject(pos1, 660.0f, 130.0f, time0));
 
+	m_pUiManager->Register(new UIObject(pos1, 580.0f, 150.0f, time0));
+	m_pUiManager->Register(new UIObject(pos1, 580.0f, 150.0f, time0));
+
 	for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
 	{
 		m_pUiManager->GetUIObject(i)->GetUITexData()->Create(g_TexturName[i]);
@@ -121,9 +124,6 @@ void TexManager::Update()
 		if (m_wakuType > ui_waku_full_winter) m_wakuType = ui_waku_full_spring;
 	}
 #endif
-
-
-
 }
 
 void TexManager::Draw()
@@ -137,4 +137,8 @@ void TexManager::Draw()
 void TexManager::Init(int type)
 {
 	m_wakuType = type;
+	for (int i = 0; i < TELOP_TEXTURE_MAX; i++)
+	{
+		m_pUiManager->GetUIObject(i)->SetUse(FALSE);
+	}
 }

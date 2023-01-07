@@ -136,18 +136,6 @@ void QuestBoardManager::Update(void)
 					this->GetGod()->GetTrainingCrowManager()->AddStock();
 				}
 
-				int probability = rand() % 10;
-
-				if (probability - m_failureCount < 2)
-				{
-					m_failureCount = 0;
-					this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
-				}
-				else
-				{
-					m_failureCount++;
-				}
-
 				m_MissionPoint++;
 
 			}
@@ -436,7 +424,6 @@ void QuestBoardManager::Init()
 {
 	m_StartPos = { 0.0f ,0.0f,0.0f };
 	m_MakeCnt = 0;		// 出現カウント
-	m_failureCount = 0;
 	m_MissionPoint = 0;
 	BoardArray.clear();
 

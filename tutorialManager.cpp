@@ -18,16 +18,17 @@ TutorialManager::~TutorialManager()
 void TutorialManager::Update()
 {
 	// スキップ
-	if (GetKeyboardTrigger(DIK_S))
+	if (GetKeyboardTrigger(DIK_S) || IsButtonTriggered(0, BUTTON_START))
 	{
 		SetFade(FADE_OUT, STAGE_01ID);
 	}
 
 	// 時間を進める（シーン遷移するまで）
-	if(m_telopType <= tutorial_24 + 1) m_count++;
+	// 発表は自動進行しない
+	//if(m_telopType <= tutorial_24 + 1) m_count++;
 
 	// 時間になるか次へボタンが押されたかでつぎのテロップへ
-	if ((m_count == TUTORIAL_TELOP_DISTANCE) || (GetKeyboardTrigger(DIK_SPACE)))
+	if ((m_count == TUTORIAL_TELOP_DISTANCE) || (GetKeyboardTrigger(DIK_SPACE)) || IsButtonTriggered(0, BUTTON_B))
 //	if ((m_count == TUTORIAL_TELOP_DISTANCE))
 		{
 		// 何度もSetFadeを行わないようにする
@@ -127,6 +128,7 @@ void TutorialManager::Draw()
 
 void TutorialManager::Init()
 {
+	StopSound(SOUND_LABEL_SE_se_title_rot);
 	m_count = 0;
 	m_telopType = tutorial_00;
 	m_pTutorialBG->Init();

@@ -279,13 +279,14 @@ void Tutorial::Draw(void)
 //=============================================================================
 void Tutorial::NextScene(void)
 {
-#ifdef _DEBUG	// デバッグ情報を表示する
+// プレゼン発表用
+// #ifdef _DEBUG	// デバッグ情報を表示する
 	// フェードアウトを開始させる
-	if (GetKeyboardTrigger(DIK_1))
+	if (GetKeyboardTrigger(DIK_1) || IsButtonTriggered(0, BUTTON_START))
 	{
 		SetFade(FADE_OUT, STAGE_01ID);
 	}
-#endif
+// #endif
 
 	//// フェードアウトが終わったらシーンを切り替える
 	//if (GetFadeOut_EndFlag())

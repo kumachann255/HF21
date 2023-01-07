@@ -59,6 +59,7 @@ private:
 	BOOL m_swichfFlag = FALSE;
 	BOOL m_isTimeUp = FALSE;
 	int m_timeUpCount = 0;
+	int m_loopNum = 0;
 
 public:
 	CalendarNum(God *god);
@@ -67,8 +68,8 @@ public:
 	void Update();
 	void Draw();
 
-	void AddMonth(void) { m_month = (m_month + 1) % month_max; }
-	int GetMonth(void) { return m_month; }
+	void AddMonth(void) { m_month = m_month + 1; }
+	int GetMonth(void) { return m_month % month_max; }
 	BOOL GetSwichfFlag(void) { return m_swichfFlag; }
 	int GetCount(void) { return m_count; }
 	void Init();

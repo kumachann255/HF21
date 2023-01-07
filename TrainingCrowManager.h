@@ -39,6 +39,9 @@ private:
 
 	int m_stock = 0;
 
+	int m_failureCount = 0;
+
+
 public:
 	TrainingCrowManager(God *god);
 	~TrainingCrowManager();

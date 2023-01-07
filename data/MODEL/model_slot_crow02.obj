@@ -6617,8 +6617,8 @@ vn 0.062013 0.997157 -0.042807
 vn -0.559814 0.423734 -0.712080
 vn -0.585481 0.439492 -0.681219
 s off
-g model_slot_crow02:group7 model_slot_crow02:pCube4 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
-usemtl model_slot_crow02:initialShadingGroup
+g model_slot_crow02:group7 model_slot_crow02:pCube4 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
+usemtl phong1SG
 f 11/1/1 12/2/2 141/162/3
 f 141/162/4 12/2/5 140/161/6
 f 178/200/7 179/201/8 4/3/9
@@ -6991,7 +6991,7 @@ f 172/194/1105 171/193/1106 15/25/1107
 f 186/209/1108 187/210/1109 16/62/1110
 f 187/210/1111 188/211/1112 16/62/1113
 f 188/211/1114 182/205/1115 16/62/1116
-g model_slot_crow02:group7 model_slot_crow02:pCube5 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group7 model_slot_crow02:pCube5 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 199/212/1117 200/213/1118 329/373/1119
 f 329/373/1120 200/213/1121 328/372/1122
 f 366/411/1123 367/412/1124 192/214/1125
@@ -7364,7 +7364,7 @@ f 360/405/2221 359/404/2222 203/236/2223
 f 374/420/2224 375/421/2225 204/273/2226
 f 375/421/2227 376/422/2228 204/273/2229
 f 376/422/2230 370/416/2231 204/273/2232
-g model_slot_crow02:group9 model_slot_crow02:pCube1 model_slot_crow02:pasted__group model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pCube1 model_slot_crow02:pasted__group model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 410/423/2233 439/424/2234 409/425/2235
 f 409/425/2236 439/424/2237 440/426/2238
 f 441/427/2239 442/428/2240 444/429/2241
@@ -7553,7 +7553,7 @@ f 471/539/2785 470/538/2786 384/510/2787
 f 472/540/2788 471/539/2789 384/510/2790
 f 416/448/2791 472/540/2792 408/511/2793
 f 472/540/2794 469/536/2795 408/511/2796
-g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 474/545/2797 477/549/2798 473/544/2799
 f 473/544/2800 477/549/2801 476/548/2802
 f 475/546/2803 478/550/2804 474/545/2805
@@ -7564,7 +7564,7 @@ f 473/541/2815 475/543/2816 474/542/2817
 f 476/548/2818 477/549/2819 479/552/2820
 f 477/549/2821 478/550/2822 479/552/2823
 f 478/550/2824 476/551/2825 479/552/2826
-g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 481/557/2827 484/561/2828 480/556/2829
 f 480/556/2830 484/561/2831 483/560/2832
 f 481/557/2833 482/558/2834 484/561/2835
@@ -7575,7 +7575,7 @@ f 480/553/2845 482/555/2846 481/554/2847
 f 483/560/2848 484/561/2849 486/564/2850
 f 484/561/2851 485/562/2852 486/564/2853
 f 485/562/2854 483/563/2855 486/564/2856
-g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pCylinder1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pCylinder1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 487/576/2857 488/577/2858 498/588/2859
 f 498/588/2860 488/577/2861 499/589/2862
 f 488/577/2863 489/578/2864 499/589/2865
@@ -7620,7 +7620,7 @@ f 505/602/2977 506/601/2978 510/612/2979
 f 506/601/2980 507/600/2981 510/612/2982
 f 507/600/2983 508/610/2984 510/612/2985
 f 508/610/2986 498/609/2987 510/612/2988
-g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 512/617/2989 515/621/2990 511/616/2991
 f 511/616/2992 515/621/2993 514/620/2994
 f 513/618/2995 516/622/2996 512/617/2997
@@ -7631,7 +7631,7 @@ f 511/613/3007 513/615/3008 512/614/3009
 f 514/620/3010 515/621/3011 517/624/3012
 f 515/621/3013 516/622/3014 517/624/3015
 f 516/622/3016 514/623/3017 517/624/3018
-g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pasted__pasted__pCone2 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group4 model_slot_crow02:pasted__pasted__pasted__pCone2 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 519/629/3019 522/633/3020 518/628/3021
 f 518/628/3022 522/633/3023 521/632/3024
 f 519/629/3025 520/630/3026 522/633/3027
@@ -7642,7 +7642,7 @@ f 518/625/3037 520/627/3038 519/626/3039
 f 521/632/3040 522/633/3041 524/636/3042
 f 522/633/3043 523/634/3044 524/636/3045
 f 523/634/3046 521/635/3047 524/636/3048
-g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 526/641/3049 529/645/3050 525/640/3051
 f 525/640/3052 529/645/3053 528/644/3054
 f 527/642/3055 530/646/3056 526/641/3057
@@ -7653,7 +7653,7 @@ f 525/637/3067 527/639/3068 526/638/3069
 f 528/644/3070 529/645/3071 531/648/3072
 f 529/645/3073 530/646/3074 531/648/3075
 f 530/646/3076 528/647/3077 531/648/3078
-g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 533/653/3079 536/657/3080 532/652/3081
 f 532/652/3082 536/657/3083 535/656/3084
 f 533/653/3085 534/654/3086 536/657/3087
@@ -7664,7 +7664,7 @@ f 532/649/3097 534/651/3098 533/650/3099
 f 535/656/3100 536/657/3101 538/660/3102
 f 536/657/3103 537/658/3104 538/660/3105
 f 537/658/3106 535/659/3107 538/660/3108
-g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pCylinder1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pCylinder1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 539/672/3109 540/673/3110 550/684/3111
 f 550/684/3112 540/673/3113 551/685/3114
 f 540/673/3115 541/674/3116 551/685/3117
@@ -7709,7 +7709,7 @@ f 557/698/3229 558/697/3230 562/708/3231
 f 558/697/3232 559/696/3233 562/708/3234
 f 559/696/3235 560/706/3236 562/708/3237
 f 560/706/3238 550/705/3239 562/708/3240
-g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pasted__pCone1 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 564/713/3241 567/717/3242 563/712/3243
 f 563/712/3244 567/717/3245 566/716/3246
 f 565/714/3247 568/718/3248 564/713/3249
@@ -7720,7 +7720,7 @@ f 563/709/3259 565/711/3260 564/710/3261
 f 566/716/3262 567/717/3263 569/720/3264
 f 567/717/3265 568/718/3266 569/720/3267
 f 568/718/3268 566/719/3269 569/720/3270
-g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pasted__pasted__pCone2 model_slot_crow02:polySurface2 model_slot_crow02:polySurface1
+g model_slot_crow02:group9 model_slot_crow02:pasted__group5 model_slot_crow02:pasted__pasted__pasted__pCone2 model_slot_crow02:polySurface2 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 571/725/3271 574/729/3272 570/724/3273
 f 570/724/3274 574/729/3275 573/728/3276
 f 571/725/3277 572/726/3278 574/729/3279
@@ -7731,8 +7731,7 @@ f 570/721/3289 572/723/3290 571/722/3291
 f 573/728/3292 574/729/3293 576/732/3294
 f 574/729/3295 575/730/3296 576/732/3297
 f 575/730/3298 573/731/3299 576/732/3300
-g model_slot_crow02:group model_slot_crow02:pasted__group6 model_slot_crow02:pasted__pasted__group5 model_slot_crow02:pasted__pasted__pSphere1 model_slot_crow02:polySurface1
-usemtl model_slot_crow02:initialShadingGroup2
+g model_slot_crow02:group model_slot_crow02:pasted__group6 model_slot_crow02:pasted__pasted__group5 model_slot_crow02:pasted__pasted__pSphere1 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 577/733/3301 578/734/3302 597/754/3303
 f 597/754/3304 578/734/3305 598/755/3306
 f 578/734/3307 579/735/3308 598/755/3309
@@ -8193,7 +8192,7 @@ f 813/980/4669 814/981/4670 817/1001/4671
 f 814/981/4672 815/982/4673 817/1002/4674
 f 815/982/4675 816/983/4676 817/1003/4677
 f 816/983/4678 797/984/4679 817/1004/4680
-g model_slot_crow02:group model_slot_crow02:pasted__group6 model_slot_crow02:pasted__pasted__group5 model_slot_crow02:pasted__pasted__group6 model_slot_crow02:pasted__pasted__pasted__pasted__pCone1 model_slot_crow02:polySurface1
+g model_slot_crow02:group model_slot_crow02:pasted__group6 model_slot_crow02:pasted__pasted__group5 model_slot_crow02:pasted__pasted__group6 model_slot_crow02:pasted__pasted__pasted__pasted__pCone1 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 820/1009/4681 823/1012/4682 819/1008/4683
 f 819/1008/4684 823/1012/4685 822/1011/4686
 f 820/1009/4687 818/1010/4688 823/1012/4689
@@ -8205,7 +8204,7 @@ f 823/1012/4702 824/1016/4703 826/1015/4704
 f 818/1005/4705 820/1007/4706 819/1006/4707
 f 825/1014/4708 826/1015/4709 827/1017/4710
 f 826/1015/4711 824/1016/4712 827/1017/4713
-g model_slot_crow02:group model_slot_crow02:pasted__group6 model_slot_crow02:pasted__pasted__group5 model_slot_crow02:pasted__pasted__group6 model_slot_crow02:pasted__pasted__pasted__pCone3 model_slot_crow02:polySurface1
+g model_slot_crow02:group model_slot_crow02:pasted__group6 model_slot_crow02:pasted__pasted__group5 model_slot_crow02:pasted__pasted__group6 model_slot_crow02:pasted__pasted__pasted__pCone3 model_slot_crow02:polySurface3 model_slot_crow02:polySurface1
 f 829/1021/4714 830/1022/4715 832/1024/4716
 f 832/1024/4717 830/1022/4718 833/1025/4719
 f 828/1023/4720 831/1026/4721 830/1022/4722
