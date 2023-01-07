@@ -33,6 +33,8 @@ static char *g_TextureName[LAMP_TYPE_MAX] =
 	"data/TEXTURE/LAMP/tex_lamp_orange.jpg"
 };
 
+static int g_Point;
+
 
 //=============================================================================
 // コンストラクター
@@ -58,6 +60,8 @@ QuestBoardManager::QuestBoardManager(God *god) :GodObject(god)
 	m_pHumanPrefab = new Prefab;
 	m_pHumanPrefab->SetModel(MODEL_NAME02);
 	pParticlManager = new ParticlManager();
+
+	g_Point = 0;
 
 }
 
@@ -94,6 +98,44 @@ QuestBoardManager::~QuestBoardManager()
 //=============================================================================
 void QuestBoardManager::Update(void)
 {
+
+	//初めに一個生成
+	if (!m_InitG)
+	{
+		// 出現する座標をセット
+		m_StartPos = { -200.0f + (rand() % 280),BOARD_OFFSET_Y,0.0f };
+
+		// 動的に生成
+		XMFLOAT3 rot = { 0.0f, 3.14f, 0.0f };
+		BoardArray.push_back(new QuestBoard(m_StartPos, rot));
+
+		switch (rand() % 2)
+		{
+		case 0:
+			PlaySound(SOUND_LABEL_SE_se_quest_pop_0); // クエスト出現
+			break;
+
+		case 1:
+			PlaySound(SOUND_LABEL_SE_se_quest_pop_1); // クエスト出現
+			break;
+		}
+
+		//ランプのテクスチャーをセット
+		Lamp *pLamp = BoardArray.back()->GetLampManager()->GetLamp();
+
+		// ランプのテクスチャーとColorTypeIdの設定
+		for (int i = 0; i < LAMP_MAX; i++)
+		{
+			int colorId = rand() % 4;	// 今は４種類にしている
+			pLamp[i].SetColorTypeId(colorId);
+			pLamp[i].GetPrefab()->GetModel()->SubsetArray->Material.Texture = m_Texture[colorId];
+		}
+
+		m_InitG = TRUE;
+
+	}
+
+
 	// 消す処理	(成功)
 	if (!BoardArray.empty()) {
 
@@ -314,7 +356,7 @@ void QuestBoardManager::Update(void)
 	}
 
 
-
+	g_Point = m_MissionPoint;
 }
 
 
@@ -425,6 +467,13 @@ void QuestBoardManager::Init()
 	m_StartPos = { 0.0f ,0.0f,0.0f };
 	m_MakeCnt = 0;		// 出現カウント
 	m_MissionPoint = 0;
+	m_Speed = BOARD_MAKETIME;
 	BoardArray.clear();
+	m_InitG = FALSE;
 
+}
+
+int GetPoint(void)
+{
+	return g_Point;
 }

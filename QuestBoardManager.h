@@ -49,6 +49,8 @@ private:
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };
 	ParticlManager *pParticlManager = nullptr;
 
+	BOOL m_InitG = FALSE;
+
 public:
 	QuestBoardManager(God *god);
 	~QuestBoardManager();
@@ -66,3 +68,7 @@ public:
 	void Init();
 };
 
+
+
+//////////////////
+int GetPoint(void);
