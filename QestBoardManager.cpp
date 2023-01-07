@@ -469,6 +469,7 @@ void QuestBoardManager::Init()
 	m_MissionPoint = 0;
 	m_Speed = BOARD_MAKETIME;
 	BoardArray.clear();
+	m_InitG = FALSE;
 
 }
 
