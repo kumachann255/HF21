@@ -36,6 +36,7 @@ private:
 	int m_DebugNum = 0;			// デバッグ用変数
 	int m_StopTime = 0;
 	bool m_isTelop = false;		// テロップを出したかどうか
+	int m_isWait = 0;
 
 
 public:

@@ -73,12 +73,12 @@ void CalendarNum::Update()
 			m_loopNum++;
 		}
 		
-		if ((m_month % month_max == month_3) && (m_loopNum == 2))
+		if ((m_month % month_max == month_3) && (m_loopNum == 3))
 		{
 			m_isTimeUp = TRUE;
 
 			GetGod()->GetTexManager()->GetUIManager()->SetTexture(
-				telop_timeUp, texType_cutIn_up, XMFLOAT3(480.f, 240.0f, 0.0f), TIMEUP_COUNT_MAX);
+				telop_timeUp, texType_cutIn_up, XMFLOAT3(480.f, 240.0f, 0.0f), TIMEUP_COUNT_MAX / 60);
 		}
 	}
 	else

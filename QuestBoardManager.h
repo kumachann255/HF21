@@ -16,7 +16,8 @@
 // マクロ定義
 //*****************************************************************************
 #define MAX_MISSION_POINT	(20)
-#define MAX_GARBAGE_NUM		(5)
+#define MAX_GARBAGE_NUM		(6)
+#define BOARD_MAKETIME		(810)							// ボードの出現時間
 
 //*****************************************************************************
 // クラス定義
@@ -39,10 +40,10 @@ private:
 	int m_colorId[5][3];		// ボード５個分
 	int m_MaxGarbageCnt = MAX_GARBAGE_NUM;	// ゴミの上限
 
-	int m_failureCount = 0;
-
 	GarbageIcon *m_pGarbageIcon = nullptr;
 	int m_MissionPoint = 0;
+
+	int m_Speed = BOARD_MAKETIME;
 
 	// ランプのテクスチャー
 	ID3D11ShaderResourceView	*m_Texture[LAMP_TYPE_MAX] = { nullptr };

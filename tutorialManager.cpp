@@ -18,7 +18,7 @@ TutorialManager::~TutorialManager()
 void TutorialManager::Update()
 {
 	// スキップ
-	if (GetKeyboardTrigger(DIK_S))
+	if (GetKeyboardTrigger(DIK_S) || IsButtonTriggered(0, BUTTON_START))
 	{
 		SetFade(FADE_OUT, STAGE_01ID);
 	}
@@ -28,7 +28,7 @@ void TutorialManager::Update()
 	//if(m_telopType <= tutorial_24 + 1) m_count++;
 
 	// 時間になるか次へボタンが押されたかでつぎのテロップへ
-	if ((m_count == TUTORIAL_TELOP_DISTANCE) || (GetKeyboardTrigger(DIK_SPACE)))
+	if ((m_count == TUTORIAL_TELOP_DISTANCE) || (GetKeyboardTrigger(DIK_SPACE)) || IsButtonTriggered(0, BUTTON_B))
 //	if ((m_count == TUTORIAL_TELOP_DISTANCE))
 		{
 		// 何度もSetFadeを行わないようにする

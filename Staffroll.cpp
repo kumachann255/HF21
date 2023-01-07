@@ -75,7 +75,13 @@ StaffRoll::~StaffRoll()
 //=============================================================================
 void StaffRoll::Init(void)
 {
-
+	m_Mode = RESULT;
+	m_ScrollSw = false;	// スクロール開始用SW
+	m_DebugSwich = true;	// デバッグモード切り替え用SW
+	m_DebugNum = 0;			// デバッグ用変数
+	m_StopTime = 0;
+	m_isTelop = false;		// テロップを出したかどうか
+	m_isWait = 0;
 }
 
 //=============================================================================
@@ -717,7 +723,7 @@ void StaffRoll::NextScene(void)
 	// プレゼン発表用
 	// #ifdef _DEBUG	// デバッグ情報を表示する
 		// フェードアウトを開始させる
-	if (GetKeyboardTrigger(DIK_1))
+	if (GetKeyboardTrigger(DIK_1) || IsButtonTriggered(0, BUTTON_START))
 	{
 		SetFade(FADE_OUT, TITLE_ID);
 	}
@@ -981,7 +987,12 @@ void StaffRoll::Slide(float *posX)
 	if (*posX < SCREEN_CENTER_X)
 	{
 		*posX = SCREEN_CENTER_X;
-		m_Mode = ENDROLL;
+		m_isWait++;
+		
+		if (m_isWait > 180)
+		{
+			m_Mode = ENDROLL;
+		}
 	}
 }
 

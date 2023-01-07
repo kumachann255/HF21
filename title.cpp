@@ -441,12 +441,12 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 {
 	if (*posChoiceX == *posExitX + 20.0f)
 	{
-		if (GetKeyboardTrigger(DIK_RIGHT))
+		if (GetKeyboardTrigger(DIK_RIGHT) || IsButtonTriggered(0, BUTTON_RIGHT))
 		{
 			PlaySound(SOUND_LABEL_SE_se_modeSelect_trance); // モードセレクト時のカーソル移動
 			*posChoiceX = *posGameX + 20.0f;
 		}
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_B))
 		{
 			PlaySound(SOUND_LABEL_SE_se_title_quit); // タイトルゲーム終了
 			m_modeSw = SetMode(EXIT); // 2 == EXIT
@@ -455,12 +455,12 @@ void Title::Choice(float *posExitX, float *posGameX, float *posChoiceX)
 
 	if (*posChoiceX == *posGameX + 20.0f)
 	{
-		if (GetKeyboardTrigger(DIK_LEFT))
+		if (GetKeyboardTrigger(DIK_LEFT) || IsButtonTriggered(0, BUTTON_LEFT))
 		{
 			PlaySound(SOUND_LABEL_SE_se_modeSelect_trance); // モードセレクト時のカーソル移動
 			*posChoiceX = *posExitX + 20.0f;
 		}
-		if (GetKeyboardTrigger(DIK_RETURN))
+		if (GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_B))
 		{
 			PlaySound(SOUND_LABEL_SE_se_title_start); // タイトルゲームスタート
 			PlaySound(SOUND_LABEL_SE_se_title_rot);			// カラースの回転音

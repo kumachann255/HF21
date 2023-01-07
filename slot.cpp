@@ -66,7 +66,7 @@ void Slot::Update(void)
 	}
 
 	// Ž~‚ß‚é
-	if ((GetKeyboardTrigger(DIK_SPACE)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_SPACE) || IsButtonTriggered(0, BUTTON_B)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumR->GetMove())
@@ -122,7 +122,7 @@ void Slot::Update(void)
 
 	// ƒvƒŒƒ[ƒ“—y
 	// Ž~‚ß‚é
-	if ((GetKeyboardTrigger(DIK_4)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_4) || IsButtonTriggered(0, BUTTON_C)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumR->GetMove())
@@ -143,7 +143,7 @@ void Slot::Update(void)
 	}
 
 	// Ž~‚ß‚é
-	if ((GetKeyboardTrigger(DIK_5)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_5) || IsButtonTriggered(0, BUTTON_X)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumR->GetMove())
@@ -164,7 +164,7 @@ void Slot::Update(void)
 	}
 
 	// Ž~‚ß‚é
-	if ((GetKeyboardTrigger(DIK_6)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_6) || IsButtonTriggered(0, BUTTON_A)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumR->GetMove())
@@ -184,7 +184,7 @@ void Slot::Update(void)
 		}
 	}
 
-	if ((GetKeyboardTrigger(DIK_7)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_7) || IsButtonTriggered(0, BUTTON_RIGHT)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumL->GetMove())
@@ -222,7 +222,7 @@ void Slot::Update(void)
 		}
 	}
 
-	if ((GetKeyboardTrigger(DIK_9)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_9) || IsButtonTriggered(0, BUTTON_LEFT)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumL->GetMove())
@@ -260,7 +260,7 @@ void Slot::Update(void)
 		}
 	}
 
-	if ((GetKeyboardTrigger(DIK_8)) && (m_count > 40))
+	if ((GetKeyboardTrigger(DIK_8) || IsButtonTriggered(0, BUTTON_UP)) && (m_count > 40))
 	{
 		// ƒXƒƒbƒg‚ðŽ~‚ß‚é
 		if (pDrumL->GetMove())
@@ -315,7 +315,7 @@ void Slot::Update(void)
 #endif
 
 	// ‰ñ‚·
-	if ((GetKeyboardTrigger(DIK_RETURN)))
+	if ((GetKeyboardTrigger(DIK_RETURN) || IsButtonTriggered(0, BUTTON_DOWN)))
 	{
 		PlaySound(SOUND_LABEL_SE_se_slot_lever_nomal); // ƒXƒƒbƒg‚ð“®‚©‚·
 		pDrumR->SpinStart();

@@ -130,6 +130,32 @@ BOOL TrainingCrowManager::UseStock(void)
 			telop_evolution, texType_cutIn_up, XMFLOAT3(744.0f, 20.0f, 0.0f), 4);
 
 		PlaySound(SOUND_LABEL_SE_se_training_hart);
+
+		// プレゼン用1回目失敗　2回目成功
+		if (m_failureCount == 0)
+		{
+			m_failureCount++;
+		}
+		else
+		{
+			m_failureCount = 0;
+			m_isSuccess = TRUE;
+		}
+
+		// 本来
+		//int probability = rand() % 10;
+
+		//if (probability - m_failureCount < 2)
+		//{
+		//	m_failureCount = 0;
+		//	this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
+		//}
+		//else
+		//{
+		//	m_failureCount++;
+		//}
+
+
 	}
 
 	return ans;
@@ -148,6 +174,7 @@ void TrainingCrowManager::Init()
 	m_isFalseTelop = FALSE;
 
 	m_stock = 0;
+	m_failureCount = 0;
 
 	m_pTrainingCrowSquat->Init();
 	m_pTrainingCrowBench->Init();

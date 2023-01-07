@@ -99,6 +99,7 @@ void God::Update(void)
 	// そのモードに再度入った際に初期化処理が行われるようにする
 	if (g_curSceneId != TUTORIAL_ID) Scenes[TUTORIAL_ID]->SetInit(FALSE);
 	else if (g_curSceneId != STAGE_01ID) Scenes[STAGE_01ID]->SetInit(FALSE);
+	else if (g_curSceneId != ENDROLL_ID) Scenes[ENDROLL_ID]->Init();
 
 
 	//if (GetKeyboardTrigger(DIK_F1))
