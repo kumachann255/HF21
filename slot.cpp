@@ -119,6 +119,7 @@ void Slot::Update(void)
 		}
 	}
 
+#ifdef _DEBUG	// デバッグ情報を表示する
 
 	// プレゼン遥
 	// 止める
@@ -304,7 +305,6 @@ void Slot::Update(void)
 
 
 
-#ifdef _DEBUG	// デバッグ情報を表示する
 
 	//m_debug = m_colorType;
 	//m_debugR = pDrumR->GetColor();

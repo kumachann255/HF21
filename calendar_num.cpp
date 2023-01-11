@@ -71,6 +71,7 @@ void CalendarNum::Update()
 		if ((m_month % month_max == month_3) && (m_loopNum < 2))
 		{
 			m_loopNum++;
+			if(m_nokori < nokori_1) m_nokori++;
 		}
 		
 		if ((m_month % month_max == month_3) && (m_loopNum == 3))
@@ -156,6 +157,18 @@ void CalendarNum::Draw()
 		GetDeviceContext()->Draw(4, 0);
 	}
 
+	// テクスチャ設定
+	GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture[m_nokori]);
+
+	{
+		// １枚のポリゴンの頂点とテクスチャ座標を設定
+		SetSpriteColor(m_VertexBuffer, m_Pos[0].x - 150.0f, m_Pos[0].y - 5.0f, 140.0f, 60.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+			XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		// ポリゴン描画
+		GetDeviceContext()->Draw(4, 0);
+	}
+
 	// ライティングを有効に
 	SetLightEnable(TRUE);
 
@@ -173,6 +186,7 @@ void CalendarNum::Init()
 	m_isTimeUp = FALSE;
 	m_timeUpCount = 0;
 	m_loopNum = 0;
+	m_nokori = nokori_3;
 
 	// プレイヤーの初期化
 	m_w[0] = CALENDAR_WAKU_TEXTURE_WIDTH;
