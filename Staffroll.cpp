@@ -14,6 +14,7 @@
 #include "Staffroll.h"
 #include "debugproc.h"
 #include "texManager.h"
+#include "QuestBoardManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -89,6 +90,12 @@ void StaffRoll::Init(void)
 //=============================================================================
 void StaffRoll::Update(void)
 {
+	if (GetKeyboardTrigger(DIK_1))
+	{
+		SetFade(FADE_OUT, TITLE_ID);
+	}
+
+
 	// ノルマのテロップ表示
 	if (!m_isTelop)
 	{
@@ -105,15 +112,23 @@ void StaffRoll::Update(void)
 	case RESULT:
 		// 引数部分(本来は最終的なm_IconNumを入れたい)
 		int sample_iconNum;
-		sample_iconNum = 15;
+		sample_iconNum = GetPoint();
+
+		if (sample_iconNum >= 15)
+		{
+			sample_iconNum = 15;
+		}
 
 		CheckIcon(&sample_iconNum);
 		break;
 
 	case GREEN:
 		CheckMark(&check[0].checkTime, &check[0].g_Use);
+
+
 		if (check[0].checkTime == 0)
 		{
+			//開始
 			Slide(&staffRoll[7].g_Pos.x);
 		}
 		break;
