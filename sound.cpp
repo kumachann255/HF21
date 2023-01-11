@@ -87,8 +87,8 @@ SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 	{ (char*)"data/SE/se_women_ou.wav", 0 },		// 女性の声
 	{ (char*)"data/SE/se_women_kya.wav", 0 },		// 女性の声
 
-	{ (char*)"data/SE/se_slot_stop.wav", 0 },		// スロットの止める音
-	{ (char*)"data/SE/se_bonusStop.wav", 0 },		// スロットの止める音
+	{ (char*)"data/SE/se_slot_stop_0.wav", 0 },		// スロットの止める音
+	{ (char*)"data/SE/se_slot_stop_0.wav", 0 },		// スロットの止める音
 
 	{ (char*)"data/SE/se_chance.wav", 0 },			// チャンス音
 	{ (char*)"data/SE/se_pkieeen.wav", 0 },			// ぴきーーん！
@@ -253,6 +253,10 @@ BOOL InitSound(HWND hWnd)
 	SetSourceVolume(SOUND_LABEL_BGM_tutorial, 0.5f);
 	SetSourceVolume(SOUND_LABEL_BGM_stage01, 0.5f);
 
+	SetSourceVolume(SOUND_LABEL_SE_se_slot_stop, 1.5f);
+	SetSourceVolume(SOUND_LABEL_SE_se_slot_stop, 1.5f);
+	SetSourceVolume(SOUND_LABEL_SE_se_slot_lever_nomal, 1.5f);
+	SetSourceVolume(SOUND_LABEL_SE_se_slot_lever_bonus, 1.5f);
 	return TRUE;
 }
 

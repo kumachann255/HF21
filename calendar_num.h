@@ -7,7 +7,7 @@
 #include "UI.h"
 #include "GodObject.h"
 
-#define CALENDAR_TEXTURE_MAX		(2)		// テクスチャの数
+#define CALENDAR_TEXTURE_MAX		(5)		// テクスチャの数
 #define CALENDAR_TEXTURE_WIDTH		(120.0f)	// キャラサイズ
 #define CALENDAR_TEXTURE_HEIGHT		(60.0f)	// 
 
@@ -37,6 +37,12 @@ enum {
 	month_end,
 };
 
+enum {
+	nokori_3 = 2,
+	nokori_2,
+	nokori_1,
+};
+
 
 class CalendarNum :public GodObject
 {
@@ -47,6 +53,9 @@ private:
 	char *m_TexturName[CALENDAR_TEXTURE_MAX] = {
 		"data/TEXTURE/tex_calendar_waku.png",
 		"data/TEXTURE/tex_calendar_num.png",
+		"data/TEXTURE/tex_nokori3.png",
+		"data/TEXTURE/tex_nokori2.png",
+		"data/TEXTURE/tex_nokori1.png",
 	};
 
 	float m_w[2], m_h[2];				// 幅と高さ
@@ -60,6 +69,7 @@ private:
 	BOOL m_isTimeUp = FALSE;
 	int m_timeUpCount = 0;
 	int m_loopNum = 0;
+	int m_nokori = nokori_3;
 
 public:
 	CalendarNum(God *god);

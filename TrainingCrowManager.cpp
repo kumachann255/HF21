@@ -132,28 +132,28 @@ BOOL TrainingCrowManager::UseStock(void)
 		PlaySound(SOUND_LABEL_SE_se_training_hart);
 
 		// プレゼン用1回目失敗　2回目成功
-		if (m_failureCount == 0)
-		{
-			m_failureCount++;
-		}
-		else
-		{
-			m_failureCount = 0;
-			m_isSuccess = TRUE;
-		}
-
-		// 本来
-		//int probability = rand() % 10;
-
-		//if (probability - m_failureCount < 2)
-		//{
-		//	m_failureCount = 0;
-		//	this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
-		//}
-		//else
+		//if (m_failureCount == 0)
 		//{
 		//	m_failureCount++;
 		//}
+		//else
+		//{
+		//	m_failureCount = 0;
+		//	m_isSuccess = TRUE;
+		//}
+
+		// 本来
+		int probability = rand() % 10;
+
+		if (probability - m_failureCount < 2)
+		{
+			m_failureCount = 0;
+			this->GetGod()->GetTrainingCrowManager()->SetSuccess(TRUE);
+		}
+		else
+		{
+			m_failureCount++;
+		}
 
 
 	}
