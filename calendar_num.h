@@ -82,5 +82,6 @@ public:
 	int GetMonth(void) { return m_month % month_max; }
 	BOOL GetSwichfFlag(void) { return m_swichfFlag; }
 	int GetCount(void) { return m_count; }
+	BOOL GetTimeUp(void) { return m_isTimeUp; }
 	void Init();
 };

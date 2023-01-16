@@ -273,18 +273,19 @@ void Stage_01::NextScene(void)
 // プレゼン発表用
 // #ifdef _DEBUG	// デバッグ情報を表示する
 		// フェードアウトを開始させる
-	if (GetKeyboardTrigger(DIK_1))
+	//if (GetKeyboardTrigger(DIK_1))
+	//{
+	//	SetFade(FADE_OUT, ENDROLL_ID);
+	//}
+// #endif
+
+
+	if (GetPoint()>26 || GetGod()->GetCalendarNum()->GetTimeUp())
 	{
 		SetFade(FADE_OUT, ENDROLL_ID);
 	}
-// #endif
 
-	//// フェードアウトが終わったらシーンを切り替える
-	//if (GetFadeOut_EndFlag())
-	//{
-	//	GetGod()->ChangeScene(ENDROLL_ID);
-	//	m_isInit = FALSE;
-	//}
+
 }
 
 void Stage_01::InitDate()
